@@ -43,28 +43,31 @@ Requirements:
   3. The source code from Google Code - (TortoiseSVN is a good client to use!)
         svn checkout http://gamecode4.googlecode.com/svn/trunk/ gamecode4-read-only
   4. 3rdParty.zip from http://code.google.com/p/gamecode4/downloads/list
-        Unzip it into Source\GCC4\3rdParty directory
+        Unzip it into the root directory of the project - it will add directories to 
+        Source.
   
 Building Teapot Wars:
   1. Make sure you can build a DirectX SDK sample and run it!
   2. Make sure your directory structure for GameCode4 looks like this:
           GameCode4
-		  |-- Dev
-		      |-- Assets (with Actors, Art, Audio, etc. - all of the source assets for TeapotWars)
-			  |-- Extra (contains UtilityDemo, an AI playground)
-			  |-- Game (contains the files needed to run TeapotWars)
-			  |-- Source (the entire source tree, including GCC4\3rdParty directory)
-  3. Follow instructions in GCC4\3rdParty\README.rtf to build the 3rdParty libraries
-  4. Open Source\TeapotWars\Msvc\TeapotWars_2010.sln and rebuild everything.
-  5. In the Solution Explorer in VS2010, right click on TeapotWars_2010 and....
+		  |-- Dev (some people also name this "trunk" it depends on how you set up SVN for this project)
+                      |-- Assets (with Actors, Art, Audio, etc. - all of the source assets for TeapotWars)
+                      |-- Extra (contains UtilityDemo, an AI playground)
+                      |-- Game (contains the files needed to run TeapotWars)
+                      |-- Source (the entire source tree, including GCC4\3rdParty directory from the ZIP file)
+  3. Open Source\TeapotWars\Msvc\TeapotWars_2010.sln and rebuild everything.
+  4. In the Solution Explorer in VS2010, right click on TeapotWars_2010 and....
       a. ...set it as your startup project. Then, right click on it again and...
 	  b. open the Properties dialog, and...
 	  c. set the Configuration to All Configurations and Platform to All Platforms, and...
 	  d. Click on Configuration Properties->Debugging, and set the Working Directory to ..\..\..\Game
 	  e. Hit OK
-  6. Set the Target to Debug, and Platform to Win32 (up in toolbar beneath the menu)
-  7. Select Build->Rebuild Solution from the menu.
-  8. Run.
+  5. Set the Target to Debug, and Platform to Win32 (up in toolbar beneath the menu)
+  6. Select Build->Rebuild Solution from the menu.
+  7. Run.
+
+  IMPORTANT! If your machine does not support D3D11, you must edit Game\PlayerOptions.xml, and change
+  renderer="Direct3D 11"  to renderer="Direct3D 9" 
 
 Running TeapotWarsEditorApp_2010 project
   1. Make sure you ran Teapot Wars first!
