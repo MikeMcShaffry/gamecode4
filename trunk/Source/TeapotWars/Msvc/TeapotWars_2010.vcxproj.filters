@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="..\TeapotController.h">
+      <Filter>TeapotWars</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TeapotEvents.h">
+      <Filter>TeapotWars</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TeapotWarsNetwork.h">
+      <Filter>TeapotWars</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TeapotWarsView.h">
+      <Filter>TeapotWars</Filter>
+    </ClInclude>
+    <ClInclude Include="TeapotWars.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="TeapotWarsStd.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="TeapotResources.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TeapotWars">
+      <UniqueIdentifier>{09e969fd-62b9-4ebd-b2cc-a7d4e06dc2a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{07571a94-ffad-4192-84ee-6e22a66744a0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\TeapotController.cpp">
+      <Filter>TeapotWars</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TeapotEvents.cpp">
+      <Filter>TeapotWars</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TeapotWars.cpp">
+      <Filter>TeapotWars</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TeapotWarsView.cpp">
+      <Filter>TeapotWars</Filter>
+    </ClCompile>
+    <ClCompile Include="TeapotWarsStd.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeapotWars.rc">
+      <Filter>Application</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
