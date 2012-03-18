@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>ActorManager.lua</filename>
+  </file>
+  <file>
+    <filename>DebugBrain.lua</filename>
+  </file>
+  <file>
+    <filename>DecisionTreeBrain.lua</filename>
+  </file>
+  <file>
+    <filename>Events.lua</filename>
+  </file>
+  <file>
+    <filename>HardCodedBrain.lua</filename>
+  </file>
+  <file>
+    <filename>LevelInit.lua</filename>
+  </file>
+  <file>
+    <filename>LevelPostInit.lua</filename>
+  </file>
+  <file>
+    <filename>PreInit.lua</filename>
+  </file>
+  <file>
+    <filename>TeapotAi.lua</filename>
+  </file>
+  <file>
+    <filename>TeapotBrains.lua</filename>
+  </file>
+  <file>
+    <filename>TeapotStates.lua</filename>
+  </file>
+  <file>
+    <filename>test.lua</filename>
+  </file>
+</project>

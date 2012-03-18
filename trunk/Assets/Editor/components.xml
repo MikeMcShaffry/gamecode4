@@ -1,0 +1,54 @@
+<Components>
+
+	<Component name="TransformComponent">
+		<Element name="Position" type="Vec3" fieldNames="x,y,z" />
+		<Element name="YawPitchRoll" type="Vec3" fieldNames="x,y,z" />
+	</Component>
+	
+	<Component name="PhysicsComponent">
+		<Element name="Shape" type="PhysicsShape" />
+		<Element name="Density" type="PhysicsDensity" />
+		<Element name="PhysicsMaterial" type="PhysicsMaterial" />
+		<Element name="Transform" type="TransformComponent" />
+    </Component>
+	
+	<Component name="LightRenderComponent">
+		<Element name="Color" type="RGBA" />
+		<Element name="Attenuation" type="Vec3" />
+		<Element name="Range" type="float" />
+		<Element name="Falloff" type="float" />
+		<Element name="Theta" type="float" />
+		<Element name="Phi" type="float" />		
+	</Component>
+	
+	<Component name="GridRenderComponent">
+		<Element name="Color" type="RGBA" />
+		<Element name="Texture" type="File" extensions="Image Files(*.BMP;*.JPG;*.GIF;*.DDS)|*.BMP;*.JPG;*.GIF;*.DDS|All files (*.*)|*.*"  />
+		<Element name="Division" type="int" />
+	</Component>
+	
+	<Component name="TeapotRenderComponent">
+		<Element name="Color" type="RGBA" />
+	</Component>
+
+	<Component name="ShaderMeshRenderComponent">
+		<Element name="D3D9MeshFile" type="File" extensions="DX9 X Files (*.x)|*.x" />
+		<Element name="D3D11MeshFile" type="File" extensions="DX11 Mesh Files (*.sdkmesh)|*.sdkmesh" />	
+	</Component>
+
+	<Component name="SkyRenderComponent">
+		<Element name="Texture" type="File" extensions="Image Files(*.BMP;*.JPG;*.GIF;*.DDS)|*.BMP;*.JPG;*.GIF;*.DDS|All files (*.*)|*.*"  />
+	</Component>
+
+	<Component name="AudioComponent">
+		<Element name="Sound" type="File" extensions="OGG (*.ogg)|*.ogg|WAVE (*.wav)|*.wav|All files (*.*)|*.*" />
+		<Element name="Loop" type="boolean" />
+		<Element name="FadeIn" type="float" />
+		<Element name="Volume" type="int" />
+	</Component>	
+	
+	<Component name="ScriptComponent">
+		<Element name="LUAFile" type="File" extensions="LUA (*.lua)|*.lua" />
+	</Component>
+	
+</Components>

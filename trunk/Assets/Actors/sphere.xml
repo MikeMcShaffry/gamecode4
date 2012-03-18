@@ -1,0 +1,26 @@
+<Actor type="Sphere" resource="actors\sphere.xml">
+
+	<TransformComponent>
+		<Position x="0" y="5" z="0"/>
+	</TransformComponent>
+	
+    <PhysicsComponent>
+        <Shape>Sphere</Shape>
+        <Density>pine</Density>
+        <PhysicsMaterial>Bouncy</PhysicsMaterial>
+		<RigidBodyTransform>
+			<Scale x="0.25" y="0.25" z="0.25" />  
+		</RigidBodyTransform>
+    </PhysicsComponent>
+
+    <SphereRenderComponent>
+        <Color r="0" g="1.0" b="1.0" a="1.0"/>
+        <Sphere radius="0.25" segments="25"/>
+	</SphereRenderComponent>
+
+    <BaseScriptComponent>
+        <ScriptObject constructor="AddSphere" destructor="RemoveSphere" />
+        <ScriptData actorType="Sphere" />
+    </BaseScriptComponent>
+
+</Actor>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<strings>
+  <string id="IDS_QUESTION_WHERES_THE_CD" value="Please insert the game CD, and hit retry." />
+  <string id="IDS_ALERT" value="Alert" />
+  <string id="IDS_QUESTION" value="Question" />
+  <string id="IDS_QUESTION_QUIT_GAME" value="Do you really\n want to quit\n the game?" />
+  <string id="IDS_INITIALIZING" value="Initializing" />
+  <string id="IDS_OK" value="Ok" hotkey="O" />
+  <string id="IDS_YES" value="Yes" hotkey="Y"/>
+  <string id="IDS_CANCEL" value="Cancel" />
+  <string id="IDS_NO" value="No" hotkey="N" />
+  <string id="IDS_CONTINUE" value="Continue" hotkey="C" />
+  <string id="IDS_TRYAGAIN" value="Try Again" hotkey="T" />
+  <string id="IDS_RETRY" value="Retry" hotkey="R" />
+  <string id="IDS_PLAYER" value="Player" />
+  <string id="IDS_WAITING" value="Waiting for Players..." />
+  <string id="IDS_RUNNING" value="Game in Progress!" />
+  <string id="IDS_LOADING" value="Loading Game..." />
+  <string id="IDS_NOPHYSICS" value="Physics Has Been Disabled... This Game Will Be Boring." />
+  <string id="IDS_CONTROLS_HEADER" value="Controls (F1 to hide):" />
+  <string id="IDS_CONTROLS" value="Move: WASD\nFire: Left Mouse Button\nF9:  Control Teapot\nF11: Free camera\nQuit: ESC" />
+  <string id="IDS_CAMERA_LOCATION" value="Camera location: %.2f, %.2f, %.2f" />
+  <string id="IDS_RUSSIAN" value="ценность Мир имеет много языков" />
+  <string id="IDS_CHINESE" value="价值世界有很多语言" />
+</strings>
