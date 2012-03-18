@@ -1,0 +1,7 @@
+<Logging>
+<!--
+    <Log tag="Script" debugger="1" file="0"/>
+    <Log tag="Lua" debugger="1" file="0"/>
+-->
+    <Log tag="Actor" debugger="1" file="0"/>
+</Logging>

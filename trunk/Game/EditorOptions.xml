@@ -1,0 +1,9 @@
+<EditorOptions>
+  <Graphics renderer="Direct3D 9" />
+  <Sound sfxVolume="100" musicVolume="100"/>
+  <WorldScriptAdditions>
+    <!-- The preLoad script is executed as the first operation when the level is loading.  The postLoad script 
+    if executed as the last step in the level loading process. -->
+    <Script preLoad="scripts\LevelInit.lua" postLoad="scripts\LevelPostInit.lua"/>
+  </WorldScriptAdditions>
+</EditorOptions>
