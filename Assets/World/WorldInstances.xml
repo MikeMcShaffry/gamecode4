@@ -1,0 +1,48 @@
+<World>
+  
+    <!-- A list of static actors to load.  Static actors have no game view attached.  This is for stuff like 
+    level geometry.-->
+
+    <StaticActors>
+      <Actor resource="actors\grid.xml">
+		<GridRenderComponent>
+			<Color r="0.4" g="0.4" b="0.4" a="1.0"/>
+			<Division>100</Division>
+		</GridRenderComponent>
+	  </Actor>
+      <Actor resource="actors\grid.xml">
+		<TransformComponent>
+			<Position x="-10" y="0" z="-10"/>
+			<YawPitchRoll x="0" y="0" z="-15"/>
+		</TransformComponent>
+		<GridRenderComponent>
+			<Color r="0.2" g="0.8" b="0.2" a="1.0"/>
+			<Division>10</Division>
+		</GridRenderComponent>
+		<PhysicsComponent>
+			<RigidBodyTransform>
+				<Scale x="5" y="0.01" z="5" />  
+			</RigidBodyTransform>
+		</PhysicsComponent>		
+	  </Actor>
+	  
+      <Actor resource="actors\light.xml" />
+<!--
+        <Actor resource="actors\player_spawner.xml" />
+        <Actor resource="actors\ai_spawner_0.xml" />
+        <Actor resource="actors\ai_spawner_1.xml" />
+        <Actor resource="actors\ai_spawner_2.xml" />
+        <Actor resource="actors\ai_spawner_3.xml" />
+-->
+
+	  <Actor resource="actors\afternoon_sky.xml" />
+      <Actor resource="actors\music.xml" />
+
+
+    </StaticActors>
+
+    <!-- The preLoad script is executed as the first operation when the level is loading.  The postLoad script 
+    if executed as the last step in the level loading process. -->
+    <Script preLoad="scripts\LevelInit.lua" postLoad="scripts\LevelPostInit.lua"/>
+
+</World>

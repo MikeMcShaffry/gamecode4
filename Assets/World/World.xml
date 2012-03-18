@@ -1,0 +1,27 @@
+<World>
+  
+    <!-- A list of static actors to load.  Static actors have no game view attached.  This is for stuff like 
+    level geometry.-->
+
+    <StaticActors>
+      <Actor resource="actors\grid.xml" />
+      <Actor resource="actors\light.xml" />
+  	  <Actor resource="actors\afternoon_sky.xml" />
+      <Actor resource="actors\music.xml" />
+
+
+<!--
+        <Actor resource="actors\player_spawner.xml" />
+        <Actor resource="actors\ai_spawner_0.xml" />
+        <Actor resource="actors\ai_spawner_1.xml" />
+        <Actor resource="actors\ai_spawner_2.xml" />
+        <Actor resource="actors\ai_spawner_3.xml" />
+-->
+    </StaticActors>
+
+
+    <!-- The preLoad script is executed as the first operation when the level is loading.  The postLoad script 
+    if executed as the last step in the level loading process. -->
+    <Script preLoad="scripts\LevelInit.lua" postLoad="scripts\LevelPostInit.lua"/>
+
+</World>

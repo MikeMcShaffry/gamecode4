@@ -1,0 +1,16 @@
+<Actor type="Light" resource="actors\light.xml">
+
+  <TransformComponent>
+      <Position x="5.0" y="5.0" z="3.0"/>
+	  <YawPitchRoll x="45" y="-45" z="0"/>
+  </TransformComponent>
+
+  <LightRenderComponent>
+    <Color r="0.5" g="1.0" b="0.5" a="1.0"/>
+    <Light>
+      <Attenuation const="0.1" linear="0.0" exp="0.0" />
+      <Shape range="100.0" falloff="1.0" theta="0.0" phi="0.0"/>
+    </Light>
+  </LightRenderComponent>
+
+</Actor>

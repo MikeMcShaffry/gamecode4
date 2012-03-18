@@ -1,0 +1,96 @@
+﻿<Physics>
+    <PhysicsMaterials>
+        <PlayDough restitution="0.05" friction="0.9"/>
+        <Normal restitution="0.25" friction="0.5"/>
+        <Bouncy restitution = "0.95" friction = "0.5"/>
+        <Slippery restitution = "0.25" friction = "0.0"/>
+    </PhysicsMaterials>
+
+<!--
+    // Physics Densities were grabbed from various resources, including:
+    // http://www.engineeringtoolbox.com/24_293.html
+    // http://www.simetric.co.uk/si_wood.htm
+    // http://www.phy.cmich.edu/people/andy/Physics110/Book/Chapters/Chapter8.htm
+-->
+    <DensityTable>
+        <!--  specific gravity (these numbers are easier to find) -->
+        <air>0.0013</air>
+        <water>1.000</water>
+
+        <!--  Synthetics -->
+        <styrofoam>0.0100</styrofoam>
+
+        <!--  Woods -->
+        <balsa>0.0170</balsa>
+        <bamboo>0.3500</bamboo>
+        <pine>0.5000</pine>
+        <oak>0.8300</oak>
+        <ebony>1.100</ebony>
+
+        <!--  Biologic -->
+        <blood>1.060</blood>
+        <bone>1.800</bone>
+
+        <!--  Metals and Stone -->
+        <silicon>2.400</silicon>
+        <aluminum>2.650</aluminum>
+        <asbestos>2.450</asbestos>
+        <barite>4.500</barite>
+        <basalt>3.350</basalt>
+        <bismuth>9.800</bismuth>
+        <borax>1.750</borax>
+        <boron>2.320</boron>
+        <brass>8.550</brass>
+        <brick>8.640</brick>
+        <bronze>8.400</bronze>
+        <calcium>4.580</calcium>
+        <carbon>1.950</carbon>
+        <chromium>7.100</chromium>
+        <clay>2.200</clay>
+        <coal>0.800</coal>
+        <cobalt>8.900</cobalt>
+        <copper>8.750</copper>
+        <diamond>3.510</diamond>
+        <dolomite>2.900</dolomite>
+        <epoxy>1.800</epoxy>
+        <glass>2.600</glass>
+        <crystal>2.950</crystal>
+        <granite>2.550</granite>
+        <gold>19.30</gold>
+        <hematite>5.200</hematite>
+        <iridium>21.60</iridium>
+        <castIron>7.200</castIron>
+        <wroughtIron>7.750</wroughtIron>
+        <limestone>2.400</limestone>
+        <lead>11.34</lead>
+        <magnetite>3.200</magnetite>
+        <manganese>7.420</manganese>
+        <magnesium>1.740</magnesium>
+        <marble>2.720</marble>
+        <Mercury>13.54</Mercury>
+        <Molybdenum>10.20</Molybdenum>
+        <Nickel>8.900</Nickel>
+        <Platinum>21.45</Platinum>
+        <Potassium>0.860</Potassium>
+        <Quartz>2.650</Quartz>
+        <Sandstone>2.300</Sandstone>
+        <Serpentine>2.750</Serpentine>
+        <Silver>10.50</Silver>
+        <Sodium>0.970</Sodium>
+        <Steel>7.800</Steel>
+        <Talc>2.700</Talc>
+        <Tar>1.200</Tar>
+        <Tellurium>6.120</Tellurium>
+        <Tin>7.350</Tin>
+        <Titanium>4.500</Titanium>
+        <Tungsten>19.22</Tungsten>
+        <Uranium>18.70</Uranium>
+        <Vanadium>5.960</Vanadium>
+        <Vinyl>1.800</Vinyl>
+        <Wool>1.320</Wool>
+        <Zinc>7.050</Zinc>
+
+        <Infinite>0.000</Infinite>
+    </DensityTable>
+</Physics>
+

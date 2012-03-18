@@ -1,0 +1,27 @@
+<Actor type="Teapot" resource="actors\ai_teapot.xml">
+
+	<TransformComponent>
+		<Position x="10" y="1.1" z="10"/>
+		<YawPitchRoll x="0" y="0" z="0"/>
+	</TransformComponent>
+
+
+    <PhysicsComponent>
+        <Shape>Box</Shape>
+        <Density>glass</Density>
+        <PhysicsMaterial>Normal</PhysicsMaterial>
+    </PhysicsComponent>
+
+	
+    <TeapotRenderComponent>
+        <Color r="1.0" g="0" b="0" a="1.0"/>
+    </TeapotRenderComponent>
+
+
+    <BaseScriptComponent>
+        <ScriptObject constructor="AddEnemy" destructor="RemoveEnemy" />
+        <ScriptData actorType="Teapot" />
+    </BaseScriptComponent>
+
+	
+</Actor>
