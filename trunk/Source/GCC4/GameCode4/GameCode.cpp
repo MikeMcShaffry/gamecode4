@@ -1128,7 +1128,8 @@ void CALLBACK GameCodeApp::OnD3D11ReleasingSwapChain( void* pUserContext )
 //--------------------------------------------------------------------------------------
 void CALLBACK GameCodeApp::OnD3D11DestroyDevice( void* pUserContext )
 {
-	g_pApp->m_Renderer->VShutdown();
+    if (g_pApp->m_Renderer)  // [rez] Fix for multi-monitor issue when target monitor is portrait; posted by Kl1X
+	    g_pApp->m_Renderer->VShutdown();
     D3DRenderer::g_DialogResourceManager.OnD3D11DestroyDevice();
 	g_pApp->m_Renderer = shared_ptr<IRenderer>(NULL);
 }
