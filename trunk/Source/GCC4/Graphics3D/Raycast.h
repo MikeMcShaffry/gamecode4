@@ -69,13 +69,13 @@ protected:
 	LPDIRECT3DVERTEXBUFFER9     m_pVB; 
 
 public:
-	RayCast(CPoint point, DWORD maxIntersections = 16);
+	RayCast(Point point, DWORD maxIntersections = 16);
 
 	DWORD m_MaxIntersections;
 	DWORD m_NumIntersections;
 	bool m_bUseD3DXIntersect;      // Whether to use D3DXIntersect
 	bool m_bAllHits;			// Whether to just get the first "hit" or all "hits"
-	CPoint m_Point;
+	Point m_Point;
 
 	D3DXVECTOR3 m_vPickRayDir;
     D3DXVECTOR3 m_vPickRayOrig;

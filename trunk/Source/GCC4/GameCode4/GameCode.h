@@ -62,14 +62,14 @@ protected:
 	bool m_bIsRunning;						// true if everything is initialized and the game is in the main loop
 	bool m_bQuitRequested;					// true if the app should run the exit sequence
 	bool m_bQuitting;						// true if the app is running the exit sequence
-	CRect m_rcDesktop;						// current desktop size - not necessarilly the client window size
-	CPoint m_screenSize;					// game screen size
+	Rect m_rcDesktop;						// current desktop size - not necessarilly the client window size
+	Point m_screenSize;					// game screen size
 	int m_iColorDepth;						// current color depth (16 or 32)
 	bool m_bIsEditorRunning;				// true if the game editor is running
 
 
 public:
-	const CPoint &GetScreenSize()  { return m_screenSize; }
+	const Point &GetScreenSize()  { return m_screenSize; }
 
 protected:
 	std::map<std::wstring,std::wstring> m_textResource;

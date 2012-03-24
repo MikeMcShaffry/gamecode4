@@ -98,13 +98,14 @@ public:
 };
 
 
-
+/*
 struct Point
 {
 	int x, y;
 	Point() { x = y = 0; }
 	Point(int _x, int _y) { x = _x; y = _y; }
 };
+*/
 
 typedef std::vector<Point> Poly;
 
@@ -186,22 +187,22 @@ public:
 
 struct LineSegment
 {
-	CPoint m_begin, m_end;
-	LineSegment(const CPoint &begin, const CPoint &end) { m_begin=begin; m_end=end; }
-	LineSegment() { m_begin = m_end = CPoint(0,0); }
+	Point m_begin, m_end;
+	LineSegment(const Point &begin, const Point &end) { m_begin=begin; m_end=end; }
+	LineSegment() { m_begin = m_end = Point(0,0); }
 };
 
 
-int lines_intersect( CPoint one,   /* First line segment */
-					 CPoint two,
+int lines_intersect( Point one,   /* First line segment */
+					 Point two,
 
-					CPoint three,   /* Second line segment */
-					CPoint four,
+					Point three,   /* Second line segment */
+					Point four,
 
-					CPoint &result
+					Point &result
                );
 
-bool Intersect(const CRect &rect, const CPoint &center, double const radius);
+bool Intersect(const Rect &rect, const Point &center, double const radius);
 
 float WrapPi(float wrapMe);  // wraps angle so it's between -PI and PI
 float Wrap2Pi(float wrapMe);  // wraps angle so it's between 0 and 2PI

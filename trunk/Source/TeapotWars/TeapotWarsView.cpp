@@ -47,7 +47,6 @@
 #include "../GCC4/Graphics3D/Raycast.h"
 #include "../GCC4/Graphics3D/SceneNodes.h"
 #include "../GCC4/Graphics3D/Sky.h"
-#include "../GCC4/Graphics2D/Sprite.h"
 #include "../GCC4/MainLoop/Initialization.h"
 #include "../GCC4/EventManager/Events.h"
 #include "../GCC4/EventManager/EventManagerImpl.h"
@@ -478,7 +477,7 @@ LRESULT CALLBACK TeapotWarsHumanView::VOnMsgProc( AppMsg msg )
 		{
 			// test the picking API
 
-			CPoint ptCursor;
+			POINT ptCursor;
 			GetCursorPos( &ptCursor );
 			ScreenToClient( g_pApp->GetHwnd(), &ptCursor );
 

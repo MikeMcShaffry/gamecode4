@@ -78,7 +78,7 @@ MovementController::MovementController(shared_ptr<SceneNode> object, float initi
 //
 // MovementController::VOnPointerButtonDown		- Chapter 10, page 282
 //
-bool MovementController::VOnPointerButtonDown(const CPoint &mousePos, const int radius, const std::string &buttonName)
+bool MovementController::VOnPointerButtonDown(const Point &mousePos, const int radius, const std::string &buttonName)
 {
 	if (buttonName == "PointerLeft")
 	{
@@ -93,7 +93,7 @@ bool MovementController::VOnPointerButtonDown(const CPoint &mousePos, const int 
 	return false;
 }
 
-bool MovementController::VOnPointerButtonUp(const CPoint &mousePos, const int radius, const std::string &buttonName)
+bool MovementController::VOnPointerButtonUp(const Point &mousePos, const int radius, const std::string &buttonName)
 {
 	if (buttonName == "PointerLeft")
 	{
@@ -106,7 +106,7 @@ bool MovementController::VOnPointerButtonUp(const CPoint &mousePos, const int ra
 
 //  class MovementController::VOnMouseMove		- Chapter 10, page 282
 
-bool MovementController::VOnPointerMove(const CPoint &mousePos, const int radius)
+bool MovementController::VOnPointerMove(const Point &mousePos, const int radius)
 {
 	// There are two modes supported by this controller.
 

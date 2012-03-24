@@ -56,7 +56,7 @@ struct GameOptions
 	// Rendering options
 	std::string m_Renderer;
 	bool m_runFullSpeed;
-	CPoint m_ScreenSize;
+	Point m_ScreenSize;
 
 	// Sound options
 	float m_soundEffectsVolume;			

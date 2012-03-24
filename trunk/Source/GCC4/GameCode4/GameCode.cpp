@@ -43,7 +43,6 @@
 #include "../MainLoop/Initialization.h"
 #include "../Debugging/MiniDump.h"
 #include "../GameCode4/BaseGameLogic.h"
-#include "../Graphics2D/Font.h"
 #include "../Graphics3D/D3DRenderer.h"
 #include "../EventManager/EventManagerImpl.h"
 #include "../Network/Network.h"
@@ -83,7 +82,7 @@ GameCodeApp::GameCodeApp()
 	m_pGame = NULL;
 
 	m_rcDesktop.bottom = m_rcDesktop.left = m_rcDesktop.right = m_rcDesktop.top = 0;
-	m_screenSize = CPoint(0,0);
+	m_screenSize = Point(0,0);
 	m_iColorDepth = 32;
 
 	m_bIsRunning = false;
@@ -254,7 +253,7 @@ bool GameCodeApp::InitInstance(HINSTANCE hInstance, LPWSTR lpCmdLine, HWND hWnd,
 	_tcscpy_s(m_saveGameDirectory, GetSaveGameDirectory(GetHwnd(), VGetGameAppDirectory()));
 
 	// DXUTCreateDevice - Chapter 5 - page 139
-	m_screenSize = CPoint(screenWidth, screenHeight);
+	m_screenSize = Point(screenWidth, screenHeight);
 
 	//If you have an older video card that only supports D3D9, comment in the next line, and make sure 
 	//the renderer setting in Game\PlayerOptions.xml is set to "Direct3D 9"

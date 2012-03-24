@@ -81,7 +81,7 @@ void InitIntersection(Intersection &intersection, DWORD faceIndex, FLOAT dist, F
 
 
 
-RayCast::RayCast(CPoint point, DWORD maxIntersections)
+RayCast::RayCast(Point point, DWORD maxIntersections)
 {
 	m_MaxIntersections = maxIntersections;
 	m_IntersectionArray.reserve(m_MaxIntersections);
