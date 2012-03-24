@@ -61,7 +61,7 @@ protected:
 	Mat4x4	m_matToWorld;
     Mat4x4  m_matPosition;
 
-	CPoint					m_lastMousePos;
+	Point					m_lastMousePos;
 	bool					m_bKey[256];			// Which keys are up and down
 
 	// Orientation Controls
@@ -87,9 +87,9 @@ public:
 	void OnUpdate(DWORD const elapsedMs);
 
 public:
-	bool VOnPointerMove(const CPoint &mousePos, const int radius);
-	bool VOnPointerButtonDown(const CPoint &mousePos, const int radius, const std::string &buttonName);
-	bool VOnPointerButtonUp(const CPoint &mousePos, const int radius, const std::string &buttonName);
+	bool VOnPointerMove(const Point &mousePos, const int radius);
+	bool VOnPointerButtonDown(const Point &mousePos, const int radius, const std::string &buttonName);
+	bool VOnPointerButtonUp(const Point &mousePos, const int radius, const std::string &buttonName);
 
 	bool VOnKeyDown(const BYTE c) { m_bKey[c] = true; return true; }
 	bool VOnKeyUp(const BYTE c) { m_bKey[c] = false; return true; }

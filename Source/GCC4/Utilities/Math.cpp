@@ -477,7 +477,7 @@ bool Math::PointInPoly( Point const &test, const Poly & polygon)
  *
  * Changes from the original code:
  *     
- *     Used ATL CPoint classes instead of straight integers (MLM)
+ *     Used ATL Point classes instead of straight integers (MLM)
  */
 
 
@@ -494,9 +494,9 @@ bool Math::PointInPoly( Point const &test, const Poly & polygon)
 		(((long) ((unsigned long) a ^ (unsigned long) b)) >= 0 )
 
 int lines_intersect( 
-	CPoint one, CPoint two,				  /* First line segment */
-	CPoint three, CPoint four,			  /* Second line segment */
-	CPoint &result)
+	Point one, Point two,				  /* First line segment */
+	Point three, Point four,			  /* Second line segment */
+	Point &result)
 {
     long a1, a2, b1, b2, c1, c2; /* Coefficients of line eqns. */
     long r1, r2, r3, r4;         /* 'Sign' values */
@@ -573,9 +573,9 @@ int lines_intersect(
 //
 // bool Intersect - (not in the book) Returns true if the supplied rect is inside a circular radius.
 //
-bool Intersect(const CRect &rect, const CPoint &center, double const radius)
+bool Intersect(const Rect &rect, const Point &center, double const radius)
 {
-	CRect r = rect;
+	Rect r = rect;
 	double radiusiusSquared = radius * radius;
 
 	/* Translate coordinates, placing C at the origin. */

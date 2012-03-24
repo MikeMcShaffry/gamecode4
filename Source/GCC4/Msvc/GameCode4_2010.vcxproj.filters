@@ -35,9 +35,6 @@
     <ClInclude Include="..\EventManager\Events.h">
       <Filter>EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Graphics2D\Font.h">
-      <Filter>Graphics2D</Filter>
-    </ClInclude>
     <ClInclude Include="..\Graphics3D\Geometry.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
@@ -91,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="..\Utilities\templates.h">
       <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Graphics2D\Sprite.h">
-      <Filter>Graphics2D</Filter>
     </ClInclude>
     <ClInclude Include="..\UserInterface\MessageBox.h">
       <Filter>UserInterface</Filter>
@@ -202,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="..\Actors\AudioComponent.h">
       <Filter>Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\types.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

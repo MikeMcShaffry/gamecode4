@@ -277,7 +277,7 @@ int PickActor(int *hWndPtrAddress)
 {
 	HWND hWnd = (HWND)hWndPtrAddress;
 
-	CPoint ptCursor;
+	POINT ptCursor;
 	GetCursorPos( &ptCursor );
 	
 	// Convert the screen coordinates of the mouse cursor into

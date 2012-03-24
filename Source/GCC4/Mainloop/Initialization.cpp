@@ -172,7 +172,7 @@ GameOptions::GameOptions()
 	m_numAIs = 1;
 	m_maxAIs = 4;
 	m_maxPlayers = 4;
-	m_ScreenSize = CPoint(1024,768);
+	m_ScreenSize = Point(1024,768);
     m_useDevelopmentDirectories = false;
 
 	m_pDoc = NULL;

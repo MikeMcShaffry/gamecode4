@@ -69,7 +69,7 @@ TeapotController::TeapotController(shared_ptr<SceneNode> object)
 //
 // TeapotController::VOnLButtonDown				- Chapter 19, page 735
 //
-bool TeapotController::VOnPointerButtonDown(const CPoint &mousePos, const int radius, const std::string &buttonName)
+bool TeapotController::VOnPointerButtonDown(const Point &mousePos, const int radius, const std::string &buttonName)
 {
 	if (buttonName != "PointerLeft")
 		return false;

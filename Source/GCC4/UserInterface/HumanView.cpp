@@ -263,14 +263,14 @@ LRESULT CALLBACK HumanView::VOnMsgProc( AppMsg msg )
 
 		case WM_MOUSEMOVE:
 			if (m_PointerHandler)
-				result = m_PointerHandler->VOnPointerMove(CPoint(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1);
+				result = m_PointerHandler->VOnPointerMove(Point(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1);
 			break;
 
 		case WM_LBUTTONDOWN:
 			if (m_PointerHandler)
 			{
 				SetCapture(msg.m_hWnd);
-				result = m_PointerHandler->VOnPointerButtonDown(CPoint(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerLeft");
+				result = m_PointerHandler->VOnPointerButtonDown(Point(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerLeft");
 			}	
 			break;
 
@@ -278,7 +278,7 @@ LRESULT CALLBACK HumanView::VOnMsgProc( AppMsg msg )
 			if (m_PointerHandler)
 			{
 				SetCapture(NULL);
-				result = m_PointerHandler->VOnPointerButtonUp(CPoint(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerLeft");
+				result = m_PointerHandler->VOnPointerButtonUp(Point(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerLeft");
 			}
 			break;
 
@@ -286,7 +286,7 @@ LRESULT CALLBACK HumanView::VOnMsgProc( AppMsg msg )
 			if (m_PointerHandler)
 			{
 				SetCapture(msg.m_hWnd);
-				result = m_PointerHandler->VOnPointerButtonDown(CPoint(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerRight");
+				result = m_PointerHandler->VOnPointerButtonDown(Point(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerRight");
 			}
 			break;
 
@@ -294,7 +294,7 @@ LRESULT CALLBACK HumanView::VOnMsgProc( AppMsg msg )
 			if (m_PointerHandler)
 			{
 				SetCapture(NULL);
-				result = m_PointerHandler->VOnPointerButtonUp(CPoint(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerRight");
+				result = m_PointerHandler->VOnPointerButtonUp(Point(LOWORD(msg.m_lParam), HIWORD(msg.m_lParam)), 1, "PointerRight");
 			}
 			break;
 		case WM_CHAR:

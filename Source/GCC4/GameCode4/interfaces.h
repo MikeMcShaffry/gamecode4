@@ -158,9 +158,9 @@ public:
 class IPointerHandler
 {
 public:
-	virtual bool VOnPointerMove(const CPoint &pos, const int radius) = 0;
-	virtual bool VOnPointerButtonDown(const CPoint &pos, const int radius, const std::string &buttonName) = 0;
-	virtual bool VOnPointerButtonUp(const CPoint &pos, const int radius, const std::string &buttonName) = 0;
+	virtual bool VOnPointerMove(const Point &pos, const int radius) = 0;
+	virtual bool VOnPointerButtonDown(const Point &pos, const int radius, const std::string &buttonName) = 0;
+	virtual bool VOnPointerButtonUp(const Point &pos, const int radius, const std::string &buttonName) = 0;
 };
 
 class IJoystickHandler

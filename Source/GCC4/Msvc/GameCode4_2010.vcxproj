@@ -226,8 +226,6 @@
     <ClInclude Include="..\GameCode4\BaseGameLogic.h" />
     <ClInclude Include="..\GameCode4\GameCode.h" />
     <ClInclude Include="..\GameCode4\interfaces.h" />
-    <ClInclude Include="..\Graphics2D\Font.h" />
-    <ClInclude Include="..\Graphics2D\Sprite.h" />
     <ClInclude Include="..\Graphics3D\D3DRenderer.h" />
     <ClInclude Include="..\Graphics3D\Geometry.h" />
     <ClInclude Include="..\Graphics3D\Lights.h" />
@@ -266,6 +264,7 @@
     <ClInclude Include="..\Utilities\PrimeSearch.h" />
     <ClInclude Include="..\Utilities\String.h" />
     <ClInclude Include="..\Utilities\templates.h" />
+    <ClInclude Include="..\Utilities\types.h" />
     <ClInclude Include="GameCodeStd.h" />
   </ItemGroup>
   <ItemGroup>

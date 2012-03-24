@@ -54,9 +54,9 @@ public:
 	void OnUpdate(DWORD const elapsedMs);
 
 public:
-	virtual bool VOnPointerMove(const CPoint &mousePos, const int radius) { return true; }
-	virtual bool VOnPointerButtonDown(const CPoint &mousePos, const int radius, const std::string &buttonName);
-	virtual bool VOnPointerButtonUp(const CPoint &mousePos, const int radius, const std::string &buttonName) { return (buttonName == "PointerLeft"); }
+	virtual bool VOnPointerMove(const Point &mousePos, const int radius) { return true; }
+	virtual bool VOnPointerButtonDown(const Point &mousePos, const int radius, const std::string &buttonName);
+	virtual bool VOnPointerButtonUp(const Point &mousePos, const int radius, const std::string &buttonName) { return (buttonName == "PointerLeft"); }
 
     bool VOnKeyDown(const BYTE c);
     bool VOnKeyUp(const BYTE c);

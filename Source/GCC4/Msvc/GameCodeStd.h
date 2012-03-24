@@ -47,20 +47,6 @@
 
 #include <crtdbg.h>
 
-//FUTURE WORK: We need a replacement for CSize, CPoint, and CRect
-#if defined (_MSC_VER) && (_MSC_VER < 1300)
-	#include "types.h"
-#else
-	//FUTURE WORK GET RID OF ALTTYPES.H
-	#ifdef _DEBUG
-		#undef _DEBUG
-		#include <atltypes.h>			// for CSize, CPoint and CRect - it's all inline.
-		#define _DEBUG
-	#else
-		#include <atltypes.h>
-	#endif
-#endif
-
 #define _VS2005_
 #if _MSC_VER < 1400
 	#undef _VS2005_
@@ -131,6 +117,7 @@ using fastdelegate::MakeDelegate;
 
 // GameCode #includes
 #include "..\Debugging\Logger.h"  // this should be the first of the gcc includes since it defines GCC_ASSERT()
+#include "..\Utilities\types.h"
 #include "..\Utilities\templates.h"
 #include "..\Graphics3D\geometry.h"
 
