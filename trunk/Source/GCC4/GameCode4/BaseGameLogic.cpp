@@ -127,7 +127,7 @@ BaseGameLogic::~BaseGameLogic()
     IEventManager::Get()->VRemoveListener(MakeDelegate(this, &BaseGameLogic::RequestDestroyActorDelegate), EvtData_Request_Destroy_Actor::sk_EventType);
 }
 
-bool BaseGameLogic::VInit(void)
+bool BaseGameLogic::Init(void)
 {
     m_pActorFactory = VCreateActorFactory();
     m_pPathingGraph.reset(CreatePathingGraph());
