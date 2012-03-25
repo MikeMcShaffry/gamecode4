@@ -117,7 +117,7 @@ BaseGameLogic* EditorApp::VCreateGameAndView()
 	BaseGameLogic *game = NULL;
 
 	game = GCC_NEW EditorLogic();
-    game->VInit();
+    game->Init();
 
 	shared_ptr<IGameView> gameView(GCC_NEW EditorHumanView(g_pApp->m_Renderer));
 	game->VAddView(gameView);

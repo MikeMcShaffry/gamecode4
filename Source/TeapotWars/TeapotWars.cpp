@@ -93,7 +93,7 @@ INT WINAPI wWinMain(HINSTANCE hInstance,
 BaseGameLogic *TeapotWarsApp::VCreateGameAndView()
 {
 	m_pGame = GCC_NEW TeapotWarsLogic();
-    m_pGame->VInit();
+    m_pGame->Init();
 
 	shared_ptr<IGameView> menuView(GCC_NEW MainMenuView());
 	m_pGame->VAddView(menuView);

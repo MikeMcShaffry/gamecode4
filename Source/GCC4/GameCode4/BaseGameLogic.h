@@ -108,7 +108,7 @@ public:
 
 	BaseGameLogic();
 	virtual ~BaseGameLogic();
-    bool VInit(void);
+    bool Init(void);
 
 	void SetProxy(bool isProxy) 
 	{ 
