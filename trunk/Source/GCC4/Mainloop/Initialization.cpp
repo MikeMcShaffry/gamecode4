@@ -216,7 +216,7 @@ void GameOptions::Init(const char* xmlFileName, LPWSTR lpCmdLine)
 			if (pNode->Attribute("height"))
 			{
 				m_ScreenSize.y = atoi(pNode->Attribute("height"));
-				if (m_ScreenSize.x < 600) m_ScreenSize.x = 600;
+				if (m_ScreenSize.y < 600) m_ScreenSize.y = 600;
 			}
 
 			if (pNode->Attribute("runfullspeed"))
