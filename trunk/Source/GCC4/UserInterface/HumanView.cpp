@@ -123,8 +123,6 @@ void HumanView::VOnRender(double fTime, float fElapsedTime )
 	{
 		if (g_pApp->m_Renderer->VPreRender())
 		{
-			VRenderText();
-
 			m_ScreenElements.sort(SortBy_SharedPtr_Content<IScreenElement>());
 
 			for(ScreenElementList::iterator i=m_ScreenElements.begin(); i!=m_ScreenElements.end(); ++i)
@@ -134,6 +132,8 @@ void HumanView::VOnRender(double fTime, float fElapsedTime )
 					(*i)->VOnRender(fTime, fElapsedTime);
 				}
 			}
+
+            VRenderText();
 
 			// Let the console render.
 			m_Console.Render();
