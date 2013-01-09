@@ -71,6 +71,7 @@ extern GenericObjectFactory<IEventData, EventType> g_eventFactory;
 class IEventData 
 {
 public:
+	virtual ~IEventData(void) {}
 	virtual const EventType& VGetEventType(void) const = 0;
 	virtual float GetTimeStamp(void) const = 0;
 	virtual void VSerialize(std::ostrstream& out) const = 0;
@@ -91,7 +92,6 @@ class BaseEventData : public IEventData
 
 public:
 	explicit BaseEventData(const float timeStamp = 0.0f) : m_timeStamp(timeStamp) { }
-	virtual ~BaseEventData(void) {}
 
 	// Returns the type of the event
 	virtual const EventType& VGetEventType(void) const = 0;
