@@ -121,7 +121,7 @@ unsigned int ProcessManager::UpdateProcesses(unsigned long deltaMs)
 //---------------------------------------------------------------------------------------------------------------------
 WeakProcessPtr ProcessManager::AttachProcess(StrongProcessPtr pProcess)
 {
-    m_processList.push_back(pProcess);
+	m_processList.push_front(pProcess);
     return WeakProcessPtr(pProcess);
 }
 
