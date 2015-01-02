@@ -86,7 +86,7 @@ void ScriptEvent::RegisterEventTypeWithScript(const char* key, EventType type)
 	GCC_ASSERT(eventTypeTable[key].IsNil());
 	
 	// add the entry
-	eventTypeTable.SetNumber(key, (double)type);
+	eventTypeTable.SetInteger(key, type);
 }
 
 
