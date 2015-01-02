@@ -76,10 +76,20 @@
 #include <queue>
 #include <map>
 
-using std::tr1::shared_ptr;
-using std::tr1::weak_ptr;
-using std::tr1::static_pointer_cast;
-using std::tr1::dynamic_pointer_cast;
+// [rez] Smart pointers were added to the std namespace in Visual Studio 2012.  They exist in 2010 in the 
+// std::tr1 namespace.
+#if _MSC_VER >= 1700  // VS 2012 or later
+    #include <memory>
+    using std::shared_ptr;
+    using std::weak_ptr;
+    using std::static_pointer_cast;
+    using std::dynamic_pointer_cast;
+#elif _MSC_VER == 1600  // VS 2010
+    using std::tr1::shared_ptr;
+    using std::tr1::weak_ptr;
+    using std::tr1::static_pointer_cast;
+    using std::tr1::dynamic_pointer_cast;
+#endif
 
 class GCC_noncopyable 
 {  
