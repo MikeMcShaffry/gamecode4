@@ -1,0 +1,25 @@
+﻿Build started 7/5/2015 1:55:25 PM.
+     1>Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_ConvexDecompositionDemo.vcxproj" on node 6 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\Extras\HACD /I..\..\Extras\ConvexDecomposition /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /Zi /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Debug\App_ConvexDecompositionDemo\\" /Fd"..\..\App_ConvexDecompositionDemo_vs2013_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\Demos\ConvexDecompositionDemo\ConvexDecompositionDemo.cpp ..\..\Demos\ConvexDecompositionDemo\main.cpp ..\..\Demos\ConvexDecompositionDemo\Win32ConvexDecompositionDemo.cpp
+         ConvexDecompositionDemo.cpp
+         main.cpp
+         Win32ConvexDecompositionDemo.cpp
+         Note: including lib: glut32.lib
+         
+         Note: including lib: glut32.lib
+         
+     1>..\..\Demos\ConvexDecompositionDemo\ConvexDecompositionDemo.cpp(541): warning C4018: '<' : signed/unsigned mismatch
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /l"0x0409" /I..\..\Extras\HACD /I..\..\Extras\ConvexDecomposition /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /nologo /fo"obj\x32\Debug\App_ConvexDecompositionDemo\bullet.res" ..\bullet.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\App_ConvexDecompositionDemo_vs2013_debug.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\..\Glut opengl32.lib glew32s.lib glut32.lib ..\..\lib\OpenGLSupport_vs2013_debug.lib ..\..\lib\BulletDynamics_vs2013_debug.lib ..\..\lib\BulletCollision_vs2013_debug.lib ..\..\lib\LinearMath_vs2013_debug.lib ..\..\lib\HACD_vs2013_debug.lib ..\..\lib\ConvexDecomposition_vs2013_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\App_ConvexDecompositionDemo_vs2013_debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\App_ConvexDecompositionDemo_vs2013_debug.lib" /MACHINE:X86 obj\x32\Debug\App_ConvexDecompositionDemo\bullet.res
+         obj\x32\Debug\App_ConvexDecompositionDemo\ConvexDecompositionDemo.obj
+         obj\x32\Debug\App_ConvexDecompositionDemo\main.obj
+         obj\x32\Debug\App_ConvexDecompositionDemo\Win32ConvexDecompositionDemo.obj
+     1>LINK : fatal error LNK1104: cannot open file '..\..\lib\HACD_vs2013_debug.lib'
+     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_ConvexDecompositionDemo.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:05.23

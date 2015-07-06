@@ -1,0 +1,42 @@
+﻿Build started 12/31/2014 5:07:25 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\LinearMath.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Release\LinearMath\\" /Fd"obj\x64\Release\LinearMath\vc120.pdb" /Gd /TP /errorReport:prompt /MP ..\..\src\LinearMath\btAlignedAllocator.cpp ..\..\src\LinearMath\btConvexHull.cpp ..\..\src\LinearMath\btConvexHullComputer.cpp ..\..\src\LinearMath\btGeometryUtil.cpp ..\..\src\LinearMath\btPolarDecomposition.cpp ..\..\src\LinearMath\btQuickprof.cpp ..\..\src\LinearMath\btSerializer.cpp ..\..\src\LinearMath\btVector3.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btAlignedAllocator.cpp
+         btConvexHull.cpp
+         btConvexHullComputer.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btGeometryUtil.cpp
+         btPolarDecomposition.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btQuickprof.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btSerializer.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         btVector3.cpp
+     1>..\..\src\LinearMath\btVector3.cpp(179): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+     1>..\..\src\LinearMath\btVector3.cpp(184): warning C4267: '-=' : conversion from 'size_t' to 'unsigned long', possible loss of data
+     1>..\..\src\LinearMath\btVector3.cpp(427): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+     1>..\..\src\LinearMath\btVector3.cpp(564): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+     1>..\..\src\LinearMath\btVector3.cpp(569): warning C4267: '-=' : conversion from 'size_t' to 'unsigned long', possible loss of data
+     1>..\..\src\LinearMath\btVector3.cpp(815): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"..\..\lib\LinearMath_vs2013_x64_release.lib" /NOLOGO /MACHINE:X64 obj\x64\Release\LinearMath\btAlignedAllocator.obj
+         obj\x64\Release\LinearMath\btConvexHull.obj
+         obj\x64\Release\LinearMath\btConvexHullComputer.obj
+         obj\x64\Release\LinearMath\btGeometryUtil.obj
+         obj\x64\Release\LinearMath\btPolarDecomposition.obj
+         obj\x64\Release\LinearMath\btQuickprof.obj
+         obj\x64\Release\LinearMath\btSerializer.obj
+         obj\x64\Release\LinearMath\btVector3.obj
+         LinearMath.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\lib\LinearMath_vs2013_x64_release.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\LinearMath.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.57

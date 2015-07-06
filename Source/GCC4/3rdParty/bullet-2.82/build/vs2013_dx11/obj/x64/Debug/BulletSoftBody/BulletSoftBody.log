@@ -1,0 +1,32 @@
+﻿Build started 12/31/2014 5:08:58 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletSoftBody.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Debug\BulletSoftBody\\" /Fd"..\..\lib\BulletSoftBody_vs2013_x64_debug.pdb" /Gd /TP /errorReport:prompt /MP ..\..\src\BulletSoftBody\btDefaultSoftBodySolver.cpp ..\..\src\BulletSoftBody\btSoftBody.cpp ..\..\src\BulletSoftBody\btSoftBodyConcaveCollisionAlgorithm.cpp ..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp ..\..\src\BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.cpp ..\..\src\BulletSoftBody\btSoftRigidCollisionAlgorithm.cpp ..\..\src\BulletSoftBody\btSoftRigidDynamicsWorld.cpp ..\..\src\BulletSoftBody\btSoftSoftCollisionAlgorithm.cpp
+         btDefaultSoftBodySolver.cpp
+         btSoftBody.cpp
+         btSoftBodyConcaveCollisionAlgorithm.cpp
+         btSoftBodyHelpers.cpp
+         btSoftBodyRigidBodyCollisionConfiguration.cpp
+         btSoftRigidCollisionAlgorithm.cpp
+         btSoftRigidDynamicsWorld.cpp
+         btSoftSoftCollisionAlgorithm.cpp
+     1>..\..\src\BulletSoftBody\btSoftBody.cpp(3338): warning C4244: '=' : conversion from '__int64' to 'int', possible loss of data
+     1>..\..\src\BulletSoftBody\btSoftBody.cpp(3339): warning C4244: '=' : conversion from '__int64' to 'int', possible loss of data
+     1>..\..\src\BulletSoftBody\btSoftBody.cpp(3363): warning C4244: '=' : conversion from '__int64' to 'int', possible loss of data
+     1>..\..\src\BulletSoftBody\btSoftBody.cpp(3384): warning C4244: '=' : conversion from '__int64' to 'int', possible loss of data
+     1>..\..\src\BulletSoftBody\btSoftBody.cpp(3408): warning C4244: '=' : conversion from '__int64' to 'int', possible loss of data
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"..\..\lib\BulletSoftBody_vs2013_x64_debug.lib" /NOLOGO /MACHINE:X64 obj\x64\Debug\BulletSoftBody\btDefaultSoftBodySolver.obj
+         obj\x64\Debug\BulletSoftBody\btSoftBody.obj
+         obj\x64\Debug\BulletSoftBody\btSoftBodyConcaveCollisionAlgorithm.obj
+         obj\x64\Debug\BulletSoftBody\btSoftBodyHelpers.obj
+         obj\x64\Debug\BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.obj
+         obj\x64\Debug\BulletSoftBody\btSoftRigidCollisionAlgorithm.obj
+         obj\x64\Debug\BulletSoftBody\btSoftRigidDynamicsWorld.obj
+         obj\x64\Debug\BulletSoftBody\btSoftSoftCollisionAlgorithm.obj
+         BulletSoftBody.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\lib\BulletSoftBody_vs2013_x64_debug.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletSoftBody.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.18

@@ -1,0 +1,14 @@
+﻿Build started 7/5/2015 1:55:42 PM.
+     1>Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\AppHelloWorld.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Debug\AppHelloWorld\\" /Fd"..\..\bin\AppHelloWorld_vs2013_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\Demos\HelloWorld\HelloWorld.cpp
+         HelloWorld.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\bin\AppHelloWorld_vs2013_debug.exe" /INCREMENTAL /NOLOGO ..\..\lib\BulletDynamics_vs2013_debug.lib ..\..\lib\BulletCollision_vs2013_debug.lib ..\..\lib\LinearMath_vs2013_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\bin\AppHelloWorld_vs2013_debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\bin\AppHelloWorld_vs2013_debug.lib" /MACHINE:X86 obj\x32\Debug\AppHelloWorld\HelloWorld.obj
+         LINK : ..\..\bin\AppHelloWorld_vs2013_debug.exe not found or not built by the last incremental link; performing full link
+         AppHelloWorld.vcxproj -> D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\bin\AppHelloWorld_vs2013_debug.exe
+     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\AppHelloWorld.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.47

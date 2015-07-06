@@ -1,0 +1,16 @@
+﻿Build started 12/31/2014 5:07:43 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\HACD.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\Extras\HACD /nologo /W3 /WX- /Ox /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Release\HACD\\" /Fd"obj\x32\Release\HACD\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\Extras\HACD\hacdGraph.cpp ..\..\Extras\HACD\hacdHACD.cpp ..\..\Extras\HACD\hacdICHull.cpp ..\..\Extras\HACD\hacdManifoldMesh.cpp
+         hacdGraph.cpp
+         hacdHACD.cpp
+         hacdICHull.cpp
+         hacdManifoldMesh.cpp
+     1>..\..\Extras\HACD\hacdICHull.cpp(930): error C2039: 'max' : is not a member of 'std'
+     1>..\..\Extras\HACD\hacdICHull.cpp(930): error C2065: 'max' : undeclared identifier
+     1>..\..\Extras\HACD\hacdICHull.cpp(930): error C2062: type 'double' unexpected
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\HACD.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.43

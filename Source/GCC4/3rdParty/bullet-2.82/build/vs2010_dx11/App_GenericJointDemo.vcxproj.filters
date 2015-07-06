@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Demos">
+      <UniqueIdentifier>{BB05335E-FC3C-A042-BA63-01C4D1FE48D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Demos\GenericJointDemo">
+      <UniqueIdentifier>{1E03589F-B722-9446-82E2-76670137FEA4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Demos\GenericJointDemo\GenericJointDemo.h">
+      <Filter>Demos\GenericJointDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Demos\GenericJointDemo\Ragdoll.h">
+      <Filter>Demos\GenericJointDemo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Demos\GenericJointDemo\GenericJointDemo.cpp">
+      <Filter>Demos\GenericJointDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\GenericJointDemo\main.cpp">
+      <Filter>Demos\GenericJointDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\GenericJointDemo\Ragdoll.cpp">
+      <Filter>Demos\GenericJointDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\GenericJointDemo\Win32GenericJointDemo.cpp">
+      <Filter>Demos\GenericJointDemo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\bullet.rc" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,26 @@
+﻿Build started 12/31/2014 5:13:27 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_BspDemo.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /Zi /nologo /W3 /WX- /Od /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Debug\App_BspDemo\\" /Fd"..\..\App_BspDemo_vs2013_x64_debug.pdb" /Gd /TP /errorReport:prompt /MP ..\..\Demos\BspDemo\BspConverter.cpp ..\..\Demos\BspDemo\BspDemo.cpp ..\..\Demos\BspDemo\BspLoader.cpp ..\..\Demos\BspDemo\main.cpp
+         BspConverter.cpp
+         BspDemo.cpp
+         BspLoader.cpp
+         main.cpp
+         Note: including lib: glut64.lib
+         
+         Note: including lib: glut64.lib
+         
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /l"0x0409" /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /nologo /fo"obj\x64\Debug\App_BspDemo\bullet.res" ..\bullet.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\App_BspDemo_vs2013_x64_debug.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\..\Glut opengl32.lib glew64s.lib glut64.lib ..\..\lib\OpenGLSupport_vs2013_x64_debug.lib ..\..\lib\BulletDynamics_vs2013_x64_debug.lib ..\..\lib\BulletCollision_vs2013_x64_debug.lib ..\..\lib\LinearMath_vs2013_x64_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\App_BspDemo_vs2013_x64_debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\App_BspDemo_vs2013_x64_debug.lib" /MACHINE:X64 obj\x64\Debug\App_BspDemo\bullet.res
+         obj\x64\Debug\App_BspDemo\BspConverter.obj
+         obj\x64\Debug\App_BspDemo\BspDemo.obj
+         obj\x64\Debug\App_BspDemo\BspLoader.obj
+         obj\x64\Debug\App_BspDemo\main.obj
+         App_BspDemo.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\App_BspDemo_vs2013_x64_debug.exe
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_BspDemo.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.10

@@ -1,0 +1,673 @@
+﻿Build started 12/31/2014 5:12:59 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_DX11ClothDemo.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I..\..\src /I..\..\Demos\DX11ClothDemo\DXUT\Core /I..\..\Demos\DX11ClothDemo\DXUT\Optional /Zi /nologo /W3 /WX- /Od /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D ADL_ENABLE_DX11 /D UNICODE /D _UNICODE /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Debug\App_DX11ClothDemo\\" /Fd"..\..\App_DX11ClothDemo_vs2013_x64_debug.pdb" /Gd /TP /errorReport:prompt /MP ..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp ..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp ..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp ..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp ..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp ..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp ..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp ..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp ..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp ..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp ..\..\Demos\DX11ClothDemo\cloth_renderer.cpp
+         DXUT.cpp
+         DXUTcamera.cpp
+         DXUTDevice11.cpp
+         DXUTDevice9.cpp
+         DXUTgui.cpp
+         DXUTmisc.cpp
+         DXUTres.cpp
+         DXUTsettingsdlg.cpp
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp(1117): warning C4996: 'GetVersionExA': was declared deprecated
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(433) : see declaration of 'GetVersionExA'
+     1>..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp(1882): warning C4996: 'GetVersionExW': was declared deprecated
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(442) : see declaration of 'GetVersionExW'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp(4244): warning C4996: 'GetVersionExW': was declared deprecated
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(442) : see declaration of 'GetVersionExW'
+         SDKmesh.cpp
+         SDKmisc.cpp
+         cloth_renderer.cpp
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition (..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp)
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cap.h(149): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cap.h(181): warning C4101: 'PrimType' : unreferenced local variable (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cap.h(230): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cap.h(231): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cap.h(245): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cap.h(246): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cylinder.h(152): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cylinder.h(184): warning C4101: 'PrimType' : unreferenced local variable (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cylinder.h(233): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cylinder.h(234): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cloth.h(149): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cloth.h(178): warning C4101: 'PrimType' : unreferenced local variable (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>d:\projectsgooglecode\gamecode4\trunk\source\gcc4\3rdparty\bullet-2.82\demos\dx11clothdemo\cloth.h(242): warning C4244: 'argument' : conversion from 'double' to 'FLOAT', possible loss of data (..\..\Demos\DX11ClothDemo\cloth_renderer.cpp)
+     1>..\..\Demos\DX11ClothDemo\cloth_renderer.cpp(449): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\Demos\DX11ClothDemo\cloth_renderer.cpp(460): warning C4244: 'argument' : conversion from 'double' to 'btScalar', possible loss of data
+     1>..\..\Demos\DX11ClothDemo\cloth_renderer.cpp(1216): warning C4101: 'hr' : unreferenced local variable
+     1>..\..\Demos\DX11ClothDemo\cloth_renderer.cpp(1313): warning C4150: deletion of pointer to incomplete type 'btCPUSoftBodySolver'; no destructor called
+                 ..\..\Demos\DX11ClothDemo\cloth_renderer.cpp(27) : see declaration of 'btCPUSoftBodySolver'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\App_DX11ClothDemo_vs2013_x64_debug.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x64" d3dcompiler.lib dxerr.lib dxguid.lib d3dx9.lib d3d9.lib winmm.lib comctl32.lib d3dx11.lib ..\..\lib\LinearMath_vs2013_x64_debug.lib ..\..\lib\BulletCollision_vs2013_x64_debug.lib ..\..\lib\BulletDynamics_vs2013_x64_debug.lib ..\..\lib\BulletSoftBody_vs2013_x64_debug.lib ..\..\lib\BulletSoftBodyDX11Solvers_vs2013_x64_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\App_DX11ClothDemo_vs2013_x64_debug.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\App_DX11ClothDemo_vs2013_x64_debug.lib" /MACHINE:X64 obj\x64\Debug\App_DX11ClothDemo\DXUT.obj
+         obj\x64\Debug\App_DX11ClothDemo\DXUTcamera.obj
+         obj\x64\Debug\App_DX11ClothDemo\DXUTDevice11.obj
+         obj\x64\Debug\App_DX11ClothDemo\DXUTDevice9.obj
+         obj\x64\Debug\App_DX11ClothDemo\DXUTgui.obj
+         obj\x64\Debug\App_DX11ClothDemo\DXUTmisc.obj
+         obj\x64\Debug\App_DX11ClothDemo\DXUTres.obj
+         obj\x64\Debug\App_DX11ClothDemo\DXUTsettingsdlg.obj
+         obj\x64\Debug\App_DX11ClothDemo\SDKmesh.obj
+         obj\x64\Debug\App_DX11ClothDemo\SDKmisc.obj
+         obj\x64\Debug\App_DX11ClothDemo\cloth_renderer.obj
+         App_DX11ClothDemo.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\App_DX11ClothDemo_vs2013_x64_debug.exe
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_DX11ClothDemo.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.34

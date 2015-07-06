@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Demos">
+      <UniqueIdentifier>{458CEC1D-F4F9-B54C-B96E-9FB635FCA5EF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Demos\Box2dDemo">
+      <UniqueIdentifier>{96EC3C49-0424-274F-97BF-D2ADC6CD7B65}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Demos\Box2dDemo\Box2dDemo.h">
+      <Filter>Demos\Box2dDemo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Demos\Box2dDemo\Box2dDemo.cpp">
+      <Filter>Demos\Box2dDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\Box2dDemo\main.cpp">
+      <Filter>Demos\Box2dDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\Box2dDemo\Win32Box2dDemo.cpp">
+      <Filter>Demos\Box2dDemo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\bullet.rc" />
+  </ItemGroup>
+</Project>

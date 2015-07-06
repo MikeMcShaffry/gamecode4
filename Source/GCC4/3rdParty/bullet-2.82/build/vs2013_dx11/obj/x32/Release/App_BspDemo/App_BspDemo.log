@@ -1,0 +1,26 @@
+﻿Build started 12/31/2014 5:13:25 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_BspDemo.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /nologo /W3 /WX- /Ox /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Release\App_BspDemo\\" /Fd"obj\x32\Release\App_BspDemo\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\Demos\BspDemo\BspConverter.cpp ..\..\Demos\BspDemo\BspDemo.cpp ..\..\Demos\BspDemo\BspLoader.cpp ..\..\Demos\BspDemo\main.cpp
+         BspConverter.cpp
+         BspDemo.cpp
+         BspLoader.cpp
+         main.cpp
+         Note: including lib: glut32.lib
+         
+         Note: including lib: glut32.lib
+         
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /l"0x0409" /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /nologo /fo"obj\x32\Release\App_BspDemo\bullet.res" ..\bullet.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\App_BspDemo_vs2013.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\Glut opengl32.lib glew32s.lib glut32.lib ..\..\lib\OpenGLSupport_vs2013.lib ..\..\lib\BulletDynamics_vs2013.lib ..\..\lib\BulletCollision_vs2013.lib ..\..\lib\LinearMath_vs2013.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"..\..\App_BspDemo_vs2013.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\App_BspDemo_vs2013.lib" /MACHINE:X86 /SAFESEH obj\x32\Release\App_BspDemo\bullet.res
+         obj\x32\Release\App_BspDemo\BspConverter.obj
+         obj\x32\Release\App_BspDemo\BspDemo.obj
+         obj\x32\Release\App_BspDemo\BspLoader.obj
+         obj\x32\Release\App_BspDemo\main.obj
+         App_BspDemo.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\App_BspDemo_vs2013.exe
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_BspDemo.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.27

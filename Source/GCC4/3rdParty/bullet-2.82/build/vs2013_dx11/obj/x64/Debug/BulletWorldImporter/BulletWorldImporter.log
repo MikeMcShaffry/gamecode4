@@ -1,0 +1,16 @@
+﻿Build started 12/31/2014 5:07:54 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletWorldImporter.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\Extras\Serialize\BulletFileLoader /I..\..\src /Zi /nologo /W3 /WX- /Od /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Debug\BulletWorldImporter\\" /Fd"..\..\Extras\lib\BulletWorldImporter_vs2013_x64_debug.pdb" /Gd /TP /errorReport:prompt /MP ..\..\Extras\Serialize\BulletWorldImporter\btBulletWorldImporter.cpp ..\..\Extras\Serialize\BulletWorldImporter\btWorldImporter.cpp
+         btBulletWorldImporter.cpp
+         btWorldImporter.cpp
+     1>..\..\Extras\Serialize\BulletWorldImporter\btWorldImporter.cpp(1179): warning C4244: 'argument' : conversion from 'double' to 'btScalar', possible loss of data
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"..\..\Extras\lib\BulletWorldImporter_vs2013_x64_debug.lib" /NOLOGO /MACHINE:X64 obj\x64\Debug\BulletWorldImporter\btBulletWorldImporter.obj
+         obj\x64\Debug\BulletWorldImporter\btWorldImporter.obj
+         BulletWorldImporter.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\Extras\lib\BulletWorldImporter_vs2013_x64_debug.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletWorldImporter.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.01

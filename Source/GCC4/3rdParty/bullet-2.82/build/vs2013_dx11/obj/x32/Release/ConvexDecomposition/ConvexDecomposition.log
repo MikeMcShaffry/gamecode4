@@ -1,0 +1,39 @@
+﻿Build started 12/31/2014 5:07:48 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\ConvexDecomposition.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\Extras\ConvexDecomposition /I..\..\src /nologo /W3 /WX- /Ox /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Release\ConvexDecomposition\\" /Fd"obj\x32\Release\ConvexDecomposition\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\Extras\ConvexDecomposition\bestfit.cpp ..\..\Extras\ConvexDecomposition\bestfitobb.cpp ..\..\Extras\ConvexDecomposition\cd_hull.cpp ..\..\Extras\ConvexDecomposition\cd_wavefront.cpp ..\..\Extras\ConvexDecomposition\concavity.cpp ..\..\Extras\ConvexDecomposition\ConvexBuilder.cpp ..\..\Extras\ConvexDecomposition\ConvexDecomposition.cpp ..\..\Extras\ConvexDecomposition\fitsphere.cpp ..\..\Extras\ConvexDecomposition\float_math.cpp ..\..\Extras\ConvexDecomposition\meshvolume.cpp ..\..\Extras\ConvexDecomposition\planetri.cpp ..\..\Extras\ConvexDecomposition\raytri.cpp ..\..\Extras\ConvexDecomposition\splitplane.cpp ..\..\Extras\ConvexDecomposition\vlookup.cpp
+         bestfit.cpp
+         bestfitobb.cpp
+         cd_hull.cpp
+         cd_wavefront.cpp
+         concavity.cpp
+         ConvexBuilder.cpp
+         ConvexDecomposition.cpp
+         fitsphere.cpp
+         float_math.cpp
+         meshvolume.cpp
+         planetri.cpp
+         raytri.cpp
+         splitplane.cpp
+         vlookup.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\..\lib\ConvexDecomposition_vs2013.lib" /NOLOGO /MACHINE:X86 obj\x32\Release\ConvexDecomposition\bestfit.obj
+         obj\x32\Release\ConvexDecomposition\bestfitobb.obj
+         obj\x32\Release\ConvexDecomposition\cd_hull.obj
+         obj\x32\Release\ConvexDecomposition\cd_wavefront.obj
+         obj\x32\Release\ConvexDecomposition\concavity.obj
+         obj\x32\Release\ConvexDecomposition\ConvexBuilder.obj
+         obj\x32\Release\ConvexDecomposition\ConvexDecomposition.obj
+         obj\x32\Release\ConvexDecomposition\fitsphere.obj
+         obj\x32\Release\ConvexDecomposition\float_math.obj
+         obj\x32\Release\ConvexDecomposition\meshvolume.obj
+         obj\x32\Release\ConvexDecomposition\planetri.obj
+         obj\x32\Release\ConvexDecomposition\raytri.obj
+         obj\x32\Release\ConvexDecomposition\splitplane.obj
+         obj\x32\Release\ConvexDecomposition\vlookup.obj
+         ConvexDecomposition.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\lib\ConvexDecomposition_vs2013.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\ConvexDecomposition.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.13

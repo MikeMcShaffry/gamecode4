@@ -1,0 +1,23 @@
+﻿Build started 7/5/2015 1:55:37 PM.
+     1>Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_RagdollDemo.vcxproj" on node 9 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /Zi /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Debug\App_RagdollDemo\\" /Fd"..\..\App_RagdollDemo_vs2013_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\Demos\RagdollDemo\main.cpp ..\..\Demos\RagdollDemo\RagdollDemo.cpp
+         main.cpp
+         RagdollDemo.cpp
+         Note: including lib: glut32.lib
+         
+         Note: including lib: glut32.lib
+         
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /l"0x0409" /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /nologo /fo"obj\x32\Debug\App_RagdollDemo\bullet.res" ..\bullet.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\App_RagdollDemo_vs2013_debug.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\..\Glut opengl32.lib glew32s.lib glut32.lib ..\..\lib\OpenGLSupport_vs2013_debug.lib ..\..\lib\BulletDynamics_vs2013_debug.lib ..\..\lib\BulletCollision_vs2013_debug.lib ..\..\lib\LinearMath_vs2013_debug.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\App_RagdollDemo_vs2013_debug.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\App_RagdollDemo_vs2013_debug.lib" /MACHINE:X86 obj\x32\Debug\App_RagdollDemo\bullet.res
+         obj\x32\Debug\App_RagdollDemo\main.obj
+         obj\x32\Debug\App_RagdollDemo\RagdollDemo.obj
+         LINK : ..\..\App_RagdollDemo_vs2013_debug.exe not found or not built by the last incremental link; performing full link
+         App_RagdollDemo.vcxproj -> D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\App_RagdollDemo_vs2013_debug.exe
+     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_RagdollDemo.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.17

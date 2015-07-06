@@ -1,0 +1,48 @@
+﻿Build started 12/31/2014 5:07:46 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\ConvexDecomposition.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\Extras\ConvexDecomposition /I..\..\src /nologo /W3 /WX- /Ox /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Release\ConvexDecomposition\\" /Fd"obj\x64\Release\ConvexDecomposition\vc120.pdb" /Gd /TP /errorReport:prompt /MP ..\..\Extras\ConvexDecomposition\bestfit.cpp ..\..\Extras\ConvexDecomposition\bestfitobb.cpp ..\..\Extras\ConvexDecomposition\cd_hull.cpp ..\..\Extras\ConvexDecomposition\cd_wavefront.cpp ..\..\Extras\ConvexDecomposition\concavity.cpp ..\..\Extras\ConvexDecomposition\ConvexBuilder.cpp ..\..\Extras\ConvexDecomposition\ConvexDecomposition.cpp ..\..\Extras\ConvexDecomposition\fitsphere.cpp ..\..\Extras\ConvexDecomposition\float_math.cpp ..\..\Extras\ConvexDecomposition\meshvolume.cpp ..\..\Extras\ConvexDecomposition\planetri.cpp ..\..\Extras\ConvexDecomposition\raytri.cpp ..\..\Extras\ConvexDecomposition\splitplane.cpp ..\..\Extras\ConvexDecomposition\vlookup.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         bestfit.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         bestfitobb.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         cd_hull.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         cd_wavefront.cpp
+         concavity.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         ConvexBuilder.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         ConvexDecomposition.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         fitsphere.cpp
+         float_math.cpp
+         meshvolume.cpp
+         planetri.cpp
+         raytri.cpp
+         splitplane.cpp
+         vlookup.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"..\..\lib\ConvexDecomposition_vs2013_x64_release.lib" /NOLOGO /MACHINE:X64 obj\x64\Release\ConvexDecomposition\bestfit.obj
+         obj\x64\Release\ConvexDecomposition\bestfitobb.obj
+         obj\x64\Release\ConvexDecomposition\cd_hull.obj
+         obj\x64\Release\ConvexDecomposition\cd_wavefront.obj
+         obj\x64\Release\ConvexDecomposition\concavity.obj
+         obj\x64\Release\ConvexDecomposition\ConvexBuilder.obj
+         obj\x64\Release\ConvexDecomposition\ConvexDecomposition.obj
+         obj\x64\Release\ConvexDecomposition\fitsphere.obj
+         obj\x64\Release\ConvexDecomposition\float_math.obj
+         obj\x64\Release\ConvexDecomposition\meshvolume.obj
+         obj\x64\Release\ConvexDecomposition\planetri.obj
+         obj\x64\Release\ConvexDecomposition\raytri.obj
+         obj\x64\Release\ConvexDecomposition\splitplane.obj
+         obj\x64\Release\ConvexDecomposition\vlookup.obj
+         ConvexDecomposition.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\lib\ConvexDecomposition_vs2013_x64_release.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\ConvexDecomposition.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.18

@@ -1,0 +1,19 @@
+﻿Build started 7/5/2015 1:54:53 PM.
+     1>Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletFileLoader.vcxproj" on node 6 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Debug\BulletFileLoader\\" /Fd"..\..\Extras\lib\BulletFileLoader_vs2013_debug.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\Extras\Serialize\BulletFileLoader\bChunk.cpp ..\..\Extras\Serialize\BulletFileLoader\bDNA.cpp ..\..\Extras\Serialize\BulletFileLoader\bFile.cpp ..\..\Extras\Serialize\BulletFileLoader\btBulletFile.cpp
+         bChunk.cpp
+         bDNA.cpp
+         bFile.cpp
+         btBulletFile.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\..\Extras\lib\BulletFileLoader_vs2013_debug.lib" /NOLOGO /MACHINE:X86 obj\x32\Debug\BulletFileLoader\bChunk.obj
+         obj\x32\Debug\BulletFileLoader\bDNA.obj
+         obj\x32\Debug\BulletFileLoader\bFile.obj
+         obj\x32\Debug\BulletFileLoader\btBulletFile.obj
+         BulletFileLoader.vcxproj -> D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\Extras\lib\BulletFileLoader_vs2013_debug.lib
+     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletFileLoader.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.30

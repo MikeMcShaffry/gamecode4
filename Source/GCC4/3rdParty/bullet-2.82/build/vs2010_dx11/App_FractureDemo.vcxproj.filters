@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Demos">
+      <UniqueIdentifier>{4C36A7D1-707C-0A41-81BE-0240B6C779E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Demos\FractureDemo">
+      <UniqueIdentifier>{D6EE7FB1-65FF-424C-81A2-7C7D38861F8B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Demos\FractureDemo\btFractureBody.h">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Demos\FractureDemo\btFractureDynamicsWorld.h">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Demos\FractureDemo\FractureDemo.h">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Demos\FractureDemo\btFractureBody.cpp">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\FractureDemo\btFractureDynamicsWorld.cpp">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\FractureDemo\FractureDemo.cpp">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\FractureDemo\main.cpp">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Demos\FractureDemo\Win32FractureDemo.cpp">
+      <Filter>Demos\FractureDemo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\bullet.rc" />
+  </ItemGroup>
+</Project>

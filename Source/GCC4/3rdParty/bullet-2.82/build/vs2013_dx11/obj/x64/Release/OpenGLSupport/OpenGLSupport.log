@@ -1,0 +1,62 @@
+﻿Build started 12/31/2014 5:07:35 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\OpenGLSupport.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\Demos\OpenGL /I..\..\src /I..\..\Glut /nologo /W3 /WX- /Ox /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Release\OpenGLSupport\\" /Fd"obj\x64\Release\OpenGLSupport\vc120.pdb" /Gd /TP /errorReport:prompt /MP ..\..\Demos\OpenGL\DemoApplication.cpp ..\..\Demos\OpenGL\GLDebugDrawer.cpp ..\..\Demos\OpenGL\GLDebugFont.cpp ..\..\Demos\OpenGL\GlutDemoApplication.cpp ..\..\Demos\OpenGL\GlutStuff.cpp ..\..\Demos\OpenGL\GL_DialogDynamicsWorld.cpp ..\..\Demos\OpenGL\GL_DialogWindow.cpp ..\..\Demos\OpenGL\GL_ShapeDrawer.cpp ..\..\Demos\OpenGL\GL_Simplex1to4.cpp ..\..\Demos\OpenGL\RenderTexture.cpp ..\..\Demos\OpenGL\stb_image.cpp ..\..\Demos\OpenGL\Win32AppMain.cpp ..\..\Demos\OpenGL\Win32DemoApplication.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         DemoApplication.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         GLDebugDrawer.cpp
+         GLDebugFont.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         GlutDemoApplication.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         GlutStuff.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         GL_DialogDynamicsWorld.cpp
+         GL_DialogWindow.cpp
+         GL_ShapeDrawer.cpp
+         Note: including lib: glut64.lib
+         
+         Note: including lib: glut64.lib
+         
+         Note: including lib: glut64.lib
+         
+         Note: including lib: glut64.lib
+         
+         Note: including lib: glut64.lib
+         
+         Note: including lib: glut64.lib
+         
+         GL_Simplex1to4.cpp
+         RenderTexture.cpp
+         stb_image.cpp
+         Win32AppMain.cpp
+     1>..\..\Demos\OpenGL\stb_image.cpp(429): warning C4244: 'initializing' : conversion from '__int64' to 'int', possible loss of data
+     1>..\..\Demos\OpenGL\stb_image.cpp(442): warning C4244: 'initializing' : conversion from '__int64' to 'int', possible loss of data
+         Win32DemoApplication.cpp
+         Note: including lib: glut64.lib
+         
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"..\..\lib\OpenGLSupport_vs2013_x64_release.lib" /NOLOGO /MACHINE:X64 obj\x64\Release\OpenGLSupport\DemoApplication.obj
+         obj\x64\Release\OpenGLSupport\GLDebugDrawer.obj
+         obj\x64\Release\OpenGLSupport\GLDebugFont.obj
+         obj\x64\Release\OpenGLSupport\GlutDemoApplication.obj
+         obj\x64\Release\OpenGLSupport\GlutStuff.obj
+         obj\x64\Release\OpenGLSupport\GL_DialogDynamicsWorld.obj
+         obj\x64\Release\OpenGLSupport\GL_DialogWindow.obj
+         obj\x64\Release\OpenGLSupport\GL_ShapeDrawer.obj
+         obj\x64\Release\OpenGLSupport\GL_Simplex1to4.obj
+         obj\x64\Release\OpenGLSupport\RenderTexture.obj
+         obj\x64\Release\OpenGLSupport\stb_image.obj
+         obj\x64\Release\OpenGLSupport\Win32AppMain.obj
+         obj\x64\Release\OpenGLSupport\Win32DemoApplication.obj
+         OpenGLSupport.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\lib\OpenGLSupport_vs2013_x64_release.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\OpenGLSupport.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.39

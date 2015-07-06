@@ -1,0 +1,25 @@
+﻿Build started 12/31/2014 5:07:51 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletFileLoader.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\src /Zi /nologo /W3 /WX- /Od /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /Gm- /RTC1 /MTd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Debug\BulletFileLoader\\" /Fd"..\..\Extras\lib\BulletFileLoader_vs2013_x64_debug.pdb" /Gd /TP /errorReport:prompt /MP ..\..\Extras\Serialize\BulletFileLoader\bChunk.cpp ..\..\Extras\Serialize\BulletFileLoader\bDNA.cpp ..\..\Extras\Serialize\BulletFileLoader\bFile.cpp ..\..\Extras\Serialize\BulletFileLoader\btBulletFile.cpp
+         bChunk.cpp
+         bDNA.cpp
+         bFile.cpp
+         btBulletFile.cpp
+     1>..\..\Extras\Serialize\BulletFileLoader\bDNA.cpp(278): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+     1>..\..\Extras\Serialize\BulletFileLoader\bDNA.cpp(526): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+     1>..\..\Extras\Serialize\BulletFileLoader\bFile.cpp(34): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+     1>..\..\Extras\Serialize\BulletFileLoader\bFile.cpp(1273): warning C4313: 'printf'  : '%d' in format string conflicts with argument 1 of type 'void *'
+     1>..\..\Extras\Serialize\BulletFileLoader\bFile.cpp(1291): warning C4313: 'printf'  : '%d' in format string conflicts with argument 1 of type 'void *'
+     1>..\..\Extras\Serialize\BulletFileLoader\bFile.cpp(1472): warning C4313: 'printf'  : '%d' in format string conflicts with argument 2 of type 'void *const '
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"..\..\Extras\lib\BulletFileLoader_vs2013_x64_debug.lib" /NOLOGO /MACHINE:X64 obj\x64\Debug\BulletFileLoader\bChunk.obj
+         obj\x64\Debug\BulletFileLoader\bDNA.obj
+         obj\x64\Debug\BulletFileLoader\bFile.obj
+         obj\x64\Debug\BulletFileLoader\btBulletFile.obj
+         BulletFileLoader.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\Extras\lib\BulletFileLoader_vs2013_x64_debug.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletFileLoader.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.50

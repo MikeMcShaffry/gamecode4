@@ -1,0 +1,25 @@
+﻿Build started 12/31/2014 5:10:20 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_GjkConvexCastDemo.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /nologo /W3 /WX- /Ox /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x64\Release\App_GjkConvexCastDemo\\" /Fd"obj\x64\Release\App_GjkConvexCastDemo\vc120.pdb" /Gd /TP /errorReport:prompt /MP ..\..\Demos\GjkConvexCastDemo\LinearConvexCastDemo.cpp ..\..\Demos\GjkConvexCastDemo\main.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+     1>cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+         LinearConvexCastDemo.cpp
+         main.cpp
+         Note: including lib: glut64.lib
+         
+         Note: including lib: glut64.lib
+         
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D GLEW_STATIC /l"0x0409" /I..\..\src /I..\..\Demos\OpenGL /I..\..\Glut /nologo /fo"obj\x64\Release\App_GjkConvexCastDemo\bullet.res" ..\bullet.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\App_GjkConvexCastDemo_vs2013_x64_release.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\Glut opengl32.lib glew64s.lib glut64.lib ..\..\lib\OpenGLSupport_vs2013_x64_release.lib ..\..\lib\BulletDynamics_vs2013_x64_release.lib ..\..\lib\BulletCollision_vs2013_x64_release.lib ..\..\lib\LinearMath_vs2013_x64_release.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"..\..\App_GjkConvexCastDemo_vs2013_x64_release.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"..\..\App_GjkConvexCastDemo_vs2013_x64_release.lib" /MACHINE:X64 obj\x64\Release\App_GjkConvexCastDemo\bullet.res
+         obj\x64\Release\App_GjkConvexCastDemo\LinearConvexCastDemo.obj
+         obj\x64\Release\App_GjkConvexCastDemo\main.obj
+         App_GjkConvexCastDemo.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\App_GjkConvexCastDemo_vs2013_x64_release.exe
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\App_GjkConvexCastDemo.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.00

@@ -1,0 +1,27 @@
+﻿Build started 12/31/2014 5:08:55 PM.
+     1>Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletSoftBody.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\src /nologo /W3 /WX- /Ox /Oy- /D _CRT_SECURE_NO_WARNINGS /D _CRT_SECURE_NO_DEPRECATE /D _HAS_EXCEPTIONS=0 /D _MBCS /GF /Gm- /MT /GS /Gy /arch:SSE /fp:fast /Zc:wchar_t /Zc:forScope /GR- /Fo"obj\x32\Release\BulletSoftBody\\" /Fd"obj\x32\Release\BulletSoftBody\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /MP ..\..\src\BulletSoftBody\btDefaultSoftBodySolver.cpp ..\..\src\BulletSoftBody\btSoftBody.cpp ..\..\src\BulletSoftBody\btSoftBodyConcaveCollisionAlgorithm.cpp ..\..\src\BulletSoftBody\btSoftBodyHelpers.cpp ..\..\src\BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.cpp ..\..\src\BulletSoftBody\btSoftRigidCollisionAlgorithm.cpp ..\..\src\BulletSoftBody\btSoftRigidDynamicsWorld.cpp ..\..\src\BulletSoftBody\btSoftSoftCollisionAlgorithm.cpp
+         btDefaultSoftBodySolver.cpp
+         btSoftBody.cpp
+         btSoftBodyConcaveCollisionAlgorithm.cpp
+         btSoftBodyHelpers.cpp
+         btSoftBodyRigidBodyCollisionConfiguration.cpp
+         btSoftRigidCollisionAlgorithm.cpp
+         btSoftRigidDynamicsWorld.cpp
+         btSoftSoftCollisionAlgorithm.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\..\lib\BulletSoftBody_vs2013.lib" /NOLOGO /MACHINE:X86 obj\x32\Release\BulletSoftBody\btDefaultSoftBodySolver.obj
+         obj\x32\Release\BulletSoftBody\btSoftBody.obj
+         obj\x32\Release\BulletSoftBody\btSoftBodyConcaveCollisionAlgorithm.obj
+         obj\x32\Release\BulletSoftBody\btSoftBodyHelpers.obj
+         obj\x32\Release\BulletSoftBody\btSoftBodyRigidBodyCollisionConfiguration.obj
+         obj\x32\Release\BulletSoftBody\btSoftRigidCollisionAlgorithm.obj
+         obj\x32\Release\BulletSoftBody\btSoftRigidDynamicsWorld.obj
+         obj\x32\Release\BulletSoftBody\btSoftSoftCollisionAlgorithm.obj
+         BulletSoftBody.vcxproj -> D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\..\..\lib\BulletSoftBody_vs2013.lib
+     1>Done Building Project "D:\ProjectsGoogleCode\GameCode4\trunk\Source\GCC4\3rdParty\bullet-2.82\build\vs2013_dx11\BulletSoftBody.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.32
