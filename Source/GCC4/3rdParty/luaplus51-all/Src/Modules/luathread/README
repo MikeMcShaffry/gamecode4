@@ -1,0 +1,20 @@
+Quick  steps before  rebuilding your  Unix Lua  distribution to  include
+LuaThreads
+
+1. Move include/*.h to lua/include
+2. Move src/lib/*.c to lua/src/lib
+3. Modify lua/config
+   a. add -DLUA_USER_H='"lthreads.h"' to DEFS
+   b. add -lpthread to EXTRA_LIBS
+4. Modify lua/src/lib/Makefile 
+   a. add lthreads.c, pt.c and srm.c to SRCS
+   b. add lthreads.o, pt.o and srm.o to OBJS
+5. Modify lua/src/lua/lua.c
+   a. add a call to lua_threadlibopen(l) to function openstdlibs
+6. Rebuild it Lua
+
+On Microsoft Visual Studio,  you  might prefer  to modify  lua.h  directly 
+to  include lthreads.h, instead of trying the -DLUA_USER_H.
+
+Good luck,
+Diego.

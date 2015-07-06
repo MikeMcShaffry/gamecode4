@@ -1,0 +1,170 @@
+<html><head></head><body>
+<p>
+String<br>
+</p><hr>
+<p>
+TODO: Pretty printing<br>
+<br>
+&nbsp;&nbsp;(Use in getopt)<br>
+<br>
+&nbsp;&nbsp;John Hughes's and Simon Peyton Jones's Pretty Printer Combinators<br>
+<br>
+&nbsp;&nbsp;Based on The Design of a Pretty-printing Library in Advanced<br>
+&nbsp;&nbsp;Functional Programming, Johan Jeuring and Erik Meijer (eds), LNCS 925<br>
+&nbsp;&nbsp;http://www.cs.chalmers.se/~rjmh/Papers/pretty.ps<br>
+&nbsp;&nbsp;Heavily modified by Simon Peyton Jones, Dec 96<br>
+<br>
+&nbsp;&nbsp;Haskell types:<br>
+&nbsp;&nbsp;data Doc&nbsp;&nbsp;&nbsp;&nbsp; list of lines<br>
+&nbsp;&nbsp;quote :: Char -> Char -> Doc -> Doc&nbsp;&nbsp;&nbsp;&nbsp;Wrap document in ...<br>
+&nbsp;&nbsp;(<>) :: Doc -> Doc -> Doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Beside<br>
+&nbsp;&nbsp;(<+>) :: Doc -> Doc -> Doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Beside, separated by space<br>
+&nbsp;&nbsp;($$) :: Doc -> Doc -> Doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Above; if there is no overlap it "dovetails" the two<br>
+&nbsp;&nbsp;nest :: Int -> Doc -> Doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nested<br>
+&nbsp;&nbsp;punctuate :: Doc -> [Doc] -> [Doc]&nbsp;&nbsp;&nbsp;&nbsp; punctuate p [d1, ... dn] = [d1 <> p, d2 <> p, ... dn-1 <> p, dn]<br>
+&nbsp;&nbsp;render&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:: Int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Line length<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> Float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ribbons per line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> (TextDetails -> a -> a) What to do with text<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; What to do at the end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> Doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The document<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-> a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Result<br>
+</p><hr>
+<p>
+<strong>__index:</strong> <em>Give strings a subscription operator<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string<br>
+&nbsp;&nbsp;<strong>n</strong>: index<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: string.sub (s, n, n)<br>
+</p><hr>
+<p>
+<strong>__append:</strong> <em>Give strings an append metamethod<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string<br>
+&nbsp;&nbsp;<strong>c</strong>: character (1-character string)<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: s .. c<br>
+</p><hr>
+<p>
+<strong>caps:</strong> <em>Capitalise each word in a string<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: capitalised string<br>
+</p><hr>
+<p>
+<strong>chomp:</strong> <em>Remove any final newline from a string<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string to process<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: processed string<br>
+</p><hr>
+<p>
+<strong>escapePattern:</strong> <em>Escape a string to be used as a pattern<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string to process<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: processed string<br>
+</p><hr>
+<p>
+<strong>escapeShell</strong>: Escape a string to be used as a shell token<br>
+Quotes spaces, parentheses, brackets, quotes, apostrophes and \s<br>
+&nbsp;&nbsp;<strong>s</strong>: string to process<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: processed string<br>
+</p><hr>
+<p>
+<strong>ordinalSuffix:</strong> <em>Return the English suffix for an ordinal<br></em>
+&nbsp;&nbsp;<strong>n</strong>: number of the day<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s</strong>: suffix<br>
+</p><hr>
+<p>
+<strong>format:</strong> <em>Extend to work better with one argument<br></em>
+If only one argument is passed, no formatting is attempted<br>
+&nbsp;&nbsp;<strong>f</strong>: format<br>
+&nbsp;&nbsp;<strong>...</strong>: arguments to format<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s</strong>: formatted string<br>
+</p><hr>
+<p>
+<strong>pad:</strong> <em>Justify a string<br></em>
+When the string is longer than w, it is truncated (left or right<br>
+according to the sign of w)<br>
+&nbsp;&nbsp;<strong>s</strong>: string to justify<br>
+&nbsp;&nbsp;<strong>w</strong>: width to justify to (-ve means right-justify; +ve means<br>
+&nbsp;&nbsp;&nbsp;&nbsp;left-justify)<br>
+&nbsp;&nbsp;<strong>[p]</strong>: string to pad with [" "]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;s_: justified string<br>
+</p><hr>
+<p>
+<strong>wrap:</strong> <em>Wrap a string into a paragraph<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string to wrap<br>
+&nbsp;&nbsp;<strong>w</strong>: width to wrap to [78]<br>
+&nbsp;&nbsp;<strong>ind</strong>: indent [0]<br>
+&nbsp;&nbsp;<strong>ind1</strong>: indent of first line [ind]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: wrapped paragraph<br>
+</p><hr>
+<p>
+<strong>numbertosi:</strong> <em>Write a number using SI suffixes<br></em>
+The number is always written to 3 s.f.<br>
+&nbsp;&nbsp;<strong>n</strong>: number<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>n_</strong>: string<br>
+</p><hr>
+<p>
+<strong>findl:</strong> <em>Do find, returning captures as a list<br></em>
+&nbsp;&nbsp;<strong>s</strong>: target string<br>
+&nbsp;&nbsp;<strong>p</strong>: pattern<br>
+&nbsp;&nbsp;<strong>[init]</strong>: start position [1]<br>
+&nbsp;&nbsp;<strong>[plain]</strong>: inhibit magic characters [nil]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>from, to</strong>: start and finish of match<br>
+&nbsp;&nbsp;<strong>capt</strong>: table of captures<br>
+</p><hr>
+<p>
+<strong>finds:</strong> <em>Do multiple find's on a string<br></em>
+&nbsp;&nbsp;<strong>s</strong>: target string<br>
+&nbsp;&nbsp;<strong>p</strong>: pattern<br>
+&nbsp;&nbsp;<strong>[init]</strong>: start position [1]<br>
+&nbsp;&nbsp;<strong>[plain]</strong>: inhibit magic characters [nil]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>l</strong>: list of {from, to; capt = {captures}}<br>
+</p><hr>
+<p>
+<strong>gsubs:</strong> <em>Perform multiple calls to gsub<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string to call gsub on<br>
+&nbsp;&nbsp;<strong>sub</strong>: {pattern1=replacement1 ...}<br>
+&nbsp;&nbsp;<strong>[n]</strong>: upper limit on replacements [infinite]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: result string<br>
+&nbsp;&nbsp;<strong>r</strong>: number of replacements made<br>
+</p><hr>
+<p>
+FIXME: Consider Perl and Python versions.<br>
+<strong>split:</strong> <em>Split a string at a given separator<br></em>
+&nbsp;&nbsp;<strong>sep</strong>: separator regex<br>
+&nbsp;&nbsp;<strong>s</strong>: string to split<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>l</strong>: list of strings<br>
+</p><hr>
+<p>
+<strong>ltrim:</strong> <em>Remove leading matter from a string<br></em>
+&nbsp;&nbsp;<strong>[r]</strong>: leading regex ["%s+"]<br>
+&nbsp;&nbsp;<strong>s</strong>: string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: string without leading r<br>
+</p><hr>
+<p>
+<strong>rtrim:</strong> <em>Remove trailing matter from a string<br></em>
+&nbsp;&nbsp;<strong>[r]</strong>: trailing regex ["%s+"]<br>
+&nbsp;&nbsp;<strong>s</strong>: string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: string without trailing r<br>
+</p><hr>
+<p>
+<strong>trim:</strong> <em>Remove leading and trailing matter from a<br></em>
+string<br>
+&nbsp;&nbsp;<strong>[r]</strong>: leading/trailing regex ["%s+"]<br>
+&nbsp;&nbsp;<strong>s</strong>: string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s_</strong>: string without leading/trailing r<br>
+</p><hr>
+</body></html>

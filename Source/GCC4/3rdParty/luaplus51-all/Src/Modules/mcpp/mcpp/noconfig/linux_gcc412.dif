@@ -1,0 +1,86 @@
+*** noconfig.H	2008-09-25 15:34:56.000000000 +0900
+--- noconfig.H.linux_gcc412	2008-09-26 13:44:07.000000000 +0900
+***************
+*** 15,21 ****
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_FREEBSD
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+--- 15,21 ----
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_LINUX
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+***************
+*** 30,36 ****
+  
+  /* Version message.                 */
+  /* "MCPP V.2.* (200y/mm) compiled by " precedes VERSION_MSG */
+! #define VERSION_MSG         "GCC 3.4"
+  #if     0
+      "LCC-Win32 2006-03"
+      "Visual C 2005"
+--- 30,36 ----
+  
+  /* Version message.                 */
+  /* "MCPP V.2.* (200y/mm) compiled by " precedes VERSION_MSG */
+! #define VERSION_MSG         "GCC 4.1"
+  #if     0
+      "LCC-Win32 2006-03"
+      "Visual C 2005"
+***************
+*** 280,291 ****
+  #if     COMPILER_FAMILY == GNUC
+  #define CMP_NAME            "GCC"
+  #define COMPILER_EXT        "__GNUC__"
+! #define COMPILER_EXT_VAL    "3"     /* "3" for V.3.* "4" for V.4.*  */
+  #define COMPILER_EXT2       "__GNUC_MINOR__"
+! #define COMPILER_EXT2_VAL   "4"     /* "4" for V.3.4, "1" for V.4.1 */
+  #define COMPILER_CPLUS      "__GNUG__"
+! #define COMPILER_CPLUS_VAL  "3"     /* "3" for V.3.*, "4" for V.4.* */
+! #define GCC_MAJOR_VERSION   3       /* Value of __GNUC__ as a digit */
+  #define LINE_PREFIX         "# "
+  #ifndef HAVE_DIGRAPHS
+  #define HAVE_DIGRAPHS       TRUE
+--- 280,291 ----
+  #if     COMPILER_FAMILY == GNUC
+  #define CMP_NAME            "GCC"
+  #define COMPILER_EXT        "__GNUC__"
+! #define COMPILER_EXT_VAL    "4"     /* "3" for V.3.* "4" for V.4.*  */
+  #define COMPILER_EXT2       "__GNUC_MINOR__"
+! #define COMPILER_EXT2_VAL   "1"     /* "4" for V.3.4, "1" for V.4.1 */
+  #define COMPILER_CPLUS      "__GNUG__"
+! #define COMPILER_CPLUS_VAL  "4"     /* "3" for V.3.*, "4" for V.4.* */
+! #define GCC_MAJOR_VERSION   4       /* Value of __GNUC__ as a digit */
+  #define LINE_PREFIX         "# "
+  #ifndef HAVE_DIGRAPHS
+  #define HAVE_DIGRAPHS       TRUE
+***************
+*** 294,303 ****
+  #define TARGET_HAVE_LONG_LONG       TRUE
+  #endif
+  #define STDC_VERSION        0L  /* 199409L for V.2.9, 0L for V.3.*,V.4.*    */
+! #define CPLUS_INCLUDE_DIR1  "/usr/include/c++/3.4"  /* "/usr/include/c++/3.3.6" */  /* "/usr/include/c++/4.1.2" */
+! #define CPLUS_INCLUDE_DIR2  "/usr/include/c++/3.4/backward"     /* "/usr/include/c++/3.3.6/i386-vine-linux" */  /* "/usr/include/c++/4.1.2/i486-linux-gnu" */
+! /* #define CPLUS_INCLUDE_DIR3   */  /* "/usr/include/c++/3.3.6/backward"    */  /* "/usr/include/c++/4.1.2/backward"    */
+! /* #define C_INCLUDE_DIR1 */    /* "/usr/lib/gcc-lib/i386-vine-linux/3.3.6/include" */  /* "/usr/lib/gcc/i486-linux-gnu/4.1.2/include" */
+  /* #define C_INCLUDE_DIR2   */
+  #ifndef INC_DIR
+  #ifdef  C_INCLUDE_DIR1
+--- 294,303 ----
+  #define TARGET_HAVE_LONG_LONG       TRUE
+  #endif
+  #define STDC_VERSION        0L  /* 199409L for V.2.9, 0L for V.3.*,V.4.*    */
+! #define CPLUS_INCLUDE_DIR1  /* "/usr/include/c++/3.4" */ /* "/usr/include/c++/3.3.6" */  "/usr/include/c++/4.1.2"
+! #define CPLUS_INCLUDE_DIR2  /* "/usr/include/c++/3.4/backward" */ /* "/usr/include/c++/3.3.6/i386-vine-linux" */  "/usr/include/c++/4.1.2/i486-linux-gnu"
+! #define CPLUS_INCLUDE_DIR3  /* "/usr/include/c++/3.3.6/backward"    */  "/usr/include/c++/4.1.2/backward"
+! #define C_INCLUDE_DIR1      /* "/usr/lib/gcc-lib/i386-vine-linux/3.3.6/include" */  "/usr/lib/gcc/i486-linux-gnu/4.1.2/include"
+  /* #define C_INCLUDE_DIR2   */
+  #ifndef INC_DIR
+  #ifdef  C_INCLUDE_DIR1

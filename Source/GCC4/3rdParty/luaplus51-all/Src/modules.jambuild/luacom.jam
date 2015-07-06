@@ -1,0 +1,72 @@
+if $(OS) = NT  &&  $(COMPILER.$(PLATFORM)) != vc6
+{
+
+local SRCS =
+		src/library/LuaAux.cpp
+		src/library/LuaAux.h
+		src/library/luabeans.cpp
+		src/library/luabeans.h
+		src/library/luacom.cpp
+		src/library/luacom5.lua
+		src/library/luacom_internal.h
+		src/library/LuaCompat.c
+		src/library/LuaCompat.h
+		src/library/t_luacom.lua
+		src/library/tCOMUtil.cpp
+		src/library/tCOMUtil.h
+		src/library/tLuaCOM.cpp
+		src/library/tLuaCOM.h
+		src/library/tLuaCOMClassFactory.cpp
+		src/library/tLuaCOMClassFactory.h
+		src/library/tLuaCOMConnPoints.cpp
+		src/library/tLuaCOMConnPoints.h
+		src/library/tLuaCOMEnumerator.cpp
+		src/library/tLuaCOMEnumerator.h
+		src/library/tLuaCOMException.cpp
+		src/library/tLuaCOMException.h
+		src/library/tLuaCOMTypeHandler.cpp
+		src/library/tLuaCOMTypeHandler.h
+		src/library/tLuaControl.cpp
+		src/library/tLuaControl.h
+		src/library/tLuaDispatch.cpp
+		src/library/tLuaDispatch.h
+		src/library/tLuaObject.cpp
+		src/library/tLuaObject.h
+		src/library/tLuaObjList.cpp
+		src/library/tLuaObjList.h
+		src/library/tLuaTLB.cpp
+		src/library/tLuaTLB.h
+		src/library/tLuaVector.cpp
+		src/library/tLuaVector.h
+		src/library/tStringBuffer.cpp
+		src/library/tStringBuffer.h
+		src/library/tUtil.cpp
+		src/library/tUtil.h
+		include/luacom.h
+		src/dll/luacom_dll.cpp
+		src/dll/luacom_dll.h
+;
+
+local luacom5.lua = <luacom>luacom5.lua ;
+SearchSource $(luacom5.lua) : src/library ;
+
+local luacom5.lo = <luacom>luacom5.lo ;
+MakeLocate $(luacom5.lo) : $(LOCATE_SOURCE) ;
+
+local luacom5.loh = <luacom>luacom5.loh ;
+MakeLocate $(luacom5.loh) : $(LOCATE_SOURCE) ;
+ForceCare $(luacom5.loh) ;
+
+Lua.ToBinary luacom : $(luacom5.lo) : $(luacom5.lua) ;
+Lua.Bin2C luacom : $(luacom5.loh) : $(luacom5.lo) ;
+
+CopyFile luacom : $(LUA_LDIR)/luacom5.lua : $(SUBDIR)/src/library/luacom5.lua ;
+
+C.Defines luacom : LUA5 "LUACOM_DLL=\\\"luacom.dll\\\"" ;
+C.IncludeDirectories luacom : include src/library ;
+C.IncludeDirectories luacom : $(LOCATE_SOURCE) ;
+
+C.LinkPrebuiltLibraries luacom : advapi32 gdi32 htmlhelp shlwapi ;
+Lua.CModule luacom : : $(SRCS) ;
+
+}

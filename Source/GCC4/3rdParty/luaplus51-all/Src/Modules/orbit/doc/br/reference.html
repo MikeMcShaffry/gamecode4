@@ -1,0 +1,260 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Orbit</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://www.keplerproject.org">
+		<img alt="Orbit" src="orbit.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>Orbit</strong></big></div>
+	<div id="product_description">MVC desenvolvimento Web em Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>Orbit</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><a href="pages.html">Pages</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><strong>Referência</strong>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><a href="example.html">Tutorial</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><a href="license.html">Licença</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Manual de Referência</h2>
+
+<p>Este é um pequeno manual de refência dos métodos do Orbit e sua aplicações. </p>
+
+<h2>Módulo <code>orbit</code></h2>
+
+<p><strong>orbit.new([<em>app</em>])</strong> - cria uma nova aplicação Orbit, retornando esta (como um módulo).
+Se <em>app</em> for uma string este é o nome da aplicação e define o campo_NAME.
+Se <em>app</em> for uma tabela, esta será usada no lugar de uma tabela vazia.
+Isso quer dizer que você pode passar <code>orbit.new</code> para a função <code>module</code> </p>
+
+<p><strong>orbit.htmlify(<em>func</em>[, <em>func</em>...])</strong> - modifica o ambiente de <em>func</em> para incluir funções que gerem HTML </p>
+
+<h2>Aplicações Orbit</h2>
+
+<p><strong>app.run(<em>wsapi_env</em>)</strong> - ponto de entrada WSAPI para aplicações, gerado pelo Orbit </p>
+
+<p><strong>app.real_path</strong> - A raiz da aplicação no sistema de arquivos,
+por default é o path inferido pelo disparador WSAPI (<code>wsapi.app\_path</code>), mas pode ser redefinido </p>
+
+<p><strong>app.mapper</strong> - mapeador usado pelo <code>app:model</code>, por default é uma instância do <code>orbit.model</code>,
+mas pode ser invalidado </p>
+
+<p><strong>app.not_found</strong> - tratador padrão, envia uma respota 404 para o cliente, pode ser redefinido.
+O handler recebe um objeto <code>web</code> </p>
+
+<p><strong>app.server_error</strong> - tratador de erro, envia uma resposta 500 com os detalhes de stack para o cliente,
+pode ser redefinido. O tratador recebe um objeto <code>web</code></p>
+
+<p><strong>app:dispatch_get(<em>func</em>, <em>patt</em>[, <em>patt</em>...])</strong> - instala a função func* como um tratador de GET
+para os padrões <em>patt</em>. <em>func</em> recebe um objeto <code>web</code> e capturas</p>
+
+<p><strong>app:dispatch_post(<em>func</em>, <em>patt</em>[, <em>patt</em>...])</strong> - instala <em>func</em> como um tratador de POST
+para os padrões <em>patt</em>. <em>func</em> recebe um objeto <code>web</code> e capturas </p>
+
+<p><strong>app:dispatch_wsapi(<em>func</em>, <em>patt</em>[, <em>patt</em>...])</strong> - instala <em>func</em> como um tratador WSAPI
+para os padrões <em>patt</em>. <em>func</em> recebe um objeto <code>web</code> e capturas </p>
+
+<p><strong>app:dispatch_static(<em>patt</em>[, <em>patt</em>...])</strong> - instala um tratador de arquivos estáticos
+para os padrões <em>patt</em>. Este tratador assume que PATH_INFO é um arquivo relativo a
+<code>app.real_path</code> e o envia para o cliente. O tipo MIME é detectado pela extensão
+(sendo o padrão application/octec-stream). </p>
+
+<p><strong>app:serve_static(<em>web</em>, <em>filename</em>)</strong> - retorna o conteúdo do arquivo <em>filename</em>
+(que pode estar em qualquer lugar do sistema), e define os cabeçalhos apropriados
+de acordo com o tipo MIME do arquivo </p>
+
+<p><strong>app:htmlify(<em>patt</em>[, <em>patt</em>...])</strong> - o mesmo que <code>orbit.htmlify</code>,
+mas altera todas funções do módulo da aplicação que correspondem aos padrões <em>patt</em> </p>
+
+<p><strong>app:model(...)</strong> - chama <code>app.mapper:new(...)</code>,
+de forma que o comportamento depende do mapeador que você estiver usando </p>
+
+<h2>Métodos `web'</h2>
+
+<p>Os objetos <em>web</em> herdam as funções do módulo <code>wsapi.util</code> como métodos </p>
+
+<p><strong>web.status</strong> - status para ser enviado para o servidor (padrão: "200 Ok") </p>
+
+<p><strong>web.headers</strong> - cabeçalhos para serem enviados para o servidor,
+uma tabela Lua (que por padrão tem Content-Type como text/html) </p>
+
+<p><strong>web.response</strong> - corpo a ser enviado para o cliente (a princípio vazio) </p>
+
+<p><strong>web.vars</strong> - ambiente WSAPI original </p>
+
+<p><strong>web.prefix</strong> - prefixo da aplicação (se determinado no módulo da aplicação) ou SCRIPT_NAME </p>
+
+<p><strong>web.suffix</strong> - sufixo da aplicação (se determinado no módulo da aplicação) </p>
+
+<p><strong>web.real_path</strong> - localização da aplicação no sistema, obtido a partir de wsapi_env.APP_PATH,
+ou do real_path do módulo, ou "." </p>
+
+<p><strong>web.doc_root, web.path_info, web.script_name, web.path_translated, web.method</strong> -
+raiz de documentos do servidor, PATH_INFO, SCRIPT_NAME, PATH_TRANSLATED,
+e REQUEST_METHOD (convertido para minúsculas)</p>
+
+<p><strong>web.GET, web.POST</strong> - variáveis GET and POST </p>
+
+<p><strong>web.input</strong> - união de web.GET e web.POST</p>
+
+<p><strong>web.cookies</strong> - cookies enviados pelo browser</p>
+
+<p><strong>web:set_cookie(<em>name</em>, <em>value</em>)</strong> - define um cookie a ser enviado de volta ao browser </p>
+
+<p><strong>web:delete_cookie(<em>name</em>)</strong> - apaga um cookie </p>
+
+<p><strong>web:redirect(<em>url</em>)</strong> - define o status e cabeçalhos e redireciona o cliente para <em>url</em> </p>
+
+<p><strong>web:link(<em>part</em>, [<em>params</em>])</strong> - cria um link interno da aplicação,
+utilizando web.prefix e web.suffix, e codificando <em>params</em> como uma query string </p>
+
+<p><strong>web:static_link(<em>part</em>)</strong> - se o ponto de entrada de uma aplicação é um script,
+ao invés de um path, cria um link para o vpath da aplicação
+(por exemplo, se o app.prefix for /foo/app.ws, cria um link para /foo/<em>part</em>),
+caso contrário equivale a web:link </p>
+
+<p><strong>web:empty(<em>s</em>)</strong> - retorna true se <em>s</em> for nil ou uma string vazia (com zero ou mais espaços) </p>
+
+<p><strong>web:empty_param(<em>name</em>)</strong> - retorna true se os parâmetros de entrada forem vazios (como web:empty) </p>
+
+<p><strong>web:page(<em>name</em>, [<em>env</em>])</strong> - carrega e trata uma página Orbit de nome <em>name</em>.
+Se <em>name</em> se inicia com / a página é relativa à raiz de documentos,
+caso contrário é relativa ao path da aplicação. Retorna a página tratada.
+<em>env</em> é um ambiente opcional com variáveis extra </p>
+
+<p><strong>web:page_inline(<em>contents</em>, [<em>env</em>])</strong> - trata uma página Orbit embutida </p>
+
+<h2>Módulo <code>orbit.cache</code></h2>
+
+<p><strong>orbit.cache.new(<em>app</em>, [<em>base_path</em>])</strong> - cria um cache de páginas para a aplicação <em>app</em>,
+em memória ou no sistema de arquivos como <em>base_path</em> (<em>não</em> relativo ao path da aplicação!),
+retorna o objeto de cache </p>
+
+<p><strong>a_cache(<em>handler</em>)</strong> - torna o tratador <em>handler</em> cacheado, retornando um novo tratador;
+utiliza o PATH_INFO como chave do cache </p>
+
+<p><strong>a_cache:get(<em>key</em>)</strong> - obtém o valor armazenado na chave <em>key</em>;
+geralmente não utilizada, use a função anterior </p>
+
+<p><strong>a_cache:set(<em>key</em>, <em>val</em>)</strong> - armazena um valor no cache;
+use a_cache(<em>handler</em>) para encapsular este comportamento </p>
+
+<p><strong>a_cache:invalidate(<em>key</em>)</strong> - invalida um valor do cache </p>
+
+<p><strong>a_cache:nuke()</strong> - esvazia o cache </p>
+
+<h2>Módulo <code>orbit.model</code></h2>
+
+<p><strong>orbit.model.new([<em>table_prefix</em>], [<em>conn</em>], [<em>driver</em>])</strong> - cria um novo mapeamento ORM (objeto relacional).
+<em>table_prefix</em> (padrão "") é uma string adicionada ao início dos nomes de modelos para obter nomes de tabelas;
+<em>conn</em> é a conexão de banco de dados (pode ser definida posteriormente);
+<em>driver</em> é o tipo de banco de dados (atualmente "sqlite3", o padrão, ou "mysql").
+Retorna uma instância do mapeador e todos os parâmetros podem ser definidos
+após a criação desta instância (utilizando a_mapper.table_prefix, a_mapper.conn e a_mapper.driver)</p>
+
+<p><strong>a_mapper:new(<em>name</em>, [<em>tab</em>])</strong> - cria um novo objeto de modelo;
+<em>name</em> é usado junto com a_mapper.table_prefix para formar o nome da tabela no banco de dados;
+campos e tipos são instrospectados a partir da tabela.
+<em>tab</em> é uma tabela opcional que é usada como base para o objeto modelo, caso exista </p>
+
+<p><strong>a_model.model</strong> - o mapeador para este modelo </p>
+
+<p><strong>a_model.name, a_model.table_name</strong> - o nome do modelo e de sua tabela de armazenamento </p>
+
+<p><strong>a_model.driver</strong> - o driver de banco de dados utilizado </p>
+
+<p><strong>a_model.meta</strong> - metainformação sobre o modelo, instrospectada a partir da tabela de dados </p>
+
+<p><strong>a_model:find(<em>id</em>)</strong> - busca e retorna a instância do modelo com o <em>id</em> passado
+(indexado através da coluna <code>id</code>, numérica,  da tabela) </p>
+
+<p><strong>a_model:find_first(<em>condition</em>, <em>args</em>)</strong> - busca e retorna a primeira instância do modelo
+que corresponde à condição <em>condition</em>; <em>args</em> pode determinar a ordem (args.order) ou injetar
+campos de outras tabelas (args.inject) </p>
+
+<p>Exemplo: <code>books:find_first("author = ? and year_pub &gt; ?", { "John Doe", 1995, order = "year_pub asc" })</code> </p>
+
+<p><strong>a_model:find_all(<em>condition</em>, <em>args</em>)</strong> - busca e retorna todas as instâncias do modelo que correspondem
+à condição <em>condition</em>; <em>args</em> pode determinar a ordem (args.order) ou injetar campos de outras tabelas
+(args.inject) </p>
+
+<p><strong>a_model:new([<em>tab</em>])</strong> - cria uma nova instância do modelo, opcionalmente usando <em>tab</em>
+como os valores iniciais </p>
+
+<p><strong>a_model:find_by_xxx(<em>args</em>)</strong> - busca e retorna a primeira instância do modelo montando
+a condição a partir do nome do método, como no ActiveRecord do Rails </p>
+
+<p><strong>a_model:find_all_by_xxx(<em>args</em>)</strong> - busca e retorna todas as instâncias do modelo montando
+a condição a partir do nome do método, como no ActiveRecord do Rails </p>
+
+<p>Exemplo: <code>books:find_all_by_author_or_author{ "John Doe", "Jane Doe", order = "year_pub asc" }</code> </p>
+
+<p><strong>an_instance:save([<em>force_insert</em>])</strong> - grava uma instância no banco de dados,
+atualizando as mudanças ou criando um novo registro caso a instância seja nova;
+se <em>force_insert</em> for true sempre faz uma inserção antes de uma atualização </p>
+
+<p>Se existir uma coluna chamada <code>created_at</code> esta linha é definida como a data de criação do registro;
+ se existir uma coluna chamada <code>updated_at</code>, esta linha é definida como a data de última atualização do registro. </p>
+
+<p><strong>an_instance:delete()</strong> - remove uma instância do banco de dados </p>
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

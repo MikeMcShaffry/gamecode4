@@ -1,0 +1,57 @@
+{
+
+SubDir LUAPLUS Samples UnitTest++ ;
+
+local WIN32_SRCS =
+		src/Win32/TimeHelpers.cpp
+		src/Win32/TimeHelpers.h
+;
+
+local SRCS =
+		src/AssertException.cpp
+		src/AssertException.h
+		src/CheckMacros.h
+		src/Checks.cpp
+		src/Checks.h
+		src/Config.h
+		src/CurrentTest.cpp
+		src/CurrentTest.h
+		src/DeferredTestReporter.cpp
+		src/DeferredTestReporter.h
+		src/DeferredTestResult.cpp
+		src/DeferredTestResult.h
+		src/ExecuteTest.h
+		src/MemoryOutStream.cpp
+		src/MemoryOutStream.h
+		src/ReportAssert.cpp
+		src/ReportAssert.h
+		src/Test.cpp
+		src/Test.h
+		src/TestDetails.cpp
+		src/TestDetails.h
+		src/TestList.cpp
+		src/TestList.h
+		src/TestMacros.h
+		src/TestReporter.cpp
+		src/TestReporter.h
+		src/TestReporterStdout.cpp
+		src/TestReporterStdout.h
+		src/TestResults.cpp
+		src/TestResults.h
+		src/TestRunner.cpp
+		src/TestRunner.h
+		src/TestSuite.h
+		src/TimeConstraint.cpp
+		src/TimeConstraint.h
+		src/TimeHelpers.h
+		src/UnitTest++.h
+		src/XmlTestReporter.cpp
+		src/XmlTestReporter.h
+		$(WIN32_SRCS)
+;
+
+SourceGroup UnitTest++ : Win32 : $(WIN32_SRCS) ;
+
+C.Library UnitTest++ : $(SRCS) ;
+
+}

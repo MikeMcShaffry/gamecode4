@@ -1,0 +1,83 @@
+#!/usr/bin/env op.cgi
+
+$lua{[[
+  require "luasql.sqlite3"
+  local schema = require "orbit.schema"
+  app.conn = app.conn or recycle(function () return luasql.sqlite3():connect(web.real_path .. "/todo.db") end, 20)
+  mapper.conn = app.conn
+  mapper.schema = schema.loadstring([[
+    todo_list = entity {
+      fields = {
+         id = key(),
+         title = text(),
+         done = boolean(),
+         created_at = timestamp()
+      }
+    }
+  ]], "@todo_schema.lua")
+
+  todo_list = model("todo_list")
+  if web.method == "post" then
+    if web.input.id then
+      local item = todo_list:find(tonumber(web.input.id))
+      if web.input.toggle then
+        item.done = not item.done
+        item:save()
+      elseif web.input.remove then
+        item:delete()
+        forward("items.op")
+      end
+      finish()
+    else
+      local item = todo_list:new()
+      item.title = web.input.item or ""
+      item:save()
+      forward("items.op")
+    end
+  end
+]]}
+
+<html>
+<head>
+<title>To-do List</title>
+<script type="text/javascript" src="$static_link{'/jquery-1.2.3.min.js'}"></script>
+<script>
+function set_callbacks() {
+  $$(".remove").click(function () {
+    $$("#items>[item_id=" + $$(this).attr("item_id") +"]").slideUp("slow");
+    $$("#items").load("$link{ '/' }", { id: $$(this).attr("item_id"), remove: true },
+      function () { set_callbacks(); });
+  });
+  $$(".item").click(function () {
+    $$.post("$link{ '/' }", { id: $$(this).attr("item_id"), toggle: true });
+  });
+}
+
+$$(document).ready(function () {
+  $$("#add").submit(function () {
+    $$("#button").attr("disabled", true);
+    $$("#items").load("$link{ '/' }", { item: $$("#title").val()  }, 
+      function () { $$("#title").val(""); set_callbacks(); 
+      $$("#button").attr("disabled",false); });
+    return false;
+  });
+  set_callbacks();
+});
+</script>
+<style>
+ul { padding-left: 0px; }
+li { list-style-type: none;} 
+.remove { font-size: xx-small; }
+</style>
+</head>
+<body>
+<h1>To-do</h1>
+<ul id="items">
+$include{ "items.op" }
+</ul>
+<form id = "add" method = "POST" action = "$link{'/'}">
+<input id = "title" type = "text" name = "item" size = 30 />
+<input id = "button" type = "submit" value = "Add" />
+</form>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+
+local SRCS =
+		lpeg.c
+		re.lua
+;
+
+CopyFile lpeg : $(LUA_LDIR)/re.lua : $(SUBDIR)/re.lua ;
+
+Lua.CModule lpeg : : $(SRCS) ;
+
+}

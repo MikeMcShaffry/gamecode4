@@ -1,0 +1,13 @@
+{
+
+local XMLRPC_SRCS =
+		http.lua
+		init.lua
+		server.lua
+;
+
+Lua.Module luaxmlrpc : : $(XMLRPC_SRCS) ;
+
+CopyFiles luaxmlrpc : $(LUA_LDIR)/xmlrpc : $(SUBDIR)/src/$(XMLRPC_SRCS) ;
+
+}

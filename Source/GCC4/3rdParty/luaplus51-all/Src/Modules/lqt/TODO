@@ -1,0 +1,5 @@
+
+- update doc: what is Trolltech ;)
+- test add_library with MODULE because plugins are modlules for cmake
+- add remeaining Qt lib, see end of CMakeLists
+- fix cmake script to use external cpptoxml, until then build also cpptoxml

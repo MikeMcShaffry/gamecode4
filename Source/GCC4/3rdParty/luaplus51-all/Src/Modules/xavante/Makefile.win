@@ -1,0 +1,19 @@
+# $Id: Makefile.win,v 1.24 2008/04/04 20:00:00 mascarenhas Exp $
+
+include config.win
+
+XAVANTE_START= src\xavante_start
+SAJAX_LUAS = src\sajax\sajax.lua
+XAVANTE_LUAS= src\xavante\cgiluahandler.lua src\xavante\encoding.lua src\xavante\filehandler.lua src\xavante\httpd.lua src\xavante\mime.lua src\xavante\patternhandler.lua src\xavante\redirecthandler.lua  src\xavante\ruleshandler.lua src\xavante\vhostshandler.lua src\xavante\indexhandler.lua src\xavante\urlhandler.lua
+DOCS= doc\us\index.html doc\us\license.html doc\us\manual.html doc\us\sajax.html doc\us\xavante.gif
+
+all:
+
+install:
+	IF NOT EXIST "$(LUA_DIR)" mkdir "$(LUA_DIR)"
+	copy $(SAJAX_LUAS) "$(LUA_DIR)\sajax.lua"
+	IF NOT EXIST "$(LUA_DIR)\xavante" mkdir "$(LUA_DIR)\xavante"
+	FOR %i IN ($(XAVANTE_LUAS)) DO copy %i "$(LUA_DIR)\xavante"
+	copy src\xavante\xavante.lua "$(LUA_DIR)\"
+
+clean:

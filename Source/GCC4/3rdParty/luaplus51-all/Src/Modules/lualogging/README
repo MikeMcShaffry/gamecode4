@@ -1,0 +1,15 @@
+LuaLogging
+----------
+http://www.keplerproject.org/lualogging/
+
+LuaLogging provides a simple API to use logging features in Lua.
+Its design was based on log4j. LuaLogging currently supports,
+through the use of appenders, console, file, email, socket and sql outputs.
+
+Current version is 1.1.4. It was developed for Lua 5.1.
+
+LuaLogging is free software and uses the same license as Lua 5.1. It is part of the Kepler Project. 
+
+To install LuaLogging, copy the "logging" directory to your package.path
+
+Please see docs at http://www.keplerproject.org/lualogging for more details

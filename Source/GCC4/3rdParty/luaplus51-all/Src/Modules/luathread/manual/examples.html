@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta name="description" content="The LuaThread Homepage">
+<meta name="keywords" content="Lua, Library, Multi-Threading, Threads,
+Examples">
+<title>LuaThread: Examples</title>
+<link rel="stylesheet" href="reference.css" type="text/css">
+</head>
+
+<body>
+
+<!-- header +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=header>
+<hr>
+<center>
+<table summary="LuaThread logo">
+<tr><td align=center><a href="http://www.lua.org">
+<img width=128 height=128 border=0 alt="LuaThread" src="luathread.png">
+</a></td></tr>
+<tr><td align=center valign=top>Multi-(platform|threading) support for the
+Lua language
+</td></tr>
+</table>
+<p class=bar>
+<a href="home.html">home</a> &middot;
+<a href="installation.html">installation</a> &middot;
+<a href="examples.html">examples</a> &middot;
+<a href="reference.html">reference</a> 
+</p>
+</center>
+<hr>
+</div>
+
+<!-- samples ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<h2>Examples</h2>
+
+<p>
+Below are some simple examples of multi-threaded Lua scripts. As people
+send me more nice examples, I will add them to this page. It would be
+interesting to have solutions to the basic IPC problems available here.
+</p>
+
+<h3>As simple as it gets</h3>
+
+<p>
+This simple program uses two independent threads of execution to flood the
+terminal with the words "<tt>parent</tt>" and "<tt>child</tt>", separated 
+by commas. </p>
+
+<pre class=example>
+local function flood(output, word)
+    while 1 do 
+        output:lock()
+        io.write(word, ", ")
+        output:unlock()
+    end
+end
+
+local output = thread.newmutex()
+thread.newthread(flood, {output, "child"})
+flood(output, "parent")
+</pre>
+
+<p>
+A snippet the output could look like the text below: </p>
+
+<pre class=example>
+parent, parent, parent, child, child, child, parent, child, child, child,
+parent, parent, child, child, child, parent, parent, parent, child, child,
+parent, parent, child, child, parent, parent, parent, child, parent, ...
+</pre>
+
+<p>
+Note that  if the  <tt>output</tt> mutex  was not  in use,  the result
+could have included an output such as the following: </p>
+
+<pre class=example>
+parent,  <b>parentchild,</b>  ,  parent, child,  child,  child,  parent,
+child, child,  child, parent, parent, <b>childparent</b>,  child, child,
+parent,  parent, parent,  child,  child, parent,  parent, child,  child,
+parent, parent, parent, child, parent, ... 
+</pre>
+
+<p>That is because between writing the word and the comma, each thread
+could be preempted and control could be handed to the other thread. This is
+what the <tt>output</tt> mutex prevents.</p>
+
+<h3>Producer-consumer</h3>
+
+<p>
+Below is a program solving the classic producer-consumer problem. The
+code uses a the <tt>thread.queue</tt> module, which encapsulates all the synchronization: 
+</p>
+
+<pre class=example>
+SIZE = 128
+
+local thread = require("thread")
+local queue = require("thread.queue")
+
+local fifo = queue.newqueue(SIZE)
+local output = thread.newmutex()
+
+function newcount()
+    local mutex = thread.newmutex()
+    local value = 1
+    return function ()
+        mutex:lock()
+        local v = value
+        value = value + 1
+        mutex:unlock()
+        return v
+    end
+end
+
+local count = newcount()
+
+function consumer(fifo, output)
+    while 1 do
+        local value = fifo:remove()
+        output:lock()
+        io.write("consumer removed ", value, "\n")
+        output:unlock()
+    end
+end
+
+function producer(count, fifo, output)
+    while 1 do
+        local value = count()
+        fifo:insert(value)
+        output:lock()
+        io.write("producer inserted ", value, "\n")
+        output:unlock()
+    end
+end
+
+-- run consumer function in a new thread
+thread.newthread(consumer, {fifo, output})
+
+-- run producer function in the main thread
+producer(count, fifo, output)
+</pre>
+
+<p> In summary, the consumer thread loops removing elements from the queue,
+while the producer thread loops inserting elements. When the queue is
+empty, the consumer is blocked by the queue until there are more elements
+available (i.e., until the producer threads inserts a new element). When
+the queue is full, the producer is blocked by the queue until there is a
+free slot (i.e., until the consumer removes an element). </p>
+
+<!-- footer +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=footer>
+<hr>
+<center>
+<p class=bar>
+<a href="home.html">home</a> &middot;
+<a href="installation.html">installation</a>  &middot;
+<a href="examples.html">examples</a>  &middot;
+<a href="reference.html">reference</a> 
+</p>
+<p>
+<small>
+Last modified by Diego Nehab on <br>
+Thu Jun 17 02:47:14 EDT 2004
+</small>
+</p>
+</center>
+</div>
+
+</body>
+</html>

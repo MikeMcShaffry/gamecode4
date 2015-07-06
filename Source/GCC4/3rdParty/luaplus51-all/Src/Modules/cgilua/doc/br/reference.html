@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>CGILua: gera&ccedil;&atilde;o de scripts para a Web usando Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org"><img alt="Logotipo do CGILua" src="cgi-128.gif"/></a></div>
+	<div id="product_name"><big><strong>CGILua</strong></big></div>
+	<div id="product_description">Gera&ccedil;&atilde;o de scripts para a Web usando Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><a href="index.html">In&iacute;cio</a>
+			<ul>
+				<li><a href="index.html#overview">Vis&atilde;o geral</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">Hist&oacute;rico</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilidades</a></li>
+				<li><a href="index.html#credits">Cr&eacute;ditos</a></li>
+				<li><a href="index.html#contact">Fale conosco</a></li>
+			</ul>
+		</li>
+		<li><a href="manual.html">Manual</a>
+			<ul>
+				<li><a href="manual.html#intro">Introdu&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#installation">Instala&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#config">Configura&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Par&acirc;metros</a></li>
+			</ul>
+		</li>
+		<li><strong>Refer&ecirc;ncia</strong>
+			<ul>
+				<li><a href="reference.html#headers">Cabe&ccedil;alhos</a></li>
+				<li><a href="reference.html#contents">Gera&ccedil;&atilde;o de conte&uacute;do</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">Vari&aacute;veis do CGILua</a></li>
+				<li><a href="reference.html#error_handling">Tratamento de erros</a></li>
+				<li><a href="reference.html#behavior">Comportamento do CGILua</a></li>
+				<li><a href="reference.html#urlcode">Codifica&ccedil;&atilde;o de URL</a></li>
+				<li><a href="reference.html#auxiliar">Fun&ccedil;&otilde;es auxiliares</a></li>
+				<li><a href="reference.html#index">&Iacute;ndice alfab&eacute;tico</a></li>
+
+			</ul>
+		</li>
+		<li><a href="libraries.html">Bibliotecas</a>
+			<ul>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><a href="sapi.html">SAPI</a></li>
+		<li><a href="license.html">Licen&ccedil;as</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2><a name="headers"></a>Cabe&ccedil;alhos</h2>
+
+<p>As fun&ccedil;&otilde;es de cabe&ccedil;alho s&atilde;o usadas para alterar os cabe&ccedil;alhos de resposta HTTP e consistem em:</p>
+
+<dl class="reference">
+    <dt><a name="contentheader"></a><strong><code>cgilua.contentheader (type, subtype)</code></strong></dt>
+    <dd>Envia um cabe&ccedil;alho <em>Content-type</em> com os valores dados de tipo e subtipo.<br/> Ambos os argumentos s&atilde;o strings: <code>type</code> &eacute; o tipo do cabe&ccedil;alho; <code>subtype</code> &eacute; o subtipo do cabe&ccedil;alho.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="header"></a><strong><code>cgilua.header (header, value)</code></strong></dt>
+    <dd>Envia um cabe&ccedil;alho gen&eacute;rico. Esta fun&ccedil;&atilde;o <em>n&atilde;o</em> deve ser usada para gerar um cabe&ccedil;alho <em>Content-type</em> ou <em>Location</em>.<br/> Ambos os argumentos s&atilde;o strings: <code>header</code> &eacute; o nome do cabe&ccedil;alho e <code>value</code>, seu valor.<br/> N&atilde;o retorna nada.</dd>
+
+    <dt><a name="htmlheader"></a><strong><code>cgilua.htmlheader ()</code></strong></dt>
+    <dd>Envia o cabe&ccedil;alho de um arquivo HTML (<em>Content-type: text/html</em>).<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="redirect"></a><strong><code>cgilua.redirect (url, args)</code></strong></dt>
+    <dd>Envia o cabe&ccedil;alho para for&ccedil;ar o redirecionamento para a URL dada, adicionando os par&acirc;metros na tabela <code>args</code> relativos &agrave; nova URL.<br/> O primeiro argumento (<code>url</code>) &eacute; a URL &agrave; qual o navegador deve ser redirecionado; o segundo (<code>args</code>) &eacute; uma tabela opcional que pode conter pares <em>nome = valor</em> que ser&atilde;o codificados para formar um URL v&aacute;lido (consulte a fun&ccedil;&atilde;o <a href="#encodetable">cgilua.urlcode.encodetable</a>).<br/> N&atilde;o retorna nada.</dd>
+</dl>
+
+
+<h2><a name="contents"></a>Gera&ccedil;&atilde;o de conte&uacute;do</h2>
+
+<p>As fun&ccedil;&otilde;es de gera&ccedil;&atilde;o de conte&uacute;do s&atilde;o usadas para produzir texto para a resposta e gerar URLs no formato do CGILua. Elas consistem em:</p>
+
+<dl class="reference">
+    <dt><a name="mkabsoluteurl"></a><strong><code>cgilua.mkabsoluteurl (path)</code></strong></dt>
+    <dd>Cria uma URL absoluta contendo <code>path</code> da URL dada.<br/> Retorna a URL absoluta resultante.</dd>
+    
+    <dt><a name="mkurlpath"></a><strong><code>cgilua.mkurlpath (script [, args])</code></strong></dt>
+    <dd>Cria o caminho de uma URL a ser usado como link para um <code>script</code> CGILua usando a tabela opcional de argumentos (<code>args</code>). Os argumentos s&atilde;o usados na URL como par&acirc;metros de string de consulta.<br/> Retorna a URL resultante.</dd>
+    
+    <dt><a name="put"></a><strong><code>cgilua.put (string)</code></strong></dt>
+    <dd>Envia a <code>string</code> dada para o cliente.<br/> N&atilde;o retorna nada.</dd>
+</dl>
+
+<h2><a name="lp"></a>Lua Pages</h2>
+
+<p>As fun&ccedil;&otilde;es de Lua Pages s&atilde;o usadas para processar templates Lua Pages e definir o comportamento desse processamento. Elas consistem em:</p>
+
+<dl class="reference">
+    <dt><a name="handlelp"></a><strong><code>cgilua.handlelp (filename)</code></strong></dt>
+    <dd>Equivale a <a href="include"><code>cgilua.lp.include</code></a>, mas envia o cabe&ccedil;alho HTML antes do arquivo pr&eacute;-processado.<br/> N&atilde;o retorna nada.</dd>
+
+    <dt><a name="include"></a><strong><code>cgilua.lp.include (filename)</code></strong></dt>
+    <dd>Pr&eacute;-processa um template Lua Page (fornecido por <code>filename</code>) e envia o resultado para o cliente.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="setcompatmode"></a><strong><code>cgilua.lp.setcompatmode (boolean)</code></strong></dt>
+    <dd>Ativa e desativa o modo de compatibilidade. A ativa&ccedil;&atilde;o far&aacute; com que o pr&eacute;-processador de Lua Pages entenda as estruturas de <em>campos de express&atilde;o</em> e <em>campos de c&oacute;digo</em> usadas por vers&otilde;es anteriores do CGILua.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="setoutfunc"></a><strong><code>cgilua.lp.setoutfunc (funcname)</code></strong></dt>
+    <dd>Define o nome da fun&ccedil;&atilde;o de resultado de templates. O pr&eacute;-processador Lua Pages gera chamadas para a fun&ccedil;&atilde;o com o <code>funcname</code> fornecido (uma string).<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="translate"></a><strong><code>cgilua.lp.translate (string)</code></strong></dt>
+    <dd>Usa o pr&eacute;-processador Lua Pages para gerar uma string correspondente ao c&oacute;digo Lua que executa express&otilde;es e/ou chunks em Lua dentro da <code>string</code> fornecida.<br/> Retorna uma string com o c&oacute;digo Lua resultante.</dd>
+</dl>
+
+
+<h2><a name="variables"></a>Vari&aacute;veis do CGILua</h2>
+
+<p>As vari&aacute;veis do CGILua oferecem informa&ccedil;&otilde;es sobre o script em processamento e as <a href="sapi.html#servervariable">vari&aacute;veis de ambiente do CGI</a>. Elas consistem em atributos e fun&ccedil;&otilde;es:</p>
+
+<dl class="reference">
+    <dt><a name="script_file"></a><strong><code>cgilua.script_file</code></strong></dt>
+    <dd>O nome do arquivo do script em execu&ccedil;&atilde;o. Obtido de <a href="#script_path"><code>cgilua.script_path</code></a>.</dd>
+    
+    <dt><a name="script_path"></a><strong><code>cgilua.script_path</code></strong></dt>
+    <dd>O caminho completo do arquivo do script em execu&ccedil;&atilde;o. Esta vari&aacute;vel normalmente &eacute; igual &agrave; <a href="sapi.html#servervariable">vari&aacute;vel de ambiente do CGI</a> <code>PATH_TRANSLATED</code>.</dd>
+    
+    <dt><a name="script_pdir"></a><strong><code>cgilua.script_pdir</code></strong></dt>
+    <dd>O diret&oacute;rio do script em execu&ccedil;&atilde;o. Obtido de <a href="#script_path"><code>cgilua.script_path</code></a>.</dd>
+    
+    <dt><a name="script_vdir"></a><strong><code>cgilua.script_vdir</code></strong></dt>
+    <dd>O diret&oacute;rio virtual do script em execu&ccedil;&atilde;o. Obtido de <a href="#script_vpath"><code>cgilua.script_vpath</code></a>.</dd>
+    
+    <dt><a name="script_vpath"></a><strong><code>cgilua.script_vpath</code></strong></dt>
+    <dd>O caminho virtual completo do arquivo do script em execu&ccedil;&atilde;o. Equivale &agrave; <a href="sapi.html#servervariable">vari&aacute;vel de ambiente do CGI</a> <code>PATH_INFO</code>.</dd>
+    
+    <dt><a name="servervariable"></a><strong><code>cgilua.servervariable (varname)</code></strong></dt>
+    <dd>Retorna uma string com o valor da vari&aacute;vel de ambiente do CGI que corresponde a <code>varname</code>. Para obter uma lista das vari&aacute;veis do CGI, consulte <a href="sapi.html#servervariable">SAPI.Request.servervariable</a>.</dd>
+    
+    <dt><a name="urlpath"></a><strong><code>cgilua.urlpath</code></strong></dt>
+    <dd>O nome do script. Equivale &agrave; <a href="sapi.html#servervariable">vari&aacute;vel de ambiente do CGI</a> <code>SCRIPT_NAME</code>.</dd>
+</dl>
+
+<h2><a name="error_handling"></a>Tratamento de erros</h2>
+
+<p>As fun&ccedil;&otilde;es de tratamento de erros do CGILua permitem a redefini&ccedil;&atilde;o de como os erros s&atilde;o tratados e apresentados ao usu&aacute;rio. Elas consistem em:</p>
+
+<dl class="reference">
+    <dt><a name="errorlog"></a><strong><code>cgilua.errorlog (string)</code></strong></dt>
+    <dd>Envia a <code>string</code> dada para o arquivo de log de erros.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="seterrorhandler"></a><strong><code>cgilua.seterrorhandler (func)</code></strong></dt>
+    <dd>Define a tratador de erros como <code>func</code>. Esta fun&ccedil;&atilde;o &eacute; chamada pela Lua quando ocorre um erro. Ela recebe a mensagem de erro gerada pela Lua e &eacute; respons&aacute;vel por gerar e retornar o erro correto que deve ser usado pelo CGILua.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="seterroroutput"></a><strong><code>cgilua.seterroroutput (func)</code></strong></dt>
+    <dd>Define a fun&ccedil;&atilde;o respons&aacute;vel pela apresenta&ccedil;&atilde;o de erros como <code>func</code>. Esta fun&ccedil;&atilde;o &eacute; chamada pela Lua para gerar o resultado do erro.<br/> N&atilde;o retorna nada.</dd>
+</dl>
+
+<h2><a name="behavior"></a>Comportamento do CGILua</h2>
+
+<p>O comportamento do CGILua pode ser configurado com o uso deste conjunto de fun&ccedil;&otilde;es:</p>
+
+<dl class="reference">
+    <dt><a name="addclosefunction"></a><strong><code>cgilua.addclosefunction (func)</code></strong></dt>
+    <dd>Define uma fun&ccedil;&atilde;o (<code>func</code>) para ser chamada ap&oacute;s a execu&ccedil;&atilde;o do CGILua.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="addopenfunction"></a><strong><code>cgilua.addopenfunction (func)</code></strong></dt>
+    <dd>Define uma fun&ccedil;&atilde;o (<code>func</code>) para ser chamada antes da execu&ccedil;&atilde;o do CGILua.<br/> N&atilde;o retorna nada.</dd>
+
+    <dt><a name="addscripthandler"></a><strong><code>cgilua.addscripthandler (ext, func)</code></strong></dt>
+    <dd>Define uma fun&ccedil;&atilde;o (<code>func</code>) para pr&eacute;-processar os arquivos com uma determinada extens&atilde;o (<code>ext</code>). A configura&ccedil;&atilde;o padr&atilde;o usa <a href="#doscript"><code>cgilua.doscript</code></a> para processar Lua Scripts (arquivos <code>.lua</code>) e <a href="#handlelp"><code>cgilua.handlelp</code></a> para processar Lua Pages (arquivos <code>.lp</code>).<br/> N&atilde;o retorna nada.</dd>
+
+    <dt><a name="buildplainhandler"></a><strong><code>cgilua.buildplainhandler (type, subtype)</code></strong></dt>
+    <dd>Cria um <em>tratador de scripts</em> que envia o cabe&ccedil;alho fornecido e o arquivo sem formata&ccedil;&atilde;o solicitado. O cabe&ccedil;alho <em>Content-type</em> &eacute; formado pelos dois argumentos; a fun&ccedil;&atilde;o criada recebe um <em>nome de arquivo</em> como &uacute;nico argumento e retorna o nome de arquivo dado sem altera&ccedil;&otilde;es.<br/> Retorna uma fun&ccedil;&atilde;o.</dd>
+    
+    <dt><a name="buildprocesshandler"></a><strong><code>cgilua.buildprocesshandler (type, subtype)</code></strong></dt>
+    <dd>Cria um <em>tratador de scripts</em> que envia o cabe&ccedil;alho fornecido e o arquivo processado solicitado. O cabe&ccedil;alho <em>Content-type</em> &eacute; formado pelos dois argumentos; a fun&ccedil;&atilde;o criada recebe um <em>nome de arquivo</em> como &uacute;nico argumento e retorna o nome de arquivo dado pr&eacute;-processado pela fun&ccedil;&atilde;o <a href="#include">cgilua.lp.include</a>.<br/> Retorna uma fun&ccedil;&atilde;o.</dd>
+    
+    <dt><a name="setlibdir"></a><strong><code>cgilua.setlibdir (dir)</code></strong></dt>
+    <dd>Define o diret&oacute;rio de bibliotecas padr&atilde;o do CGILua. Esse valor &eacute; usado para criar o <code>LUA_PATH</code> usado pela fun&ccedil;&atilde;o <code>require</code> (<code>require</code> &eacute; redefinida pelo CGILua).<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="setmaxfilesize"></a><strong><code>cgilua.setmaxfilesize (size)</code></strong></dt>
+    <dd>Define o <code>tamanho</code> m&aacute;ximo (em bytes) de cada arquivo cujo upload seja feito. Esse valor &eacute; limitado pelo <em>tamanho m&aacute;ximo de entrada total</em> (consulte <a href="#setmaxinput">cgilua.setmaxinput</a>). Esta fun&ccedil;&atilde;o s&oacute; passa a vigorar se usada antes do processamento dos dados de POST, portanto, seu uso em scripts &eacute; irrelevante.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="setmaxinput"></a><strong><code>cgilua.setmaxinput (size)</code></strong></dt>
+    <dd>Define o <code>tamanho</code> de <em>entrada total m&aacute;xima</em> permitido (em bytes). Esta fun&ccedil;&atilde;o s&oacute; passa a vigorar se usada antes do processamento dos dados de POST, portanto, seu uso em scripts &eacute; irrelevante.<br/> N&atilde;o retorna nada.</dd>
+</dl>
+
+<h2><a name="urlcode"></a>Fun&ccedil;&otilde;es de codifica&ccedil;&atilde;o de URL</h2>
+
+<p>As fun&ccedil;&otilde;es de codifica&ccedil;&atilde;o do CGILua permitem que o processamento de strings de URL seja feito de maneira simples:</p>
+
+<dl class="reference">
+    <dt><a name="encodetable"></a><strong><code>cgilua.urlcode.encodetable (table)</code></strong></dt>
+    <dd><em>Codifica em formato URL</em> os elementos de uma <code>tabela</code>, criando uma string usada como URL para informar dados/par&acirc;metros a outro script.<br/> Retorna uma string representando a tabela de argumentos codificada.</dd>
+    
+    <dt><a name="escape"></a><strong><code>cgilua.urlcode.escape (string)</code></strong></dt>
+    <dd><em>Codifica em formato URL</em> uma <code>string</code>.<br/> Retorna a string codificada.</dd>
+    
+    <dt><a name="insertfield"></a><strong><code>cgilua.urlcode.insertfield (args, name, value)</code></strong></dt>
+    <dd>Adiciona o valor (<code>value</code>) fornecido ao campo indexado por um nome (<code>nome</code>) na tabela <code>args</code>. Se o campo j&aacute; tiver um valor, ser&aacute; transformado em uma tabela com esse valor no &iacute;ndice <code>1</code> e o novo valor no &iacute;ndice <code>2</code>. Outros valores ser&atilde;o acrescentados no final da <em>parte array</em> da tabela criada.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="parsequery"></a><strong><code>cgilua.urlcode.parsequery (query, args)</code></strong></dt>
+    <dd>Analisa os dados codificados em formato URL do pedido. Isso pode ser a parte <code>query</code> da URL do script ou dos dados POST codificados em URL. Cada par <em>nome = valor</em> codificado &eacute; inserido na tabela <code>args</code>.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="unescape"></a><strong><code>cgilua.urlcode.unescape (string)</code></strong></dt>
+    <dd>Decodifica uma <code>string</code> que usa o formato URL.<br/> Retorna a string decodificada.</dd>
+</dl>
+
+<h2><a name="auxiliar"></a>Fun&ccedil;&otilde;es auxiliares</h2>
+
+<dl class="reference">
+    <dt><a name="doscript"></a><strong><code>cgilua.doscript (filepath)</code></strong></dt>
+    <dd>Executa um arquivo (dado por <code>filepath</code>). Gera um erro se ocorrer. Em caso de &ecirc;xito, retorna os valores retornados pela execu&ccedil;&atilde;o.</dd>
+    
+    <dt><a name="pack"></a><strong><code>cgilua.pack (...)</code></strong></dt>
+    <dd>Retorna uma nova tabela que armazena todos os argumentos passados.</dd>
+    
+    <dt><a name="splitpath"></a><strong><code>cgilua.splitpath (path)</code></strong></dt>
+    <dd>Retorna duas strings com as partes &quot;diret&oacute;rio&quot; e &quot;arquivo&quot; do <code>path</code> fornecido.</dd>
+</dl>
+
+<h2><a name="index"></a>&Iacute;ndice alfab&eacute;tico</h2>
+
+<a href="#addclosefunction">addclosefunction</a><br/> <a href="#addopenfunction">addopenfunction</a><br/> <a href="#addscripthandler">addscripthandler</a><br/> <a href="#buildplainhandler">buildplainhandler</a><br/> <a href="#buildprocesshandler">buildprocesshandler</a><br/> <a href="#contentheader">contentheader</a><br/> <a href="#doscript">doscript</a><br/> <a href="#encodetable">encodetable (urlcode)</a><br/> <a href="#errorlog">errorlog</a><br/> <a href="#escape">escape (urlcode)</a><br/> <a href="#header">header</a><br/> <a href="#htmlheader">htmlheader</a><br/> <a href="#include">include (lp)</a><br/> <a href="#insertfield">insertfield (urlcode)</a><br/> <a href="#mkabsoluteurl">mkabsoluteurl</a><br/> <a href="#mkurlpath">mkurlpath</a><br/> <a href="#pack">pack</a><br/> <a href="#parsequery">parsequery (urlcode)</a><br/> <a href="#handlelp">handlelp</a><br/> <a href="#lp">lp</a><br/> <a href="#put">put</a><br/> <a href="#redirect">redirect</a><br/> <a href="#script_file">script_file</a><br/> <a href="#script_path">script_path</a><br/> <a href="#script_pdir">script_pdir</a><br/> <a href="#script_vdir">script_vdir</a><br/> <a href="#script_vpath">script_vpath</a><br/> <a href="#servervariable">servervariable</a><br/> <a href="#setcompatmode">setcompatmode (lp)</a><br/> <a href="#seterrorhandler">seterrorhandler</a><br/> <a href="#seterroroutput">seterroroutput</a><br/> <a href="#setlibdir">setlibdir</a><br/> <a href="#setmaxfilesize">setmaxfilesize</a><br/> <a href="#setmaxinput">setmaxinput</a><br/> <a href="#setoutfunc">setoutfunc (lp)</a><br/> <a href="#splitpath">splitpath</a><br/> <a href="#urlcode">urlcode</a><br/> <a href="#unescape">unescape (urlcode)</a><br/> <a href="#urlpath">urlpath</a><br/>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="XHTML 1.0 v&aacute;lido!" height="31" width="88" /></a></p>
+	<p><small>$Id: reference.html,v 1.4 2005/11/03 18:48:57 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

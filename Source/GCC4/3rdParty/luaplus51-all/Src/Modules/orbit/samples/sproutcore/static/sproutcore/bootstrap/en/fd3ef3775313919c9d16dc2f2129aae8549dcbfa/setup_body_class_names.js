@@ -1,0 +1,1 @@
+if(SC.setupBodyClassNames){SC.setupBodyClassNames()};

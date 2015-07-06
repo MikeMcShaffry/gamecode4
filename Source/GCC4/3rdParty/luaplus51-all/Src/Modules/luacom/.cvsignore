@@ -1,0 +1,7 @@
+lib
+obj
+bin
+devel
+*.pdb
+dll
+tecgraf

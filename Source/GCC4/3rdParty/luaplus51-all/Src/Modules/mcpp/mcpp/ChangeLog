@@ -1,0 +1,325 @@
+ChangeLog of MCPP and its accompanying Validation Suite
+
+2008/11/30  kmatsui
+        * V.2.7.2
+        * Enabled some CPU-specific predefined macros in compiler-
+        independent-build as well as compiler-specific-build, because
+        there are some occasions which require those macros when we use
+        some compiler system's header files.  Created init_cpu_macro().
+        (configure.ac, noconfig.H, configed.H, main.c, system.c)
+        * Enabled -m32 and -m64 options even on 32-bits systems and on
+        compiler-independent-build, when the OS is UNIX-like one.  These
+        options change some predefined macros.  (system.c)
+        * Made -z option to output #include lines themselves.  (system.c)
+        * Fixed a bug of source line numbering in library-build.  (by
+        Dwayne Boone) (main.c)
+        * Fixed a few minor bugs.
+        * Dropped support for Borland C 4.0.
+        * Updated the shell-scripts, makefiles and difference files, and
+        revised some mistakes.
+        * Updated the documents.
+
+2008/05/19  kmatsui
+        * V.2.7.1
+        * Fixed a bug of newline synchronization on -K option.  Created
+        sync_linenum().  (Thanks to Benjamin Smedberg) (directive.c)
+        * Made GCC-specific-build on x86_64 and ppc64 have two sets of
+        predefines for 32bit mode and 64bit mode, and implemented -m32
+        and -m64 options.  (Thanks to Benjamin Smedberg) (configure.ac,
+        set_mcpp.sh, system.c)
+        * Stopped to use freopen() so that a main program which links
+        libmcpp can use stdin, stdout and stderr.  (by Benoit Foucher)
+        (main.c)
+        * Fixed a bug of file-handle leak on -MD and -MF options.
+        (Thanks to Masashi Fujita) (system.c)
+        * Added ports to Vicual C++ 6.0 and Borland C++ 5.9 (aka C++
+        Builder 2007).  (by Dwayne Boone) (vc6.dif, bc59.dif, eval.c)
+        * Revised declaration of stpcpy().  (internal.H)
+        * Split mcpp_out.h from mcpp_lib.h.
+        * Made library-build install also an mcpp executable and minimal
+        documents as well as libmcpp for a convenience of library
+        package.  Created main_mcpplib.c.  Made all the binary packages
+        library-build.  (by Yutaka Niibe and kmatsui) (Makefile.am, src/
+        Makefile.am)
+        * Split config/cygwin_root and config/mingw_root from
+        configure.ac to avoid a trouble of backslash character handling
+        on some version of bash.  (Thanks to Aleksandar Samardzic)
+        * Changed autoconf 2.59 to 2.61 and automake 1.9.6 to 1.10.
+        * Updated the documents accordingly.
+
+2008/03/23  kmatsui
+        * V.2.7
+        * Created macro notification mode, implemented -K option and '#
+        pragma MCPP debug macro_call' sub-directive to enable this mode
+        on STD mode.  Created get_src_location(), print_macro_inf(),
+        print_macro_arg(), close_macro_inf(), chk_magic_balance(),
+        remove_magics(), some MAC_* macros to define magic characters,
+        struct LINE_COL, MACRO_INF.  Revised many functions.
+        (Specifications mostly by Taras Glek, partly by Samuel,
+        implemented mostly by kmatsui and partly by Taras Glek and
+        Samuel).  (internal.H, main.c, directive.c, eval.c, expand.c,
+        support.c, system.c)
+        * Created -k option to keep horizontal white spaces as they are
+        and convert comment to spaces of the same length on STD mode.
+        (Specs by Taras Glek, implemented by kmatsui).  (internal,H,
+        main.c, directive.c, mbchar.c, support.c)
+        * Implemented GCC2-spec variadic macro on STD mode in GCC-
+        specific-build.  (by Taras Glek and kmatsui).  (directive.c)
+        * Enabled GCC-like buggy handling of macro containing 'defined'
+        token in #if directive on GCC-specific-build.  (by Taras Glek).
+        (expand.c)
+        * Reordered initialization steps and enabled undefining of not-
+        Standard-required predefined macros.  Created undef_macros().
+        Removed undef_a_predef().  (main.c, system.c)
+        * Enabled non-conforming predefined macros such as 'linux' by
+        default on GCC-specific-build for compatibility with GCC.
+        Removed undef_gcc_macros().  Created DEF_NOARGS_* macros for
+        diagnostics sake.  (internal.H, system.c)
+        * Fixed a bug of file searching failure when a file is specified
+        by relative path in -include option.  Split is_full_path() from
+        open_include().  (thanks to Benjamin Smedberg) (system.c)
+        * Fixed a bug of mcpplib initialization which caused problem on
+        CygWIN.  (main.c, system.c, lib.c)
+        * Fixed a bug of unterminated source file handling.  (thanks to
+        Phil Knight) (support.c)
+        * Made norm_path() check existence of directory/file before
+        normalization.  As its results, non-existent directory specified
+        by -I option was disabled, "non-existent/../existent" was judged
+        as non-existent before wrongly normalizing to "existent", and #
+        include "directory" was made not to open.  Created norm_dir().
+        (thanks to Taras Glek and Dave Mandelin) (system.c)
+        * Stopped to convert path-list on Windows to lowercase-letters.
+        Changed path-list comparing function on Windows from strcmp() to
+        strcasecmp() or stricmp().  (system.c)
+        * Changed allocation of buffer for -M* options and incdir[],
+        fnamelist[], once_list[] from fixed size to dynamically
+        enlarging ones.  (system.c)
+        * Made #line output for GCC-specific-build closer to GCC.
+        Changed FILEINFO and DEFBUF struct, moved sharp() from main.c to
+        system.c, revised many functions.  (system.c, support.c, main.c,
+        directive.c)
+        * Absorbed lib.c into system.c.  Renamed getopt() to mcpp_getopt
+        (), also variables opt* to mcpp_opt*, and made static in order
+        to prevent linking of glibc getopt().  (thanks to Dwayne Boone)
+        * Fixed a bug of UTF-8 multibyte character handling, enabled 4-
+        bytes long sequences, and enabled checking of overlong sequences
+        and UTF-16 surrogate pairs.  (by Matt Wozniski) (mbchar.c,
+        support.c)
+        * Fixed a bug of tokenization in KR and OLD modes.  (support.c)
+        * Changed FILENAME_MAX to PATH_MAX and FILENAMEMAX to PATHMAX,
+        because FILENAME_MAX of some systems are too short.  (thanks to
+        Dwayne Boone)
+        * Bundled some variables into structs (std_limits, option_flags,
+        etc.).  Tidied up the sources removing unused codes, rewriting
+        old comments.  (most of the sources)
+        * Ported to Mac OS X / Apple-GCC.  Enabled searching of
+        "framework" directories for #include.  Enabled to search "header
+        map" file.  Enabled #import, which is #include with
+        unconditional "once only" feature.  Implemented -F, -arch,
+        -isysroot options.  Created init_framework(), search_framework(),
+        search_subdir(), search_header_map(), hmap_hash().  (system.c,
+        directive.c, set_mcpp.sh, unset_mcpp.sh, configure.ac, src/
+        Makefile.am)
+        * Ported to Visual C++ 2008.  Enabled '$' in identifier by
+        default in Visual-C-specific-build and GCC-specific-build.
+        (system.H, internal.H, support.c, system.c)
+        * Added documentation on source checking of firefox 3.0pre.
+        Added comments on system headers in Mac OS X.  (mcpp-manual.html)
+        * Updated all the documents.  (mainly by kmatsui, partly by
+        Taras Glek)
+
+2007/05/19  kmatsui
+        * V.2.6.4
+        * Fixed memory leaks in subroutine-build related to file->
+        filename, sharp_filename and others.  (by Juergen Mueller and
+        kmatsui).  (main.c, directive.c, support.c, system.c)
+        * Revised expanding() and expanding_macro[] to fix memory leaks.
+        Created clear_exp_mac().  (internal.H, expand.c, support.c)
+        * Fixed a bug of accessing non-allocated memory.  (by isr).
+        (support.c)
+        * Revised output of // comment by -C option.  Output // comment
+        as it is, not converting to /* */.  (thanks to Taras Glek).
+        (support.c)
+        * Changed output of line top white spaces in other than
+        POST_STANDARD mode to preserve them as they are, rather than
+        squeezing to one space, in order to make output more human-
+        readable.  (main.c, support.c)
+        * Removed the settings to be compiled with C++.  (configed.H,
+        noconfig.H, noconfig/*.mak)
+        * Updated version-info for shared-library-build from 0:0:0 to 0:
+        1:0.
+        * Changed installation directory of some documents in stand-
+        alone-and-compiler-independent-build by configure or by binary
+        packages.
+        * Updated the documents.  Note that cpp-test.html were not
+        updated.
+
+2007/04/07  kmatsui
+        * V.2.6.3
+        * Fixed a bug of some #line directive handling which wrongly
+        affected #include path.  Added a new member for real file name
+        to struct FILEINFO, and made #line directive does not affect
+        real file name.  (internal.H, main.c, support.c, system.c)
+        * Enabled dereferencing of symbolic linked directory (as well as
+        file) of #include path-list and include directory.  Split
+        deref_syml() from norm_path().  (system.c)
+        * Revised again diagnostic messages for some macro expansions.
+        (internal.H, expand.c, support.c)
+        * Relaxed token checking and syntax checking in lang_asm mode.
+        (expand,c, support.c)
+        * Implemented GCC3-spec variadic macro for GCC-specific-build.
+        (internal.H, directive.c, expand.c)
+        * Added some predefined macro for GCC-specific-build.  (system.c)
+        * Revised output routines abstracting output device, and
+        implementing optional memory buffer output when built with
+        MCPP_LIB macro.  Created mcpp_lib.h, mcpp_lib_fputs(),
+        mcpp_lib_fputc(), mcpp_lib_fprintf(), mcpp_use_mem_buffers(),
+        mcpp_get_mem_buffer(), mcpp_set_out_func(),
+        mcpp_reset_def_out_func(), mem_putc(), mem_puts(),
+        append_to_buffer(), function pointers mcpp_fputs, mcpp_fputc,
+        mcpp_fprintf and some macros.  This update disabled compilation
+        by C++.  (All were contributed by Greg Kress and slightly
+        modified by kmatsui) (internal.H, main.c, directive.c, eval.c,
+        expand.c, mbchar.c, support.c, system.c, lib.c, mcpp_lib.h)
+        * Renamed some global names in order to lessen the possibility
+        of name collisions in subroutine-build.  Renamed the variables
+        mode, cplus, line, debug, type[] and work[] to mcpp_mode,
+        cplus_val, src_line, mcpp_debug, char_type[] and work_buf[]
+        respectively.  Renamed the functions install(), eval(), expand(),
+        get() and unget() to install_macro(), eval_if(), expand_macro(),
+        get_ch() and unget_ch() respectively.  (internal.H, main.c,
+        directive.c, eval.c, expand.c, mbchar.c, support.c, system.c)
+        * Added 'mcpplib' target to make subroutine (library) build in
+        configure.ac and noconfig/*.mak.
+        * Revised some other minor points.  (all sources)
+        * Changed default setting of noconfig.H to that of FreeBSD 6.* /
+        stand-alone / GCC 3.4.  (noconfig.H)
+        * Added documentation on source checking of glibc 2.4.  (mcpp-
+        manual.html)
+        * Abolished 'install-data' and 'uninstall-data' targets of
+        configured makefile.  On the other hand, made 'install' target
+        install also mcpp-manual.html.
+        * Provided stand-alone-and-compiler-independent-build binary
+        packages port, rpm, deb, zip and their corresponding source
+        packages.
+
+2006/11/12  kmatsui
+        * V.2.6.2
+        * Renamed control.c as directive.c and renamed control() as
+        directive().
+        * Fixed a bug of #else handling in pre-Standard modes.
+        (directive.c)
+        * Fixed a bug of mcpp specific directives such as #debug or #
+        put_defines in pre-Standard modes.  (system.c)
+        * Fixed a bug of warning options for GCC-specific-builds.
+        (system.c)
+        * Fixed a bug of macro expansion timing in #include directive
+        line.  (system.c)
+        * Revised some other minor points, moved cur_file() from main.c
+        to system.c.  (main.c, eval.c, system.c)
+        * Revised diagnostic messages for some macro expansions.
+        (internal.H, expand.c, support.c)
+        * Fixed a bug of nested includes with relative paths.  (thanks
+        to Leo Savernik).  (system.c)
+        * Fixed memory leaks in routines related to normalizing path-
+        list.  (by Juergen Mueller).  (system.c)
+        * Added MCPP_LIB setting to use mcpp as a subroutine from other
+        main program.  Created init_main(), init_directive(), init_eval(),
+        init_support(), init_system(), init_lib(), clear_filelist() and
+        clear_symtable().  Created testmain.c as a sample source.  (all
+        were contributed by Juergen Mueller and slightly modified by
+        kmatsui).  (internal.H, main.c, directive.c, eval.c, expand.c,
+        support.c, system.c, lib.c)
+        * Changed the macro STAND_ALONE to INDEPENDENT.
+        * Changed the terminology of building methods in the documents.
+        (INSTALL, mcpp-porting.html, mcpp-manual.html)
+        * Rewrote and converted the text files in 'doc' and 'doc-jp'
+        directories into html files.
+        * Updated and corrected many points of the documents.
+
+2006/08/12  kmatsui
+        * V.2.6.1
+        * Enabled automatic conversion from [CR+LF] to [LF].  (support.c)
+        * Set the limit of #include nesting to INCLUDE_NEST (default:
+        256) in order to prevent infinitely recursive #includes.
+        (system.H, system.c)
+        * Revised white space handling in <header with spaces.h> style
+        header-name which is defined by macro.  (system.c)
+        * Enabled -fworking-directory option for GCC-specific-build.
+        created put_info().  (system.c)
+        * Fixed a bug of macro definition.  (lib.c)
+        * Fixed a bug of '#pragma once' failure.  (by Greg Kress).
+        (system.c)
+        * Fixed some other minor bugs in sources.
+        * Revised path-list handling on CygWIN.  Enabled -mno-cygwin
+        option for CygWIN GCC-specific-build.  (configure.ac, noconfig.H,
+        system.c)
+        * Ported to MinGW.  Created cc1.c to be invoked from GCC and to
+        invoke mcpp or GCC's cc1/cc1plus from it, because MinGW GCC
+        rejects to invoke a shell-script even if it is named cc1 and
+        because MinGW does not support symbolic link.  (configure.ac,
+        src/Makefile.am, configed.H, noconfig.H, system.c)
+        * Fixed bugs in some noconfig/*.mak.
+        * Moved changelogs from the source files to ChangeLog and
+        ChangeLog.old.
+
+2006/07/15  kmatsui
+        * V.2.6
+        * Integrated STANDARD mode and PRE_STANDARD mode into one
+        executable, differentiating the modes by the execution time
+        options.  (all the sources)
+        * Absorbed DEBUG, DEBUG_EVAL, OK_MAKE into default, OK_DIGRAPHS,
+        OK_PRAGMA_OP into default of STD and POST_STD mode, OK_TRIGRAPHS
+        into default of STD mode, OK_SIZE into default of KR and
+        OLD_PREP modes.  (all the sources)
+        * Changed --enable-maintainer-mode option of configure to
+        --enable-replace-cpp option which generates compiler-specific-
+        build of mcpp.  Made compiler-specific-build to be installed
+        only into a compiler-specific-directory.  (configure.ac, src/
+        Makefile.am)
+        * Made stand-alone-build independent from any compiler-systems.
+        It no longer requires GCC-specific header files.  (configure.ac,
+        configed.H, noconfig.H, system.c)
+        * Revised '#pragma once' and handling of include directories
+        list, judging a identity of directory and file by converting it
+        to absolute path, and dereferencing symbolic linked file.
+        (system.c)
+        * Revised #line output and its related problem at the end of an
+        included file.  (thanks to Jay Prakash).  (internal.H, support.c)
+        * Ported to GCC V.4.0, CygWIN 1.5.18, Visual C++ 2005 and LCC-
+        Win32 2006-03.  (noconfig.H, system.c)
+        * Added some options for Visual C++.  (system.c)
+        * Removed settings for pre-C90 compiler (string concatenation by
+        preprocessor, '\a' and '\v' handling, no unsigned long #if, no
+        Standard library functions, non-prototype declarations, no #
+        pragma).  (all the sources)
+        * Removed settings for MS-DOS compiler, DJGPP and Plan9.  (*.H,
+        system.c, mbchar.c)
+        * Removed the implementation of post_preproc() for pre-Standard
+        compiler.  Removed conv_esc(), is_last_esc(), conv2oct().
+        Removed HAVE_C_BACKSLASH_A and CONCAT_STRINGS macros.  (main.c)
+        * Degraded the diagnostic of #if expression from error to
+        warning, which only overflows the range of 'long / unsigned
+        long' and does not overflow the range of 'long long / unsigned
+        long long' in modes other than C99.  (eval.c)
+        * Enabled 'i64' ('ui64', 'i32', 'i16', etc.) suffixes for
+        integer, which are recognized when COMPILER is MSC or BORLANDC.
+        (eval.c)
+        * Renamed functions and some variables, created expand_init(),
+        according to integration of STANDARD and PRE_STANDARD modes.
+        (expand.c)
+        * Removed '#pragma MCPP include_next'.  (system.c)
+        * Created init_msc_macro(), parse_warn_level(), chk_opts(),
+        init_predefines(), init_std_defines(), do_prestd_directive().
+        Removed set_cplus(), mem_model().  (system.c)
+        * Removed Standard functions (memmove(), memcpy(), memcmp(),
+        strstr(), strcspn()).  (lib.c)
+        * Changed default setting of noconfig.H to FreeBSD 5.* / stand-
+        alone / GCC 3.4.  (noconfig.H)
+        * Renamed 'doc' directory as 'doc-jp' and renamed 'doc_eng' as
+        'doc'.
+        * Removed some manuscript files of mcpp-summary.pdf from the
+        distribution.
+        * Validation Suite: Revised a few testcases.
+        * Updated all the documents accordingly.
+

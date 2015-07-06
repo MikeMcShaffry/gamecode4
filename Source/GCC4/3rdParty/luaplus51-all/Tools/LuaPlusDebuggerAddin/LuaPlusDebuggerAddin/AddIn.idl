@@ -1,0 +1,26 @@
+// AddIn.idl : IDL source for AddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(C714166A-40B5-41A6-A632-7DD2783A8FC0),
+	version(1.0),
+	helpstring("LuaPlusDebugger 1.0 Type Library")
+]
+library LuaPlusDebuggerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(A1EE0FA1-0488-490A-920C-E69DC7A51AEE),
+		helpstring("Connect Class")
+	]
+	coclass Connect
+	{
+		[default] interface IUnknown;
+	};
+};

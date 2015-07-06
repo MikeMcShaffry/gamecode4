@@ -1,0 +1,13 @@
+# $Id: Makefile.win,v 1.11 2007/12/05 18:40:17 carregal Exp $
+
+LUA_DIR= c:\lua5.1\lua
+CGILUA_DIR= $(LUA_DIR)\cgilua
+CGILUA_LUAS= src\cgilua\authentication.lua src\cgilua\cookies.lua src\cgilua\dispatcher.lua src\cgilua\loader.lua src\cgilua\lp.lua src\cgilua\mime.lua src\cgilua\post.lua src\cgilua\readuntil.lua src\cgilua\serialize.lua src\cgilua\session.lua src\cgilua\urlcode.lua
+ROOT_LUAS= src\cgilua\cgilua.lua
+
+install:
+	IF NOT EXIST "$(LUA_DIR)" mkdir "$(LUA_DIR)"
+	IF NOT EXIST "$(CGILUA_DIR)" mkdir "$(CGILUA_DIR)"
+	FOR %F IN ($(CGILUA_LUAS)) DO copy %F "$(CGILUA_DIR)"
+	FOR %F IN ($(ROOT_LUAS)) DO copy %F "$(LUA_DIR)"
+    

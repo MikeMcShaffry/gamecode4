@@ -1,0 +1,428 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>ziparchive</title>
+    <link rel="stylesheet" href="doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_name"><big><strong>ziparchive</strong></big></div>
+	<div id="product_description">Read/write access to ziparchive</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+<h1>ziparchive</h1>
+	<ul>
+
+		<li><strong>Home</strong>
+			<ul>
+                            
+			</ul>
+		</li>
+
+		<li><a href="license.html">License</a>
+			<ul>
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Introduction</h2>
+
+<p>The module <em>ziparchive</em> allows high performance read and write access to .zip files.</p>
+
+
+
+<h2>Example</h2>
+
+
+<pre>
+    require 'ziparchive'
+
+    local archive = ziparchive.open('myfile.zip')
+    for entry in archive.files() do
+        print(entry)
+    end
+</pre>
+
+
+
+
+<hr/>
+<h2>Compression Methods and Levels</h2>
+
+<p>A number of <code>ziparchive</code> functions take parameters for <code>compressionMethod</code> and <code>compressionLevel</code>.</p>
+
+<p>The parameter named <code>compressionMethod</code> may be either <code>ziparchive.DEFLATED</code> (the default if not specified) or <code>ziparchive.UNCOMPRESSED</code>.  <code>ziparchive.DEFLATED</code> is a zlib compression term indicating the file should be compressed according to the specified <code>compressionLevel</code>.  <code>ziparchive.UNCOMPRESSED</code> will simply store the uncompressed contents of the file in the zip archive.</p>
+
+<p><code>compressionLevel</code> indicates how tightly compressed a <code>ziparchive.DEFLATED</code> file should be.  It is a value from <code>0</code> to <code>9</code> or a helper enumeration <code>ziparchive.NO_COMPRESSION</code> (0), <code>ziparchive.BEST_SPEED</code> (1), <code>ziparchive.BEST_COMPRESSION</code> (9), or <code>ziparchive.DEFAULT_COMPRESSION</code> (6).</p>
+
+<ul>
+    <li>A compression level of <code>0</code> means the file will not be compressed, but this does not mean the same thing as setting the <code>compressionMethod</code> to <code>ziparchive.UNCOMPRESSED</code> and will usually result in the 'compressed' file size being slightly larger than the uncompressed file size.</li>
+    <li>A compression level of <code>1</code> will result in the best compression speed but the worst compressed size (next to an uncompressed file).</li>
+    <li>A compression level of <code>9</code> will result in the best compressed size, but the time to compress will be longer.</li>
+</ul>
+
+
+
+
+<hr/>
+<h2>ziparchive Reference</h2>
+
+<h3>ziparchive.help()</h3>
+
+<p>Returns a string with a short summary of the ziparchive API.</p>
+
+
+
+<h3>archive = ziparchive.new()</h3>
+
+<p>Returns an archive object.</p>
+
+
+
+<h3>archive = ziparchive.open(filename [, mode = 'r'] [, openflags = 0] [, defaultPassword])</h3>
+
+<p>Creates or opens a zip archive.  Returns a ziparchive object if opened successfully.</p>
+
+<ul>
+    <li><code>filename</code> is the name of the zip archive to create/open.</li>
+    <li><code>mode</code> is an optional parameter that defaults to 'r', meaning to open an existing archive read-only.  If <code>'w'</code> is specified, a new archive is created.  If <code>'a'</code> is specified, an existing archive is opened writable (in an 'append' state) or a new archive is created.</li>
+    <li><code>openflags</code> is an optional parameter.
+    <em>* If <code>ziparchive.SUPPORT_MD5</code> is specified, md5sums are calculated for every file.
+    *</em> If <code>ziparchive.EXTRA_DIRECTORY_AT_BEGINNING</code> is specified, an extra directory structure is written at the beginning of the file.  This is useful when using zip archives on DVD and avoiding an extra seek.</li>
+    <li><code>defaultPassword</code> is an optional password used to encrypt the zip file.</li>
+</ul>
+
+
+<h3>time = ziparchive.AdjustTime_t(timeToAdjust)</h3>
+
+<p>Adjusts a timestamp to zip format.</p>
+
+
+
+<hr/>
+<h2>archive Reference</h2>
+
+<h3>opened = archive:open(fileName [, mode = 'r'] [, openflags = 0] [, defaultPassword])</h3>
+
+<p>See the documentation for <code>ziparchive.open</code> above.</p>
+
+<p>Returns <code>true</code> if the archive was opened successfully, <code>false</code> otherwise.</p>
+
+
+
+<h3>archive:close()</h3>
+
+<p>Closes an open archive.</p>
+
+
+
+
+<h3>archive:updatemd5s()</h3>
+
+<p>Updates the md5sums for all files in the archive.</p>
+
+
+
+<h3>archive:flush()</h3>
+
+<p>While being edited, the archive's directory is not written to disk.  Calling <code>archive:flush()</code> will write the archive's directory to disk.</p>
+
+
+
+<h3>vfile = archive:filecreate(filename [, compressionMethod = ziparchive.DEFLATED] [, compressionLevel = ziparchive.DEFAULT<em>COMPRESSION] [, time</em>t fileTime])</h3>
+
+<p>Creates a file entry within the archive.  Returns a userdata representing the file in the archive.</p>
+
+<ul>
+    <li><code>filename</code> is the name of the file to create within the archive.</li>
+    <li><code>compressionMethod</code>: See above.</li>
+    <li><code>compressionLevel</code>: See above.</li>
+    <li><code>fileTime</code> is the time in time_t format to assign to the file within the archive.  Defaults to the current time.</li>
+</ul>
+
+
+
+<h3>vfile = archive:fileopen(fileName)</h3>
+
+<p>Open an existing file entry within the archive.  Returns a userdata representing the read-only file in the archive.</p>
+
+
+
+<h3>archive:filecloseall()</h3>
+
+<p>Closes all open files within the archive.</p>
+
+
+
+<h3>bool ret = archive:fileerase(filename)</h3>
+
+<p>Erases a file from the archive.  Returns <code>true</code> if the file was erased successfully, <code>false</code> otherwise.</p>
+
+<p>Erased files do not free up their space within the archive until <code>archive:pack()</code> is called.</p>
+
+<ul>
+    <li><code>filename</code> is the name of the file to erase within the archive.</li>
+</ul>
+
+
+
+<h3>bool ret = archive:filerename(oldFilename, newFilename)</h3>
+
+<p>Renames a file within the archive.  Returns <code>true</code> if the file was renamed successfully, <code>false</code> otherwise.</p>
+
+<ul>
+    <li><code>oldFilename</code> is the name of an existing file to rename.</li>
+    <li><code>newFilename</code> is the new name of the file.</li>
+</ul>
+
+
+
+<h3>bool ret = archive:fileinsert(srcFilename, destFilename [, compressionMethod = ziparchive.DEFLATED] [, compressionLevel = ziparchive.DEFAULT<em>COMPRESSION]  [, time</em>t fileTime])</h3>
+
+<p>Inserts a file from disk into the archive.  Returns <code>true</code> if the file was renamed successfully, <code>false</code> otherwise.</p>
+
+<ul>
+    <li><code>srcFilename</code> is the path to a filename on disk.  This file will be transferred into the archive.</li>
+    <li><code>destFilename</code> is the name of the file entry within the archive that <code>srcFilename</code> is copied into.</li>
+    <li><code>compressionMethod</code>: See above.</li>
+    <li><code>compressionLevel</code>: See above.</li>
+    <li><code>fileTime</code> is the time in time_t format to assign to the file within the archive.  Defaults to the <code>srcFilename</code> time.</li>
+</ul>
+
+
+
+<h3>bool ret = archive:fileextract(srcFilename, destFilename)</h3>
+
+<p>Extracts a file from the archive and stores it on disk.  Returns <code>true</code> if the file was renamed successfully, <code>false</code> otherwise.</p>
+
+<ul>
+    <li><code>srcFilename</code> is the name of the file to extract from within the archive.</li>
+    <li><code>destFilename</code> is the name of the file to write to disk.</li>
+</ul>
+
+
+
+
+<h3>ret = archive:pack( [PackOptions] )</h3>
+
+<p>Tightly packs a zip archive.  If the <code>PackOptions</code> parameter is specified, the zip archive is packed according to the <code>PackOptions.FileOrder</code> table given.  Extra files not specified in <code>PackOptions.FileOrder</code> are just appended out of order at the end of the archive.  Returns <code>true</code> if successful, <code>false</code> otherwise.</p>
+
+<pre><code>PackOptions = {
+    FileOrder = {
+        FileOrderInfo,
+        FileOrderInfo,
+        .
+        .
+        .
+    },
+}
+
+FileOrderInfo = {
+    string EntryName,   -- The file entry name within the archive.  If a | (pipe) is specified, the left side is the full path to an archive, and the right side is the entry within the archive.
+    string SourcePath,  -- The source path on disk of the file to insert into the archive
+    CompressionMethod,  -- See above.
+    CompressionLevel,   -- See above.
+    boolean Compressed, -- true (default) if the file should be compressed, false for uncompressed
+    time_t Timestamp,   -- The timestamp in time_t form.  0 (default) means the timestamp is retrieved from SourcePath
+    integer Size,       -- The size of the file.  0 (default) means the size is retrieved from SourcePath
+    uint32_t CRC,       -- The CRC of the file.  0 (default) causes the CRC to be calculated from SourcePath
+    string MD5,         -- The MD5 of the file.  0 (default) causes the MD5 to be calculated from SourcePath
+}
+</code></pre>
+
+<p>Providing the fields <code>FileOrderInfo.Timestamp</code>, <code>FileOrderInfo.Size</code>, <code>FileOrderInfo.CRC</code>, and <code>FileOrderInfo.MD5</code> can help overall pack performance.  If the timestamp, size, CRC, and MD5 are already known, then <code>archive:pack()</code> won't have to calculate them.</p>
+
+
+
+
+<h3>ret = archive:processfilelist(fileOrderTable [, ProcessFileListOptions])</h3>
+
+<p>The archive is rearranged according to the order of the files in <code>fileOrderTable</code>.</p>
+
+<ul>
+    <li><p><code>fileOrderTable</code> is a list of <code>FileOrderInfo</code> tables as described in <code>archive:pack()</code>.</p></li>
+    <li><p><code>ProcessFileListOptions</code> is an optional table giving additional ways to interact with <code>archive:processfilelist()</code>.  All fields are optional.</p>
+
+<p>ProcessFileListOptions = {</p>
+<pre><code>-- If true, archive:processfilelist doesn't manipulate the archive.  Only checks to see if the archive would change.
+boolean CheckOnly,
+
+-- RequiresPack - If true, the archive is always repacked on change.
+boolean RequiresPack,
+
+-- FileCache is the path to a network file cache location to grab precompressed file entries from.
+string FileCache,
+
+-- FileCacheSizeThreshold is the lower file size limit before going to the network file cache.
+integer FileCacheSizeThreshold,
+
+-- Given a sourcePath, RetrieveChecksum returns both CRC and MD5 of the file.
+crc, md5 = function RetrieveChecksum(sourcePath),
+
+-- StatusUpdate is frequently called when events happen within `archive:processfilelist`.
+function StatusUpdate(FileListStatus, text),
+</code></pre>
+<p>}</p></li>
+</ul>
+
+<p>Enumerations for the <code>ProcessFileListOptions.StatusUpdate</code> <code>FileListStatus</code> are as follows:</p>
+
+<ul>
+    <li><code>ziparchive.UPDATING_ARCHIVE</code> - The archive is being updated.  This is called once per <code>archive:processfilelist()</code> call.  If the archive is never updated, then <code>ziparchive.UPDATING_ARCHIVE</code> is not fired through <code>StatusUpdate</code>.</li>
+    <li><code>ziparchive.DELETING_ENTRY</code> - An existing file entry was not specified in the <code>fileOrderTable</code> and is being erased.</li>
+    <li><code>ziparchive.DIRECT_COPY_FROM_ANOTHER_ARCHIVE</code> - A direct copy from the archive specified in <code>FileOrderInfo.SourcePath</code>.</li>
+    <li><code>ziparchive.COPYING_ENTRY_FROM_CACHE</code> - A direct copy of the compressed entry from the file cache is inserted into the archive.</li>
+    <li><code>ziparchive.COPYING_ENTRY_TO_CACHE</code> - The compressed file is copied to the cache.</li>
+    <li><code>ziparchive.UPDATING_ENTRY</code> - The entry is being updated within the archive.</li>
+    <li><code>ziparchive.PACKING_ARCHIVE</code> - The archive is being packed.</li>
+</ul>
+
+
+
+
+<h3>string fileName = archive:getfilename()</h3>
+
+<p>Returns the filename of the archive.</p>
+
+
+
+<h3>int entryCount = archive:fileentrycount()</h3>
+
+<p>Returns the count of file entries within the archive.</p>
+
+
+
+<h3>FileEntryInfo fileEntry = archive:fileentry(index)</h3>
+
+<p>Returns the file entry at <code>index</code>.</p>
+
+<pre><code>FileEntryInfo = {
+    string filename,           -- The filename of the file entry.
+    time_t timestamp,          -- The timestamp of the file entry.
+    integer crc,               -- The CRC of the file entry.
+    string md5,                -- The MD5 of the file entry.
+    integer offset,            -- The offset of the file entry.  Not generally interesting to the end user.
+    integer uncompressed_size, -- The uncompressed size of the file entry.
+    integer compressed_size,   -- The compressed size of the file entry.
+    integer compression_method,-- The compression method of the file entry, 0 for uncompressed, 8 for compressed.
+}
+</code></pre>
+
+<p>Two additional fields exist within the <code>FileEntryInfo</code> table.</p>
+
+<ul>
+    <li><code>FileEntryInfo.table</code> returns a full <code>FileEntryInfo</code> table as described above.</li>
+    <li><code>FileEntryInfo.contents</code> contains the uncompressed contents of the file.</li>
+</ul>
+
+
+
+<h3>FileEntryInfo fileEntry = archive:findfileentry(filename)</h3>
+
+<p>Returns the file entry matching <code>filename</code>.</p>
+
+
+
+<h3>int entryIndex = archive:fileentryindex(filename)</h3>
+
+<p>Looks up the file entry by <code>filename</code> and returns the file entry index.  Returns -1 if not found.</p>
+
+
+
+<h3>for entry in archive:files()</h3>
+
+<p><code>archive:files()</code> returns an iterator for the archive file entries.</p>
+
+<pre><code>for entry in archive:files() do
+    print(entry)
+end
+</code></pre>
+
+
+
+<h2>File commands:</h2>
+
+<h3>string filename = archive:filegetfilename(vfile)</h3>
+
+<p>Returns the filename of the current file entry.</p>
+
+
+
+<h3>long position = archive:filegetposition(vfile)</h3>
+
+<p>Returns the current position of the file entry.</p>
+
+
+
+<h3>archive:filesetlength(vfile, newLength)</h3>
+
+<p>Sets the <code>newLength</code> of the <code>vfile</code>.</p>
+
+
+
+
+<h3>long len = archive:filegetlength(vfile)</h3>
+
+<p>Returns the length of the current file entry.</p>
+
+
+
+<h3>buffer = archive:fileread(vfile [, size])</h3>
+
+<p>Reads <code>size</code> bytes from the current file entry.</p>
+
+<ul>
+    <li><code>vfile</code> - A file returned by <code>archive:fileopen()</code>.</li>
+    <li><code>size</code> - If not specified, all bytes are read from the file.  Otherwise, <code>size</code> bytes are read.</li>
+</ul>
+
+
+<h3>archive:filewrite(vfile, buffer [, size])</h3>
+
+<p>Writes <code>size</code> bytes from <code>buffer</code> into the current file entry.</p>
+
+<ul>
+    <li><code>vfile</code> - A file returned by <code>archive:filecreate()</code>.</li>
+    <li><code>buffer</code> - The buffer to write to the file.</li>
+    <li><code>size</code> - If not specified, all bytes are written to the file.  Otherwise, <code>size</code> bytes are written.</li>
+</ul>
+
+
+<h3>archive:close(vfile)</h3>
+
+<p>Closes the current file entry.</p>
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

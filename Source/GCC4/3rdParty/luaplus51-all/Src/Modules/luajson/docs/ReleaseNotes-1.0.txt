@@ -1,0 +1,93 @@
+luajson v1.0 Release Notes
+==========================
+
+User Visible Changes
+--------------------
+This release marks the 1.0 release that has been in the works for quite some time.
+One of the major release items is detailed documentation and a reasonably stable/
+clean API.  Some features have been eliminated since they were not effective or
+used.
+
+Features removed:
+ * Lax number handling... before this release, numbers with ugly definition were
+   permitted, such as leading zeroes, multiple negative signs, ...
+ * String post-processing... this feature was unused and appears to serve no
+   useful purpose.  Removing it made unifying encoding/decoding options simpler
+ * Adds global pre-processing to handle arbitrary conversion of values during
+   encoding.
+
+Changes:
+ * String escape codes updated to match what the JSON spec uses for encoding
+
+Additions:
+ * Add optional \x00 character encoding to handle encoding single bytes
+ * Custom output stream functionality to create optimal output mechanisms
+   that can stream JSON output.
+
+Plans for next release
+----------------------
+Currently there is nothing in the works for the next release.  The project
+is very open to outside suggestions and patches for enhanced functionality...
+so please contribute.
+
+Updates since 0.10
+==================
+
+Thomas Harning Jr (46):
+	-ungrouped-
+		Rockspec 0.10
+		moved lua sources into 'lua' to assist luarocks management
+	base:
+		makefiles learn high bzip2 and gzip compression
+		adds new rockspec for github
+		updated github rockspec to reference all of the files
+		Makefile learns split-apart checking
+		rockspec 0.10-2 update -- previous one had improper luaforge link
+	decoder/strings:
+		removed unused 'postProcess' option
+		removed unused 'null' decoder
+		remove catchall escape handler from default
+		applied minor cleanups
+		added error analysis for strings + generic bad-character utility
+	decoder/tests:
+		remove depth limiting support code, implementation, and tests
+		implemented non-defined call captures and updated tests to handle cases
+		removed lax number handling (leading zeroes, multiple negatives, and spaces between - and digits)
+		fixes ambiguous/invalid hex numbers with decimal/scientific format
+	decoder:
+		reorders replacements based on spec, adds 'x' escape
+		allow whitespace before strict object/array
+		generalizes decoding using grammar entries
+	docs:
+		preliminary documentation of options
+		created markdown documentation to be translated into manpage-style documentation
+		moves documentation to asciidoc
+	encoder/decoder/tests:
+		moves json.decode.util.merge => json.util.merge
+		call-generation/handling moved to json.util and unified
+		removes discrimination between calls with 1 and * arguments
+	encoder/decoder:
+		applied license headers to files missing them
+	encoder/tests:
+		move preprocessing to root to permit global pre-processor (ex: take special strings and base64-encode to call)
+	encoder:
+		add vertical tabulation character to the encoded set
+		adds \xXX encoding and customizable encoding set
+		adds custom output-encoder support while keeping default case optimal using templates
+		adds output-stream writer for encoding
+		consulted JSON specification and updated string definitions to match
+		note encoding > 7F with escapes is hazardous
+		properly capture expected range-of-characters to map
+		updates strict encoding to use correct calls check and ordering
+		correct language of disabled 'undefined' value
+		cleans up code and errors
+		removes extraneous 'defs' from the default options
+	tests:
+		adds \u and \x escape encoding/decoding test cases
+		test strict form of string decoding tests
+		updates strict string test to use strict encoder
+		regression-test uses test strict encoder in strict tests
+		adds strict encoder regression tests
+		report error cause during regressionTest encoding failures
+		added pre-value whitespace tests
+		updated tests to match new stricter default syntax

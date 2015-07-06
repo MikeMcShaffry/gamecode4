@@ -1,0 +1,34 @@
+<html><head></head><body>
+<p>
+<h1>debug<br></h1>
+</p><hr>
+<p>
+Adds to the existing debug module<br>
+</p><hr>
+<p>
+_DEBUG is either any true value (equivalent to {level = 1}), or a<br>
+table with the following members:<br>
+</p><hr>
+<p>
+level: debugging level<br>
+call: do call trace debugging<br>
+std: do standard library debugging (run examples & test code)<br>
+</p><hr>
+<p>
+<strong>say:</strong> <em>Print a debugging message<br></em>
+&nbsp;&nbsp;<strong>[n]</strong>: debugging level [1]<br>
+&nbsp;&nbsp;...: objects to print (as for print)<br>
+</p><hr>
+<p>
+Expose say as global debug<br>
+</p><hr>
+<p>
+<strong>traceCall:</strong> <em>Trace function calls<br></em>
+&nbsp;&nbsp;<strong>event</strong>: event causing the call<br>
+Use: debug.sethook (traceCall, "cr"), as below<br>
+based on test/trace-calls.lua from the Lua 5.0 distribution<br>
+</p><hr>
+<p>
+Set hooks according to _DEBUG<br>
+</p><hr>
+</body></html>

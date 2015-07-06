@@ -1,0 +1,24 @@
+// preprocess using luam -C -llc str.lc > str.c
+#include <string.h>
+
+module "str" {
+
+  def at (Str s, Int i = 0) {
+    lua_pushlstring(L,&s[i-1],1);
+    return 1;
+  }
+
+  def upto (Str s, Str delim = " ") {
+    lua_pushinteger(L, strcspn(s,delim) + 1);
+    return 1;
+  }
+
+}
+
+lua_tests {
+  require 'str'
+  assert (str.at("hello",2) == "e")
+  assert (str.upto("123 567 9") == 4)
+}
+
+

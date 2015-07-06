@@ -1,0 +1,39 @@
+luajson v1.0.1 Release Notes
+============================
+
+User Visible Changes
+--------------------
+Duplicate references are allowed if it does not cause circular references.
+
+This allows something like the following to be valid, where it was not before:
+
+    a = {1, 2, 3}
+    json.encode({a, a})
+
+Decoding this will not be handled in any special way, it will be encoded as:
+
+    [ [1,2,3], [1,2,3] ]
+
+Plans for next release
+----------------------
+The 1.1 release will contain support for arbitrary configurations in the same
+manner as the built-in configurations.  It will also contain support for
+a simple decoder where `null` and `undefined` values are mapped to nil,
+rather than the more complicated round-trip capable constants.
+
+Updates since 1.0
+=================
+
+Thomas Harning Jr (3):
+	base:
+		updates utility to help construct lua rocks to provide stable output
+	encoder:
+		adds support for non-circular duplicate object references
+	tests:
+		adds encoding test for circular/non-circular duplicate values
+
+Contributions
+=============
+
+Thanks to Marcus Irven <marcus@marcusirven.com> for reporting
+the issue with duplicate objects that aren't circular.

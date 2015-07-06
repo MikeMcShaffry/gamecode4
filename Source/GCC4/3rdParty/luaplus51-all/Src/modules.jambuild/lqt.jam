@@ -1,0 +1,167 @@
+{
+
+IncludeModule c/qt ;
+
+if $(QT_FOUND) {
+
+SubDir LUAPLUS Src Modules lqt cpptoxml ;
+
+C.IncludeDirectories cpptoxml : parser parser/rpp ;
+C.Defines cpptoxml : RXX_ALLOCATOR_INIT_0 QT_STL ;
+
+local SRCS =
+		main.cpp
+		parser/ast.cpp
+		parser/binder.cpp
+		parser/class_compiler.cpp
+		parser/codemodel.cpp
+		parser/codemodel_finder.cpp
+		parser/compiler_utils.cpp
+		parser/control.cpp
+		parser/declarator_compiler.cpp
+		parser/default_visitor.cpp
+		parser/dumptree.cpp
+		parser/lexer.cpp
+		parser/list.cpp
+		parser/name_compiler.cpp
+		parser/parser.cpp
+		parser/smallobject.cpp
+		parser/tokens.cpp
+		parser/type_compiler.cpp
+		parser/visitor.cpp
+		parser/rpp/preprocessor.cpp
+;
+
+C.UseQt cpptoxml : core : link ;
+CPPTOXML_EXE = [ C.Application cpptoxml : $(SRCS) ] ;
+
+###############################################################################
+###############################################################################
+###############################################################################
+SubDir LUAPLUS Src Modules lqt ;
+
+actions cpptoxml {
+	$(CPPTOXML_EXE:T) $(BINDING_HEADER) -C $(PP_CONFIG) -Q $(QT_INCLUDE_PATH) -o $(1)
+}
+
+actions qt_generatebinding {
+	$(LUA_EXE:TC) "$(GENERATOR)" $(2) -i $(BINDING_HEADER) -i lqt_qt.hpp -n $(BINDING_NAME) -t $(QTYPES) $(commandline_types) -f $(QT_INTERNAL) -D $(2:D)
+}
+
+rule build_qt_lib_binding BINDING_HEADER : DEPENDENCIES {
+	ActiveTarget $(BINDING_NAME) ;
+
+	local BINDING_NAME = $(BINDING_HEADER:L) ;
+
+	local LQT_GEN_DIR = $(LOCATE_SOURCE)/$(BINDING_NAME)_src ;
+
+	local PP_CONFIG ;
+	if $(UNIX) {
+		PP_CONFIG = $(SUBDIR)/cpptoxml/parser/rpp/pp-qt-configuration ;
+	} else {
+		PP_CONFIG = $(SUBDIR)/cpptoxml/parser/rpp/pp-qt-configuration-win ;
+	}
+
+	local GEN_XML = @($(BINDING_NAME).xml:G=$(BINDING_NAME)) ;
+	MakeLocate $(GEN_XML) : $(LQT_GEN_DIR) ;
+
+	Depends $(GEN_XML) : $(CPPTOXML_EXE) ;
+
+	BINDING_HEADER on $(GEN_XML) = $(BINDING_HEADER) ;
+	PP_CONFIG on $(GEN_XML) = $(PP_CONFIG) ;
+
+	if ! $(TARGETINFO_LOCATE) {
+		cpptoxml $(GEN_XML) ;
+	}
+
+	local bindingname_enum.cpp = @($(BINDING_NAME)_enum.cpp:G=$(BINDING_NAME)) ;
+	local bindingname_merged_build.cpp = @($(BINDING_NAME)_merged_build.cpp:G=$(BINDING_NAME)) ;
+	local bindingname_meta.cpp = @($(BINDING_NAME)_meta.cpp:G=$(BINDING_NAME)) ;
+	local bindingname_slot.cpp = @($(BINDING_NAME)_slot.cpp:G=$(BINDING_NAME)) ;
+	local bindingname_slot.hpp = @($(BINDING_NAME)_slot.hpp:G=$(BINDING_NAME)) ;
+	local bindingname_types.lua = @($(BINDING_NAME)_types.lua:G=$(BINDING_NAME)) ;
+	local targets = $(bindingname_enum.cpp) $(bindingname_merged_build.cpp) $(bindingname_meta.cpp) $(bindingname_slot.cpp) $(bindingname_slot.hpp) $(bindingname_types.lua) ;
+	MakeLocate $(targets) : $(LQT_GEN_DIR) ;
+
+	local commandline_types ;
+	local commandline_depends ;
+	DEPENDENCIES = $(DEPENDENCIES:L) ;
+	for dependency in $(DEPENDENCIES) {
+		commandline_types += -t $(LOCATE_TARGET)/$(dependency)_src/$(dependency)_types.lua ;
+		commandline_depends += generate_${dependency}_cpp ;
+
+		local dependency_files = $(dependency)_enum.cpp $(dependency)_merged_build.cpp $(dependency)_meta.cpp $(dependency)_slot.cpp $(dependency)_slot.hpp $(dependency)_types.lua ;
+		dependency_files = $(dependency_files:G=$(dependency)) ;
+
+		Depends $(targets) : $(dependency_files) ;
+	}
+
+	Depends $(targets) : $(LUA_EXE) ;
+
+	local generator.lua = $(SUBDIR)/generator/generator.lua ;
+	local classes.lua = $(SUBDIR)/generator/generator.lua ;
+	local qtypes.lua = $(SUBDIR)/generator/generator.lua ;
+	local qt_internal.lua = $(SUBDIR)/generator/generator.lua ;
+	local types.lua = $(SUBDIR)/generator/generator.lua ;
+	BINDING_HEADER on $(targets) = $(BINDING_HEADER) ;
+	BINDING_NAME on $(targets) = $(BINDING_NAME) ;
+	commandline_types on $(targets) = $(commandline_types) ;
+	GENERATOR on $(targets) = $(generator.lua) ;
+	QTYPES on $(targets) = $(SUBDIR)/generator/qtypes.lua ;
+	QT_INTERNAL on $(targets) = $(SUBDIR)/generator/qt_internal.lua ;
+	if ! $(TARGETINFO_LOCATE) {
+		qt_generatebinding $(targets) : $(GEN_XML) ;
+	}
+
+	Depends $(BINDING_NAME) : $(targets) ;
+	Depends $(targets) : $(generator.lua) $(classes.lua) $(qtypes.lua) $(qt_internal.lua) $(types.lua) ;
+	Depends $(targets) : $(GEN_XML) : $(CPPTOXML_EXE) ;
+	NotFile $(BINDING_NAME) ;
+
+	C.UseQt $(BINDING_NAME) : core gui network opengl script sql svg uitools xml xmlpatterns webkit : link ;
+	C.IncludeDirectories $(BINDING_NAME) : $(SUBDIR)/common ;
+	C.C++Flags $(BINDING_NAME) : /bigobj ;
+	ActiveTarget $(BINDING_NAME) ;
+	Lua.CModule $(BINDING_NAME) : $(BINDING_NAME) :
+			[ C.Qt.Moc $(BINDING_NAME) : $(bindingname_slot.hpp) ]
+			$(SUBDIR)/common/*.cpp
+			$(SUBDIR)/common/*.hpp
+			$(bindingname_enum.cpp)
+			$(bindingname_merged_build.cpp)
+			$(bindingname_meta.cpp)
+			$(bindingname_slot.cpp)
+	;
+
+	Depends lqt : $(BINDING_NAME) ;
+
+	Clean clean:$(BINDING_NAME) :
+			$(GEN_XML)
+			$(bindingname_enum.cpp)
+			$(bindingname_merged_build.cpp)
+			$(bindingname_meta.cpp)
+			$(bindingname_slot.cpp)
+			$(bindingname_slot.hpp)
+			$(bindingname_types.lua)
+	;
+	Always clean:$(BINDING_NAME) ;
+
+	Depends clean:lqt : clean:$(BINDING_NAME) ;
+	NotFile clean:lqt ;
+	Always clean:lqt ;
+}
+
+build_qt_lib_binding QtCore ;
+build_qt_lib_binding QtNetwork : QtCore ;
+build_qt_lib_binding QtGui : QtNetwork QtCore : bigobj ;
+build_qt_lib_binding QtScript : QtGui QtNetwork QtCore ;
+build_qt_lib_binding QtOpenGL : QtGui QtNetwork QtCore ;
+build_qt_lib_binding QtSvg : QtScript QtGui QtNetwork QtCore ;
+build_qt_lib_binding QtUiTools : QtCore QtGui QtXml ;
+build_qt_lib_binding QtXml : QtSvg QtScript QtGui QtNetwork QtCore ;
+build_qt_lib_binding QtXmlPatterns : QtCore QtXml ;
+build_qt_lib_binding QtWebKit : QtXmlPatterns QtSvg QtScript QtOpenGL QtGui QtNetwork QtCore QtXml ;
+build_qt_lib_binding QtSql : QtCore ;
+
+} # if $(QT_FOUND)
+
+}

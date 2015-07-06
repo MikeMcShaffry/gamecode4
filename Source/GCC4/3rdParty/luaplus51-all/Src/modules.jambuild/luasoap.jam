@@ -1,0 +1,19 @@
+{
+
+local LUAS =
+		client.lua
+		server.lua
+		client/https.lua
+;
+
+Lua.Module luasoap : : src/soap.lua src/$(LUAS) ;
+
+CopyFile luasoap : $(LUA_LDIR)/soap.lua : $(SUBDIR)/src/soap.lua ;
+
+local filename ;
+for filename in $(LUAS)
+{
+	CopyFile luasoap : $(LUA_LDIR)/soap/$(filename) : $(SUBDIR)/src/$(filename) ;
+}
+
+}

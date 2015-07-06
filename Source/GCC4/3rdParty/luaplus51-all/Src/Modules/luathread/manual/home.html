@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta name="description" content="The LuaThread Homepage">
+<meta name="keywords" content="Lua, Library, Multi-Threading, Threads, Support">
+<title>LuaThread: Multi-(platform|threading) support for the Lua language
+</title>
+<link rel="stylesheet" href="reference.css" type="text/css">
+</head>
+
+<body>
+
+<!-- header +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=header>
+<hr>
+<center>
+<table summary="LuaThread logo">
+<tr><td align=center><a href="http://www.lua.org">
+<img width=128 height=128 border=0 alt="LuaThread" src="luathread.png">
+</a></td></tr>
+<tr><td align=center valign=top>Multi-(platform|threading) support for the
+Lua language
+</td></tr>
+</table>
+<p class=bar>
+<a href="home.html#download">download</a> &middot;
+<a href="installation.html">installation</a>  &middot;
+<a href="examples.html">examples</a>  &middot;
+<a href="reference.html">reference</a> 
+</p>
+</center>
+<hr>
+</div>
+
+<!-- whatis +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<h2 id=whatis>What is LuaThread?</h2>
+
+<p>
+LuaThread enables the Lua programmer  to create preemptive, concurrent Lua
+programs, in  which several  threads of  execution coordinately  perform
+different tasks in parallel. The library runs  both on Unix systems
+supporting the Pthreads standard and on Win32 systems (natively). </p>
+
+<p>
+The functionality is provided in two  parts: routines needed by Lua core
+to   control   parallel  access   to   its   internal  structures   and,
+independently,  functions  providing Lua  scripts  with  the ability  to
+create and synchronize multiple threads of execution. </p>
+
+<p>
+Since the first part of the library is tightly integrated to the Lua core
+implementation,  LuaThread requires  that the  Lua library  be entirely
+recompiled before  it can  be used  by client  scripts. This  process is
+detailed in the <a href="installation.html#build">build</a> instructions. </p>
+
+<p>
+The  second  part  of  the  library  provides  client  support  for  the
+manipulation of threads  as well as mutex  and condition synchronization
+objects. The  LuaThread API follows  the Pthreads standard  closely, as
+detailed in the reference <a href="reference.html">manual</a>. </p>
+
+<p>
+The library is available under the same  
+<a href="http://www.lua.org/copyright.html">
+terms and conditions</a> as the Lua language, the MIT license. The idea is
+that if you can use Lua in a project, you should also be able to use 
+LuaThread.
+</p>
+
+<p>
+Copyright &copy; 2004 Diego Nehab. All rights reserved. <br>
+Author: <A href="http://www.cs.princeton.edu/~diego">Diego Nehab</a>
+</p>
+
+<!-- download +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<h2 id=download>Download</h2>
+
+<p>
+LuaThread version  1.1 alpha is now  available for download! It  is
+compatible with   Lua&nbsp;5.0   and   has    been   tested   on
+Windows&nbsp;XP, Linux, and Mac OS X. 
+</p>
+
+<p>
+The library can be downloaded in source code from the following links: 
+</p>
+
+<blockquote>
+<p>
+<a href="luathread-1.1-alpha.tar.gz">luathread-1.1-alpha.tar.gz</a> <br>
+<a href="luathread-1.1-alpha.zip">luathread-1.1-alpha.zip</a>
+</p>
+</blockquote>
+
+<p>
+Besides the full C and Lua source code for the library, the distribution
+contains several examples and this user's manual.
+</p>
+
+<p>
+I  am also  providing  PC Win32  binaries  for those  that  want to  give
+LuaThread a quick try: 
+</p>
+
+<blockquote>
+<p>
+<a href="luathread-1.1-alpha-win32.zip">luathread-1.1-alpha-win32.zip</a>
+</p>
+</blockquote>
+
+<p>
+The quick and dirty way to use these binaries is to unpack everything into
+a directory, say <tt>c:\luathread</tt>, then set <tt>LUA_INIT</tt> to load
+the <tt>compat-5.1.lua</tt> and set <tt>LUA_PATH</tt> and
+<tt>LUA_CPATH</tt> to look for files in the current directory:
+</p>
+
+<pre class=example>
+c:\luathread\&gt; set LUA_INIT=@c:\luathread\compat-5.1.lua
+c:\luathread\&gt; set LUA_CPATH=?.dll
+c:\luathread\&gt; set LUA_PATH=?.lua
+</pre>
+
+<p>
+From that directory, you can then run the interpreter and it should find all
+files it needs. 
+</p>
+
+<pre class=example>
+c:\luathread\&gt; lua
+Lua 5.0.2 + LuaThread 1.1 (alpha)  Copyright (C) 1994-2004 Tecgraf, PUC-Rio
+&gt; thread = require"thread"
+&gt; print(thread.VERSION)
+LuaThread 1.1 (alpha)
+</pre>
+
+<!-- footer +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=footer>
+<hr>
+<center>
+<p class=bar>
+<a href="home.html#download">download</a> &middot;
+<a href="installation.html">installation</a>  &middot;
+<a href="examples.html">examples</a>  &middot;
+<a href="reference.html">reference</a> 
+</p>
+<p>
+<small>
+Last modified by Diego Nehab on <br>
+Thu Jun 17 02:47:14 EDT 2004
+</small>
+</p>
+</center>
+</div>
+
+</body>
+</html>

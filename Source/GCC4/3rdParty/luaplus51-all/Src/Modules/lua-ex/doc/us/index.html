@@ -1,0 +1,1127 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>ex API</title>
+    <link rel="stylesheet" href="doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_name"><big><strong>ex API</strong></big></div>
+	<div id="product_description">Lua API extensions to the os and io namespaces</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>ex API</h1>
+	<ul>
+
+		<li><strong>Home</strong>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h1>Introduction</h1>
+
+<p>A recent (Jan 2006) discussion on the mailing list has prompted me to attempt to design an extended API which extends the Lua API by adding functions to the os and io namespaces.</p>
+
+<p>This is not a proposal to modify the Lua core, but a design proposal for an API which extends the Lua core. This API is meant to provide a more complete programming environment for stand-alone Lua programs on today's popular operating systems (Windows, MacOSX and POSIX platforms).</p>
+
+
+
+
+
+
+<h1>Credits</h1>
+
+<p>The primary contents of this document come from <a href="http://lua-users.org/wiki/ExtensionProposal">http://lua-users.org/wiki/ExtensionProposal</a>.</p>
+
+
+
+
+
+<h1>ex API</h1>
+
+<p>Note that all these functions return the standard (nil,"error message") on failure and that, unless otherwise specified, they return (true) on success.</p>
+
+
+
+
+
+
+<h2>Environment</h2>
+
+<h3>os.getenv(varname)</h3>
+
+<p>Returns the value of the process environment variable <code>varname</code> or <code>nil</code> if the variable is not defined.</p>
+
+
+<pre>
+    print(os.getenv("PATH"))
+</pre>
+
+
+
+
+<h3>os.setenv(varname, value)</h3>
+
+<p>Sets the environment variable <code>varname</code> to be <code>value</code>.  If <code>value</code> is <code>nil</code>, the environment variable is removed.  Note: The change occurs only within the currently running process.</p>
+
+
+<pre>
+    print(os.getenv("foo"))          -- Prints: nil
+    print(os.setenv("foo", "bar"))
+    print(os.getenv("foo"))          -- Prints: bar
+    print(os.setenv("foo", nil))
+    print(os.getenv("foo"))          -- Prints: nil
+</pre>
+
+
+
+
+
+<h3>env = os.environ()</h3>
+
+<p>Returns a copy of the environment as a Lua table of key-value pairs.</p>
+
+
+<pre>
+    env = os.environ()
+    print(env.HOME)
+</pre>
+
+
+
+
+<hr/>
+
+
+
+<h2>File system (mostly borrowing from LuaFilesystem?)</h2>
+
+<h3>os.access(path [ , mode ])</h3>
+
+<p>Determines if the file specified by <code>path</code> is read-only or not.  Returns</p>
+
+<p><code>mode</code> is optional or can be one of the following:</p>
+
+<ul>
+    <li>If not specified, the file is checked for existence only.</li>
+    <li><code>w</code> - Checks whether the file is write-only.</li>
+    <li><code>r</code> - Checks whether the file is read-only.</li>
+    <li><code>rw</code> - Checks whether the file is readable and writeable.</li>
+</ul>
+
+<p>Returns true if the file matches the mode, false otherwise.</p>
+
+
+<pre>
+    print(os.access('myfile.txt'))      -- Prints true if myfile.txt exists.
+    print(os.access('myfile.txt', 'w')  -- Prints true if myfile.txt is write-only.
+    print(os.access('myfile.txt', 'r')  -- Prints true if myfile.txt is read-only.
+    print(os.access('myfile.txt', 'rw') -- Prints true if myfile.txt is readable and writeable.
+</pre>
+
+
+
+
+
+<h3>os.chdir(pathname)</h3>
+
+<p>Change the working directory to <code>pathname</code>.</p>
+
+
+<pre>
+    os.chdir(os.getenv("HOME"))
+</pre>
+
+
+
+
+
+<h3>os.chmod(pathname, mode)</h3>
+
+<p>Changes the file <code>mode</code> of <code>pathname</code>.</p>
+
+<p><code>mode</code> may be one of the following bitfields:</p>
+
+<ul>
+    <li><code>400</code> - Allow read by owner.</li>
+    <li><code>200</code> - Allow write by owner.</li>
+    <li><code>100</code> - Allow execution by owner.</li>
+    <li><code>040</code> - Allow read by group members.</li>
+    <li><code>020</code> - Allow write by group members.</li>
+    <li><code>010</code> - Allow execution by group members.</li>
+    <li><code>004</code> - Allow read by others.</li>
+    <li><code>002</code> - Allow write by others.</li>
+    <li><code>001</code> - Allow execution by others.</li>
+</ul>
+
+<p><code>mode</code> may also be symbolic:</p>
+
+<ul>
+    <li><code>w</code> - Writable.</li>
+    <li><code>r</code> - Readable.</li>
+    <li><code>rw</code> - Both read and writable.</li>
+</ul>
+
+
+<pre>
+    os.chmod('script', 777)
+
+    os.chmod('writablefile', 'w')
+</pre>
+
+
+
+
+
+<h3>cwd = os.getcwd()</h3>
+
+<p>Retrieves the current working directory.</p>
+
+
+<pre>
+    cwd = os.getcwd()
+</pre>
+
+
+
+
+
+<h3>os.mkdir(pathname)</h3>
+
+<p>Create the directory described by <code>pathname</code>.  <code>pathname</code> is in the form of <code>dirA/dirB/dirC/</code> or <code>dirA/dirB/dirC/filename</code>.  All directories up to the final slash (or backslash) are created.  The filename component is ignored.</p>
+
+
+<pre>
+    dirName = 'dirA/dirB/dirC'
+    os.mkdir(dirName)                    -- Creates dirA/dirB/
+    dirName = 'dirA/dirB/dirC/'
+    os.mkdir(dirName)                    -- Creates dirA/dirB/dirC/
+    filename = 'dirA/dirB/dirC/filename'
+    os.mkdir(filename)                   -- Creates dirA/dirB/dirC/
+</pre>
+
+
+
+
+
+<h3>os.remove(pathname)</h3>
+
+<p>Removes the file or directory at <code>pathname</code>.  If <code>pathname</code> is a directory, all child directories and files within those directories are destroyed.</p>
+
+
+<pre>
+    os.remove('dirA/dirB/')              -- Remove dirB/ recursively
+    os.remove('dirA/file.txt')           -- Remove file.txt from dirA/
+</pre>
+
+
+
+
+
+<h3>os.copyfile(srcfilename, destfilename)</h3>
+
+<p>Copies the file named <code>srcfilename</code> to <code>destfilename</code> preserving file attributes and timestamp.</p>
+
+
+<pre>
+    ex.copyfile('filea.txt', 'fileb.txt')    -- Copy filea.txt to fileb.txt
+</pre>
+
+
+
+
+
+
+<h3>ex.copydirectory(srcdirectory, destdirectory)</h3>
+
+<p>Copies the directory named <code>srcdirectory</code> into <code>destdirectory</code> preserving file attributes and timestamps.  This function differs from <code>os.mirrordirectory</code> in that the <code>srcdirectory</code> files and directories are overlayed onto <code>destdirectory</code>.  <code>os.mirrordirectory</code> removes extra files and directories.</p>
+
+
+<pre>
+    ex.copydirectory('/dira', '/dirb')
+</pre>
+
+
+
+
+
+
+<h3>ex.mirrordirectory(srcdirectory, destdirectory)</h3>
+
+<p>Mirrors the directory named <code>srcdirectory</code> to <code>destdirectory</code> preserving file attributes and timestamps.  <code>os.mirrordirectory</code> removes extra files and directories.</p>
+
+
+<pre>
+    ex.mirrordirectory('/dira', '/dirb')
+</pre>
+
+
+
+
+
+
+<h3>os.movefile(srcfilename, destfilename)</h3>
+
+<p>Moves the file named <code>srcfilename</code> to <code>destfilename</code>.</p>
+
+
+<pre>
+    os.movefile('filea.txt', 'fileb.txt')    -- Move filea.txt to fileb.txt
+</pre>
+
+
+
+
+
+
+
+
+<hr/>
+
+<h2>I/O (locking and pipes)</h2>
+
+<h3>file:lock(mode, offset, length)</h3>
+<h3>io.lock(file, mode, offset, length)</h3>
+
+<p>Lock or unlock a file or a portion of a file; 'mode' is either "r" or "w" or "u"; 'offset' and 'length' are optional.  A mode of "r" requests a read lock, "w" requests a write lock, and "u" releases the lock. Note that the locks may be either advisory or mandatory.</p>
+
+
+
+
+
+<h3>file:unlock(offset, length)</h3>
+<h3>io.unlock(file, offset, length)</h3>
+
+<p>Equivalent to file:lock("u", offset, length) or io.lock(file, "u", offset, length).</p>
+
+<p>Note that both file:lock() and file:unlock() extend the metatable for Lua file objects.</p>
+
+
+
+
+<h3>rd, wr = io.pipe()</h3>
+
+<p>Create a pipe; 'rd' and 'wr' are Lua file objects.</p>
+
+
+
+
+<hr/>
+
+
+<h2>Process control</h2>
+
+<h3>os.sleep(seconds)</h3>
+<h3>os.sleep(interval, unit)</h3>
+
+<p>Suspends program execution for interval/unit seconds; 'unit' defaults to 1 and either argument can be floating point. The particular sub-second precision is implementation-defined.</p>
+
+
+<pre>
+    os.sleep(3.8) -- sleep for 3.8 seconds
+    local microseconds = 1e6
+    os.sleep(3800000, microseconds) -- sleep for 3800000 µs
+    local ticks = 100
+    os.sleep(380, ticks) -- sleep for 380 ticks
+</pre>
+
+
+
+
+
+
+<h3>proc = os.spawn(filename)</h3>
+<h3>proc = os.spawn{filename, [args-opts]}</h3>
+<h3>proc = os.spawn{command=filename, [args-opts]}</h3>
+
+<p>Creates a child process.</p>
+
+<p><code>filename</code> names a program. If the (implementation-defined) pathname is not absolute, the program is found through an implementation-defined search method (the PATH environment variable on most systems).</p>
+
+<p>If specified, [args-opts] is one or more of the following keys:</p>
+
+<ul>
+    <li><code>[1]..[n]=</code> - the command line arguments</li>
+    <li><code>args=</code> - an array of command line arguments</li>
+    <li><code>env=</code> - a table of environment variables</li>
+    <li><code>stdin=</code>, <code>stdout=</code>, <code>stderr=</code> - io.file objects for standard input, output, and error respectively</li>
+    <li><code>shell=</code> - Set to <code>true</code> if this is a shell application.  Set to <code>false</code> if this is a GUI application.  Defaults to <code>true</code>.</li>
+    <li><code>show=</code> - Set to <code>true</code> to show the application.  Set to <code>false</code> to hide it.  Defaults to <code>true</code>.</li>
+</ul>
+
+<p>It is an error if both integer keys and an 'args' key are specified.</p>
+
+<p>An implementation may provide special behavior if a zeroth argument (options.args[0] or options[0]) is provided.</p>
+
+<p>The returned 'proc' userdatum has the method <code>wait()</code>.</p>
+
+
+<pre>
+    -- run the echo command
+    proc = os.spawn"/bin/echo"
+    proc = os.spawn{"/bin/echo", "hello", "world"}
+    proc = os.spawn{command="/bin/echo", "hello", "world"}
+
+    -- run the id command
+    vars = { LANG="fr_FR" }
+    proc = os.spawn{"/bin/id", "-un", env=vars}
+    proc = os.spawn{command="/bin/id", "-un", env=vars)
+
+    -- Useless use of cat
+    local rd, wr = assert(io.pipe())
+    local proc = assert(os.spawn("/bin/cat", {stdin=rd}))
+    rd:close()
+    wr:write("Hello world\n")
+    wr:close()
+    proc:wait()
+
+    -- Run a program with a modified environment
+    local env = os.environ()
+    env.LUA_PATH = "/usr/share/lib/lua/?.lua"
+    env.LUA_CPATH = "/usr/share/lib/lua/?.so"
+    local proc = assert(os.spawn("lua", {args = {"-e", 'print"Hello world\n"'}, env=env }))
+    proc:wait()
+
+    -- popen2()
+    function popen2(...)
+        local in_rd, in_wr = io.pipe()
+        local out_rd, out_wr = io.pipe()
+        local proc, err = os.spawn{stdin = in_rd, stdout = out_wr, ...}
+        in_rd:close(); out_wr:close()
+        if not proc then
+            in_wr:close(); out_rd:close()
+            return proc, err
+        end
+        return proc, out_rd, in_wr
+    end
+
+    -- usage:
+    local p, i, o = assert(popen2("wc", "-w"))
+    o:write("Hello world"); o:close()
+    print(i:read"*l"); i:close()
+    p:wait()
+</pre>
+
+
+
+
+<h3>exitcode = proc:wait()</h3>
+
+<p>Wait for child process termination; 'exitcode' is the code returned by the child process.</p>
+
+
+
+
+<h3>ex.collectlines{filename, [args-opts]}</h3>
+<h3>ex.collectlines{command=filename, [args-opts]}</h3>
+
+<p>Returns a table of all output from the new process's stdout.</p>
+
+<p>See ex.spawn() for additional information.</p>
+
+
+
+
+
+<h3>ex.lines{filename, [args-opts]}</h3>
+<h3>ex.lines{command=filename, [args-opts]}</h3>
+
+<p>Returns an iterator that reads the new process's stdout line by line.</p>
+
+<p>See ex.spawn() for additional information.</p>
+
+
+
+
+
+<h3>proc, input = ex.popen{filename, [args-opts]}</h3>
+<h3>proc, input = ex.popen{command=filename, [args-opts]}</h3>
+
+<p>Creates a child process with the process's stdout redirected to be read from <code>input</code>.</p>
+
+<p>See ex.spawn() for additional information.</p>
+
+
+
+
+
+<h3>proc, input, output = ex.popen2{filename, [args-opts]}</h3>
+<h3>proc, input, output = ex.popen2{command=filename, [args-opts]}</h3>
+
+<p>Creates a child process with the process's stdout redirected to be read from <code>input</code> and the process's stdin redirected to be written to through <code>output</code>.</p>
+
+<p>See ex.spawn() for additional information.</p>
+
+
+
+
+
+<h3>args = os.parsecommandline(commandline)</h3>
+
+<p>Parses a single string command line into a table of arguments suitable for passing to <code>os.spawn</code>.</p>
+
+
+<pre>
+    args = os.parsecommandline('dir "c:\\Program Files\\"')
+</pre>
+
+
+
+<hr/>
+
+
+
+<h2>Path Manipulation (os.path)</h2>
+
+<h3>os.path.add_extension(path, extension)</h3>
+
+<p>Adds <code>extension</code> to the end of <code>path</code> even if one already exists.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.add_extension('', 'ext') == '.ext')
+    assert(os.path.add_extension(' ', ' ext') == ' . ext')
+    assert(os.path.add_extension('', '.ext') == '.ext')
+    assert(os.path.add_extension('hello', 'ext') == 'hello.ext')
+    assert(os.path.add_extension('hello', '.ext') == 'hello.ext')
+    assert(os.path.add_extension('hello.txt', 'ext') == 'hello.txt.ext')
+    assert(os.path.add_extension('hello.txt', '.ext') == 'hello.txt.ext')
+</pre>
+
+
+
+
+
+
+<h3>os.path.add_slash(path)</h3>
+
+<p>Adds a slash to the end of <code>path</code> if it doesn't already exist.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.add_slash('') == '/')
+    assert(os.path.add_slash(' ') == ' /')
+    assert(os.path.add_slash('hello') == 'hello/')
+    assert(os.path.add_slash(' hello') == ' hello/')
+    assert(os.path.add_slash(' hello ') == ' hello /')
+    assert(os.path.add_slash('hello/') == 'hello/')
+</pre>
+
+
+
+
+
+
+<h3>os.path.append(leftPath, rightPath)</h3>
+
+<p>Appends <code>leftPath</code> and <code>rightPath</code> together, adding a slash between the two path components.  If <code>rightPath</code> is an absolute path, it is not appended to <code>leftPath</code> and is returned directly.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.append('', 'filename.txt') == 'filename.txt')
+    assert(os.path.append('', 'dir', 'filename.txt') == 'dir/filename.txt')
+    assert(os.path.append('', 'dirA', '', 'dirB', 'filename.txt') == 'dirA/dirB/filename.txt')
+    assert(os.path.append('..', 'filename.txt') == '../filename.txt')
+    assert(os.path.append('root', 'filename.txt') == 'root/filename.txt')
+    assert(os.path.append('root', 'dir', 'filename.txt') == 'root/dir/filename.txt')
+    assert(os.path.append('root', 'dirA', '', 'dirB', 'filename.txt') == 'root/dirA/dirB/filename.txt')
+    assert(os.path.append('root', 'dirA', '', 'dirB', '..', 'filename.txt') == 'root/dirA/dirB/../filename.txt')
+    assert(os.path.append('root', 'dirA', '', '/dirB', '..', 'filename.txt') == '/dirB/../filename.txt')
+</pre>
+
+
+
+
+
+
+<h3>os.path.combine(leftPath, rightPath)</h3>
+
+<p>Combines <code>leftPath</code> and <code>rightPath</code>, adding a slash between the two path components and simplifying the path by collapsing <code>.</code> and <code>..</code> directories.  If <code>rightPath</code> is an absolute path, it is not appended to <code>leftPath</code> and is returned directly.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.combine('', 'filename.txt') == 'filename.txt')
+    assert(os.path.combine('', 'dir', 'filename.txt') == 'dir/filename.txt')
+    assert(os.path.combine('', 'dirA', '', 'dirB', 'filename.txt') == 'dirA/dirB/filename.txt')
+    assert(os.path.combine('..', 'filename.txt') == '../filename.txt')
+    assert(os.path.combine('root', 'filename.txt') == 'root/filename.txt')
+    assert(os.path.combine('root', 'dir', 'filename.txt') == 'root/dir/filename.txt')
+    assert(os.path.combine('root', 'dirA', '', 'dirB', 'filename.txt') == 'root/dirA/dirB/filename.txt')
+    assert(os.path.combine('root', 'dirA', '', 'dirB', '..', 'filename.txt') == 'root/dirA/filename.txt')
+</pre>
+
+
+
+
+
+
+<h3>os.path.escape(path)</h3>
+
+<p>Properly escapes and quotes <code>path</code>, if needed.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.escape('') == '')
+    assert(os.path.escape(' ') == '" "')
+    assert(os.path.escape('filename.txt') == 'filename.txt')
+    assert(os.path.escape('file name.txt') == '"file name.txt"')
+</pre>
+
+
+
+
+
+
+<h3>os.path.exists(path)</h3>
+
+<p>Returns <em>true</em> if <code>path</code> exists, <em>false</em> otherwise.</p>
+
+
+<pre>
+    assert(os.path.exists('filename.txt') == true)
+</pre>
+
+
+
+
+
+
+<h3>os.path.find_extension(path)</h3>
+
+<p>For the given <code>path</code>, return the index of the extension.  Returns <code>nil</code> if the <code>path</code> has no extension.</p>
+
+
+<pre>
+    assert(os.path.find_extension('') == nil)
+    assert(os.path.find_extension('filename') == nil)
+    assert(os.path.find_extension('.lua') == 1)
+    assert(os.path.find_extension('pathtests.lua') == 10)
+    assert(os.path.find_extension('pathtests') == nil)
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.find_filename(path)</h3>
+
+<p>For the given <code>path</code>, return the index of the filename.</p>
+
+
+<pre>
+    assert(os.path.find_filename('pathtests.lua') == 1)
+    assert(os.path.find_filename('/pathtests') == 2)
+    assert(os.path.find_filename('c:/pathtests') == 4)
+    assert(os.path.find_filename('c:pathtests') == 3)
+</pre>
+
+
+
+
+
+
+<h3>os.path.get_extension(path)</h3>
+
+<p>For the given <code>path</code>, return the extension.</p>
+
+
+<pre>
+    assert(os.path.get_extension('') == '')
+    assert(os.path.get_extension('filename') == '')
+    assert(os.path.get_extension('filename.ext') == '.ext')
+    assert(os.path.get_extension('filename.txt.ext') == '.ext')
+</pre>
+
+
+
+
+
+
+<h3>os.path.get_filename(path)</h3>
+
+<p>For the given <code>path</code>, return just the filename without the directory.</p>
+
+
+<pre>
+    assert(os.path.get_filename(''), '')
+    assert(os.path.get_filename('filename'), 'filename')
+    assert(os.path.get_filename('filename.ext'), 'filename.ext')
+    assert(os.path.get_filename('c:/directory/filename.ext'), 'filename.ext')
+    assert(os.path.get_filename('c:/directory/'), '')
+</pre>
+
+
+
+
+
+
+<h3>os.path.is_directory(path)</h3>
+
+<p>Returns <em>true</em> if <code>path</code> is a directory, <em>false</em> otherwise.</p>
+
+
+<pre>
+    assert(os.path.is_directory('') == false)
+    assert(os.path.is_directory(scriptPath .. 'pathtests.lua') == false)
+    assert(os.path.is_directory('.') == true)
+    assert(os.path.is_directory('..') == true)
+    assert(os.path.is_directory(scriptPath .. '../tests') == true)
+    assert(os.path.is_directory(scriptPath .. '../tests/') == true)
+</pre>
+
+
+
+
+
+
+<h3>os.path.is_file(path)</h3>
+
+<p>Returns <em>true</em> if <code>path</code> is a file, <em>false</em> otherwise.</p>
+
+
+<pre>
+    assert(os.path.is_file('') == nil)
+    assert(os.path.is_file(scriptPath .. 'pathtests.lua') == true)
+    assert(os.path.is_file('.') == false)
+    assert(os.path.is_file('..') == false)
+    assert(os.path.is_file(scriptPath .. '../tests') == false)
+    assert(os.path.is_file(scriptPath .. '../tests/') == nil)
+</pre>
+
+
+
+
+
+
+<h3>os.path.is_relative(path)</h3>
+
+<p>Returns <em>true</em> if <code>path</code> is relative, <em>false</em> otherwise.</p>
+
+
+<pre>
+    assert(os.path.is_relative('') == true)
+    assert(os.path.is_relative('filename.ext') == true)
+    assert(os.path.is_relative('/filename.ext') == false)
+    assert(os.path.is_relative('c:/filename.ext') == false)
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.is_root(path)</h3>
+
+<p>Returns <em>true</em> if <code>path</code> is a root path, <em>false</em> otherwise.</p>
+
+
+<pre>
+    assert(os.path.is_root('') == false)
+    assert(os.path.is_root('filename.ext') == false)
+    assert(os.path.is_root('/filename.ext') == true)
+    assert(os.path.is_root('c:/filename.ext') == true)
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.is_unc(path)</h3>
+
+<p>Returns <em>true</em> if <code>path</code> is a UNC path, <em>false</em> otherwise.</p>
+
+
+<pre>
+    assert(os.path.is_unc('') == false)
+    assert(os.path.is_unc('filename.ext') == false)
+    assert(os.path.is_unc('/filename.ext') == false)
+    assert(os.path.is_unc('c:/filename.ext') == false)
+    assert(os.path.is_unc('\\\\share') == true)
+    assert(os.path.is_unc('//share') == true)
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.is_writable(path)</h3>
+
+<p>Returns <em>true</em> if <code>path</code> is writable, <em>false</em> if read-only.</p>
+
+
+<pre>
+    local writable = os.path.is_writable('filename.dat')
+</pre>
+
+
+
+
+
+
+<h3>os.path.make_absolute(path)</h3>
+
+<p>Converts <code>path</code> into an absolute path, simplifying the path as necessary.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    local cwd = os.getcwd():gsub('\\', '/')
+    assert(os.path.make_absolute('') == cwd)
+    assert(os.path.make_absolute('.') == cwd .. '/')
+    assert(os.path.make_absolute('..') == cwd:match('(.+)/') .. '/')
+    assert(os.path.make_absolute('abc') == cwd .. '/abc')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.make_backslash(path)</h3>
+
+<p>Convert any forward slashes in <code>path</code> to backslashes.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.make_backslash('') == '')
+    assert(os.path.make_backslash(' ') == ' ')
+    assert(os.path.make_backslash('\\\\abc') == '\\\\abc')
+    assert(os.path.make_backslash('//abc') == '\\\\abc')
+    assert(os.path.make_backslash('c:/abc/def/') == 'c:\\abc\\def\\')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.make_slash(path)</h3>
+
+<p>Convert any backslashes in <code>path</code> to slashes.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.make_slash('') == '')
+    assert(os.path.make_slash(' ') == ' ')
+    assert(os.path.make_slash('\\\\abc') == '//abc')
+    assert(os.path.make_slash('//abc') == '//abc')
+    assert(os.path.make_slash('c:\\abc\\def\\') == 'c:/abc/def/')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.make_writable(path)</h3>
+
+<p>Make the file <em>path</em> writable that is read-only.</p>
+
+<p>Returns <em>true</em> if the process succeeded.</p>
+
+
+<pre>
+    os.path.make_writable('filename.dat')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.match(path, wildcard)</h3>
+
+<p>Returns <em>true</em> if the <code>wildcard</code> matches <code>path</code>, <em>false</em> otherwise.</p>
+
+
+<pre>
+    assert(os.path.match('', '') == true)
+    assert(os.path.match('', '*') == true)
+    assert(os.path.match('', '*.*') == false)
+    assert(os.path.match('', 'a*') == false)
+    assert(os.path.match('abcdefg.txt', 'a*') == true)
+    assert(os.path.match('abcdefg.txt', 'a*b*c?e*') == true)
+    assert(os.path.match('abcdefg.txt', 'a*b*c?f*') == false)
+    assert(os.path.match('abcdefg.txt', '*.') == false)
+    assert(os.path.match('abcdefg.txt', '*.t') == false)
+    assert(os.path.match('abcdefg.txt', '*.t*') == true)
+    assert(os.path.match('abcdefg.txt', '*.t') == false)
+    assert(os.path.match('abcdefg.txt', '*.*t') == true)
+    assert(os.path.match('abcdefg.txt', '*.*x') == false)
+    assert(os.path.match('abcdefg.txt', '*.txt') == true)
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.remove_directory(path)</h3>
+
+<p>Removes the directory component from <code>path</code>.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.remove_directory('') == '')
+    assert(os.path.remove_directory(' \t') == ' \t')
+    assert(os.path.remove_directory('abc') == 'abc')
+    assert(os.path.remove_directory('/abc.') == 'abc.')
+    assert(os.path.remove_directory('/dir/abc.') == 'abc.')
+    assert(os.path.remove_directory('c:/abc.') == 'abc.')
+    assert(os.path.remove_directory('c:/dir/abc') == 'abc')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.remove_extension(path)</h3>
+
+<p>Removes the extension component from <code>path</code>.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.remove_extension('') == '')
+    assert(os.path.remove_extension(' \t') == ' \t')
+    assert(os.path.remove_extension('abc') == 'abc')
+    assert(os.path.remove_extension('abc.') == 'abc')
+    assert(os.path.remove_extension('abc.txt') == 'abc')
+    assert(os.path.remove_extension('abc.txt.dat') == 'abc.txt')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.remove_filename(path)</h3>
+
+<p>Removes the filename component from <code>path</code>.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.remove_filename('') == '')
+    assert(os.path.remove_filename(' \t') == '')
+    assert(os.path.remove_filename('abc') == '')
+    assert(os.path.remove_filename('/abc.') == '/')
+    assert(os.path.remove_filename('/dir/abc.') == '/dir/')
+    assert(os.path.remove_filename('c:/abc.') == 'c:/')
+    assert(os.path.remove_filename('c:/dir/abc') == 'c:/dir/')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.remove_slash(path)</h3>
+
+<p>Removes the trailing slash from <code>path</code>.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.remove_slash('abc') == 'abc')
+    assert(os.path.remove_slash('abc/') == 'abc')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.replace_extension(path, extension)</h3>
+
+<p>Replaces the extension of <code>path</code> with the new one specified in <code>extension</code>.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.replace_extension('', 'ext') == '.ext')
+    assert(os.path.replace_extension('', '.ext') == '.ext')
+    assert(os.path.replace_extension('hello', 'ext') == 'hello.ext')
+    assert(os.path.replace_extension('hello', '.ext') == 'hello.ext')
+    assert(os.path.replace_extension('hello.txt', 'ext') == 'hello.ext')
+    assert(os.path.replace_extension('hello.txt', '.ext') == 'hello.ext')
+    assert(os.path.replace_extension('hello.txt.dat', 'ext') == 'hello.txt.ext')
+    assert(os.path.replace_extension('hello.txt.dat', '.ext') == 'hello.txt.ext')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.simplify(path)</h3>
+
+<p>Simplifies <code>path</code> by collapsing <code>.</code> and <code>..</code> directories and removing multiple directory slashes.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.simplify('') == '')
+    assert(os.path.simplify('abc') == 'abc')
+    assert(os.path.simplify('.abc') == '.abc')
+    assert(os.path.simplify('./abc') == 'abc')
+    assert(os.path.simplify('..abc') == '..abc')
+    assert(os.path.simplify('../abc') == '../abc')
+    assert(os.path.simplify('abc/////def') == 'abc/def')
+    assert(os.path.simplify('abc/././././def') == 'abc/def')
+    assert(os.path.simplify('c:/somedir/.././././def') == 'c:/def')
+    assert(os.path.simplify('abc/.././././def') == 'def')
+    assert(os.path.simplify('abc/ABC/../../../../def') == 'def')
+    assert(os.path.simplify('c:\\abc\\ABC\\../..\\../..\\def') == 'c:/def')
+    assert(os.path.simplify('\\\\uncserver\\pathA\\file.txt') == '\\\\uncserver/pathA/file.txt')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.split(path)</h3>
+
+<p>Splits <code>path</code> into directory and filename components.  Returns both the directory and filename.</p>
+
+
+<pre>
+    function compare_split(path, expectedDirname, expectedFilename)
+        local actualDirname, actualFilename = os.path.split(path)
+        return actualDirname == expectedDirname  and  actualFilename == expectedFilename
+    end
+
+    assert(compare_split('', '', '') == true)
+    assert(compare_split('abc.txt', '', 'abc.txt') == true)
+    assert(compare_split('/', '/', '') == true)
+    assert(compare_split('/abc', '/', 'abc') == true)
+    assert(compare_split('/abc/', '/abc/', '') == true)
+    assert(compare_split('c:/', 'c:/', '') == true)
+    assert(compare_split('c:/abc', 'c:/', 'abc') == true)
+    assert(compare_split('c:/abc/', 'c:/abc/', '') == true)
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.trim(path)</h3>
+
+<p>Trims whitespace from the beginning and end of <code>path</code>.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.trim('abc.txt') == 'abc.txt')
+    assert(os.path.trim(' abc.txt') == 'abc.txt')
+    assert(os.path.trim('abc.txt ') == 'abc.txt')
+    assert(os.path.trim('  \t  abc.txt \t \t \t ') == 'abc.txt')
+</pre>
+
+
+
+
+
+
+
+<h3>os.path.unescape(path)</h3>
+
+<p>Unescapes <code>path</code>.</p>
+
+<p>Returns the new path.</p>
+
+
+<pre>
+    assert(os.path.unescape('') == '')
+    assert(os.path.unescape('"') == '')
+    assert(os.path.unescape('""') == '')
+    assert(os.path.unescape('" "') == ' ')
+    assert(os.path.unescape('"file with spaces') == 'file with spaces')
+    assert(os.path.unescape('"file with spaces"') == 'file with spaces')
+</pre>
+
+
+
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

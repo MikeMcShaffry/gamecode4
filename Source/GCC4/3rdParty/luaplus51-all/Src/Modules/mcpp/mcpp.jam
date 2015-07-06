@@ -1,0 +1,30 @@
+if $(NT)
+{
+
+{
+
+local SRCS =
+		mcpp.c
+		mcpp/src/configed.H
+		mcpp/src/directive.c
+		mcpp/src/eval.c
+		mcpp/src/expand.c
+		mcpp/src/internal.H
+		mcpp/src/main.c
+		mcpp/src/main_libmcpp.c
+		mcpp/src/mbchar.c
+		mcpp/src/mcpp_lib.h
+		mcpp/src/noconfig.H
+		mcpp/src/preproc.c
+		mcpp/src/support.c
+		mcpp/src/system.c
+		mcpp/src/system.H
+;
+
+C.Defines mcpp : MCPP_LIB ;
+
+Lua.CModule mcpp : : $(SRCS) ;
+
+}
+
+}

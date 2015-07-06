@@ -1,0 +1,21 @@
+(function(){var a="sproutcore/standard_theme";if(!SC.BUNDLE_INFO){throw"SC.BUNDLE_INFO is not defined!"
+}if(SC.BUNDLE_INFO[a]){return}SC.BUNDLE_INFO[a]={requires:["sproutcore/empty_theme"],styles:["/static/sproutcore/standard_theme/en/52366532814d7f12ca549445e2e2a07c4b5f73d6/stylesheet-packed.css","/static/sproutcore/standard_theme/en/52366532814d7f12ca549445e2e2a07c4b5f73d6/stylesheet.css"],scripts:["/static/sproutcore/standard_theme/en/52366532814d7f12ca549445e2e2a07c4b5f73d6/javascript-packed.js"]}
+})();Todos=SC.Application.create({NAMESPACE:"Todos",VERSION:"0.1.0",store:SC.Store.create({commitRecordsAutomatically:YES}).from("Todos.DataSource")});
+Todos.tasksController=SC.ArrayController.create(SC.CollectionViewDelegate,{summary:function(){var a=this.get("length"),b;
+if(a&&a>0){b=a===1?"1 task":"%@ tasks".fmt(a)}else{b="No tasks"}return b}.property("length").cacheable(),collectionViewDeleteContent:function(a,e,d){var c=d.map(function(f){return this.objectAt(f)
+},this);c.invoke("destroy");var b=d.get("min")-1;if(b<0){b=0}this.selectObject(this.objectAt(b));
+return YES},addTask:function(){var a;a=Todos.store.createRecord(Todos.Task,{description:"New Task",isDone:false});
+this.selectObject(a);this.invokeLater(function(){var d=this.indexOf(a);var c=Todos.mainPage.getPath("mainPane.middleView.contentView");
+var b=c.itemViewForContentIndex(d);b.beginEditing()});return YES},toggleDone:function(){var a=this.get("selection");
+a.setEach("isDone",!a.everyProperty("isDone"));return YES},logout:function(){console.log("logout!");
+window.location.pathname="/logout"}});Todos.TASKS_QUERY=SC.Query.local(Todos.Task,{orderBy:"description"});
+Todos.DataSource=SC.DataSource.extend({fetch:function(a,b){if(b===Todos.TASKS_QUERY){SC.Request.getUrl("/tasks").set("isJSON",YES).notify(this,this.didFetchTasks,{store:a}).send()
+}},didFetchTasks:function(c,d){var b=d.store,a=c.get("response");if(a.content){b.loadRecords(Todos.Task,a.content)
+}},createRecord:function(a,b){var c=a.readDataHash(b);SC.Request.postUrl("/tasks").set("isJSON",YES).notify(this,this.didCreateTask,{store:a,storeKey:b}).send(c)
+},didCreateTask:function(d,f){var e=d.get("rawResponse"),b=e.getResponseHeader("Location"),a=f.store,c=f.storeKey;
+a.dataSourceDidComplete(c,null,b)},updateRecord:function(a,c){var d=a.readDataHash(c),b=SC.Store.idFor(c);
+SC.Request.putUrl(b).set("isJSON",YES).send(d);a.dataSourceDidComplete(c)},destroyRecord:function(a,c){var b=SC.Store.idFor(c);
+SC.Request.deleteUrl(b).send();a.dataSourceDidDestroy(c)}});Todos.Task=SC.Record.extend({isDone:SC.Record.attr(Boolean),description:SC.Record.attr(String)});
+Todos.mainPage=SC.Page.design({mainPane:SC.MainPane.design({childViews:"middleView topView bottomView".w(),classNames:"main-container",topView:SC.ToolbarView.design({layout:{top:0,left:0,right:0,height:36},childViews:"labelView addButton logoutButton".w(),anchorLocation:SC.ANCHOR_TOP,labelView:SC.LabelView.design({layout:{centerY:0,height:24,left:8,width:200},controlSize:SC.LARGE_CONTROL_SIZE,fontWeight:SC.BOLD_WEIGHT,value:"Todos"}),addButton:SC.ButtonView.design({layout:{centerY:0,height:24,right:122,width:100},title:"Add Task",target:"Todos.tasksController",action:"addTask"}),logoutButton:SC.ButtonView.design({layout:{centerY:0,height:24,right:12,width:100},title:"Logout",target:"Todos.tasksController",action:"logout"})}),middleView:SC.ScrollView.design({hasHorizontalScroller:NO,layout:{top:36,bottom:32,left:0,right:0},backgroundColor:"white",contentView:SC.ListView.design({contentBinding:"Todos.tasksController.arrangedObjects",selectionBinding:"Todos.tasksController.selection",contentValueKey:"description",contentCheckboxKey:"isDone",rowHeight:21,canEditContent:YES,canDeleteContent:YES,target:"Todos.tasksController",action:"toggleDone"})}),bottomView:SC.ToolbarView.design({layout:{bottom:0,left:0,right:0,height:32},childViews:"summaryView".w(),anchorLocation:SC.ANCHOR_BOTTOM,summaryView:SC.LabelView.design({layout:{centerY:0,height:18,left:20,right:20},textAlign:SC.ALIGN_CENTER,valueBinding:"Todos.tasksController.summary"})})})});
+Todos.main=function main(){Todos.getPath("mainPage.mainPane").append();var a=Todos.store.find(Todos.TASKS_QUERY);
+Todos.tasksController.set("content",a)};function main(){Todos.main()};

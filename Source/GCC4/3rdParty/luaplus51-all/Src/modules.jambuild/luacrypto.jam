@@ -1,0 +1,22 @@
+{
+
+local SRCS =
+	src/lcrypto.c
+	src/lcrypto.h
+;
+
+if $(MSVCNT) {
+	C.Defines luacrypto : "LUACRYPTO_API=__declspec(dllexport)" ;
+	C.IncludeDirectories luacrypto : c:/openssl/include ;
+	C.LinkDirectories luacrypto : c:/openssl/lib/vc ;
+	C.LinkPrebuiltLibraries luacrypto : libeay32MD ssleay32MD ;
+#	C.LinkPrebuiltLibraries luacrypto : wsock32 ;
+} else {
+	C.Defines luacrypto : LUACRYPTO_API= ;
+	C.LinkPrebuiltLibraries luacrypto : crypto ssl ;
+}
+
+Lua.CModule luacrypto : crypto : $(SRCS) ;
+
+}
+

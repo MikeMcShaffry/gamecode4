@@ -1,0 +1,67 @@
+*** noconfig.H	Thu Sep 25 15:34:56 2008
+--- noconfig.H.vc2005	Thu Sep 25 17:23:49 2008
+***************
+*** 15,21 ****
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_FREEBSD
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+--- 15,21 ----
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_WIN32
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+***************
+*** 26,36 ****
+  #define HOST_SYSTEM         SYSTEM
+  
+  /* Define host compiler.            */
+! #define HOST_COMPILER       GNUC
+  
+  /* Version message.                 */
+  /* "MCPP V.2.* (200y/mm) compiled by " precedes VERSION_MSG */
+! #define VERSION_MSG         "GCC 3.4"
+  #if     0
+      "LCC-Win32 2006-03"
+      "Visual C 2005"
+--- 26,36 ----
+  #define HOST_SYSTEM         SYSTEM
+  
+  /* Define host compiler.            */
+! #define HOST_COMPILER       MSC
+  
+  /* Version message.                 */
+  /* "MCPP V.2.* (200y/mm) compiled by " precedes VERSION_MSG */
+! #define VERSION_MSG         "Visual C 2005"
+  #if     0
+      "LCC-Win32 2006-03"
+      "Visual C 2005"
+***************
+*** 212,221 ****
+  #define ONE_PASS            TRUE
+  #endif
+  #define COMPILER_EXT        "_MSC_VER"
+! #define COMPILER_EXT_VAL    "1500"      /* VC 6.0: "1200"   */
+      /* VC 2002: "1300", VC 2003: "1310", VC 2005: "1400", VC 2008: "1500"   */
+  #define COMPILER_EXT2       "_MSC_FULL_VER"
+! #define COMPILER_EXT2_VAL   "150021022" /* VC 6.0: "12008804"       */
+      /* VC 2002: "13009466", VC 2003: "13103077", VC 2005: "140050320"       */
+      /* VC 2008: "150021022" */
+  #define COMPILER_SP1        "_MSC_EXTENSIONS"
+--- 212,221 ----
+  #define ONE_PASS            TRUE
+  #endif
+  #define COMPILER_EXT        "_MSC_VER"
+! #define COMPILER_EXT_VAL    "1400"      /* VC 6.0: "1200"   */
+      /* VC 2002: "1300", VC 2003: "1310", VC 2005: "1400", VC 2008: "1500"   */
+  #define COMPILER_EXT2       "_MSC_FULL_VER"
+! #define COMPILER_EXT2_VAL   "140050320" /* VC 6.0: "12008804"       */
+      /* VC 2002: "13009466", VC 2003: "13103077", VC 2005: "140050320"       */
+      /* VC 2008: "150021022" */
+  #define COMPILER_SP1        "_MSC_EXTENSIONS"

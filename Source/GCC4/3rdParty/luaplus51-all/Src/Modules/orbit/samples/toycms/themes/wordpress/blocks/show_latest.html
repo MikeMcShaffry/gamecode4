@@ -1,0 +1,11 @@
+$nodes[[
+<div class="entry">
+  <h3 class="entry-header"><a href="$(req:link_view_node_id(nil, { id = self.id }))">$title</a></h3>
+  <div class="entry-content">
+    <div class="entry-body">
+      $body
+    </div>
+  </div>
+  $if{ byline }[[<h3 class="entry-footer">Posted by $byline</h3>]]
+</div>
+]]

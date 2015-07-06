@@ -1,0 +1,17 @@
+{
+
+local ROOT_LUAS =
+		src/cosmo.lua
+;
+
+local COSMO_LUAS =
+		src/cosmo/grammar.lua
+		src/cosmo/fill.lua
+;
+
+Lua.Module cosmo : : $(ROOT_LUAS) $(COSMO_LUAS) ;
+
+CopyFiles cosmo : $(LUA_LDIR) : $(SUBDIR)/$(ROOT_LUAS) ;
+CopyFiles cosmo : $(LUA_LDIR)/cosmo : $(SUBDIR)/$(COSMO_LUAS) ;
+
+}

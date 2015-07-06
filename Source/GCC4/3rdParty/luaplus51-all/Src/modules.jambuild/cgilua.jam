@@ -1,0 +1,28 @@
+IncludeModule copyfile ;
+
+{
+
+local CGILUA_LUAS =
+		src/cgilua/authentication.lua
+		src/cgilua/cookies.lua
+		src/cgilua/dispatcher.lua
+		src/cgilua/loader.lua
+		src/cgilua/lp.lua
+		src/cgilua/mime.lua
+		src/cgilua/post.lua
+		src/cgilua/readuntil.lua
+		src/cgilua/serialize.lua
+		src/cgilua/session.lua
+		src/cgilua/urlcode.lua
+;
+
+local ROOT_LUAS =
+		src/cgilua/cgilua.lua
+;
+
+Lua.Module cgilua : : $(CGILUA_LUAS) $(ROOT_LUAS) ;
+
+CopyFiles cgilua : $(LUA_LDIR)/cgilua : $(SUBDIR)/$(CGILUA_LUAS) ;
+CopyFiles cgilua : $(LUA_LDIR) : $(SUBDIR)/$(ROOT_LUAS) ;
+
+}

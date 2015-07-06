@@ -1,0 +1,18 @@
+This folder contains several sample Orbit applications, from trivial
+to quite sophisticated:
+
+hello       The traditional "Hello World"
+songs       A simple song list formatted with Cosmo
+todo        An AJAX todo list, using both straight Orbit (todo.ws)
+            and Orbit Pages (todo.op)
+pages       Simple Orbit Pages examples
+blog        A simple blog with comments
+toycms      A simple CMS with posts, categories, moderated comments,
+            and an admin interface
+
+It also has a op.ws Orbit pages launcher that can be used to
+launch .op files without having this extension configured in
+your web server. For example, if you put op.ws in your document
+root and go to http://server/op.ws/foo/bar.op op.ws will look
+for a file foo/bar.op in your document root and process it using
+Orbit Pages.

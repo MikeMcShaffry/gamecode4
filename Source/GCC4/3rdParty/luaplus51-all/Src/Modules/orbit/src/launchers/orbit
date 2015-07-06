@@ -1,0 +1,106 @@
+#!/usr/bin/env lua
+
+-------------------------------------------------------------------------------
+--
+-- Starts the orbit server
+--
+--
+-------------------------------------------------------------------------------
+
+pcall(require, "luarocks.require")
+
+local ok, err = pcall(require, "wsapi.xavante") 
+if not ok then
+  io.stderr:write("WSAPI Xavante support not loaded:\n" .. err .. "\n\nPlease install wsapi-xavante with LuaRocks\n")
+  os.exit(1)
+end
+
+require "lfs"
+require "xavante"
+require "xavante.httpd"
+require "xavante.vhostshandler"
+require "xavante.urlhandler"
+require "wsapi.util"
+
+local usage = [[
+Usage: orbit [options] <application.(lua|ws)> <app_args>
+
+Starts a Xavante instance to serve a single Orbit application. Adds the
+application's path to LUA_PATH.
+
+Options:
+
+-l<file>, --log=<file>      Logs all output to the file (default stdout
+                            and stderr)
+-p<port>, --port=<port>     Binds to the specified port (default 8080)
+-h, --help                  Shows this help screen
+
+]]
+
+local opts, args = wsapi.util.getopt({ ... }, "lp")
+
+local app, app_args = args[1], { select(2, unpack(args)) }
+
+if not app or opts.h or opts.help then
+  print(usage)
+  os.exit(1)
+end
+
+if opts.l or opts.log then
+  local logfile = opts.l or opts.log
+  local tostring = tostring
+  local log = io.open(logfile, "a+")
+  if not log then
+    error("Could not open log file. Please check the write permissions for: " .. logfile)
+  end
+  io.stdout = log
+  io.stderr = log
+  print = function (...)
+    local nargs = select('#', ...)
+    for i = 1, nargs-1 do
+      log:write(tostring((select(i, ...))))
+      log:write("\t")
+    end
+    log:write(tostring(select(nargs, ...)))
+    log:write("\n")
+    log:flush()
+  end
+end
+
+local path, name = app:match("^(.+[/\\])?([%w%._%- ]+)$")
+
+if not path then
+  path, name = "", app
+end
+
+if app:sub(1, 1) ~= "/" and app:sub(1, 1) ~= "\\" and not app:match("^%a:\\") then
+  path = lfs.currentdir() .. "/" .. path
+end
+
+package.path = package.path .. ";" .. path .. "?.lua;" .. path .. "?/?.lua"
+
+wsapi.app_path = path
+
+local app_func, err = loadfile(path .. name)
+if not app_func then error(err) end
+
+local app = app_func(unpack(app_args))
+
+if not app then app = _G[name:match("(.+)%.")] end
+
+if type(app) == "table" then app = app.run end
+
+xavante.httpd.handle_request = xavante.vhostshandler {
+	[""] = xavante.urlhandler {
+                ["/"] = wsapi.xavante.makeHandler (app, nil, path, path),
+	}
+}
+
+xavante.httpd.register ("*", tonumber(opts.p or opts.port) or 8080, "Xavante 2.0")
+
+xavante.start_message(function (ports)
+			        print(string.format("Starting Orbit server at port %s",
+				 table.concat(ports, ", "))) 
+	    	      end)
+
+xavante.start()

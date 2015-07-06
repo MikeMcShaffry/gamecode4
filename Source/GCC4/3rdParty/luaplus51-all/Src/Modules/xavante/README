@@ -1,0 +1,125 @@
+Xavante 2.2.1
+http://keplerproject.org/xavante/
+
+Xavante is a Lua HTTP 1.1 Web server that uses a modular architecture based on
+URI mapped handlers. Xavante currently offers a file handler, a redirect
+handler and a WSAPI handler. Those are used for general files, URI remapping
+and WSAPI applications respectively.
+
+Xavante is free software and uses the same license as Lua.
+
+Xavante can be downloaded from its LuaForge page.
+
+You can also install Xavante using LuaRocks:
+luarocks install xavante
+
+The Xavante package provides just the Xavante libraries. To see Xavante in action
+install wsapi-xavante from LuaRocks.
+
+Dependencies
+
+Xavante dependencies can be separated by the used handlers:
+
+Xavante Core
+* Lua 5.1.4
+* Copas 1.1.6
+* LuaSocket 2.0
+
+File Handler (optional)
+* LuaFileSystem 1.5
+
+The portability of Xavante is determined by its binary components
+(LuaSocket and LuaFileSystem) and Lua itself. The other components are written
+in Lua and are as portable as Lua itself.
+
+History
+
+Xavante 2.2.1 [21/Oct/2010]
+        * allow 0 as a port value, so the OS assigns one dynamically (contributed by Tim Niemueller
+        * bugfixes in CGILua handler
+
+Xavante 2.2.0 [18/Mar/2010]
+        * xavante.cgiluahandler now works with WSAPI 1.2/1.3 without needing kepler_init
+
+Xavante 2.1.0 [20/Oct/2009]
+	* Fixes security bug on filehandler with ".." used in paths (access to files outside the doc root)
+	* Added "reload" option to xavante.cgiluahandler, to force new state for every request 
+
+Xavante 2.0.1 [06/Mar/2009]
+        * Fixes bug [#9094] keep-alive connections don't clear cached data between requests (bug report and patch by John Passaniti)
+        * redirecthandler now treats query strings correctly (bug report by ændrük).
+
+Xavante 2.0 [23/May/2008]
+        * New WSAPI based cgiluahandler
+        * Fixed a bug on SAPI.redirect that was not setting the statusline correctly
+        * First version using LuaRocks
+
+Xavante 2.0 Beta [21/Nov/2007]
+        * Xavante 2.0 Beta is distributed as a Lua module, the command line and Windows launchers are now part of the Kepler distribution
+        * If you are using Kepler, it is strongly suggested that you replace your previous Xavante config.lua file with the new one installed by Kepler
+        * Allow the definition of the HTTP status by using a "Status" header
+        * Added the Connection: close header to every CGILua request in order to avoid confusions on the content size (patch by Ignacio Burgueño)
+        * xavante.cgiluahandler now accepts an optional table with global names to be passed to the Ring where the request is processed. If this option is not present it looks for a RINGS_CGILUA_GLOBALS global and uses it.
+        * Fixed bug [#1812] - SAPI.Response.Write was not sending all its arguments but the first one (bug found by Ignacio Burgueño)
+
+Xavante 1.3.1 [31/Aug/2007]
+        * Replaces the use of the cgi table by cgilua.POST and cgilua.QUERY in the examples
+        * Correcting the behavior of coxpcall when used with C functions (patch by Ignacio Burgueño)
+        * Correcting issues with chucked encoding. Now it only sends the Transfer-Encoding header when necessary. Correcting the handling of cached files in filehandler. (patches by Ignacio Burgueño)
+        * New /web structure, using a dynamic index to documentation in /web/doc/modulename
+
+Xavante 1.3 [24/Aug/2007]
+        * Uses Lua 5.1
+        * Fixed headers to send the header twice if it's defined twice, instead of concat'ing with commas (previous behavior was broken when sending cookies)
+        * Removed the restriction of only handling URLs that corresponded to files in the filesystem. Now cgilua.dispatcher can map URLs like /apps/wiki/... into whatever it needs. Patch by Mauricio Bomfim.
+        * Corrected the PATH_INFO handling for cgilua.dispatcher
+        * Code refactoring by Thomas Harning (Bug [#767])
+        * Better error handling, using io.stderr instead of print
+        * Added the correct prefix to error codes (by Zachary P. Landau)
+        * Support for caching based on last-modified implemented by Zachary P. Landau, based on the design of HTTP.lua (by PA)
+        * Content Encoding handling using encoding.lua as a configuration file, added svgz encoding and content-type
+        * Fixed bug [#510] filehandler does not send correct headers for a 404 error (found by Matthew Burke)
+
+Xavante 1.2 [20/Sep/2006]
+        * Uses Compat-5.1 Release 5
+        * Handles multivalued HTTP headers
+        * Added HTTP chunked mode response
+        * New startup method, using KEPLER_INIT if available
+        * New configuration option for the Xavante startup message
+        * Redirection sends a 302 status instead of a 301 (less client caching)
+        * Changed xavante/server.lua to xavante/xavante.lua for a simpler require"xavante" instead of require"xavante.server"
+        * Uses Rings instead of VEnv in the CGILua handler
+        * Minor bug fixes in the CGILua handler
+
+Xavante 1.1 [12/Jul/2005]
+        * Sajax
+        * Uses Copas.step() to allow more control of the Xavante loop.
+        * Uses coxpcall 1.6
+        * New documentation with installation examples using Kepler file structure
+        * Code cleanup, minor bug fixes
+
+Xavante 1.1 Beta [17/Mar/2005]
+        * First public release
+        * Refactored to use Copas
+        * Source base merged with luahttpd
+        * New configuration file with simpler rules
+
+Xavante 1.0 [Feb/2004]
+        * (not released to the public)
+
+Credits
+
+Xavante 2.0 and 1.3 was implemented by Javier Guerra, André Carregal,
+and Fábio Mascarenhas with the help of Ignacio Burgueño, Zachary P. Landau,
+Mauricio Bomfim, Matthew Burke, Thomas Harning and others.
+
+Xavante 1.2 was implemented by Javier Guerra, André Carregal,
+Fábio Mascarenhas and Leonardo Godinho.
+
+Xavante 1.1 was redesigned and implemented by Javier Guerra and André Carregal.
+It merged Javier's work with luahttpd and André's work with Copas and Xavante 1.0.
+luahttpd is now part of Xavante.
+
+Xavante 1.0 was designed and implemented by André Carregal as part of the
+Kepler Project with contributions from Renato Crivano and Danilo Tuler.
+Xavante 1.0 development was sponsored by Fábrica Digital and Hands. 

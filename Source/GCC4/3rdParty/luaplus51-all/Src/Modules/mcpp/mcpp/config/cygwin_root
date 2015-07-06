@@ -1,0 +1,3 @@
+#! /bin/sh
+# split from configure.ac to work around a problem of backslash handling
+mount | grep ' on / ' | sed 's, on / .*,,' | tr '\\' '/'

@@ -1,0 +1,43 @@
+if $(NT)
+{
+
+{
+
+local SRCS =
+		src/luainpython.c
+		src/luainpython.h
+		src/pythoninlua.c
+		src/pythoninlua.h
+;
+
+PYTHON_ROOT = c:/python27 ;
+PYTHON_LIB = python27 ;
+
+C.IncludeDirectories python : $(PYTHON_ROOT)/include ;
+C.LinkDirectories python : $(PYTHON_ROOT)/libs ;
+
+local libName ;
+switch $(CONFIG) {
+	case debug :		libName = $(PYTHON_LIB)_d ;
+	case release :		libName = $(PYTHON_LIB) ;
+	case releaseltcg :	libName = $(PYTHON_LIB) ;
+}
+
+if $(PLATFORM) = *
+{
+	Project python : $(SRCS) ;
+}
+else if $(CONFIG) != *  &&  [ Glob $(PYTHON_ROOT)/libs : $(libName).lib ]
+{
+	C.LinkFlags python : /DELAYLOAD:lua5.1.debug.dll : debug ;
+	C.LinkFlags python : /DELAYLOAD:lua5.1.dll : release ;
+	C.LinkPrebuiltLibraries python : DelayImp ;
+	
+	C.LinkPrebuiltLibraries python : $(libName) ;
+	
+	Lua.CModule python : : $(SRCS) ;
+}
+
+}
+
+} # if $(NT)

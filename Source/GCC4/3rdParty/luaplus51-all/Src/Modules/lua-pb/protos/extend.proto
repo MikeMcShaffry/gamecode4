@@ -1,0 +1,7 @@
+
+import "protos/foo.proto";
+
+extend Foo {
+	optional int32 bar_val = 126;
+}
+

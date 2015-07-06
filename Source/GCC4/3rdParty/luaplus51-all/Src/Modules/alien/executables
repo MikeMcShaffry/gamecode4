@@ -1,0 +1,7 @@
+./libffi/compile
+./libffi/config.guess
+./libffi/config.sub
+./libffi/configure
+./libffi/depcomp
+./libffi/install-sh
+./libffi/missing

@@ -1,0 +1,7 @@
+Copy or rename conf.in to conf and edit it appropriately.
+
+Then, use one of the following commands to build:
+
+make mingw
+make cygwin
+make linux

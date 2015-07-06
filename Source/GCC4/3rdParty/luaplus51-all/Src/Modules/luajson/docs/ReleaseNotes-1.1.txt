@@ -1,0 +1,31 @@
+luajson v1.1 Release Notes
+==========================
+
+User Visible Changes
+--------------------
+A new default configuration "simple" is available that does not use
+`json.util.null` and `json.util.undefined` to represent their associated
+JSON values.
+
+There is also a change in the decoding of arrays with nulls to avoid
+special casing it.
+
+Plans for next release
+----------------------
+No plans yet for what a future release might contain.
+
+Updates since 1.0.1
+===================
+
+Thomas Harning Jr (9):
+	-ungrouped-
+		Merge branch '1.0.x'
+	decoder:
+		learns how to handle arbitrary sets of defaults (now + simple)
+		adds support for nil return values
+		fixes bug where function call returns nothing => error
+		adds support for 'simple' decoding to map null and undefined => nil
+		removes special casing of null values in an array
+		adds support for caching new arbitrary configs
+	tests:
+		tests added for simple/default decoders stand-alone, in arrays, in objects

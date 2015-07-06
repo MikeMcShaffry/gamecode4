@@ -1,0 +1,35 @@
+"ex" API implementation
+http://lua-users.org/wiki/ExtensionProposal
+Copyright 2007 Mark Edgar < medgar at student gc maricopa edu >
+
+-- Environment
+os.getenv(name) -- get environment variable
+os.setenv(name, value) -- set/unset environment variable
+os.environ() -- returns a copy of the environment
+
+-- File system
+cwd = os.currentdir()
+os.chdir(pathname)
+os.mkdir(pathname)
+os.remove(pathname)
+
+for entry in os.dir(pathname) do ; end
+entry = os.dirent(pathname)
+--[[
+  entry is a table, containing at least the following keys:
+  name: the filename
+  type: "file" or "directory" or another implementation-defined string
+  size: the file size in bytes
+--]]
+
+-- Locking and pipes
+file = io.open("filename", "w")
+file:lock(mode, start, length) -- mode is "r" or "w", start and length are optional
+file:unlock(start, length) -- start and length are optional
+in, out = io.pipe()
+
+-- Process control
+os.sleep(seconds) -- sleep for (floating-point) seconds
+os.sleep(interval, unit) -- sleep for interval/unit seconds
+pid = os.spawn(filename, {args={}, env={}, stdin=file, stdout=file, stderr=file})
+exitcode = pid:wait(pid)

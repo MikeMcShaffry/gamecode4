@@ -1,0 +1,179 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "InternalName", "LuaPlusDebuggerControls.dll"
+            VALUE "OriginalFilename", "LuaPlusDebuggerControls.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_LUAPLUSDEBUGGERCONTROLS REGISTRY                "LuaPlusDebuggerControls.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_WATCHCTL            BITMAP                  "WatchCtl.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WATCHCTL DIALOGEX 0, 0, 351, 73
+STYLE DS_SETFONT | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_VD_LUASTATEVARIABLENAME,82,1,67,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SYMBOL,82,18,147,14,ES_AUTOHSCROLL
+    CONTROL         "Evaluate Symbol:",IDC_EVALUATESYMBOL,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,1,21,69,10
+    CONTROL         "Globals",IDC_GLOBALS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,153,5,39,10
+    CONTROL         "Registry",IDC_REGISTRY,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,193,5,43,10
+    CONTROL         "Locals",IDC_LOCALS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,234,5,43,10
+    DEFPUSHBUTTON   "Accept",IDC_VD_ACCEPTLUASTATENAME,299,1,50,14
+    CONTROL         "",IDC_TABLES,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | 
+                    TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,1,36,117,34
+    CONTROL         "",IDC_KEYVALUES,"SysListView32",LVS_REPORT | 
+                    LVS_SORTASCENDING | LVS_ALIGNLEFT | WS_BORDER | 
+                    WS_TABSTOP,121,36,228,34
+    LTEXT           "LuaState variable name:",IDC_STATIC,1,4,79,8
+    CONTROL         "Xbox 360",IDC_XBOX360,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,299,21,50,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_WATCHCTL, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 349
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 70
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_PROJNAME            "LuaPlusDebuggerControls"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

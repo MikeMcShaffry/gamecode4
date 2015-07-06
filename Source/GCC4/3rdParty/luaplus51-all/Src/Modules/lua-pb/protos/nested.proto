@@ -1,0 +1,65 @@
+package nested.test;
+
+import "protos/nested2.proto";
+
+message Outer1 {
+	optional int32 outer1_val = 1;
+	message Mid1 {
+		optional int32 outer1_mid1_val = 1;
+		message Inner1 {
+			optional int32 outer1_mid1_inner1_val = 1;
+		}
+	}
+	message Mid2 {
+		optional int32 outer1_mid2_val = 1;
+		message Inner2 {
+			optional int32 outer1_mid2_inner2_val = 1;
+		}
+	}
+}
+
+message Resolve {
+	// test no-package prefix
+	optional Outer1                           field1  =  1;
+	optional Outer1.Mid1                      field2  =  2;
+	optional Outer1.Mid1.Inner1               field3  =  3;
+	optional Outer1                           field4  =  4;
+	optional Outer1.Mid2                      field5  =  5;
+	optional Outer1.Mid2.Inner2               field6  =  6;
+	// test no-package prefix & imported messages.
+	//optional Outer2                           field7  =  7;
+	//optional Outer2.Mid3                      field8  =  8;
+	//optional Outer2.Mid3.Inner3               field9  =  9;
+	//optional Outer2                           field10 = 10;
+	//optional Outer2.Mid4                      field11 = 11;
+	//optional Outer2.Mid4.Inner4               field12 = 12;
+	// test package prefix for same package.
+	optional nested.test.Outer1               field13 = 13;
+	optional nested.test.Outer1.Mid1          field14 = 14;
+	optional nested.test.Outer1.Mid1.Inner1   field15 = 15;
+	optional nested.test.Outer1               field16 = 16;
+	optional nested.test.Outer1.Mid2          field17 = 17;
+	optional nested.test.Outer1.Mid2.Inner2   field18 = 18;
+	// test package prefix for imported package.
+	optional nested2.test.Outer2              field19 = 19;
+	optional nested2.test.Outer2.Mid3         field20 = 20;
+	optional nested2.test.Outer2.Mid3.Inner3  field21 = 21;
+	optional nested2.test.Outer2              field22 = 22;
+	optional nested2.test.Outer2.Mid4         field23 = 23;
+	optional nested2.test.Outer2.Mid4.Inner4  field24 = 24;
+	// test absolute package prefix for same package.
+	optional .nested.test.Outer1              field25 = 25;
+	optional .nested.test.Outer1.Mid1         field26 = 26;
+	optional .nested.test.Outer1.Mid1.Inner1  field27 = 27;
+	optional .nested.test.Outer1              field28 = 28;
+	optional .nested.test.Outer1.Mid2         field29 = 29;
+	optional .nested.test.Outer1.Mid2.Inner2  field30 = 30;
+	// test absolute package prefix for imported package.
+	optional .nested2.test.Outer2             field31 = 31;
+	optional .nested2.test.Outer2.Mid3        field32 = 32;
+	optional .nested2.test.Outer2.Mid3.Inner3 field33 = 33;
+	optional .nested2.test.Outer2             field34 = 34;
+	optional .nested2.test.Outer2.Mid4        field35 = 35;
+	optional .nested2.test.Outer2.Mid4.Inner4 field36 = 36;
+}
+

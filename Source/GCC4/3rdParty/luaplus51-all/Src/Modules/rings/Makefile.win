@@ -1,0 +1,25 @@
+# $Id: Makefile.win,v 1.13 2008/02/15 21:33:02 carregal Exp $
+
+include config.win
+
+SRCS= src\rings.c
+OBJS= src\rings.obj
+
+.c.obj:
+	$(CC) /c /Fo$@ $(CFLAGS) $<
+
+all: src\rings.dll
+
+src\rings.dll: src\rings.obj
+	link /dll /def:src\rings.def /out:src\rings.dll "$(LUA_LIB)" src\rings.obj
+	IF EXIST src\rings.dll.manifest mt -manifest src\rings.dll.manifest -outputresource:src\rings.dll;2
+
+install:
+	IF NOT EXIST "$(LUA_LIBDIR)" mkdir "$(LUA_LIBDIR)"
+	copy src\rings.dll "$(LUA_LIBDIR)"
+	IF NOT EXIST "$(LUA_DIR)" mkdir "$(LUA_DIR)"
+	copy src\stable.lua "$(LUA_DIR)"
+
+clean:
+	del src\rings.dll src\rings.obj src\rings.lib src\rings.exp
+	IF EXIST src\rings.dll.manifest del src\rings.dll.manifest

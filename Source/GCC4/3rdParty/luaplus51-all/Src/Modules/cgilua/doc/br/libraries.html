@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>CGILua: gera&ccedil;&atilde;o de scripts para a Web usando Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org"><img alt="Logotipo do CGILua" src="cgi-128.gif"/></a></div>
+	<div id="product_name"><big><strong>CGILua</strong></big></div>
+	<div id="product_description">Gera&ccedil;&atilde;o de scripts para a Web usando Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><a href="index.html">In&iacute;cio</a>
+			<ul>
+				<li><a href="index.html#overview">Vis&atilde;o geral</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">Hist&oacute;rico</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilidades</a></li>
+				<li><a href="index.html#credits">Cr&eacute;ditos</a></li>
+				<li><a href="index.html#contact">Fale conosco</a></li>
+			</ul>
+		</li>
+		<li><a href="manual.html">Manual</a>
+			<ul>
+				<li><a href="manual.html#intro">Introdu&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#installation">Instala&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#config">Configura&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Par&acirc;metros</a></li>
+			</ul>
+		</li>
+		<li><a href="reference.html">Refer&ecirc;ncia</a>
+			<ul>
+				<li><a href="reference.html#headers">Cabe&ccedil;alhos</a></li>
+				<li><a href="reference.html#contents">Gera&ccedil;&atilde;o de conte&uacute;do</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">Vari&aacute;veis do CGILua</a></li>
+				<li><a href="reference.html#error_handling">Tratamento de erros</a></li>
+				<li><a href="reference.html#behavior">Comportamento do CGILua</a></li>
+				<li><a href="reference.html#urlcode">Codifica&ccedil;&atilde;o de URL</a></li>
+				<li><a href="reference.html#auxiliar">Fun&ccedil;&otilde;es auxiliares</a></li>
+				<li><a href="reference.html#index">&Iacute;ndice alfab&eacute;tico</a></li>
+			</ul>
+		</li>
+		<li><strong>Bibliotecas</strong>
+			<ul>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><a href="sapi.html">SAPI</a></li>
+		<li><a href="license.html">Licen&ccedil;as</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h2>Vis&atilde;o geral</h2>
+
+<p>O CGILua inclui um conjunto de bibliotecas externas que permite o tratamento de cookies, dados serializados e sess&otilde;es. Para usar essas bibliotecas, basta usar a instru&ccedil;&atilde;o <code>require</code> para solicit&aacute;-las no arquivo <code>config.lua</code> do CGILua.</p>
+
+<h2><a name="cookies"></a>Cookies</h2>
+
+<dl class="reference">
+    <dt><a name="get"></a><strong><code>cgilua.cookies.get (name)</code></strong></dt>
+    <dd>Obt&eacute;m o valor do cookie com o <code>name</code> fornecido.<br/> Retorna uma string com o valor do cookie.</dd>
+    
+    <dt><a name="set"></a><strong><code>cgilua.cookies.set (name, value[, options])</code></strong></dt>
+    <dd>Define o valor <code>value</code> do cookie com um <code>name</code> dado. Os nomes e valores de campos na tabela <code>options</code> s&atilde;o usados nos atributos do cookie. Esta fun&ccedil;&atilde;o deve ser chamada antes do envio dos cabe&ccedil;alhos HTTP e antes da gera&ccedil;&atilde;o de qualquer resultado.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="sethtml"></a><strong><code>cgilua.cookies.sethtml (name, value[, options])</code></strong></dt>
+    <dd>Define o valor <code>value</code> do cookie com um <code>name</code> dado. Esta fun&ccedil;&atilde;o gera um elemento HTML <code>&lt;meta&gt;</code>, assim, ela deve ser chamada depois de produzida a tag HTML <code>&lt;head&gt;</code> e antes da tag <code>&lt;/head&gt;</code> correspondente.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="delete"></a><strong><code>cgilua.cookies.delete (name[, options])</code></strong></dt>
+    <dd>Exclui um cookie com um <code>name</code> dado (define o valor como <code>xxx</code>).<br /> N&atilde;o retorna nada.</dd>
+</dl>
+
+<hr/>
+
+<h2><a name="serialize"></a>Serialize</h2>
+
+<dl class="reference">
+    <dt><strong><code>cgilua.serialize (table, outfunc[, indent[, prefix]])</code></strong></dt>
+    <dd>Serializa uma <code>table</code> usando <code>outfunc</code> como a fun&ccedil;&atilde;o usada para gerar o resultado; <code>indent</code> como uma string opcional com o padr&atilde;o de identa&ccedil;&atilde;o; <code>prefix</code> como uma string opcional com o prefixo de identa&ccedil;&atilde;o (usado para armazenar o recuo real entre as chamadas recursivas).<br/> Observe que h&aacute; algumas restri&ccedil;&otilde;es: os valores dos tipos <em>function</em> e <em>userdata</em> n&atilde;o podem ser serializados; as tabelas que cont&ecirc;m ciclos tamb&eacute;m n&atilde;o podem ser serializadas.<br/> N&atilde;o retorna nada.</dd>
+</dl>
+
+<hr/>
+
+<h2><a name="session"></a>Session</h2>
+
+<dl class="reference">
+    <dt><a name="close"></a><strong><code>cgilua.session.close ()</code></strong></dt>
+    <dd>Fecha a sess&atilde;o de usu&aacute;rio. Salva todos os dados em <code>cgilua.session.data</code> no sistema de armazenamento em uso (normalmente, o sistema de arquivos). Esta fun&ccedil;&atilde;o deve ser chamada depois que o script terminar de ser executado. Para garantir que isso ocorra, recomenda-se usar a <a href="reference.html#addclosefunction">addclosefunction</a> no arquivo de configura&ccedil;&atilde;o.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="data"></a><strong><code>cgilua.session.data</code></strong></dt>
+    <dd>Tabela que cont&eacute;m os dados sobre a sess&atilde;o de usu&aacute;rio.</dd>
+    
+    <dt><a name="delete"></a><strong><code>cgilua.session.delete (id)</code></strong></dt>
+    <dd>Exclui uma sess&atilde;o. O argumento <code>id</code> &eacute; o identificador da sess&atilde;o.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="load"></a><strong><code>cgilua.session.load (id)</code></strong></dt>
+    <dd>Carrega dados de uma sess&atilde;o. O argumento <code>id</code> &eacute; o identificador da sess&atilde;o.<br/> Retorna uma tabela com os dados da sess&atilde;o ou <code>nil</code> seguido de uma mensagem de erro.</dd>
+    
+    <dt><a name="new"></a><strong><code>cgilua.session.new ()</code></strong></dt>
+    <dd>Cria um novo identificador de sess&atilde;o.<br/> Retorna o novo identificador de sess&atilde;o.</dd>
+    
+    <dt><a name="open"></a><strong><code>cgilua.session.open ()</code></strong></dt>
+    <dd>Abre a sess&atilde;o de usu&aacute;rio. Cria a tabela <code>cgilua.session.data</code>. Esta fun&ccedil;&atilde;o deve ser chamada imediatamente antes da execu&ccedil;&atilde;o do script, mas ap&oacute;s o processamento dos cabe&ccedil;alhos da solicita&ccedil;&atilde;o. Para garantir que isso ocorra, recomenda-se usar a <a href="reference.html#addopenfunction">addopenfunction</a> no arquivo de configura&ccedil;&atilde;o.<br/> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="save"></a><strong><code>cgilua.session.save (id, data)</code></strong></dt>
+    <dd>Salva <code>data</code> em uma sess&atilde;o com um <code>id</code>.<br /> N&atilde;o retorna nada.</dd>
+    
+    <dt><a name="setsessiondir"></a><strong><code>cgilua.session.setsessiondir (path)</code></strong></dt>
+    <dd>Define o diret&oacute;rio tempor&aacute;rio da sess&atilde;o. O argumento <code>path</code> &eacute; uma string com o novo diret&oacute;rio.<br/> N&atilde;o retorna nada.</dd>
+</dl>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="XHTML 1.0 v&aacute;lido!" height="31" width="88" /></a></p>
+	<p><small>$Id: libraries.html,v 1.3 2005/11/03 18:48:57 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

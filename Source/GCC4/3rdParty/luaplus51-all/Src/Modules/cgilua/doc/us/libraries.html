@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CGILua: Building Web Scripts with Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org">
+		<img alt="CGILua logo" src="cgi-128.gif"/>
+	</a></div>
+	<div id="product_name"><big><strong>CGILua</strong></big></div>
+	<div id="product_description">Building Web Scripts with Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+			<ul>
+				<li><a href="index.html#overview">Overview</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">History</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilities</a></li>
+				<li><a href="index.html#credits">Credits</a></li>
+				<li><a href="index.html#contact">Contact us</a></li>
+			</ul>
+		</li>
+		<li><a href="manual.html">Manual</a>
+			<ul>
+				<li><a href="manual.html#intro">Introduction</a></li>
+				<li><a href="manual.html#installation">Installation</a></li>
+				<li><a href="manual.html#config">Configuration</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Parameters</a></li>
+				<li><a href="manual.html#dispatching">Dispatching</a></li>
+                <li><a href="manual.html#authentication">Authentication</a></li>
+                <li><a href="manual.html#error_handling">Error Handling</a></li>
+			</ul>
+		</li>
+		<li><a href="reference.html">Reference</a>
+			<ul>
+				<li><a href="reference.html#headers">Headers</a></li>
+				<li><a href="reference.html#contents">Content Generation</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">CGILua Variables</a></li>
+				<li><a href="reference.html#error_handling">Error Handling</a></li>
+				<li><a href="reference.html#behavior">CGILua Behavior</a></li>
+				<li><a href="reference.html#urlcode">URL Encoding</a></li>
+				<li><a href="reference.html#auxiliar">Auxiliary functions</a></li>
+				<li><a href="reference.html#index">Alphabetic Index</a></li>
+			</ul>
+		</li>
+		<li><strong>Libraries</strong>
+			<ul>
+				<li><a href="libraries.html#authentication">Authentication</a></li>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#dispatcher">Dispatcher</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><a href="sapi.html">SAPI</a></li>
+		<li><a href="license.html">License</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h2>Overview</h2>
+
+<p>CGILua includes a set of external libraries that allows the handling
+of authentication, cookies, dispatching, serialized data and sessions.
+To use these libraries just <code>require</code> them in your CGILua <code>config.lua</code> or script file.</p>
+
+<h2><a name="authentication"></a>Authentication</h2>
+
+<dl class="reference">
+    <dt><a name="get"></a><strong><code>cgilua.authentication.check (username, passwd)</code></strong></dt>
+    <dd>Checks if the pair <code>username</code>/<code>passwd</code> is authenticated by the configured method.<br/>
+    Returns true if succesfull or <code>nil</code> plus an error message if not.</dd>
+
+    <dt><a name="get"></a><strong><code>cgilua.authentication.checkURL ()</code></strong></dt>
+    <dd>Returns the URL for the checking script. The checking script receives the current URL
+    as the <code>ref</code> parameter. It is up to the checking script to ask for user credentials,
+    check if the user has the expected credentials
+    (using <code>cgilua.authentication.check (username, passwd)</code>
+    if implementing the checking script using CGILua), and redirect to the original URL
+    (using the <code>ref</code> parameter or
+    <code>cgilua.authentication.refURL()</code> if implementing the checking script using CGILua).</dd>
+
+    <dt><a name="get"></a><strong><code>cgilua.authentication.configure (options, methods)</code></strong></dt>
+    <dd>Configures the authentication framework (see <code>/examples/authentication_conf.lua</code> in CVS for more
+    information).</dd>
+    
+    <dt><a name="get"></a><strong><code>cgilua.authentication.logoutURL ()</code></strong></dt>
+    <dd>Returns the URL for the logout script.</dd>
+
+    <dt><a name="get"></a><strong><code>cgilua.authentication.refURL ()</code></strong></dt>
+    <dd>Returns the URL for the page that orignally required authentication. Used in checking scripts
+    that use CGILua. Other checking scripts can use the <code>ref</code> parameter.</dd>
+
+    <dt><a name="get"></a><strong><code>cgilua.authentication.username ()</code></strong></dt>
+    <dd>Returns the authenticated user or <code>nil</code> if no user is currently authenticated.</dd>
+</dl>
+
+<h2><a name="cookies"></a>Cookies</h2>
+
+<dl class="reference">
+    <dt><a name="get"></a><strong><code>cgilua.cookies.get (name)</code></strong></dt>
+    <dd>Gets the value of the cookie with the given <code>name</code>.<br/>
+    Returns a string with the value of the cookie.</dd>
+    
+    <dt><a name="set"></a><strong><code>cgilua.cookies.set (name, value[, options])</code></strong></dt>
+    <dd>Sets the <code>value</code> of the cookie with a given <code>name</code>.
+    The optional table <code>options</code> is used togive the values of
+    the cookies attributes: expires, path, domain, secure. This function
+    should be called before the HTTP headers are sent and before any output
+    is generated, so it must not be used inside a Lua Page.<br/>
+    This function sends a cookie with the response. If you need to create
+    a cookie inside the generated response or if the cookie needs to be set
+    inside the client, use <code>cgilua.cookies.sethtml</code> instead.<br/>
+    Returns nothing.</dd>
+    
+    <dt><a name="sethtml"></a><strong><code>cgilua.cookies.sethtml (name, value[, options])</code></strong></dt>
+    <dd>Sets the <code>value</code> of the cookie with a given <code>name</code>.
+    The optional table <code>options</code> is used to give the values of
+    the cookies attributes: expires, path, domain, secure.<br/>
+    This function generates a <code>&lt;meta&gt;</code> HTML element so it
+    should be called after the <code>&lt;head&gt;</code> HTML tag and before
+    the corresponding <code>&lt;/head&gt;</code>.<br/>
+    This function creates a cookie in the client, if you need to send the cookie
+    with the response use <code>cgilua.cookies.set</code> instead.<br/>
+    Returns nothing.</dd>
+    
+    <dt><a name="delete"></a><strong><code>cgilua.cookies.delete (name[, options])</code></strong></dt>
+    <dd>Deletes a cookie with a given <code>name</code> (setting its value
+    to <code>xxx</code>).
+    This function should be called
+    before the HTTP headers are sent and before any output is generated.<br/>
+    Returns nothing.</dd>
+</dl>
+
+<hr/>
+
+<h2><a name="dispatcher"></a>Dispatcher</h2>
+
+<dl class="reference">
+    <dt><strong><code>cgilua.dispatch.route (urlmaps)</code></strong></dt>
+    <dd>Defines the routing using a table of URLs maps or a single map.
+    A map defines a URL mask using <em>$name</em> patterns to extract parameters,
+    a function to be called with the extracted parameters and a name for the map when used
+    with <code>cgilua.dispatch.route_url</code>.
+    </dd>
+    
+    <dt><strong><code>cgilua.dispatch.route_url (mapname, parameters, query)</code></strong></dt>
+    <dd>Returns an URL for a named route map.
+    <em>mapname</em> defines the name associated with
+    the map in the original routed URL table sent to <code>cgilua.dispatch.route</code>.
+    <em>params</em> defines a table of named parameters used to fill the URL pattern.
+    <em>query</em> defines an optional table of named parameters used for the QUERY part of the URL.
+    </dd>
+</dl>
+
+<hr/>
+
+<h2><a name="serialize"></a>Serialize</h2>
+
+<dl class="reference">
+    <dt><strong><code>cgilua.serialize (table, outfunc[, indent[, prefix]])</code></strong></dt>
+    <dd>Serializes a <code>table</code> using <code>outfunc</code> as the function
+    to be used to generate the output; <code>indent</code> as an optional string
+    with the indentation pattern; <code>prefix</code> as an optional string with
+    the indentation prefix (it is used to store the actual indentation between the
+    recursion calls).<br/>
+    Some restrictions must be noted: values of types <em>function</em> and
+    <em>userdata</em> are not serialized; tables with cycles are not serialized.<br/>
+    Returns nothing.</dd>
+</dl>
+
+<hr/>
+
+<h2><a name="session"></a>Session</h2>
+
+<dl class="reference">
+    <dt><a name="close"></a><strong><code>cgilua.session.close ()</code></strong></dt>
+    <dd>Closes the user session. Saves all data in <code>cgilua.session.data</code>
+    to the storage system being used (usually the filesystem). This function
+    should be called after the end of the script execution. A recommended way
+    to ensure that is to use
+    <a href="reference.html#addclosefunction">addclosefunction</a>
+    in the configuration file.<br/>
+    Returns nothing.</dd>
+    
+    <dt><a name="data"></a><strong><code>cgilua.session.data</code></strong></dt>
+    <dd>Table which holds the user session data.</dd>
+    
+    <dt><a name="delete"></a><strong><code>cgilua.session.delete (id)</code></strong></dt>
+    <dd>Deletes a session. The argument <code>id</code> is the session identifier.<br/>
+    Returns nothing.</dd>
+    
+    <dt><a name="destroy"></a><strong><code>cgilua.session.destroy ()</code></strong></dt>
+    <dd>Destroys the current session.<br/>
+    Returns nothing.</dd>
+    
+    <dt><a name="load"></a><strong><code>cgilua.session.load (id)</code></strong></dt>
+    <dd>Loads data from a session. The argument <code>id</code> is the session
+    identifier.<br/>
+    Returns a table with session data or <code>nil</code> followed by an error
+    message.</dd>
+    
+    <dt><a name="new"></a><strong><code>cgilua.session.new ()</code></strong></dt>
+    <dd>Creates a new session identifier.<br/>
+    Returns the new session identifier.</dd>
+    
+    <dt><a name="open"></a><strong><code>cgilua.session.open ()</code></strong></dt>
+    <dd>Opens the user session. Creates the table <code>cgilua.session.data</code>.
+    This function should be called just before the execution of the script,
+    but after the processing of the request's headers. A recommended way to
+    ensure that is to use <a href="reference.html#addopenfunction">addopenfunction</a>
+    in the configuration file.<br/>
+    Returns nothing.</dd>
+    
+    <dt><a name="save"></a><strong><code>cgilua.session.save (id, data)</code></strong></dt>
+    <dd>Saves <code>data</code> to a session with an <code>id</code>.<br />
+    Returns nothing.</dd>
+    
+    <dt><a name="setsessiondir"></a><strong><code>cgilua.session.setsessiondir (path)</code></strong></dt>
+    <dd>Defines the session temporary directory.
+    Argument <code>path</code> is a string with the new directory.<br/>
+    Returns nothing.</dd>
+</dl>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+	<p><small>$Id: libraries.html,v 1.34 2007/12/05 19:41:13 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

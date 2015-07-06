@@ -1,0 +1,26 @@
+{
+
+SubDir LUAPLUS Samples LuaServerTest ;
+
+LUAPLUS_OUTPUT_DIRECTORY = $(ALL_LOCATE_TARGET)/image ;
+C.OutputPath * : $(ALL_LOCATE_TARGET)/image ;
+
+SubInclude LUAPLUS Src LuaPlus SharedLib : LuaPlusSharedLib ;
+
+local SRCS =
+		LuaServerTest.cpp
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkHelpers.cpp
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkHelpers.h
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkServer.cpp
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkServer.h
+		../../Src/LuaRemoteDebuggingServer/LuaRemoteDebuggingServer.cpp
+		../../Src/LuaRemoteDebuggingServer/LuaRemoteDebuggingServer.h
+		test.lua
+;
+
+C.IncludeDirectories LuaServerTest : $(LUAPLUS)/Src ;
+C.LinkLibraries LuaServerTest : LuaPlusShared ;
+
+C.Application LuaServerTest : $(SRCS) ;
+
+}

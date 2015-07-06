@@ -1,0 +1,54 @@
+
+LUA_LIBDIR=c:\usr\local\lib\lua
+LUA_DIR=c:\usr\local\share\lua\5.1
+BIN_DIR=c:\usr\local\bin
+CFLAGS=/O2 /DWINDOWS /Ic:\usr\local\include /Ilibffi\win32
+LIB_OPTION="c:\usr\local\bin\lua5.1.lib"
+PREFIX=c:\usr\local
+LIBFFI_OBJS=libffi\win32\ffi.obj libffi\win32\prep_cif.obj libffi\win32\types.obj libffi\win32\win32.obj
+
+{src\alien}.c{src\alien}.obj:
+	cl /c /MD /Fo$@ $(CFLAGS) $<
+
+{libffi\win32}.c{libffi\win32}.obj:
+	cl /c /MD /Fo$@ $(CFLAGS) /D_MSC_VER /DX86_WIN32 $<
+
+all: src\alien\core.dll src\alien\struct.dll tests\alientest.dll
+	IF EXIST src\alien\core.dll.manifest del src\alien\core.dll.manifest
+	IF EXIST src\alien\struct.dll.manifest del src\alien\struct.dll.manifest
+	IF EXIST tests\alientest.dll.manifest del tests\alientest.dll.manifest
+
+libffi\win32\ffi.lib: $(LIBFFI_OBJS)
+	lib /out:libffi\win32\ffi.lib $(LIBFFI_OBJS)
+
+src\alien\core.dll: src\alien\core.obj libffi\win32\ffi.lib
+	link /dll /out:src\alien\core.dll /def:src\alien\core.def src\alien\core.obj $(LIB_OPTION) libffi\win32\ffi.lib
+	IF EXIST src\alien\core.dll.manifest mt -manifest src\alien\core.dll.manifest -outputresource:src\alien\core.dll;2
+
+src\alien\struct.dll: src\alien\struct.obj 
+	link /dll /out:src\alien\struct.dll /def:src\alien\struct.def $(LIB_OPTION) src\alien\struct.obj
+	IF EXIST src\alien\struct.dll.manifest mt -manifest src\alien\struct.dll.manifest -outputresource:src\alien\struct.dll;2
+
+tests\alientest.dll:
+	cl /c /MD $(CFLAGS) /Fotests\alientest.obj tests\alientest.c
+	link /dll /out:tests\alientest.dll tests\alientest.obj $(LIB_OPTION)
+	IF EXIST tests\alientest.dll.manifest mt -manifest tests\alientest.dll.manifest -outputresource:tests\alientest.dll;2
+
+install:
+	IF NOT EXIST "$(LUA_LIBDIR)\alien" mkdir "$(LUA_LIBDIR)\alien"
+	copy src\alien\core.dll "$(LUA_LIBDIR)\alien"
+	IF NOT EXIST "$(LUA_LIBDIR)\alien" mkdir "$(LUA_LIBDIR)\alien"
+	copy src\alien\struct.dll "$(LUA_LIBDIR)\alien"
+	copy src\alien.lua "$(LUA_DIR)\"
+	copy src\constants "$(BIN_DIR)\"
+	xcopy /E /S tests "$(PREFIX)\tests\"
+	xcopy /E /S samples "$(PREFIX)\samples\"
+	xcopy /E /S doc "$(PREFIX)\doc\"
+
+clean:
+	del src\alien\*.dll src\alien\*.obj src\alien\*.exp src\alien\*.lib src\alien\*.dll.manifest
+	del tests\alientest.dll tests\alientest.obj tests\alientest.exp tests\alientest.lib tests\alientest.dll.manifest
+	del libffi\win32\ffi.lib libffi\win32\*.obj
+
+test:
+	cd tests && lua5.1 test_alien.lua

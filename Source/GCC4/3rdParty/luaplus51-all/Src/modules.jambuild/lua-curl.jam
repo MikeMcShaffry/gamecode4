@@ -1,0 +1,314 @@
+{
+
+local CURL_LIB_SRCS =
+		amigaos.c
+		amigaos.h
+		arpa_telnet.h
+		axtls.c
+		axtls.h
+		base64.c
+		CMakeLists.txt
+		config-amigaos.h
+		config-dos.h
+		config-mac.h
+		config-os400.h
+		config-riscos.h
+		config-symbian.h
+		config-tpf.h
+		config-vms.h
+		config-vxworks.h
+		config-win32.h
+		config-win32ce.h
+		connect.c
+		connect.h
+		content_encoding.c
+		content_encoding.h
+		cookie.c
+		cookie.h
+		curlx.h
+		curl_addrinfo.c
+		curl_addrinfo.h
+		curl_base64.h
+		curl_config.h.cmake
+		curl_config.h.in
+		curl_fnmatch.c
+		curl_fnmatch.h
+		curl_gethostname.c
+		curl_gethostname.h
+		curl_hmac.h
+		curl_ldap.h
+		curl_md4.h
+		curl_md5.h
+		curl_memory.h
+		curl_memrchr.c
+		curl_memrchr.h
+		curl_rand.c
+		curl_rand.h
+		curl_rtmp.c
+		curl_rtmp.h
+		curl_sspi.c
+		curl_sspi.h
+		curl_threads.c
+		curl_threads.h
+		cyassl.c
+		cyassl.h
+		dict.c
+		dict.h
+		easy.c
+		easyif.h
+		escape.c
+		escape.h
+		file.c
+		file.h
+		fileinfo.c
+		fileinfo.h
+		firefox-db2pem.sh
+		formdata.c
+		formdata.h
+		ftp.c
+		ftp.h
+		ftplistparser.c
+		ftplistparser.h
+		getenv.c
+		getinfo.c
+		getinfo.h
+		gopher.c
+		gopher.h
+		gtls.c
+		gtls.h
+		hash.c
+		hash.h
+		hmac.c
+		hostares.c
+		hostasyn.c
+		hostip.c
+		hostip.h
+		hostip4.c
+		hostip6.c
+		hostsyn.c
+		hostthre.c
+		http.c
+		http.h
+		http_chunks.c
+		http_chunks.h
+		http_digest.c
+		http_digest.h
+		http_negotiate.c
+		http_negotiate.h
+		http_negotiate_sspi
+		http_ntlm.c
+		http_ntlm.h
+		http_proxy.c
+		http_proxy.h
+		idn_win32.c
+		if2ip.c
+		if2ip.h
+		imap.c
+		imap.h
+		inet_ntop.c
+		inet_ntop.h
+		inet_pton.c
+		inet_pton.h
+		krb4.c
+		krb4.h
+		krb5.c
+		#ldap.c
+		libcurl.imp
+		libcurl.plist
+		libcurl.rc
+		libcurl.vcproj
+		llist.c
+		llist.h
+		Makefile.am
+		makefile.amiga
+		Makefile.b32
+		makefile.dj
+		Makefile.in
+		Makefile.inc
+		Makefile.m32
+		Makefile.netware
+		Makefile.vc6
+		Makefile.vc8
+		Makefile.vc9
+		Makefile.vc10
+		Makefile.vxworks
+		Makefile.Watcom
+		md4.c
+		md5.c
+		memdebug.c
+		memdebug.h
+		mk-ca-bundle.pl
+		mk-ca-bundle.vbs
+		mprintf.c
+		msvcproj.foot
+		msvcproj.head
+		multi.c
+		multiif.h
+		netrc.c
+		netrc.h
+		non-ascii.c
+		non-ascii.h
+		nonblock.c
+		nonblock.h
+		nss.c
+		nssg.h
+		nwlib.c
+		nwos.c
+		openldap.c
+		parsedate.c
+		parsedate.h
+		pingpong.c
+		pingpong.h
+		polarssl.c
+		polarssl.h
+		pop3.c
+		pop3.h
+		progress.c
+		progress.h
+		qssl.c
+		qssl.h
+		rawstr.c
+		rawstr.h
+		README.ares
+		README.curlx
+		README.curl_off_t
+		README.encoding
+		README.hostip
+		README.httpauth
+		README.memoryleak
+		README.multi_socket
+		README.pingpong
+		README.pipelining
+		rtsp.c
+		rtsp.h
+		security.c
+		select.c
+		select.h
+		sendf.c
+		sendf.h
+		setup-os400.h
+		setup.h
+		setup_once.h
+		share.c
+		share.h
+		slist.c
+		slist.h
+		smtp.c
+		smtp.h
+		sockaddr.h
+		socks.c
+		socks.h
+		socks_gssapi.c
+		socks_sspi.c
+		speedcheck.c
+		speedcheck.h
+		splay.c
+		splay.h
+		ssh.c
+		ssh.h
+		sslgen.c
+		sslgen.h
+		ssluse.c
+		ssluse.h
+		strdup.c
+		strdup.h
+		strequal.c
+		strequal.h
+		strerror.c
+		strerror.h
+		strtok.c
+		strtok.h
+		strtoofft.c
+		strtoofft.h
+		telnet.c
+		telnet.h
+		tftp.c
+		tftp.h
+		timeval.c
+		timeval.h
+		transfer.c
+		transfer.h
+		url.c
+		url.h
+		urldata.h
+		vc6libcurl.dsp
+		vc6libcurl.dsw
+		version.c
+		warnless.c
+		warnless.h
+		wildcard.c
+		wildcard.h
+;
+
+CURL_LIB_SRCS = src/curl-7.21.6/lib/$(CURL_LIB_SRCS) ;
+
+local ZLIB_SRCS =
+		../zlib/adler32.c
+		../zlib/compress.c
+		../zlib/crc32.c
+		../zlib/crc32.h
+		../zlib/deflate.c
+		../zlib/deflate.h
+		../zlib/infback.c
+		../zlib/inffast.c
+		../zlib/inffast.h
+		../zlib/inffixed.h
+		../zlib/inflate.c
+		../zlib/inflate.h
+		../zlib/inftrees.c
+		../zlib/inftrees.h
+		../zlib/trees.c
+		../zlib/trees.h
+		../zlib/uncompr.c
+		../zlib/zconf.h
+		../zlib/zlib.h
+		../zlib/zutil.c
+		../zlib/zutil.h
+;
+
+local SRCS =
+		src/Lua-cURL-callback.c
+		src/Lua-cURL-getinfo.c
+		src/Lua-cURL-multi.c
+		src/Lua-cURL-post.c
+		src/Lua-cURL-setopt.c
+		src/Lua-cURL-share.c
+		src/Lua-cURL-share.h
+		src/Lua-cURL.c
+		src/Lua-cURL.h
+		src/Lua-utility.c
+		src/Lua-utility.h
+		$(ZLIB_SRCS)
+;
+
+ActiveProject cURL ;
+
+SourceGroup : libcurl : $(CURL_LIB_SRCS) ;
+SourceGroup : zlib : $(ZLIB_SRCS) ;
+
+if $(MSVCNT)  &&  $(PLATFORM) in win32 win64 {
+	C.Defines : __WIN32__ CURL_STATICLIB CURL_DISABLE_LDAP ;
+	C.Defines : HAVE_ZLIB_H HAVE_ZLIB HAVE_LIBZ ;
+	C.IncludeDirectories : ../zlib ;
+	C.Defines : USE_SSLEAY ;
+
+	if $(PLATFORM) = win32 {
+		C.IncludeDirectories : c:/OpenSSL/include c:/OpenSSL/include/openssl ;
+		C.LinkDirectories : c:/OpenSSL/lib/VC/static ;
+		#C.LinkDirectories : c:/OpenSSL/lib ;
+	} else {
+		C.IncludeDirectories : c:/OpenSSL-Win64/include c:/OpenSSL-Win64/include/openssl ;
+		C.LinkDirectories : c:/OpenSSL-Win64/lib/VC/static ;
+		#C.LinkDirectories : c:/OpenSSL-Win64/lib ;
+	}
+
+	#C.LinkPrebuiltLibraries : libeay32 ssleay32 ;
+	C.LinkPrebuiltLibraries : libeay32MT ssleay32MT advapi32 gdi32 user32 ;
+
+	C.IncludeDirectories : src/curl-7.21.6/include ;
+	C.LinkPrebuiltLibraries : ws2_32 ;
+
+	Lua.CModule : : $(CURL_LIB_SRCS) $(SRCS) ;
+}
+
+}

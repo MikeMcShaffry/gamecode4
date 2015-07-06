@@ -1,0 +1,541 @@
+This file explains how to generate executables by compiling the MCPP
+source.  For further details, please refer to mcpp-porting.html.
+
+1. Types of MCPP executables
+
+There are several types of MCPP executable corresponding to its building
+methods.  The building methods of MCPP have following two axis:
+
+    1. stand-alone-build vs subroutine-build
+    2. compiler-independent-build vs compiler-specific-build
+
+stand-alone-build:  The preprocessor which is invoked as a command.
+    Some of this type is invoked by compiler-driver.
+subroutine-build:  The preprocessor to be called as a subroutine
+    (repeatedly, if required) from other main program.
+
+compiler-independent-build:  The preprocessor which behaves on its own
+    not depending on any compiler system.  The invocation options, for
+    example, are the same across the compilers with which MCPP is
+    compiled.  Although it can preprocess source files, it cannot behave
+    as an integrated part of a compiler system.
+compiler-specific-build:  The preprocessor to replace (if possible) the
+    resident preprocessor of certain compiler system.  It has some
+    specifications for the compiler system only and is installed into
+    the compiler-system-specific directory.
+
+This document does not explain subroutine-build.  As for it, please
+refer to mcpp-porting.html 3.12.  All the explanations below are of
+stand-alone-build.
+
+2. Configure and make
+
+To compile MCPP, the configure script can be used on UNIX-like systems
+and CygWIN, MinGW.  You can do configure and make in any directory.  In
+this document ${mcpp-dir} represents the path of 'mcpp-${VERSION}'
+directory.  The ${VERSION} represents the version of MCPP such as 2.6.4
+or 2.7.1.
+
+The configure script searches for compilers by name of 'cc' ('c++') and
+'gcc' ('g++') according to the path list set in the environment variable
+$PATH.  So, if you use compilers named like 'gcc-4.3.0' and 'g++-4.3.0',
+you have to specify them by CC and CXX environment variables, or link
+them to 'gcc' and 'g++', prior to do configure.  If you use a pair of
+compilers other than the one first found in the path list, you have to
+change the $PATH such as:
+
+    export PATH=/my/gcc/bin:$PATH
+
+The setting should be kept the same while you do 'configure' and 'make'.
+Do not specify a compiler by CC or CXX variable with any directory part,
+even in an absolute path, when it is not the first one found in the
+$PATH, because $PATH influences everything of configure.
+
+2.1. The compiler-independent-build
+
+If you type the commands as:
+
+    ${mcpp-dir}/configure; make; make install
+
+the compiler-independent executable will be generated and installed by
+name of 'mcpp'.  Also a few document files will be installed.
+
+    ${mcpp-dir}/configure --prefix=/usr; make; make install
+
+will install the executable into 'bin' directory in the directory
+specified by '--prefix' option.  If this option is omitted, the
+directory defaults to '/usr/local'.
+
+'make install' usually requires root privilege, and you can do it by:
+
+    sudo make install
+
+or by first 'su', then 'configure; make; make install'.
+On FreeBSD, you'd better to use 'gmake' instead of 'make'.
+To strip the executable, do:
+
+    make install-strip
+
+instead of 'make install'.
+
+To uninstall the executable, do:
+
+    make uninstall
+
+If you specify 'DESTDIR=DIR' option with make (un)install, all the files
+will be installed under (or uninstalled from) the 'DIR' directory.  For
+example,
+
+    make DESTDIR=/tmp/mcpp install
+
+will install MCPP into '/tmp/mcpp/usr/local/bin/', (Non-existent
+directories will be generated.  If '--prefix=DIR' option was specified
+in configure, '/usr/local' part will be replaced by 'DIR').  This option
+is used to make a binary package.
+
+GCC 4.1 or later has the option '-fstack-protector' ('-fstack-protector-
+all').  You can enable it by adding "CFLAGS+='-fstack-protector'" option
+to make command.  The same can be said on GCC-specific-build.  Also, you
+can use "CFLAGS+='-ggdb -O0'" option to debug mcpp by gdb.
+
+'make install' of compiler-independent-build installs a few documents as
+well as the executable.  This is for the convenience of making a binary
+package.
+
+Note that on Linux, Mac OS X, CygWIN and MinGW, the system's standard
+headers have certain defects, and some workarounds are necessary for the
+compiler-independent-build of MCPP.  See mcpp-manual.html 3.9.9 for this
+problem.
+
+2.2. The compiler-specific-build
+
+This line of commands will generate a compiler-specific executable and
+will install it into the compiler-specific directory.
+
+    ${mcpp-dir}/configure --enable-replace-cpp; make; make install
+
+'make install', 'make install-strip', 'make uninstall' are the same as
+compiler-independent-build.
+
+The prefix directory is automatocally set from the path of GCC: for
+example, '/usr/local' of '/usr/local/bin/gcc'.  If you specify --prefix
+option for configure and it conflicts with the GCC path, the --prefix
+option will be ignored.  'DESTDIR' option of make has also no relevance
+to the executable's installation.
+
+For the compiler systems other than GCC, however, it may not be compiled
+or installed properly if some porting work has not been done beforehand
+and if some of the options are not specified with configure.
+
+2.2.1 When the compiler system is GCC
+
+When the compiler system is GCC, the appropriate settings will be set by
+the configure without any options other than '--enable-replace-cpp'.
+After configuring, do 'make'.
+
+2.2.1.1. make install
+
+After configuring and 'make', the 'make install' command installs MCPP
+into the compiler's directory (e.g. /usr/libexec or /usr/lib/gcc-lib/
+SYSTEM/VERSION).  This is the directory where cc1 (cpp0), which is
+called by gcc, is located.  'make install' saves GCC / cc1, cc1plus
+(cpp0) and setups gcc and g++ command appropriately to call MCPP.  This
+setting is different depending on GCC being V.2.* or V.3.*-4.*. (Refer
+section 3.9.5 and 3.9.7 of mcpp-manual.html).  In addition, it generates
+some GCC-version-dependent header files under 'mcpp-gcc*' directory in
+compiler-specific include directory.
+
+2.2.1.2. make check
+
+In the MCPP Validation Suite, there is an edition which can be used as
+testsuite of GCC.  If GCC / testsuite has been installed, 'make check'
+can test MCPP using the testsuite edition of Validation Suite.  Because
+this edition is to be used as a part of GCC / testsuite, the testsuite
+should be installed and ready to execute in advance.  GCC / testsuite is
+usually a part of the source code of GCC. (It can be a separate package
+in some cases.)  You can use any version of testsuite from GCC V.2.95.*
+to V.4.2.*.
+
+Also, 'configure' needs an option to specify the directory where GCC /
+testsuite is located, as:
+
+    ${mcpp-dir}/configure --with-gcc-testsuite-dir=DIR  \
+            --enable-replace-cpp
+
+If the directory where GCC source is located is ${gcc-source}, this
+'DIR' should become:
+
+    ${gcc-source}/gcc/testsuite
+
+Configured as above, 'make check' after 'make; make install' copies the
+testsuite edition of Validation Suite into GCC / testsuite, and applies
+required settings according to whether GCC is V.2.* or V.3.*-4.*.  When
+the name of the gcc command is not 'gcc', for example 'gcc-4.1.2' or
+'powerpc-apple-darwin9-gcc-4.0.1', 'make check' links 'gcc' to that name
+temporarily, because GCC testsuite expects literal 'gcc' for the name.
+Then, the testsuite will be executed.  Usually, 'make check' would be
+run before 'make install' in the normal software, but this order is
+reversed in MCPP.  This is because testsuite cannot be applied to MCPP
+unless MCPP is called from gcc.  Due to this, the option '--enable-
+replace-cpp' is also required.
+
+Depending on the location of ${gcc-source} directory, you should do
+'sudo make check' instead of 'make check'.  In this case, make sure that
+gcc is the same between root and the current user.
+
+The testsuite edition of Validation Suite can also be applied to cc1,
+cc1plus (cpp0) of GCC V.2.95 and later, not only for MCPP.  (Refer cpp-
+test.html 3.2.3).
+
+2.2.1.3. make uninstall
+
+When you type 'make uninstall', the executables of MCPP will get deleted.
+The header files in mcpp-gcc* directory will be deleted, too.  The
+settings of gcc and cc1, cc1plus (cpp0) will be reset to the initial
+state.  When the re-execution of configure is required after completing
+'make install' for some reason, 'make uninstall' needs to be done
+beforehand.  This is because the configure should check GCC, not MCPP.
+
+If you have done 'make check', the 'make uninstall' will also remove the
+testsuite edition of Validation Suite.  If you want to use Validation
+Suite for GCC, copy it manually.
+
+The Makefiles generated by configure are necessary to do 'make
+uninstall', so you should not remove them.  When you do 'make distclean',
+first do 'make uninstall', because it is a little troublesome to
+uninstall GCC-specific-MCPP manually.  Also you should do 'make
+uninstall; make distclean' even before updating configure or Makefile.in,
+when you update MCPP.
+
+2.2.2. When the compiler system is Apple-GCC on Mac OS X
+
+Although Mac OS X is one of the UNIX-like systems, it has some
+peculiarities such as "framework" directories.  Its system compiler is a
+GCC with many extensions added by Apple.  Moreover, since the appearance
+of Intel-Mac, both of the compiler system for x86 and the compiler
+system for powerpc, one is a native compiler and the other is a cross
+compiler, begun to co-exist in a same machine.  And even a so-called
+"universal binary", which is a bundle of binaries for x86 and powerpc,
+hence is able to work on either machine, has become popular.  The
+structure of compiler systems is rather complex.
+
+To install MCPP for this complex system, the command sequence of 2.2.1
+is not sufficient.  Here, I explain the case of Mac OS X / Apple-GCCs
+apart from other UNIX.  I am using Mac OS X Leopard on Intel-Mac, so I
+take the examples of the system.  If you use Powerpc-Mac, read the
+section below swapping 'i686' and 'powerpc'.  On Tiger, read 'darwin9'
+as 'darwin8'.
+
+Apple provides GCC 4.0.1, and also provides GCC 3.3 as an addition.  I
+explain only GCC 4.0.1, and omit GCC 3.3, because it has not been
+properly compiled at least on Leopard.
+
+2.2.2.1. Native compiler versus cross compiler
+
+It is simple to compile and install MCPP for a native compiler, i.e. for
+x86 on Intel-Mac.  The command sequence in 2.2.1 is sufficient for it.
+
+Making of MCPP with a cross compiler, however, is not so easy.
+Generally, the configure script of MCPP does not support cross compiling,
+because it contains a few tests to be compiled and executed.  A binary
+for a target environment cannot be run on a build environment usually.
+If we test the build environment instead, the results are not
+necessarily the same with the target.
+
+Nevertheless, on Mac OS X, we can exceptionally configure cross-
+compiling for different CPUs in most cases.  First, Intel-Mac
+automatically executes a ppc binary with an emulator.  Second, if the
+build environment and the target differ only in CPU and its related
+settings, and OS, its version and GCC's version are all the same between
+them, we can substitute most of the tests of the target with that of the
+build.
+
+On Intel-Mac, for a compiler-independent-build, you should specify the C
+compiler (the name of compiler driver) and C++ compiler by the
+environment-variables CC and CXX.  There are many gccs and g++s in /usr/
+bin of Mac OS X.  In Mac OS X Leopard on Intel-Mac, powerpc-apple-
+darwin9-gcc-4.0.1 and powerpc-apple-darwin9-g++-4.0.1 are the C compiler
+and the C++ compiler for powerpc.  (Actually, all the gccs and g++s in
+/usr/bin are universal binaries of i386 and ppc.) In addition, you
+should specify the target system by --target option.  In this case, you
+should use the compiler's name removing '-gcc-4.0.1', i.e. powerpc-apple-
+darwin9.  This is the configure command to make compiler-independent-
+build:
+
+    ${mcpp-dir}/configure --target=powerpc-apple-darwin9    \
+            CC=powerpc-apple-darwin9-gcc-4.0.1      \
+            CXX=powerpc-apple-darwin9-g++-4.0.1
+
+On the other hand, ppc-Mac cannot execute an x86 binary, so you cannot
+make the compiler-independent-build with this method.  Instead, you can
+cross-compile it manually, using the difference file and mac_osx.mak.
+See mcpp-porting.html#3.1.4 and #3.11, if needed.  You can also make a
+universal binary on ppc-Mac with its native compiler using the configure,
+as explained in the next section.
+
+To make a GCC-specific-build, you should specify the C compiler by
+--with-target-cc= option instead of CC and CXX as: (the configure deduce
+the name of C++ compiler from the name of C compiler, replacing 'gcc'
+with 'g++'.)
+
+    ${mcpp-dir}/configure --target=powerpc-apple-darwin9    \
+            --with-target-cc=powerpc-apple-darwin9-gcc-4.0.1    \
+            --enable-replace-cpp
+
+This configuration does not contain any running test of the target, so
+it can be used on ppc-Mac too, changing 'powerpc' with 'i686'.
+
+When the version of the default native compiler (gcc and g++) greatly
+differs from that of the cross compiler specified by --with-target-cc=
+option, you should specify a native compiler of a version as close as
+possible to the target by the environment-variables CC and CXX.  The
+compiler specified by CC (CXX) is to be used to build MCPP, while the
+compiler specified by --with-target-cc= is the target compiler into
+which MCPP is installed.
+
+The cross compiler differs from the native compiler in libexec directory,
+compiler-specific include directory and predefined macros.  The
+configure with these options appropriately sets them.  These options
+should be used for configure, not for make command.
+
+Note that a cross compiler itself runs on a host system, so does a
+compiler-specific-build MCPP installed "to a cross compiler".  On the
+other hand, a compiler-independent-build MCPP compiled "with a cross
+compiler" runs on a target system.  Also note that both of the GCC-
+specific-build for the native compiler and for the cross compiler are
+compiled by the native compiler, therefore, if you install both, you
+should first install the one for the cross compiler.
+
+2.2.2.2. Making a universal binary
+
+To make a universal binary, specify the CPUs by -arch options and add
+them to the 'make' command as "CFLAGS+='-arch i386 -arch ppc'".  The
+valid CPU types are 'i386', 'x86_64', 'ppc' and 'ppc64'.  For example,
+this command generates a bundled binary for 4 CPU types.
+
+    make CFLAGS+='-arch i386 -arch x86_64 -arch ppc -arch ppc64'
+
+The configure needs no special option for universal binary, it needs
+only options for non-universal binary, if any.
+
+GCC has '-isysroot DIR' or '--sysroot=DIR' options, which change root of
+system include directories to DIR.  These options are not limited to Mac
+OS, but are commonly used on Mac OS to compile a universal binary in
+order to widen compatibility with older version of Mac OS.  For example,
+if '-isysroot /Developer/SDKs/MacOSX10.4u.sdk' is specified, /usr/
+include becomes /Developer/SDKs/MacOSX10.4u.sdk/usr/include.  This is an
+example to compile a universal binary compatible with Mac OS X 10.4
+(Tiger) on 10.5 (Leopard).  When you use this option in making MCPP, you
+should also specify the version of SDK by -mmacosx-version-min= option.
+
+Any universal binary of MCPP can be generated with a combination of the
+above configure options and these make options, on either of compiler-
+independent-build or GCC-specific-build, and on either of native
+compiler or cross compiler.  This example shows the sequence to generate
+a universal binary of compiler-independent-build compatible with Tiger
+for i386 and ppc.  (Actually, you should write the '*' in one line.)
+
+    ${mcpp-dir}/configure
+    make CFLAGS+='-isysroot /Developer/SDKs/MacOSX10.4u.sdk     \
+            -mmacosx-version-min=10.4 -arch i386 -arch ppc'
+    sudo make install
+
+2.2.3. When the compiler system is not GCC
+
+When the compiler system is not GCC, some options need to be specified
+in the configure.  Also, to use MCPP replacing the preprocessor of the
+compiler system, the "porting" or adding source code is required.  MCPP
+have already been ported to GCC, because the author is using GCC on
+Linux, FreeBSD, Mac OS X, CygWIN and MinGW systems, and so the
+informations can be collected by the configure.  However, as he does not
+know any compiler systems on UNIX-like systems other than GCC, he does
+not even know what or how it needs to be checked by the configure, let
+alone the porting.
+
+For compiler systems other than GCC on UNIX systems, please compile with
+the following procedures.
+
+2.2.3.1. Configure by specifying options
+
+First, do configure by specifying some options, for example:
+
+    ${mcpp-dir}/configure --enable-replace-cpp --bindir=DIR \
+            --with-cxx-include-dir=CXXDIR   \
+            --enable-SYSTEM-STD-macro=_MACRO=val
+
+Specify the directory where the preprocessor, which is called from the
+compiler-driver, is located with --bindir, specify the C++ specific
+include directory with --with-cxx-include-dir and specify the predefined
+macro of the resident preprocessor with --enable-SYSTEM-STD-macro or
+other options.
+
+If you type
+
+    ${mcpp-dir}/configure --help
+
+some options will be displayed.
+
+Then, after doing 'make; make install', some work for making MCPP
+callable from the compiler driver is required.  Please see the setup on
+GCC for how to do this.
+
+2.2.3.2. "Porting" work
+
+To be able to use the MCPP replacing the preprocessor of the compiler
+system, it is required to do "porting" work by adding source code.
+These are the execution options for the compiler system or the
+implementation of #pragma directives.  Especially, when there are some
+execution time options which are used frequently but different from MCPP,
+they at least need to be implemented.  In order to do that, define the
+macro to designate the compiler in configed.H, and write some codes in
+system.c. (Refer mcpp-porting.html 4.2).
+
+2.2.3.3. Re-configure by adding an option
+
+Once porting of source is completed, re-configure by adding the option
+--with-compiler-name=COMPILER.  'COMPILER' is the macro for the compiler
+defined in configed.H.
+
+After 'make; make install' is done successfully, do 'make clean; make'
+which recompiles MCPP using the installed MCPP.  If it passes, it can be
+said that basic porting has been done successfully.
+
+2.2.4. The limitations of the configure
+
+In the compilation of compiler-specific-build of MCPP, the
+specifications of the target system (the compiler system which will use
+MCPP as a preprocessor) must be understood in detail.  At the same time
+the host system (the compiler system with which MCPP is compiled) need
+to be understood.  In case these two are not the same, the source code
+of MCPP is written with the settings of both systems separately in the
+header file (configed.H).  However, the configure cannot detect both of
+them at the same time.  Therefore, it assumes the target system is the
+same as the host system.
+
+If these two systems are not the same, Part 2 of the configed.H needs to
+be modified.
+
+Cross-compiling is not supported by the configure of MCPP, either.  Some
+tests which cannot be executed by the cross-compiler are included as
+well.  In case of cross-compiling, the default values will be set, but
+this may not work.
+
+3. 'make' on the Windows compiler systems
+
+Since all compiler systems on Windows other than CygWIN and MinGW are
+not subject to the 'configure', they need a bit of modification of the
+source in order to do 'make'.  As there are difference files for already
+ported systems, a patch can be applied by using them.  The procedure for
+the use of the difference files is explained below.
+
+Even the systems subject to the 'configure' can also be controlled in
+detail by editing the makefile and header files directly.
+
+3.1. Applying a patch
+
+The difference files and makefiles for various compiler systems are
+available in 'noconfig' directory.  The source of MCPP is defaulted to
+FreeBSD / GCC 3.4 setting.  The difference files are used in order to
+modify this source for the particular compiler systems.  The makefile is
+written for using the make command attached to each compiler system.
+
+In the 'src' directory, run as below.  All of the following process
+should be done within the 'src' directory.
+
+    patch -c < ..\noconfig\which-compiler.dif
+    copy ..\noconfig\which-compiler.mak Makefile
+
+'patch' is a UNIX command, but it can be used in Windows as it has been
+ported.  Of course, you can directly edit the noconfig.H file referring
+the difference file.
+
+3.2. Modifying noconfig.H and Makefile if required
+
+The settings of various directories in the difference files are based on
+the environment of the author, hence you have to modify them.
+
+If the version of the compiler system is different from that of the
+difference file, modify the header file noconfig.H.  (See noconfig.H
+itself and mcpp-porting.html 3.1).  Similarly, if the multi-byte
+character for normal use is not Japanese, change the macro definition
+MBCHAR in noconfig.H.
+
+Also, define BINDIR in the Makefile to the directory in which MCPP
+executable should be installed.  As for the Makefile for Visual C,
+remove '#' of this line and make 'install' target effective.
+
+    #install :
+
+3.3. Compiler-independent-build
+
+Now, you can do 'make' and 'make install' successfully for the compiler-
+independent executable. (For Visual C, use 'nmake' instead of 'make').
+
+3.4. Compiler-specific-build
+
+To make the compiler-specific-build, rewrite BINDIR in the Makefile to
+the directory in which the executables of the compiler system are
+located.  Then, rewrite this line in noconfig.H:
+
+    #define COMPILER    INDEPENDENT
+
+Replace 'INDEPENDENT' with the macro to designate the compiler.  Then do
+'make' and 'make install'.  'COMPILER' can be overwritten also by make
+option, hence the file can be left as it is.  For example, in Visual C,
+'nmake COMPLIER=MSC' and 'nmake COMPILER=MSC install' or in Borland C,
+'make -DCOMPILER=BORLANDC' and 'make -DCOMPILER=BORLANDC install'.
+
+If the target system and the compiling system are different, noconfig.H
+/ Part 1 should be set to the specifications of the target system and
+Part 2 should be set for the compiling system.  The Makefile that should
+be used is the compiling system's one, and modify the installation
+directory to the target system's one.
+
+Since most compiler systems on Windows integrate preprocessor into its
+compiler, it is impossible to replace the preprocessor of such a one-
+path compiler with MCPP.  To use MCPP, a source program should be first
+preprocessed with MCPP and then the output should be passed to the
+compiler.  To use MCPP with a one-path compiler, the procedure should be
+written in makefile.  For sample procedures, refer to the makefile's
+settings used to recompile MCPP using MCPP itself.
+
+In Visual C++, if you create "makefile project" by IDE using the
+attached makefile, all the functions of IDE, such as source level debug,
+become available. (Refer mcpp-manual.html 2.10)
+
+3.5. Test
+
+On Windows, any include directory is not preset except MinGW/GCC-
+specific-build and GygWIN, hence you should specify them by the
+environment variable INCLUDE (and CPLUS_INCLUDE, if necessary).
+
+GCC / testsuite cannot be used in Windows, MCPP needs to be checked
+directly by preprocessing the test samples in test-t, test-c and test-l
+directories.  If you use tool/cpp_test.c, it can test some parts
+automatically. (Refer cpp-test.html 3.2.2).
+
+For the compiler-specific-build of MCPP, if you re-compile MCPP with the
+"pre-preprocess" functionality of MCPP, by using MCPP itself as the
+preprocessor of the compiler system, you can check whether it has been
+ported successfully for the compiler system. (Refer mcpp-porting.html 3.
+7)
+
+4. Please send me the information for porting.
+
+To port to the compiler systems which have not been ported yet, lots of
+information is required.  It will be great to hear from many people.
+
+Please let me know if you know the values for options of the 'configure',
+for compiler systems other than GCC.  I would like to work on configure.
+ac.
+
+5. Validation Suite
+
+MCPP provides "Validation Suite" which tests and evaluates C/C++
+preprocessor comprehensively.  Validation Suite has 265 items and can be
+applied to any preprocessor as well as MCPP.  Refer to 3.1 and 3.2 of
+cpp-test.html.
+
+November, 2008
+Kiyoshi Matsui <kmatsui@t3.rim.or.jp>
+

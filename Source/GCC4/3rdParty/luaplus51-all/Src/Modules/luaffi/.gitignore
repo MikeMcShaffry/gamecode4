@@ -1,0 +1,14 @@
+call_*.h
+*.dll
+*.exp
+*.lib
+*.pdb
+*.ilk
+.*.swp
+*.user
+/BuildLog.htm
+*.o
+*.so
+.*.swo
+.DS_Store
+/luaffi.xcodeproj

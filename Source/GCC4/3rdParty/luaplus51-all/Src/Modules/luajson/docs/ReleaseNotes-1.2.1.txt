@@ -1,0 +1,27 @@
+luajson v1.2.1 Release Notes
+============================
+
+User Visible Changes
+--------------------
+LPeg 0.10 now supported.  The only problem was the mechanism for
+version detection.  I now use object detection which should better
+work for future version updates.
+
+Plans for next release
+----------------------
+No change in the plans for the next release.
+For the next feature release, I plan on better fleshing out the enhanced
+error handling and possibly adding in the more customizable output
+system.  For previews of the features that might make it into the
+next release, please see the "next" branch.  Note that this branch
+is volatile and features may vanish rather than be reverted for cleanliness.
+
+Enhanced error handling introduced in LPeg 0.10 might help this task.
+
+
+Updates since 1.2
+=================
+
+Thomas Harning Jr (6):
+	decode/object:
+		compatibility fix for LPeg 0.10 - function-checking vs number parsing

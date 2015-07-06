@@ -1,0 +1,8 @@
+if $(OS) = NT  &&  $(COMPILER.$(PLATFORM)) != vc6
+{
+
+UseModule c/mfc ;
+C.UseMFC windows : link ;
+Lua.CModule windows : : KeystrokeEngine.cpp WindowEngine.cpp windows.cpp ;
+
+}

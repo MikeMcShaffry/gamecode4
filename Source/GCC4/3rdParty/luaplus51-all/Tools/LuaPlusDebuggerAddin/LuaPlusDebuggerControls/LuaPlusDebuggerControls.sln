@@ -1,0 +1,26 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaPlusDebuggerControls", "LuaPlusDebuggerControls.vcproj", "{6A67FDF2-AF48-4BAA-87C9-8CB726FF765C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaPlusDebuggerControlsPS", "LuaPlusDebuggerControlsPS.vcproj", "{2308DBD4-0784-49BC-AB7C-1A53B5FC5186}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+		{2308DBD4-0784-49BC-AB7C-1A53B5FC5186}.0 = {6A67FDF2-AF48-4BAA-87C9-8CB726FF765C}
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{6A67FDF2-AF48-4BAA-87C9-8CB726FF765C}.Debug.ActiveCfg = Debug|Win32
+		{6A67FDF2-AF48-4BAA-87C9-8CB726FF765C}.Debug.Build.0 = Debug|Win32
+		{6A67FDF2-AF48-4BAA-87C9-8CB726FF765C}.Release.ActiveCfg = Release|Win32
+		{6A67FDF2-AF48-4BAA-87C9-8CB726FF765C}.Release.Build.0 = Release|Win32
+		{2308DBD4-0784-49BC-AB7C-1A53B5FC5186}.Debug.ActiveCfg = Debug|Win32
+		{2308DBD4-0784-49BC-AB7C-1A53B5FC5186}.Release.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

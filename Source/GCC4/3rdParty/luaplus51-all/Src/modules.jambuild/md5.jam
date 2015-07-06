@@ -1,0 +1,14 @@
+{
+
+local SRCS =
+		lmd5.c
+		lmd5.h
+		md5.h
+		md5c.c
+		md5global.h
+;
+
+Lua.CModule md5 : : $(SRCS) ;
+
+}
+

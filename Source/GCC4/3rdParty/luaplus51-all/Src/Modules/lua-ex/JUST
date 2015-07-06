@@ -1,0 +1,47 @@
+There are several reasons for using the existing ''io'' and ''os'' namespaces.
+
+The ''io.pipe'' function depends on the Lua core in order to return
+newly-constructed file userdata.  The ''io.lock'' and ''io.unlock'' functions
+are both available as metamethods of file userdata (e.g. ''f:lock("r")''),
+which seems a natural extension.
+
+overloading file metatable, may as well overload io table too
+
+Adding a function to change environment variables requires that the
+implementation of the ''os.getenv'' function be changed, at least on the
+Windows implementation.  If it is not, then unexpected behavior occurs:
+
+	{{{require "ex"
+assert( os.getenv"NEWVAR" == nil )
+ex.setenv("NEWVAR", "value")
+print( os.getenv"NEWVAR" ) -- prints "nil"
+print( ex.getenv"NEWVAR" ) -- prints "value"
+}}}
+
+Another is that require "ex" changes the semantics of some standard functions,
+notably os.remove.
+
+The ''os.remove'' has similar requirements since on Windows, ''os.remove'' will
+only remove non-directories unless ''require "ex"'' replaces its
+implementation.
+
+Even if none of the above implementation details mattered, it is the purpose of
+this API to extend the Lua standard namespaces with additional functions.
+
+It seems there are only two major concerns about using the existing namespaces.
+First, there is concern that a future version of Lua might want to use one of
+these names.  This should not be a concern for one simple reason: this proposal
+intends to be that future version.  While it may not be the case that this
+library would be distributed as part of the Lua core, it is the goal of this
+proposal that this extension be recognized to be as much of a standard as
+''package.loadlib'' which cannot be implemented in standard C.
+
+The other major concern is that extending the existing namespaces would be
+confusing to Lua users.  The best solution to this issue is to make this API
+(and its major implementations) a part of the standard Lua distribution.
+Similarly to both ''io.popen'' and ''package.loadlib'', the functions proposed
+here would be documented in the reference manual and clearly noted that they
+are not supported on all platforms.  Likewise, these functions would throw an
+error when called on platforms which cannot provide an implementation.  
+
+goal: have standard methods when available

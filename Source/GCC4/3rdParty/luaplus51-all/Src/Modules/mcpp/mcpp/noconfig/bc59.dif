@@ -1,0 +1,73 @@
+*** noconfig.H	2008-09-25 15:34:56.000000000 +0900
+--- noconfig.H.bc59	2008-09-26 13:26:52.000000000 +0900
+***************
+*** 15,21 ****
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_FREEBSD
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+--- 15,21 ----
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_WIN32
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+***************
+*** 26,36 ****
+  #define HOST_SYSTEM         SYSTEM
+  
+  /* Define host compiler.            */
+! #define HOST_COMPILER       GNUC
+  
+  /* Version message.                 */
+  /* "MCPP V.2.* (200y/mm) compiled by " precedes VERSION_MSG */
+! #define VERSION_MSG         "GCC 3.4"
+  #if     0
+      "LCC-Win32 2006-03"
+      "Visual C 2005"
+--- 26,36 ----
+  #define HOST_SYSTEM         SYSTEM
+  
+  /* Define host compiler.            */
+! #define HOST_COMPILER       BORLANDC
+  
+  /* Version message.                 */
+  /* "MCPP V.2.* (200y/mm) compiled by " precedes VERSION_MSG */
+! #define VERSION_MSG         "BCC V.5.9"
+  #if     0
+      "LCC-Win32 2006-03"
+      "Visual C 2005"
+***************
+*** 234,246 ****
+  #define ONE_PASS            TRUE
+  #define COMPILER_STD2       "__TURBOC__"
+  #if     __BORLANDC__        /* Borland C    */
+! #define COMPILER_STD2_VAL   "0x0550"
+      /* BC 5.5: "0x0550", BC 5.9: "0x5930"   */
+  #define COMPILER_EXT        "__BORLANDC__"
+! #define COMPILER_EXT_VAL    "0x0550"
+      /* BC 5.5: "0x0550", BC 5.9: "0x5930"   */
+  #define COMPILER_CPLUS      "__BCPLUSPLUS__"
+! #define COMPILER_CPLUS_VAL  "0x0550"
+      /* BC 5.5: "0x0550", BC 5.9: "0x5930"   */
+  #define EXPAND_PRAGMA       TRUE
+  #define SEARCH_INIT         (CURRENT & SOURCE)
+--- 234,246 ----
+  #define ONE_PASS            TRUE
+  #define COMPILER_STD2       "__TURBOC__"
+  #if     __BORLANDC__        /* Borland C    */
+! #define COMPILER_STD2_VAL   "0x5930"
+      /* BC 5.5: "0x0550", BC 5.9: "0x5930"   */
+  #define COMPILER_EXT        "__BORLANDC__"
+! #define COMPILER_EXT_VAL    "0x5930"
+      /* BC 5.5: "0x0550", BC 5.9: "0x5930"   */
+  #define COMPILER_CPLUS      "__BCPLUSPLUS__"
+! #define COMPILER_CPLUS_VAL  "0x5930"
+      /* BC 5.5: "0x0550", BC 5.9: "0x5930"   */
+  #define EXPAND_PRAGMA       TRUE
+  #define SEARCH_INIT         (CURRENT & SOURCE)

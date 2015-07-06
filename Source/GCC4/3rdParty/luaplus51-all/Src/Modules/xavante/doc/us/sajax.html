@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>The Xavante Lua Web Server Sajax</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+    <div id="product_logo"><a href="http://www.keplerproject.org">
+		<img alt="Xavante logo" src="xavante.gif" width="128" height="128"/></a>
+    </div>
+    <div id="product_name"><big><strong>Xavante</strong></big></div>
+    <div id="product_description">A Lua Web Server with WSAPI support</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+<h1>Xavante</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+            <ul>
+              <li><a href="index.html#over">Overview</a></li>
+              <li><a href="index.html#status">Status</a></li>
+              <li><a href="index.html#download">Download</a></li>
+              <li><a href="index.html#dependencies">Dependencies</a></li>
+              <li><a href="index.html#history">History</a></li>
+              <li><a href="index.html#credits">Credits</a></li>
+              <li><a href="index.html#contact">Contact us</a></li>
+            </ul>
+        </li>
+		<li><a href="manual.html">Manual</a>
+            <ul>
+              <li><a href="manual.html#install">Installing</a></li>
+              <li><a href="manual.html#config">Configuring</a></li>
+              <li><a href="manual.html#running">Running</a></li>
+            </ul>
+        </li>
+        <li><strong>Sajax</strong></li>
+	    <li><a href="http://luaforge.net/projects/xavante/">Project</a>
+	        <ul>
+	            <li><a href="http://luaforge.net/tracker/?group_id=6">Bug Tracker</a></li>
+	            <li><a href="http://luaforge.net/scm/?group_id=6">CVS</a></li>
+	        </ul>
+	    </li>
+        <li><a href="license.html">License</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+
+<div id="content">
+
+<h2>Sajax</h2>
+
+<h3>Background</h3>
+
+<p>Xavante offers a Lua version of
+<a href="http://www.modernmethod.com/sajax/">Sajax</a>
+that can be used in
+<a href="http://www.adaptivepath.com/publications/essays/archives/000385.php">
+AJAX</a> applications. Sajax (the Simple AJAX toolkit) was written in
+PHP by Thomas Lackner. AJAX is short for "Asynchronous Javascript and Xml",
+a new name for a not-so-new technology.</p>
+
+<p>AJAX is about writing your user GUI in HTML, with user interactivity defined
+in client-side Javascript, and getting server data via HTTP requests, the response
+being returned usually in the form of XML structures.</p>
+
+<p>Sajax doesn't use a lot of XML itself, but the JavaScript object used to make
+the HTTP queries is <code>XMLHttpRequest</code>, so the 'X' in the name remains.</p>
+
+<p>Sajax makes everything easier to do by allowing functions running in the server
+to be called from JavaScript code running in the client. To do that just register
+your functions and Sajax will generate JavaScript 'stubs' (small functions that
+handle the query to the server) with the same name as the server-side functions.</p>
+
+<p>After that, all you have to do is call those functions from the client side Javascript
+and Sajax handles the magic</p>
+
+<h3>Usage</h3>
+
+<p>The example below is taken from <code>calculator.lp</code>, based on one of the examples on
+the Sajax site:</p>
+
+<pre class="example">
+&lt;%
+    require "sajax"
+
+    function multiply(x, y)
+        return x * y
+    end
+
+    sajax.init()
+    sajax.export ("multiply", multiply)
+    if sajax.handle_client_request () then return end
+%&gt;
+</pre>
+
+<p>This code defines a very trivial function and registers it with 
+<code>sajax.export</code>. After all exported functions have been registered, it calls 
+<code>sajax.handle_client_request</code> and finishes the script if there has been a Sajax 
+request.</p>
+
+<pre class="example">
+&lt;head&gt;
+	&lt;title&gt;Multiplier&lt;/title&gt;
+	&lt;script&gt;
+	&lt;%
+		sajax.show_javascript();
+	%&gt;
+	
+	function do_multiply_cb(z) {
+		document.getElementById("z").value = z;
+	}
+	
+	function do_multiply() {
+		var x, y;
+		
+		x = document.getElementById("x").value;
+		y = document.getElementById("y").value;
+		x_multiply(x, y, do_multiply_cb);
+	}
+	&lt;/script&gt;
+&lt;/head&gt;
+</pre>
+
+<p>The <code>&lt;head&gt;</code> part of the page includes some JavaScript
+code. The call to <code>sajax.show_javascript</code> generates the support
+functions and the JavaScript stub function that will remotely call the registered
+Lua functions.</p>
+
+<p>The function <code>do_multiply</code> reads two values, <code>x</code> and
+<code>y</code> from form fields and calls the stub function <code>x_multiply</code>,
+adding as the last parameter a callback function. The function <code>x_multiply</code>
+will perform the query to the server, and return immediately. The callback function
+<code>do_multiply_cb</code> will be called with the server function's return value
+as the only parameter. In this example, <code>do_multiply_cb</code> puts the
+multiplication result into a form field.</p>
+
+<pre class="example">
+&lt;body&gt;
+	&lt;input type="text" name="x" id="x" value="2" size="3"&gt;
+	*
+	&lt;input type="text" name="y" id="y" value="3" size="3"&gt;
+	=
+	&lt;input type="text" name="z" id="z" value="" size="3"&gt;
+	&lt;input type="button" name="check" value="Calculate"
+		onclick="do_multiply(); return false;"&gt;
+&lt;/body&gt;
+</pre>
+
+<p>The body of the Lua Page contains the HTML fields used by the JavaScript 
+functions, and also the button that calls the <code>do_multiply</code> function.
+In AJAX, the HTML code is mostly the initial canvas where JavaScript code is executed, 
+using both user events and server responses as inputs to operation.</p>
+
+<h3>Notes</h3>
+<ul>
+    <li>The <code>sajax.handle_client_request</code> function must be called after all the 
+    server-side functions has been registered, but before any other page processing.
+    If the call returns true, the script must be finished immediatly.</li>
+    <li>The JavaScript stubs names are the names under which the server-side 
+    functions were exported, with a <code>x_</code> prefix.</li>
+    <li>The value returned by the server-side function is converted to a string 
+    and passed as the parameter to a JavaScript callback. Only one returned value 
+    is passed.</li>
+    <li>The JavaScript stub returns immediately after posting the query to the 
+    server; to do work after the server-side function has returned, use the 
+    callback function. That's the 'Asynchronous' part in AJAX.</li>
+</ul>
+
+<h3>How it works</h3>
+<p>There are two different operation modes in <code>sajax.lua</code>: the generic CGILua 
+mode, and a Xavante specific optimization.</p>
+
+<p>In generic CGILua, <code>sajax.lua</code> works very similar to the PHP version:</p>
+
+<ol>
+  <li>When the user enters the URL of the CGILua Script (or Lua Page), all the 
+  functions are registered; but <code>handle_client_request</code> returns false, the 
+  script continues and produces the whole page, including the JavaScript stubs 
+  generated by <code>show_javascript</code>.</li>
+  <li>A user event calls up some JavaScript, which in turn may call some of the 
+  stubs.</li>
+  <li>The JavaScript stub build a HTTP request with the same URL of the current 
+  page, with parameters indicating the function it wants to call, and any other 
+  parameter passed by the calling JavaScript code. It also adds the callback 
+  function to the request object, posts the request to the server, and 
+  returns immediately.</li>
+  <li>The client query is handled in the server by the same Lua script. The same 
+  functions get registered, but this time the <code>handle_client_request</code>
+  function detects the Sajax request, pulls the required function name and other
+  parameters, and calls the registered function. It then builds the response with the 
+  returned value, sends it to the client, and returns true to indicate the main 
+  Lua Script that the request has been handled and that it should terminate.</li>
+  <li>The response is handled by the client-side JavaScript; if the response is 
+  positive, the callback function is called with the returned value, if the 
+  response signals an error, an alert is posted.</li>
+</ol>
+
+<p>If <code>sajax.lua</code> detects that the current webserver is Xavante, it uses a 
+different workflow:</p>
+
+<ol>
+  <li>When the user enters the URL of the CGILua Script (or LuaPage), all the 
+  functions are registered in the Xavante dispatch table as handlers for URLs of 
+  the form:<br />
+  <code>http://www.server.com/somedir/script.lp/funcname</code><br />
+  <code>handle_client_request</code> does nothing and always returns false.</li>
+  <li>The JavaScript stubs call the functions with their specific URL, adding 
+  the parameters passed by the calling client side code.</li>
+  <li>The Xavante dispatch code calls the required function, no CGILua 
+  environment is set up.</li>
+  <li>The returned value is handled in the same way, calling the client-side 
+  callback.</li>
+</ol>
+
+<p>It is very important to notice that the CGILua system is called only for the 
+initial page request; the remote function calls don't fetch the filesystem, and 
+the CGILua environment and parsing is bypassed. That means that the server-side 
+functions can't use most CGILua functions, so any session identifying key should 
+be passed as a function parameter.</p>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+	<p><small>$Id: sajax.html,v 1.10 2008/05/23 20:18:58 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+</body>
+</html>

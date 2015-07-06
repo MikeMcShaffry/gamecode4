@@ -1,0 +1,33 @@
+if $(OS) = NT  &&  $(COMPILER.$(PLATFORM)) != vc6 {
+
+IncludeModule CSharp ;
+
+SRCS =
+		AssemblyInfo.cs
+		CheckType.cs
+		GenerateEventAssembly.cs
+		Lua.cs
+		LuaDLL.cs
+		LuaException.cs
+		Metatables.cs
+		MethodWrapper.cs
+		ObjectTranslator.cs
+		ProxyType.cs
+		README.txt
+;
+
+CSharp.ReferenceAssemblies dotnetinterface :
+		System.dll
+		System.Data.dll
+		System.XML.dll
+;
+
+CSharp.OutputPostfix dotnetinterface : : debug ;
+CSharp.OutputPostfix dotnetinterface : : release ;
+CSharp.OutputPath dotnetinterface : $(LUAPLUS_OUTPUT_DIRECTORY)/modules/debug : debug ;
+CSharp.OutputPath dotnetinterface : $(LUAPLUS_OUTPUT_DIRECTORY)/modules : release ;
+CSharp.Library dotnetinterface : $(SRCS) ;
+
+NoWorkspace dotnetinterface ;
+
+}

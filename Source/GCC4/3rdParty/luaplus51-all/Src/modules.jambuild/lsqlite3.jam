@@ -1,0 +1,16 @@
+{
+
+local SRCS =
+		../sqlite3/sqlite/sqlite3.c
+		../sqlite3/sqlite/sqlite3.h
+		../sqlite3/sqlite/sqlite3ext.h
+		lsqlite3.c
+;
+
+C.Defines lsqlite3 : SQLITE_ENABLE_FTS3 ;
+
+C.IncludeDirectories lsqlite3 : ../sqlite3/sqlite ;
+
+Lua.CModule lsqlite3 : : $(SRCS) ;
+
+}

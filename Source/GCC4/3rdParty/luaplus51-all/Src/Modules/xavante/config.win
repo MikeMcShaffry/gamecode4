@@ -1,0 +1,4 @@
+# $Id: config.win,v 1.7 2007/11/17 14:15:23 carregal Exp $
+
+# System's lua directory (where Lua libraries are installed)
+LUA_DIR= c:\lua5.1\lua

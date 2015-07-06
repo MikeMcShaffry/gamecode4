@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Lua XML-RPC: XML-RPC interface to the Lua programming language</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  </head>
+  <body>
+
+    <div id="container">
+      
+      <div id="product">
+	<div id="product_logo">
+          <a href="http://www.keplerproject.org">
+	    <img alt="Lua XML-RPC logo" src="luaxmlrpc.png"/>
+	  </a>
+	</div>
+	<div id="product_name"><big><b>Lua XML-RPC</b></big></div>
+	<div id="product_description">XML-RPC interface to the Lua programming language</div>
+      </div> <!-- id="product" -->
+
+      <div id="main">
+	
+	<div id="navigation">
+	  <h1>Lua XML-RPC</h1>
+	  <ul>
+	    <li><a href="index.html">Home</a>
+	      <ul>
+		<li><a href="index.html#overview">Overview</a></li>
+		<li><a href="index.html#status">Status</a></li>
+		<li><a href="index.html#download">Download</a></li>
+		<li><a href="index.html#history">History</a></li>
+		<li><a href="index.html#credits">Credits</a></li>
+		<li><a href="index.html#contact">Contact</a></li>
+	      </ul>
+	    </li>
+	    <li><a href="manual.html">Manual</a>
+	      <ul>
+		<li><a href="manual.html#introduction">Introduction</a></li>
+		<li><a href="manual.html#installation">Installation</a></li>
+		<li><a href="manual.html#data_types">Data types</a></li>
+		<li><a href="manual.html#functions">Library functions</a></li>
+		<li><a href="manual.html#client">Client side</a></li>
+		<li><a href="manual.html#server">Server side</a></li>
+		<li><a href="manual.html#references">References</a></li>
+	      </ul>
+	    </li>
+	    <li><strong>Examples</strong></li>
+	    <li><a href="license.html">License</a></li>
+	  </ul>
+	</div> <!-- id="navigation" -->
+
+	<div id="content">
+
+
+	  <h2><a name="examples"></a>Examples</h2>
+
+	  <h3><a name="client_example"></a>Client example</h3>
+
+	  <p>Below is a small sample code displaying the use of the library in a
+	    client application.</p>
+
+	  <pre class="example">
+	    require "xmlrpc.http"
+
+	    local ok, res = xmlrpc.http.call (
+	    "http://www.oreillynet.com/meerkat/xml-rpc/server.php", 
+	    "system.listMethods")
+	    print (ok)
+	    for i, v in pairs(res) do print ('\t', i, v) end
+	  </pre>
+
+
+	  <h3><a name="types_example"></a>Type conversion example</h3>
+
+	  <p>The next example shows how to force the conversion of types from
+	    Lua to XML-RPC.</p>
+
+	  <pre class="example">
+	    require "xmlrpc"
+
+	    double_array_type = xmlrpc.newArray ("double")
+	    double_array = xmlrpc.newTypedValue ( { 1.1, 2, 3, 4 }, double_array_type)
+
+	    double_array_array_type = xmlrpc.newArray (double_array_type)
+	    double_array_array = xmlrpc.newTypedValue (
+	    {
+	    { 11, 12, 13, },
+	    { 21, 22, 23, },
+	    { 31, 32, 33, },
+	    }, double_array_array_type)
+	  </pre>
+
+	  <p>The table <code>double_array_array</code> will be:</p>
+
+	  <pre class="example">
+	    &lt;array&gt;
+	    &lt;data&gt;
+	    &lt;value&gt;
+	    &lt;array&gt;
+            &lt;data&gt;
+            &lt;value&gt;&lt;double&gt;11&lt;/double&gt;&lt;/value&gt;
+            &lt;value&gt;&lt;double&gt;12&lt;/double&gt;&lt;/value&gt;
+            &lt;value&gt;&lt;double&gt;13&lt;/double&gt;&lt;/value&gt;
+            &lt;/data&gt;
+	    &lt;/array&gt;
+	    &lt;/value&gt;
+	    &lt;value&gt;
+	    &lt;array&gt;
+            &lt;data&gt;
+            &lt;value&gt;&lt;double&gt;21&lt;/double&gt;&lt;/value&gt;
+            &lt;value&gt;&lt;double&gt;22&lt;/double&gt;&lt;/value&gt;
+            &lt;value&gt;&lt;double&gt;23&lt;/double&gt;&lt;/value&gt;
+            &lt;/data&gt;
+	    &lt;/array&gt;
+	    &lt;/value&gt;
+	    &lt;value&gt;
+	    &lt;array&gt;
+            &lt;data&gt;
+            &lt;value&gt;&lt;double&gt;31&lt;/double&gt;&lt;/value&gt;
+            &lt;value&gt;&lt;double&gt;32&lt;/double&gt;&lt;/value&gt;
+            &lt;value&gt;&lt;double&gt;33&lt;/double&gt;&lt;/value&gt;
+            &lt;/data&gt;
+	    &lt;/array&gt;
+	    &lt;/value&gt;
+	    &lt;/data&gt;
+	    &lt;/array&gt;
+	  </pre>
+
+
+
+	  <h3><a name="server_example"></a>Server example</h3>
+
+	  <p>Follows a small example of a server based on Xavante
+	  WSAPI. You can call the service for example with
+	  the <code>xmlrpc</code> tool
+	  from <a href="http://xmlrpc-c.sourceforge.net/">XML-RPC
+	  C</a> (<code>xmlrpc http://localhost:12345
+	  hello_world</code>) or by
+	  using <code>examples/client.lua</code> in the source
+	  tarball.</p>
+
+	  <pre class="example">
+require("xavante")
+require("xavante.httpd")
+require("wsapi.xavante")
+require("wsapi.request")
+require("xmlrpc")
+
+--- XML-RPC WSAPI handler
+-- @param wsapi_env WSAPI environment
+function wsapi_handler(wsapi_env)
+   local headers = { ["Content-type"] = "text/xml" }
+   local req = wsapi.request.new(wsapi_env)
+   local method, arg_table = xmlrpc.srvDecode(req.POST.post_data)
+   local func = xmlrpc.dispatch(method)
+   local result = { pcall(func, unpack(arg_table or {})) }
+   local ok = result[1]
+   if not ok then
+      result = { code = 3, message = result[2] }
+   else
+      table.remove(result, 1)
+      if table.getn(result) == 1 then
+         result = result[1]
+      end
+   end
+
+   local r = xmlrpc.srvEncode(result, not ok)
+   headers["Content-length"] = tostring(#r)
+
+   local function xmlrpc_reply(wsapienv)
+      coroutine.yield(r)
+   end
+
+   return 200, headers, coroutine.wrap(xmlrpc_reply)
+end
+
+-- XML-RPC exported functions
+xmlrpc_exports = {}
+
+--- Get simple string.
+-- @return simple string
+function xmlrpc_exports.hello_world()
+   return "Hello World"
+end
+
+local rules = {{ match = ".", with = wsapi.xavante.makeHandler(wsapi_handler) }}
+local config = { server = {host = "*", port = 12345}, defaultHost = { rules = rules} }
+
+xmlrpc.srvMethods(xmlrpc_exports)
+xavante.HTTP(config)
+
+xavante.run()
+</pre>
+
+	  <p>Note that the package <code>post</code> and the function
+	    <code>respond</code> should be provided by the cgi launcher.</p>
+
+	</div> <!-- id="content" -->
+
+      </div> <!-- id="main" -->
+
+      <div id="about">
+	<p>
+	  <a href="http://validator.w3.org/check?uri=referer">
+	    <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" />
+	  </a>
+	</p>
+      </div> <!-- id="about" -->
+
+    </div> <!-- id="container" -->
+
+  </body>
+</html> 

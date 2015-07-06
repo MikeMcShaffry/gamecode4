@@ -1,0 +1,41 @@
+Lua-XML-RPC is a Lua package to access and provide XML-RPC services
+
+
+Synopsis
+========
+This package provides code to access XML-RPC [1] services over HTTP. It also
+provides code to provide these services, e.g. by using Xavante [2].
+The project website is at http://github.com/timn/lua-xmlrpc.
+
+[1]: http://www.xmlrpc.com/
+[2]: http://keplerproject.github.com/xavante/
+
+
+Dependencies
+============
+This library depends on the following packages. The given version numbers are
+known working versions. Earlier versions might work, but in that case we
+cannot accept bug reports.
+
+- LuaExpat	http://www.keplerproject.org/luaexpat/		2.0.1
+- LuaSocket	http://luasocket.luaforge.net/			2.0.2
+
+
+Files in this package
+=====================
+  README              -- This file
+  Makefile            -- Makefile for Unix systems
+  src/
+    init.lua          -- Main module source file
+    http.lua          -- Extension library over HTTP
+    server.lua        -- Server implementation over CGILua
+  tests/
+    apitest.lua       -- Overall API test script
+    httptest.lua      -- Automatic tests over HTTP
+  doc/us/
+    index.html        -- Home page
+    license.html      -- Copyright & License
+    luaxmlrpc.png     -- LuaXMLRPC Logo
+    manual.html       -- Reference manual
+    examples.html     -- Examples
+

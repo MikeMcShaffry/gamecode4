@@ -1,0 +1,19 @@
+{
+
+local SRCS =
+		src/wsapi/cgi.lua
+		src/wsapi/common.lua
+		src/wsapi/fastcgi.lua
+		src/wsapi/request.lua
+		src/wsapi/response.lua
+		src/wsapi/ringer.lua
+		src/wsapi/sapi.lua
+		src/wsapi/util.lua
+		src/wsapi/xavante.lua
+;
+
+Lua.Module wsapi : $(SRCS) ;
+
+CopyFiles wsapi : $(LUA_LDIR)/wsapi : $(SUBDIR)/$(SRCS) ;
+
+}

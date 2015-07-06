@@ -1,0 +1,107 @@
+This document describes the steps required to implement John's tabbed dialog 
+box code in your application.  In order to complete these steps, you should be
+using Visual C++ 6.0 and have the following files:
+
+	CQTabbedDialog.h
+	CQTabbedDialog.cpp
+
+The reasons you'd want to use this class instead of just creating a dialog box 
+derived from CPropertySheet are:
+
+	A)	In a CPropertySheet-derived dialog are anchored in place and you have 
+		to perform special coding to move, hide, or disable them.
+
+	B)	The tabs themselves cannot be moved, and therefore, you cannot add 
+		controls to the dialog box that exist outside the borders (or scope) 
+		of the tabs.
+		
+--------------------------------------------------------------------------------
+
+To create a dialog box with an embedded property sheet, follow these steps:
+
+1) Using ClassWizard, create a propertysheet class derived from 
+CPropertySheet.  Immediately after creating this new class, change all instances 
+of "CPropertySheet" to "CPropertySheetEx" in the resulting source files. For 
+purposes of example, we'll call it "CMySheet".
+
+	IMPORTANT!	DO NO USE "CPropertySheet" as your base class, or the 
+				CQTabbedDialog class will ASSERT on you. If you insist 
+				on using CPropertySheet instead of CPropertySheetEx, 
+				you MUST change all references in the CQTabbedDialog 
+				class to reflect the proper class name.
+
+2) Create a dialog box resource template containing a static frame control. 
+Place the frame control in the desired position and in the desired size within 
+the dialog box.  Change the ID of this frame to something appropriate. I always 
+use "IDC_SHEETFRAME" (without the quotes).
+
+3) Using ClassWizard:
+
+	A)	Create a new class for the dialog template, and derive that 
+		class from CDialog.  
+
+	B)	Add a message handler for the WM_INITDIALOG message.
+
+4) After creating the class, go to the source files and change all occurances 
+of "CDialog" to "CQTabbedDialog" in bothe the header and CPP files.
+
+5) In your (derived) dialog box header file:
+
+	A)	Add the following lines just above the class declaration:
+
+			#include "CMySheet.h" // this is our example class name
+			#include "QTabbedDialog.h"
+
+	B)	Add the following declaration:
+
+			CMySheet* m_pSheet;
+
+6) In your (derived) dialog box CPP file:
+
+	A) Add the following line to your constructor:
+
+			m_pSheet = NULL;
+
+	B) Add the following line to your dialog box class destructor:
+
+			DeletePropSheet(m_pSheet);
+
+	C) In the OnInitDialog() function in your derived dialog box class, 
+	add the following code:
+
+		DeletePropSheet(m_pSheet);
+		m_pSheet = new CPropSheet((UINT)IDD, this, 0);
+
+		if (m_pSheet)
+		{
+			CreatePropSheet((CPropertySheetEx*)m_pSheet, IDC_SHEETFRAME, 0);
+		}
+		else
+		{
+			AfxMessageBox("Failed to allocate memory for embedded property "
+						  "sheet. Terminating dialog box.");
+			EndDialog(IDCANCEL);
+		}
+
+7) Create a single dialog resource template for each tab (type) that you wish 
+to show on the propertysheet.  These tabs MUST have the "Child" style with 
+"Thin" borders (use the resource editor to set these styles).  I would also 
+recommend that you set the tabs to be invisble (also can be set in the resource 
+editor).
+
+8) Create a new class for each tab and derive those classes from CPropertyPage.
+Immediately after creating those classes, change all occurances of 
+"CPropertyPage" to "CPropertyPageEx" (unless you're not using CPropertySheetEx 
+as described in step 1).
+
+
+This should be all of the basic work you need to do to implement a tabbed dialog 
+box.  Further coding is application specific and is therefore outside the scope 
+of this document.
+		
+--------------------------------------------------------------------------------
+
+Handle all tab page initialization in the property sheet class.  If any 
+data (pointers, flags, etc) is passed in to the dialog box, pass that 
+information directly to the property sheet, and let the sheet handle the tabs.
+

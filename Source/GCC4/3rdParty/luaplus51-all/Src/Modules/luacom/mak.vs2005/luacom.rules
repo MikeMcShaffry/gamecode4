@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="Lua -&gt; C"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="lua2c"
+			DisplayName="Lua -&gt; C"
+			CommandLine="$(LUAC) -o $(IntDir)/tmp.lo [inputs] &amp;&amp; $(BIN2C) $(IntDir)/tmp.lo &gt; [OutputFile]"
+			Outputs="[OutputFile]"
+			FileExtensions="*.lua"
+			ExecutionDescription="Compiling Lua to C: [inputs] -&gt; [OutputFile]"
+			SupportsFileBatching="true"
+			>
+			<Properties>
+				<StringProperty
+					Name="OutputFile"
+					DisplayName="Output File"
+					Switch="[value]"
+					DefaultValue="$(OutDir)/$(InputName).loh"
+				/>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

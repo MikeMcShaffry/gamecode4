@@ -1,0 +1,122 @@
+{
+
+local PCH_SRCS =
+		AnsiString.cpp
+		AnsiString.h
+		Array.h
+		DiskFile.cpp
+		DiskFile.h
+		File.h
+		FixedSizeAllocator.h
+		HeapAllocator.h
+		HeapString.cpp
+		HeapString.h
+		List.h
+		Map.h
+		MemFile.cpp
+		MemFile.h
+		Misc.cpp
+		Misc.h
+		Misc_InternalPch.h
+		OwnedPtr.h
+		TypeTraits.h
+		ZipArchive.cpp
+		ZipArchive.h
+		ZipEntryFile.cpp
+		ZipEntryFile.h
+;
+
+local AES_SRCS =
+		aes/aes.h
+		aes/aescrypt.c
+		aes/aeskey.c
+		aes/aesopt.h
+		aes/aestab.c
+		aes/fileenc.c
+		aes/fileenc.h
+		aes/hmac.c
+		aes/hmac.h
+		aes/prng.c
+		aes/prng.h
+		aes/pwd2key.c
+		aes/pwd2key.h
+		aes/sha1.c
+		aes/sha1.h
+		aes/sha2.c
+		aes/sha2.h
+;
+
+local MD5_SRCS =
+		md5/md5.h
+		md5/md5c.c
+		md5/md5global.h
+;
+
+local TRIO_SRCS =
+		trio/trio.c
+		trio/trio.h
+		trio/triodef.h
+		trio/trionan.c
+		trio/trionan.h
+		trio/triop.h
+		trio/triostr.c
+		trio/triostr.h
+;
+
+local ZLIB_SRCS =
+		../zlib/adler32.c
+		../zlib/compress.c
+		../zlib/crc32.c
+		../zlib/crc32.h
+		../zlib/deflate.c
+		../zlib/deflate.h
+		../zlib/infback.c
+		../zlib/inffast.c
+		../zlib/inffast.h
+		../zlib/inffixed.h
+		../zlib/inflate.c
+		../zlib/inflate.h
+		../zlib/inftrees.c
+		../zlib/inftrees.h
+		../zlib/trees.c
+		../zlib/trees.h
+		../zlib/uncompr.c
+		../zlib/zconf.h
+		../zlib/zlib.h
+		../zlib/zutil.c
+		../zlib/zutil.h
+;
+
+PCH_SRCS = Misc/$(PCH_SRCS) ;
+AES_SRCS = Misc/$(AES_SRCS) ;
+MD5_SRCS = Misc/$(MD5_SRCS) ;
+TRIO_SRCS = Misc/$(TRIO_SRCS) ;
+#ZLIB_SRCS = Misc/$(ZLIB_SRCS) ;
+
+local MISC_SRCS =
+		$(PCH_SRCS)
+		$(AES_SRCS)
+		$(MD5_SRCS)
+		$(TRIO_SRCS)
+		$(ZLIB_SRCS)
+;
+
+SourceGroup ziparchive : aes : $(AES_SRCS) ;
+SourceGroup ziparchive : md5 : $(MD5_SRCS) ;
+SourceGroup ziparchive : trio : $(TRIO_SRCS) ;
+SourceGroup ziparchive : zlib : $(ZLIB_SRCS) ;
+
+C.IncludeDirectories ziparchive : ../zlib ;
+
+if $(NT)
+{
+	C.LinkPrebuiltLibraries ziparchive : user32 ;
+	if $(COMPILER) = mingw {
+		C.LinkPrebuiltLibraries ziparchive : stdc++ ;
+	}
+}
+
+Lua.CModule ziparchive : : Misc/Misc_InternalPch.cpp $(MISC_SRCS) lziparchive.cpp ;
+
+}
+

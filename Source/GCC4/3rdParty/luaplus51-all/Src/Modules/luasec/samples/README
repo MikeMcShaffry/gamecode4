@@ -1,0 +1,28 @@
+Directories: 
+------------
+* certs
+ Contains scripts to generate the certificates used by the examples.
+ Generate Root CA 'A' and 'B' first, then the servers and clients.
+
+* oneshot
+ A simple connection example.
+
+* loop
+ Test successive connections between the server and the client 
+ (to check memory leak).
+
+* loop-gc
+ Same of above,  but the connection is not  explicit closed, the gabage
+ collector is encharge of that.
+
+* wantread
+ Test timeout in handshake() and receive().
+
+* wantwrite
+ Test timeout in send().
+
+* want
+ Test want().
+
+* key
+ Test encrypted private key.

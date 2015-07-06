@@ -1,0 +1,53 @@
+* What is LuaCOM?
+-----------------
+
+  LuaCOM is an add-on library to the Lua language (http://www.lua.org)
+  that allows Lua programs to use and implement objects that follow
+  the Microsoft's Component Object Model (COM) specification and
+  the ActiveX technology for property access and method calls.
+
+  LuaCOM is implemented as a C++ library, and can be statically linked to
+  an application or loaded at runtime. LuaCOM is provided with its source code
+  and the makefiles required to build it.
+
+
+* Availability
+--------------
+
+LuaCOM is freely available for both academic and commercial
+purposes and can be downloaded from the site below:
+
+       http://www.tecgraf.puc-rio.br/~rcerq/luacom/
+
+
+* Contacting the authors
+------------------------
+
+  LuaCOM has been designed and implemented by Vinicius Almendra and
+  Renato Cerqueira, and is maintained by Fabio Mascarenhas.
+  Send your comments, bug reports and anything else to
+  luacom@tecgraf.puc-rio.br.
+
+  LuaCOM has been developed at Tecgraf, the Computer Graphics Technology Group
+  of PUC-Rio (the Pontifical Catholic University of Rio de Janeiro in Brazil). 
+  Tecgraf is a laboratory of the Department of Computer Science.
+
+
+------------------------------------------------------------------------
+Renato Cerqueira
+Research Staff Member               
+Tecgraf/PUC-Rio, Brazil
+email: rcerq@tecgraf.puc-rio.br
+http://www.tecgraf.puc-rio.br/~rcerq
+
+Vinicius Almendra
+Research Staff Member
+Tecgraf/PUC-Rio, Brazil
+email: almendra@tecgraf.puc-rio.br
+
+Fabio Mascarenhas
+Research Staff Member
+Tecgraf/PUC-Rio, Brazil
+email: fqueiroz@tecgraf.puc-rio.br
+------------------------------------------------------------------------
+

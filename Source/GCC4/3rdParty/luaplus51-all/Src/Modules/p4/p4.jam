@@ -1,0 +1,61 @@
+if ( ! $(NT)  ||  $(COMPILER.$(PLATFORM)) != vc6 )
+{
+
+local SRCS =
+		src/clientuserlua.cpp
+		src/clientuserlua.h
+		src/p4.cpp
+		src/p4.lua
+		src/p4clientapi.cpp
+		src/p4clientapi.h
+		src/p4luadebug.h
+		src/p4mapmaker.cpp
+		src/p4mapmaker.h
+		src/p4mergedata.cpp
+		src/p4mergedata.h
+		src/p4result.cpp
+		src/p4result.h
+		src/specmgr.cpp
+		src/specmgr.h
+		src/undefdups.h
+;
+
+CopyFile p4 : $(LUA_LDIR)/p4.lua : $(SUBDIR)/src/p4.lua ;
+
+local P4API = p4api ;
+
+if $(NT) {
+	local bin = $(COMPILER.$(PLATFORM)) ;
+	if $(PLATFORM) = win32 {
+		bin = $(bin)/bin.ntx86 ;
+	} else if $(PLATFORM) = win64 {
+		bin = $(bin)/bin.ntx64 ;
+	}
+	if $(CONFIG) in debug release {
+		P4API = p4api/$(bin)/$(CONFIG) ;
+	} else if $(CONFIG) = releaseltcg {
+		P4API = p4api/$(bin)release ;
+	}
+	C.DefFile p4 : src/p4lua.def ;
+	C.Defines p4 : OS_NT ;
+	C.LinkPrebuiltLibraries p4 : advapi32 ws2_32 ;
+	#LinkFlags p4 : /NODEFAULTLIB:msvcr80.lib ;
+	C.LinkPrebuiltLibraries p4 : libclient librpc libsupp ;
+} else {
+	C.LinkPrebuiltLibraries p4 : client rpc supp ;
+}
+
+if $(OS) = MACOSX {
+	C.LinkFrameworks p4 : CoreFoundation ;
+}
+
+C.IncludeDirectories p4 : $(P4API)/include ;
+C.LinkDirectories p4 : $(P4API)/lib ;
+
+if [ Glob $(SUBDIR)/$(P4API)/include/p4 : clientapi.h ] {
+	Lua.CModule p4 : p4 p4_p4api : $(SRCS) ;
+} else {
+	Echo * Not building p4, because the p4api/ directory does not exist. ;
+}
+
+}

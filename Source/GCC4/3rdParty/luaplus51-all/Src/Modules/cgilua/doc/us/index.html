@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CGILua: Building Web Scripts with Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org">
+		<img alt="CGILua logo" src="cgi-128.gif"/>
+	</a></div>
+	<div id="product_name"><big><b>CGILua</b></big></div>
+	<div id="product_description">Building Web Scripts with Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><strong>Home</strong>
+			<ul>
+				<li><a href="index.html#overview">Overview</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">History</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilities</a></li>
+				<li><a href="index.html#credits">Credits</a></li>
+				<li><a href="index.html#contact">Contact us</a></li>
+			</ul>
+		</li>
+		<li><a href="manual.html">Manual</a>
+			<ul>
+				<li><a href="manual.html#intro">Introduction</a></li>
+				<li><a href="manual.html#installation">Installation</a></li>
+				<li><a href="manual.html#config">Configuration</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Parameters</a></li>
+				<li><a href="manual.html#dispatching">Dispatching</a></li>
+                <li><a href="manual.html#authentication">Authentication</a></li>
+                <li><a href="manual.html#error_handling">Error Handling</a></li>
+			</ul>
+		</li>
+		<li><a href="reference.html">Reference</a>
+			<ul>
+				<li><a href="reference.html#headers">Headers</a></li>
+				<li><a href="reference.html#contents">Content Generation</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">CGILua Variables</a></li>
+				<li><a href="reference.html#error_handling">Error Handling</a></li>
+				<li><a href="reference.html#behavior">CGILua Behavior</a></li>
+				<li><a href="reference.html#urlcode">URL Encoding</a></li>
+				<li><a href="reference.html#auxiliar">Auxiliary functions</a></li>
+				<li><a href="reference.html#index">Alphabetic Index</a></li>
+			</ul>
+		</li>
+		<li><a href="libraries.html">Libraries</a>
+			<ul>
+				<li><a href="libraries.html#authentication">Authentication</a></li>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#dispatcher">Dispatcher</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><a href="sapi.html">SAPI</a></li>
+		<li><a href="license.html">License</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2><a name="overview"></a>Overview</h2>
+<p>CGILua is a tool for creating dynamic Web pages and manipulating input data
+from Web forms. CGILua allows the separation of logic and data handling from
+the generation of pages, making it easy to develop web applications with Lua.
+</p>
+
+<p>
+One of advantages of CGILua is its abstraction of the underlying Web server.
+CGILua can be used with a variety of Web servers and, for each server, with
+different launchers. A launcher is responsible for the interaction of CGILua
+and the Web server, for example using ISAPI on IIS or mod_lua on Apache.
+The reference implementation of CGILua launchers is
+<a href="http://www.keplerproject.org/kepler/">Kepler</a>.
+</p>
+
+<p>
+CGILua is free software and uses the same <a href="license.html">license</a>
+as Lua 5.1.
+</p>
+
+<h2><a name="status"></a>Status</h2>
+
+<p>Current version is 5.1.4</p>
+
+<h2><a name="download"></a>Download</h2>
+
+<p>CGILua source code can be downloaded from its
+<a href="http://luaforge.net/projects/cgilua/files">LuaForge</a> page</p>
+
+<p>You can also install CGILua using <a href="http://www.luarocks.org">LuaRocks</a>:</p>
+
+<pre class="example">
+luarocks install cgilua
+</pre>
+	
+<h2><a name="history"></a>History</h2>
+
+<dl>
+    <dt><strong>Version 5.1.4</strong> [22/Mar/2010]</dt>
+	<dd><ul>
+        <li>Fixes file upload reentrancy</li>
+        <li>New launchers for cgilua that do not depend on kepler_init</li>
+        <li>Correction on mkurlpath</li>
+	</ul></dd>
+
+    <dt><strong>Version 5.1.3</strong> [9/Mar/2009]</dt>
+	<dd><ul>
+		<li>Strips utf-8 BOM from templates in lp.include</li>
+		<li>Fixed reentrancy bug</li>
+		<li>Fixed reset of cgilua.urlpath</li>
+	</ul></dd>
+	
+    <dt><strong>Version 5.1.2</strong> [19/May/2008]</dt>
+	<dd>
+	<ul>
+        <li>Added the <a href="libraries.html#authentication"><code>cgilua.authentication</code></a> module</li>
+        <li><a href="reference.html#print"><code>cgilua.print</code></a> now separates arguments with tabs,
+        like Lua <code>print</code></li>
+        <li>Now <code>print</code> and <code>write</code> are aliases to <a href="reference.html#print"><code>cgilua.print</code></a>
+        and <a href="reference.html#put"><code>cgilua.put</code></a>.</li>
+		<li>Now strips an eventual <code>#!</code> from top of Lua Pages files</li>
+		<li>CGILua can now process sequential requests in the same Lua state</li>
+        <li>Better error handling. Wraps error message in valid HTML</li>
+        <li>Bug fixed: CGILua was ignoring <code>CGILUA_TMP</code> in Windows</li>
+		<li>Corrected the URL handling for the dispatcher (bug found by Ronaldo Sugii)</li>
+		<li>Better URL handling for different locales</li>
+        <li>Handling multiple values in the generated URL (patch by Matt Campbell)</li>
+		<li>Fixed file handle leak in <code>loader.lua</code></li>
+		<li>Fixed bug [<a href="http://luaforge.net/tracker/?func=detail&amp;group_id=104&amp;aid=2630&amp;atid=508">#2630</a>] - Including new files (bug found by Bruno Massa)</li>
+    </ul>
+    </dd>
+    
+	<dt><strong>Version 5.1.1</strong> [21/Nov/2007]</dt>
+	<dd>
+	<ul>
+		<li>Changed the security policy for scripts. Now scripts have access to all Lua globals,
+		including the <code>debug</code> and <code>os</code> packages. It is up to the application
+		developer to choose what policy to use</li>
+        <li>If you are using Kepler, it is strongly suggested that you replace your previous CGILua <code>config.lua</code>
+        file with the new one installed by Kepler and then merge the differences</li>
+        <li>Added the <a href="libraries.html#dispatcher"><code>cgilua.dispatcher</code></a> module</li>
+		<li>Added default handlers for a set of MIME types. The default handlers return
+		only the content-type and conten-lenght headers for the files.</li>
+		<li>Added functions <a href="reference.html#splitonfirst"><code>cgilua.splitonfirst</code></a> and
+		<a href="reference.html#splitonlast"><code>cgilua.splitonlast</code></a></li>
+		<li>Added functions <a href="reference.html#tmpfile"><code>cgilua.tmpfile</code></a> and
+		<a href="reference.html#tmpname"><code>cgilua.tmpname</code></a></li>
+		<li>Changed the use of <code>"/test"</code> for the session temporary directory
+		checking (bug found by Yuri Takhteyev)</li>
+		<li>Corrected the use of cgilua.QUERY in the session handling (bug found by Jim Madsen)</li>
+		<li>Better handling of "application/xml" POST content types (patch by Ignacio Burgue&ntilde;o)</li>
+		<li>Fixed
+		<a href="http://luaforge.net/tracker/?group_id=5&amp;atid=101&amp;func=detail&amp;aid=1910">Bug [#1910]</a> -
+		Bug in byte accounting in post.lua (found by Greg Bell)</li>
+	</ul>
+	</dd>
+	
+    <dt><strong>Version 5.1.0</strong> [23/Aug/2007]</dt>
+    <dd>
+    <ul>
+        <li>Uses Lua 5.1</li>
+        <li>Added function <code>cgilua.print</code> (that uses
+        <code>tostring</code> on its parameters)</li>
+        <li>Added a generic dispatcher and the concept of CGILua Apps</li>
+        <li>Replaced the <code>cgi</code> table used until CGILua 5.0 by two others
+        <code>cgilua.QUERY</code> and <code>cgilua.POST</code>)</li>
+        <li>Added fake "<code>package</code>" table to enable the user/programmer
+        to create modules with global visibility</li>
+        <li>Bug fix: return of HTTP status code</li>
+        <li>Bug fix: close method was recreating the session file</li>
+        <li>Correcting how LP handles strings with CR characters
+        (Lua 5.0 would not mind, but Lua 5.1 does)</li>
+        <li>Fixed a bug with lighttpd</li>
+    </ul>
+    </dd>
+
+    <dt><strong><a href="http://keplerproject.org/cgilua/5.0">Version 5.0.1</a></strong> [20/Sep/2006]</dt>
+    <dd>
+    <ul>
+        <li>Uses Compat-5.1 Release 5.</li>
+        <li>Caches Lua Pages template strings.</li>
+        <li>New configuration examples.</li>
+        <li>Improvements in the <a href="libraries.html#session">Session</a> library.</li>
+        <li>Removed the <code>debug</code> package from the user scripts environment.</li>
+        <li>POST handling bug fixes (related to the <code>text/plain</code> content type).</li>
+    </ul>
+    </dd>
+
+
+    <dt><strong>Version 5.0</strong> [23/Jul/2005]</dt>
+    <dd>
+    <ul>
+        <li>CGILua distribution includes now only the Lua files, the launchers
+        have been moved to <a href="http://www.keplerproject.org/kepler/">Kepler</a>.</li>
+        <li>The <a href="http://www.keplerproject.org/venv/manual.html#reference">Stable</a>
+        library is now distributed with <a href="http://www.keplerproject.org/venv/">VEnv</a>.</li>
+        <li>Fixed a file upload bug in the CGI and Xavante launchers.</li>
+        <li><code>cgilua.lp.include()</code> now accepts an environment to run
+        the preprocessed file in it.</li>
+    </ul>
+    </dd>
+    
+    <dt><strong>Version 5.0 beta 2</strong> [23/Dec/2004]</dt>
+    <dd>
+    <ul>
+      <li>Distribution bug fix: stable.lua was missing</li>
+    </ul>
+    </dd>
+    
+    <dt><strong>Version 5.0 beta</strong> [15/Dec/2004]</dt>
+    <dd>
+    <ul>
+        <li>New ISAPI and Servlet Launchers.</li>
+        <li>New Error Handling features.</li>
+        <li>New persistent data feature (Stable).</li>
+        <li>Uses the <a href="http://www.keplerproject.org/compat/">package model</a>
+        for Lua 5.1.</li>
+        <li>Simpler User <a href="libraries.html#session">Session</a> API.</li>
+        <li>Small bug corrections</li>
+    </ul>
+    </dd>
+    
+    <dt><strong>Version 5.0 alpha 3</strong> [8/Jun/2004]</dt>
+    <dd></dd>
+
+    <dt><strong>Version 5.0 alpha</strong> [21/Apr/2004]</dt>
+    <dd></dd>
+</dl>
+
+<h2><a name="incompatibility"></a>Incompatibility with previous CGILua versions (5.0, 4.0 and 3.x)</h2>
+
+<ul>
+    <li>CGILua 5.1 uses <a href="http://www.lua.org">Lua 5.1</a>.</li>
+    <li>The <code>cgi</code> table is now deprecated. See
+    <a href="manual.html#parameters">Receiving parameters</a> for a more
+    detailed explanation.</li>
+    <li>The template tags have changed. See
+    <a href="manual.html#templates">Lua pages</a> for a more detailed
+    explanation.</li>
+    <li>The use of <code>getenv</code> calls to obtain CGI variables
+    should be replaced by
+    <a href="reference.html#servervariable"><code>cgilua.servervariable</code></a>
+    calls.</li>
+</ul>
+
+<h2><a name="credits"></a>Credits</h2>
+
+<dl>
+    <dt><strong>CGILua 5.1</strong></dt>
+    <dd>
+    CGILua 5.1 is being maintained by Andr&eacute; Carregal and
+    Tom&aacute;s Guisasola with contributions from F&aacute;bio Mascarenhas
+    and others from the Kepler <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
+    </dd>
+    
+    <dt><strong>CGILua 5.0</strong></dt>
+    <dd>CGILua 5.0 was completely redesigned by Roberto Ierusalimschy,
+    Andr&eacute; Carregal and Tom&aacute;s Guisasola as part of the
+    <a href="http://www.keplerproject.org">Kepler Project</a>.
+    The implementation is compatible with Lua 5.0 and was coded by
+    Tom&aacute;s Guisasola with invaluable contributions by Ana
+    L&uacute;cia de Moura, F&aacute;bio Mascarenhas and Danilo Tuler.
+    CGILua 5.0 development was sponsored by
+    <a href="http://www.fabricadigital.com.br">F&aacute;brica Digital</a>,
+    <a href="http://www.finep.gov.br/">FINEP</a> and
+    <a href="http://www.cnpq.br/">CNPq</a>.</dd>
+    
+    <dt><strong>CGILua 4.0</strong></dt>
+    <dd>Ana L&uacute;cia de Moura adapted CGILua 3.2 to Lua 4.0,
+    reimplemented some code and added a few improvements but this
+    version was not officially distributed.</dd>
+    
+    <dt><strong>CGILua 3.x</strong></dt>
+    <dd>CGILua was born as the evolution of an early system developed by
+    Renato Ferreira Borges and Andr&eacute; Cl&iacute;nio at
+    <a href="http://www.tecgraf.puc-rio.br">TeCGraf</a>.
+    At the time (circa 1995) there were no CGI tools available and everything
+    was done with shell scripts!<br />
+    However, the main contribution to CGILua 3 was done by Anna Hester, who
+    consolidated the whole tool and developed a consistent distribution
+    with versions 3.1 and 3.2 (the number was an effort to follow
+    Lua version numbers). This version was widely used on a great
+    variety of systems.</dd>
+</dl>
+
+
+<h2><a name="contact"></a>Contact us</h2>
+
+<p>
+For more information please
+<a href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
+Comments are welcome!
+</p>
+
+<p>
+You can also reach other CGILua developers and users on the Kepler
+Project <a href="http://luaforge.net/mail/?group_id=104">mailing list</a>.
+</p>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+	<p><small>$Id: index.html,v 1.68 2009/03/09 23:37:18 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

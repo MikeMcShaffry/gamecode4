@@ -1,0 +1,3 @@
+require "blog"
+
+return blog

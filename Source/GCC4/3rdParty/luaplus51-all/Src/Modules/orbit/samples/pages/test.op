@@ -1,0 +1,239 @@
+#!/usr/bin/env op.cgi
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Orbit Pages Test</title>
+    <link rel="stylesheet" href="css/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    $lua{[[
+    if web.input.user then
+        web:set_cookie("cookie_kepler", web.input.user)
+    end
+    ]]}
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org">
+		<img src="img/keplerproject.gif" alt="Kepler Project logo" /></a>
+    </div>
+	<div id="product_name"><big><strong></strong></big></div>
+	<div id="product_description">Orbit Pages simple tests</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+$lua{[[ 
+mods = {}
+for file in lfs.dir(web.doc_root .. "/doc") do
+    local attr = lfs.attributes (web.doc_root .. "/doc/"..file)
+    if attr.mode == "directory" and file ~= "." and file ~= ".." then
+        table.insert(mods, file)
+    end
+end
+if #mods == 0 then mods[1] = "(None)" end
+table.sort(mods)
+]]}
+
+<h1>Kepler</h1>
+	<ul>
+        <li><a href="index.op">Documentation</a>
+            <ul>
+                $mods[[
+                <li><strong><a href="doc/$it/index.html">$it</a></strong></li>
+		]]
+            </ul>
+        </li>
+        <li><strong>Tests</strong></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Form Handling</h2>
+
+<p>
+Entering values on this form should display them as values in the first submission,
+and as a cookie in the next submission
+</p>
+
+<form method="post" action="test.op">
+    <label>User name: </label><input name="user" maxlength="20" size="20">
+    <label>Password: </label><input name="pass" type="password" maxlength="20" size="20">
+    <input type="submit" value="Post it">
+    <input type="reset" value="Reset">
+</form>
+
+<p>
+The values should show the previous POST
+</p>
+
+<p>
+Values: Username = $if{$web|input|user}[[$it]],[[(not set)]], Password = $if{$web|input|pass}[[$it]],[[(not set)]]
+</p>
+
+<h2>Cookies test</h2>
+
+<p>
+Here you should see the values posted before the ones shown above
+</p>
+
+<p>
+cookie_kepler = $if{$web|cookies|cookie_kepler}[[$it]],[[(not set)]]
+</p>
+
+<h2>File Upload</h2>
+
+<p>Choose a file to upload, press "Upload" and a link to the file should
+appear below with the corresponding "Remove" button.</a>
+<form method="POST" enctype="multipart/form-data" action="test.op">
+    <input type="file" name="file">
+    <input type="submit" value="Upload">
+</form>
+
+$lua{[[ 
+    local f = web.input.file
+    upload = {}
+    if f then
+        local name = f.name
+        local bytes = f.contents
+        local dest = io.open(web.real_path .. "/" .. name, "wb")
+        if dest then
+            dest:write(bytes)
+            dest:close()
+	    upload[1] = name
+        end
+    end
+]]}
+$upload[[
+<a href="$it">$it</a>
+<form method="POST" enctype="multipart/form-data" action="test.op">
+<input type="hidden" name="filename" value="$it">
+<input type="submit" name="remove" value="Remove">
+</form>
+]]
+$lua{[[
+    if web.input.remove then
+        os.remove(web.input.filename)
+    end
+]]}
+
+$lua{[=[
+function showtable(arg)
+    local t = arg[1]
+    local out = {}
+    local put = function (s) table.insert(out, s) end
+    put "{"
+    for i,v in pairs (t) do
+        put("\n")
+        if type(v) == "table" then
+            local vv = "{\n"
+            for a,b in pairs(v) do
+                vv = string.format ("%s  %s = [[%s]],\n", vv, a, tostring(b))
+            end
+            v = vv.." },"
+            put (string.format (" %s = %s", i, tostring(v)))
+        else
+            put (string.format (" %s = [[%s]],", i, tostring(v)))
+        end
+    end
+    if next(t) then
+        put "\n"
+    end
+    put "}\n"
+    return table.concat(out)
+end
+]=]}
+
+<h2>web.GET</h2>
+
+<pre class="example">
+$showtable{ $web|GET }
+</pre>
+
+<h2>web.POST</h2>
+
+<pre class="example">
+$showtable{ $web|POST }
+</pre>
+
+<h2>Web Variables</h2>
+
+<table border="1">
+$lua{[[
+vars = {
+    "real_path", "path_info", "doc_root", "script_name", "path_translated", "prefix", "method"
+}
+webvar = function (arg) return web[arg[1] ] end
+]]}
+$vars[[
+  <tr><td>web.$it</td><td>$webvar{ $it }</td></tr>
+]]
+</table>
+
+
+<h2>Server Variables</h2>
+
+<table border="1">
+$lua{[[
+vars = {
+    "SERVER_SOFTWARE", "SERVER_NAME", "SERVER_PROTOCOL", "SERVER_PORT",
+    "GATEWAY_INTERFACE", "REQUEST_METHOD",
+    "SCRIPT_NAME", "PATH_INFO", "PATH_TRANSLATED", "QUERY_STRING",
+    "CONTENT_TYPE", "CONTENT_LENGTH", 
+    "REMOTE_ADDR", "REMOTE_HOST", "REMOTE_USER", "REMOTE_IDENT",
+    "AUTH_TYPE",
+}
+servervar = function (arg) return web.vars[arg[1] ] end
+]]}
+$vars[[
+  <tr><td>$it</td><td>$servervar{ $it }</td></tr>
+]]
+</table>
+
+<h2>Date</h2>
+
+<p>Today is: $os|date</p>
+
+<h2>Image test</h2>
+
+<p>Here should be a small image: <img src="img/test.jpg" alt="a small photograph" /></p>
+
+<h2>FileSystem test</h2>
+
+<p>
+$lua{[[
+  dirname = web.doc_root or ""
+  dir = {}
+  for file in lfs.dir(dirname) do dir[#dir + 1] = "&nbsp;&nbsp;&nbsp;"..file.."<br />" end
+]]}
+Iterating over $dirname $dir[[$it]]
+</p>
+
+<h2>Containment test</h2>
+
+<p>
+$lua{[[ if not x then x = 1 else x = x + 1 end ]]}
+Expected value: 1, actual value: $x.
+</p>
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0</a></p>
+	<p><small>$Id: test.op,v 1.1 2008/06/30 14:29:59 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+</body>
+</html>

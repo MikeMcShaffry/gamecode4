@@ -1,0 +1,37 @@
+{
+
+local PB_LUAS =
+		pb/handlers.lua
+		pb/standard.lua
+		pb/utils.lua
+;
+
+local PB_PROTO_LUAS =
+		pb/proto/grammar.lua
+		pb/proto/parser.lua
+		pb/proto/scanner.lua
+		pb/proto/util.lua
+;
+
+local PB_STANDARD_LUAS =
+		pb/standard/buffer.lua
+		pb/standard/dump.lua
+		pb/standard/message.lua
+		pb/standard/pack.lua
+		pb/standard/repeated.lua
+		pb/standard/unknown.lua
+		pb/standard/unpack.lua
+;
+
+local ROOT_LUAS =
+		pb.lua
+;
+
+Lua.Module lua-pb : : $(PB_LUAS) $(PB_PROTO_LUAS) $(PB_STANDARD_LUAS) $(ROOT_LUAS) ;
+
+CopyFiles lua-pb : $(LUA_LDIR)/pb : $(SUBDIR)/$(PB_LUAS) ;
+CopyFiles lua-pb : $(LUA_LDIR)/pb/proto : $(SUBDIR)/$(PB_PROTO_LUAS) ;
+CopyFiles lua-pb : $(LUA_LDIR)/pb/standard : $(SUBDIR)/$(PB_STANDARD_LUAS) ;
+CopyFiles lua-pb : $(LUA_LDIR) : $(SUBDIR)/$(ROOT_LUAS) ;
+
+}

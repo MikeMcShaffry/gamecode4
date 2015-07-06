@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if [ -f config.orig ]; then
+  mv config.orig config
+fi
+
+echo "Trying to where you installed Lua..."
+
+if which lua; then
+  lua_bin=`which lua`
+  lua_bin_dir=`dirname $lua_bin`
+else
+  lua_bin=`which lua51`
+  lua_bin_dir=`dirname $lua_bin`
+fi
+
+lua_root=`dirname $lua_bin_dir`
+
+if [ $lua_root != "" ]; then
+  echo "Lua is in $lua_root"
+  echo "Changing config"
+  sed -i.orig -e "s|/usr/local|$lua_root|" config
+  echo "Now run 'make' and 'make install'"
+else
+  echo "Lua not found, please install Lua (and put in your PATH)"
+fi
+

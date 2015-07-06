@@ -1,0 +1,44 @@
+
+<IfModule mod_cgi.c>
+  <IfModule !mod_fcgid.c>
+    AddHandler cgi-script .lua
+  </IfModule>
+</IfModule>
+
+<IfModule mod_fcgid.c>
+  AddHandler fcgid-script .lua
+  FCGIWrapper "/usr/bin/env wsapi.fcgi" .lua
+</IfModule>
+
+<FilesMatch "\.(lua|db|sql|mysql|cgi|fcgi)$">
+  Deny from all
+  Allow from none
+</FilesMatch>
+
+<Files "blog.lua">
+  Allow from all
+  Deny from none
+  <IfModule mod_xsendfile.c>
+    XSendFile on
+  </IfModule>
+</Files>
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} ^(.*)/blog\.lua$
+RewriteCond %1/page_cache/index.html -f
+RewriteRule ^blog\.lua/?$ page_cache/index.html [L]
+
+RewriteCond %{REQUEST_FILENAME} ^(.*)/blog\.lua$
+RewriteCond %1/page_cache/post-$1.html -f
+RewriteRule ^blog\.lua/post/(.+)$ page_cache/post-$1.html [L]
+
+RewriteCond %{REQUEST_FILENAME} ^(.*)/blog\.lua$
+RewriteCond %1/page_cache/archive-$1-$2.html -f
+RewriteRule ^blog\.lua/archive/([^/]+)/([^/]+)$ page_cache/archive-$1-$2.html [L]
+
+RewriteCond %{REQUEST_FILENAME} ^(.*)/blog\.lua$
+RewriteCond %1/page_cache/page-$1.html -f
+RewriteRule ^blog\.lua/page/(.+)$ page_cache/page-$1.html [L]
+</IfModule>

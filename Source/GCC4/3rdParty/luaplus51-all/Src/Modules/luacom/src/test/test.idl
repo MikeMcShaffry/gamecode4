@@ -1,0 +1,394 @@
+// typelib filename: test.tlb
+[
+  uuid(378EFB9A-DD2E-40B9-93B0-D60093FC436E),
+  version(1.0),
+  helpstring("LUACOM Test Type Library 1.0")
+]
+library Test
+{
+    // TLib :     // TLib : OLE Automation : {00020430-0000-0000-C000-000000000046}
+    importlib("stdole2.tlb");
+
+    // Forward declare all types defined in this typelib
+    dispinterface IStruct1;
+    dispinterface ITest;
+    dispinterface IChildren;
+    interface IDataConversionTest;
+    dispinterface ITest1;
+    dispinterface ITestEvents;
+    interface ITest2;
+
+    typedef [public]
+    double number;
+
+    typedef [public]
+    number number2;
+
+    typedef [public]
+    IDispatch* Dispatch;
+
+    typedef [public]
+    IDispatch** DispatchByRef;
+
+    typedef [public]
+    Dispatch* DispatchByRef2;
+
+    typedef [public]
+    DispatchByRef2 DispatchByRef3;
+
+    typedef [public]
+    IStruct1* Struct1;
+
+    [
+      uuid(CABEA302-FB4E-4064-BE79-BDD623139465)
+    ]
+    dispinterface IStruct1 {
+        properties:
+        methods:
+            [id(0x00000001), propget]
+            int a();
+            [id(0x00000001), propput]
+            void a(int rhs);
+    };
+
+    typedef [public]
+    Struct1* Struct1ByRef;
+
+    typedef [public]
+    Struct1ByRef Struct1ByRef2;
+
+    typedef [public]
+    IUnknown* Unknown;
+
+    typedef [public]
+    IUnknown** UnknownByRef;
+
+    typedef [public]
+    Unknown* UnknownByRef2;
+
+    typedef [public]
+    UnknownByRef2 UnknownByRef3;
+
+    typedef [public]
+    __MIDL___MIDL_itf_test_0000_0001 Test_enum;
+
+    typedef enum {
+        Item1 = 3,
+        Item2 = 4
+    } __MIDL___MIDL_itf_test_0000_0001;
+
+    [
+      uuid(D9615F33-5E7B-4D59-B16C-260555F089D0)
+    ]
+    dispinterface ITest {
+        properties:
+        methods:
+            [id(0x00000002)]
+            void ShowDialog();
+            [id(0x00000003)]
+            void HideDialog();
+            [id(0x00000004)]
+            IChildren* Children();
+            [id(0x00000005)]
+            IDataConversionTest* DataConvTest();
+            [id(0x00000006)]
+            void Quit();
+            [id(0x00000007), propget]
+            double prop1();
+            [id(0x00000007), propput]
+            void prop1(double rhs);
+            [id(0x00000008), propget]
+            double prop2(
+                            int p1, 
+                            int p2);
+            [id(0x00000008), propput]
+            void prop2(
+                            int p1, 
+                            int p2, 
+                            double rhs);
+            [id(0x00000009), vararg]
+            void Test_vararg(SAFEARRAY(VARIANT) array);
+    };
+
+    [
+      uuid(CE9ECA81-A708-4196-AF9B-FAB192781488)
+    ]
+    dispinterface IChildren {
+        properties:
+        methods:
+            [id(0x00000001), propget]
+            int a();
+            [id(0x00000001), propput]
+            void a(int rhs);
+            [id(0x00000002)]
+            ITest* Application();
+            [id(0x00000003)]
+            void Hello();
+    };
+
+    [
+      odl,
+      uuid(32C7ED14-1D9E-47DD-90B5-8819511E91FC),
+      dual,
+      oleautomation
+    ]
+    interface IDataConversionTest : IDispatch {
+        [id(0x60020000)]
+        HRESULT TestDATE(
+                        [in] DATE date, 
+                        [in, out] DATE* date2, 
+                        [out] DATE* date3, 
+                        [out, retval] DATE* retval);
+        [id(0x60020001)]
+        HRESULT TestCURRENCY(
+                        [in] CURRENCY cy, 
+                        [in, out] CURRENCY* cy2, 
+                        [out] CURRENCY* cy3, 
+                        [out, retval] CURRENCY* retval);
+        [id(0x60020002)]
+        HRESULT TestBool(
+                        [in] VARIANT_BOOL b, 
+                        [in, out] VARIANT_BOOL* b2, 
+                        [out] VARIANT_BOOL* b3, 
+                        [out, retval] VARIANT_BOOL* retval);
+        [id(0x60020003)]
+        HRESULT TestChar(
+                        [in] unsigned char c, 
+                        [in, out] unsigned char* c2, 
+                        [out] unsigned char* c3, 
+                        [out, retval] unsigned char* retval);
+        [id(0x60020004)]
+        HRESULT TestVARIANT(
+                        [in] VARIANT v, 
+                        [in, out] VARIANT* v2, 
+                        [out] VARIANT* v3, 
+                        [out, retval] VARIANT* retval);
+        [id(0x60020005)]
+        HRESULT TestENUM(
+                        [in] Test_enum e, 
+                        [in, out] Test_enum* e2, 
+                        [out] Test_enum* e3, 
+                        [out, retval] Test_enum* retval);
+        [id(0x60020006)]
+        HRESULT TestBSTR(
+                        [in] BSTR s, 
+                        [in, out] BSTR* s2, 
+                        [out] BSTR* s3, 
+                        [out, retval] BSTR* retval);
+        [id(0x60020007)]
+        HRESULT TestShort(
+                        [in] short p1, 
+                        [in, out] short* p2, 
+                        [out] short* p3, 
+                        [out, retval] short* retval);
+        [id(0x60020008)]
+        HRESULT TestLong(
+                        [in] long p1, 
+                        [in, out] long* p2, 
+                        [out] long* p3, 
+                        [out, retval] long* retval);
+        [id(0x60020009)]
+        HRESULT TestFloat(
+                        [in] float p1, 
+                        [in, out] float* p2, 
+                        [out] float* p3, 
+                        [out, retval] float* retval);
+        [id(0x6002000a)]
+        HRESULT TestDouble(
+                        [in] double p1, 
+                        [in, out] double* p2, 
+                        [out] double* p3, 
+                        [out, retval] double* retval);
+        [id(0x6002000b)]
+        HRESULT TestInt(
+                        [in] int p1, 
+                        [in, out] int* p2, 
+                        [out] int* p3, 
+                        [out, retval] int* retval);
+        [id(0x6002000c)]
+        HRESULT TestIDispatch(
+                        [in] IDispatch* p1, 
+                        [in, out] IDispatch** p2, 
+                        [out] IDispatch** p3, 
+                        [out, retval] IDispatch** retval);
+        [id(0x6002000d)]
+        HRESULT TestIUnknown(
+                        [in] IUnknown* p1, 
+                        [in, out] IUnknown** p2, 
+                        [out] IUnknown** p3, 
+                        [out, retval] IUnknown** retval);
+        [id(0x6002000e)]
+        HRESULT TestArray1([in] SAFEARRAY(BSTR) array);
+        [id(0x6002000f)]
+        HRESULT TestArrayByVal([in] SAFEARRAY(BSTR) array);
+        [id(0x60020010)]
+        HRESULT TestArrayByRef([in, out] VARIANT* array);
+        [id(0x60020011)]
+        HRESULT TestArray(
+                        [in] long numitems, 
+                        [in] SAFEARRAY(long)* handles, 
+                        [out] SAFEARRAY(long)* errors);
+    };
+
+    [
+      uuid(C095A88D-0349-416B-A6FF-4BCFB78C8D6A)
+    ]
+    dispinterface ITest1 {
+        properties:
+        methods:
+            [id(0x00000001), propget]
+            IStruct1* b();
+            [id(0x00000001), propput]
+            void b(IStruct1* rhs);
+            [id(0x00000002)]
+            void dispatch_type(IDispatch* p);
+            [id(0x00000003)]
+            void userdef_type(IStruct1* p);
+            [id(0x00000004)]
+            void refdispatch_type(IDispatch** p);
+            [id(0x00000005)]
+            void refuserdef_type(IStruct1** p);
+            [id(0x00000006)]
+            void up_userdef_enum(Test_enum a);
+            [id(0x00000007)]
+            void up_ptr_userdef_enum(Test_enum* p1);
+            [id(0x00000008)]
+            void up_ptr_disp(IDispatch** p1);
+            [id(0x00000009)]
+            void up_ptr_userdef_disp(IStruct1* p1);
+            [id(0x0000000a)]
+            void up_ptr_ptr_userdef_disp(IStruct1** p1);
+            [id(0x0000000b)]
+            void up_userdef_alias(number p1);
+            [id(0x0000000c)]
+            void up_ptr_userdef_alias(number* p1);
+            [id(0x0000000d)]
+            void up_userdef_alias_userdef_alias(number2 p1);
+            [id(0x0000000e)]
+            void up_udef_alias_ptr_udef_alias_ptr_disp(DispatchByRef3 p1);
+            [id(0x0000000f)]
+            void up_userdef_disp(Dispatch p1);
+            [id(0x00000010)]
+            void up_udef_alias_ptr_udef_alias_ptr_unk(UnknownByRef3 p1);
+            [id(0x00000011)]
+            void up_userdef_unk(Unknown p1);
+            [id(0x00000012)]
+            short test_defvalue(
+                            short p1, 
+                            [defaultvalue(35)] short p2);
+            [id(0x00000013)]
+            short test_defvalue2(
+                            short p1, 
+                            [defaultvalue(35)] short p2, 
+                            [defaultvalue(1)] short p3);
+            [id(0x00000014)]
+            short test_optional(
+                            short p1, 
+                            [optional] VARIANT p2, 
+                            [optional] VARIANT p3);
+            [id(0x00000015)]
+            short test_defvalue_optional(
+                            short p1, 
+                            [defaultvalue(1)] VARIANT p2, 
+                            [optional] VARIANT p3);
+            [id(0x00000019)]
+            short test_out_optional(
+                            short p1,
+                            [out, optional] VARIANT* p2,
+                            [out, optional] VARIANT* p3);
+            [id(0x00000020)]
+            short test_in_out_optional(
+                            short p1,
+                            [in, out, optional] VARIANT* p2,
+                            [in, out, optional] VARIANT* p3);
+            [id(0x00000016), propget]
+            short getput();
+            [id(0x00000016), propput]
+            void getput(short rhs);
+            [id(0x00000017), propget]
+            short get();
+            [id(0x00000018)]
+            short func();
+    };
+
+    [
+      uuid(B15E88E2-1454-4402-B5CD-0645944426F5)
+    ]
+    dispinterface ITestEvents {
+        properties:
+        methods:
+            [id(0x00000002)]
+            void evt1(int data1);
+            [id(0x00000003)]
+            void evt2();
+            [id(0x00000004)]
+            VARIANT_BOOL Children(short data1);
+            [id(0x00000005)]
+            void DataConvTest(
+                            BSTR data1, 
+                            int data2);
+            [id(0x00000006)]
+            void TestManyParams(
+                            short p1, 
+                            short p2, 
+                            short p3, 
+                            short p4, 
+                            short p5, 
+                            short p6, 
+                            short p7, 
+                            short p8, 
+                            short p9, 
+                            short p10, 
+                            short p11, 
+                            short p12, 
+                            short p13, 
+                            short p14, 
+                            short p15);
+    };
+
+    [
+      odl,
+      uuid(F37C8062-4AD5-101B-B826-00DD01103DE1),
+      dual,
+      oleautomation
+    ]
+    interface ITest2 : IDispatch {
+        [id(0x60020000), propget]
+        HRESULT Teste([out, retval] short* retval);
+        [id(0x60020000), propput]
+        HRESULT Teste([in] short retval);
+        [id(0x60020002), propget]
+        HRESULT TesteProp(
+                        [in] short index, 
+                        [out, retval] short* retval);
+        [id(0x60020002), propput]
+        HRESULT TesteProp(
+                        [in] short index, 
+                        [in] short retval);
+        [id(0x60020004), propget]
+        HRESULT TestPropParam([out, retval] SAFEARRAY(VARIANT)* retval);
+        [id(0x60020005)]
+        HRESULT TestSafeArray([in] SAFEARRAY(double) array);
+        [id(0x60020006)]
+        HRESULT TestSafeArray2(
+                        [in] SAFEARRAY(double) array, 
+                        [out, retval] short* retval);
+        [id(0x60020007)]
+        HRESULT TestSafeArrayIDispatch([in] SAFEARRAY(IDispatch*) array);
+        [id(0x60020008)]
+        HRESULT TestSafeArrayVariant(
+                        [in] SAFEARRAY(VARIANT) array, 
+                        [out, retval] SAFEARRAY(VARIANT)* retval);
+    };
+
+    [
+      uuid(31E5CFC5-3F89-4F34-ADC5-C1A8E6F86C75),
+      helpstring("Test Class"),
+      appobject
+    ]
+    coclass Test {
+        interface IDataConversionTest;
+        [default] dispinterface ITest;
+        [default, source] dispinterface ITestEvents;
+    };
+};

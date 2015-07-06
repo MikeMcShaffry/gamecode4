@@ -1,0 +1,19 @@
+luajson v0.9.1 Release Notes
+============================
+
+User Visible Changes
+--------------------
+LuaRocks package created.
+
+Plans for next release
+----------------------
+ * Make the encoder customizable in a manner similar to the decoder
+ * Try to create an integration point for unicode handling
+ * Add in custom 'function' handling for decoder (ex: b64(stringvalue))
+
+Updates since 0.9
+=================
+
+Thomas Harning Jr (1):
+	base:
+		Preparation to make luajson work as a luarocks rock

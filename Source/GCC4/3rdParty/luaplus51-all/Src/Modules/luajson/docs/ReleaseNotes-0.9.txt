@@ -1,0 +1,43 @@
+luajson v0.9 Release Notes
+==========================
+
+User Visible Changes
+--------------------
+There are more tests added in using the lunit framework.  These are particularly useful for
+testing and debugging small components in the luajson decoder/encoder sections.
+
+Decoders are now customizable in a modular manner.  For example:  You can construct a decoder
+that allows for NaN and Inf values, but be strict on everything else.  The support framework
+should permit for more enhancements and custom elements.
+
+Plans for next release
+----------------------
+ * Make the encoder customizable in a manner similar to the decoder
+ * Try to create an integration point for unicode handling
+ * Add in custom 'function' handling for decoder (ex: b64(stringvalue))
+ * Create luarocks
+
+Updates since 0.6
+=================
+
+Thomas Harning Jr (15):
+	base:
+		Added changelog (with details for 0.6)
+		Noted lunit 0.4 requirement
+		Make distcheck properly run the check inside the dist
+	decoder/encoder:
+		Added support for primitive Array metatable marker to mark arrays as such
+	decoder/test:
+		Added hex decode capability
+	decoder:
+		Cleaned up unused values in the base decoder
+		Refactored decoding mechanism to permit building even more customized decoders
+		Fixed decoder generation to return cached versions
+		fixed decoder to remove misnamed parameters (causing failed tests)
+		Allow negative inf
+	test:
+		Reconfigured the tests to behave more correctly and allow for a simpler addition mechanism.
+		Enhanced the regression tests to handle roundtripping in a sane manner
+		Updated regression tests for roundtripping to have a better output format and handle outer whitespace and moved tests
+		Added lunit-based tests for fine-grained tests
+		Made lunit tests use 'setup' to simplify decoder hooking

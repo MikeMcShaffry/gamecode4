@@ -1,0 +1,109 @@
+<html><head></head><body>
+<p>
+<h1>parser<br></h1>
+Parser generator<br>
+</p><hr>
+<p>
+FIXME: Give lexemes as an extra argument to Parser?<br>
+FIXME: Rename second argument to parse method to "tokens"?<br>
+FIXME: Make start_token an optional argument to parse? (swap with<br>
+&nbsp;&nbsp;token list) and have it default to the first non-terminal?<br>
+</p><hr>
+<p>
+A parser is created by<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;p = Parser {grammar}<br>
+<br>
+and called with<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result = p:parse (start_token, token_list[, from])<br>
+<br>
+where start_token is the non-terminal at which to start parsing in<br>
+the grammar, token_list is a list of tokens of the form<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ty = "token_type", tok = "token_text"}<br>
+<br>
+and from is the token in the list from which to start (the default<br>
+value is 1).<br>
+<br>
+The output of the parser is a tree, each of whose<br>
+nodes is of the form:<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ty = symbol, node_1 = tree_1, node_2 = tree_2, ... [, list]}<br>
+<br>
+where each node_i is a symbolic name, and list is the list of<br>
+trees returned if the corresponding token was a list token.<br>
+<br>
+A grammar is a table of rules of the form<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;non-terminal = {production_1, production_2, ...}<br>
+<br>
+plus a special item<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lexemes = Set {"class_1", "class_2", ...}<br>
+<br>
+Each production gives a form that a non-terminal may take. A<br>
+production has the form<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;production = {"token_1", "token_2", ...,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[action][,abstract]}<br>
+<br>
+A production<br>
+<br>
+&nbsp;&nbsp;* must not start with the non-terminal being defined (it must not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;be left-recursive)<br>
+&nbsp;&nbsp;* must not be a prefix of a later production in the same<br>
+&nbsp;&nbsp;&nbsp;&nbsp;non-terminal<br>
+<br>
+Each token may be<br>
+<br>
+&nbsp;&nbsp;* a non-terminal, i.e. a token defined by the grammar<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * an optional symbol is indicated by the suffix "_opt"<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * a list is indicated by the suffix "_list", and may be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; followed by "_<separator-symbol>" (default is no separator)<br>
+&nbsp;&nbsp;* a lexeme class<br>
+&nbsp;&nbsp;* a string to match literally<br>
+<br>
+The parse tree for a literal string or lexeme class is the string<br>
+that was matched. The parse tree for a non-terminal is a table of<br>
+the form<br>
+<br>
+&nbsp;&nbsp; {ty = "non_terminal_name", tree_1, tree_2, ...}<br>
+<br>
+where the tree_i are the parse trees for the corresponding<br>
+terminals and non-terminals.<br>
+<br>
+An action is of the form<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;action = function (tree, token, pos)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return tree_<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+<br>
+It is passed the parse tree for the current node, the token list,<br>
+and the current position in the token list, and returns a new parse<br>
+tree.<br>
+<br>
+An abstract syntax rule is of the form<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name = {i_1, i_2, ...}<br>
+<br>
+where i_1, i_2, ... are numbers. This results in a parse tree of<br>
+the form<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ty = "name"; tree_i_1, tree_i_2, ...}<br>
+<br>
+If a production has no abstract syntax rule, the result is the<br>
+parse node for the current node.<br>
+</p><hr>
+<p>
+Parser constructor (deals with abstract syntax rules)<br>
+</p><hr>
+<p>
+<strong>Parser:parse:</strong> <em>Parse a token list<br></em>
+&nbsp;&nbsp;<strong>start</strong>: the token at which to start<br>
+&nbsp;&nbsp;<strong>token</strong>: the list of tokens<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>tree</strong>: parse tree<br>
+</p><hr>
+</body></html>

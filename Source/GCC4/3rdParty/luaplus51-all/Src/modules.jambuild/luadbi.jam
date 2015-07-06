@@ -1,0 +1,64 @@
+if $(NT)
+{
+
+NotFile luadbi ;
+CopyFile luadbi-dbi.lua : $(LUA_LDIR)/DBI.lua : $(SUBDIR)/DBI.lua ;
+NotFile luadbi-dbi.lua ;
+
+###############################################################################
+###############################################################################
+IncludeModule c/mysql ;
+
+if $(MYSQL_FOUND) {
+
+	ActiveTarget dbdmysql ;
+
+	local SRCS =
+			dbd/mysql/connection.c
+			dbd/mysql/dbd_mysql.h
+			dbd/mysql/main.c
+			dbd/mysql/statement.c
+			dbd/common.h
+			DBI.lua
+	;
+
+	C.UseMySQL ;
+
+    Depends luadbi : dbdmysql ;
+	Depends dbdmysql : luadbi-dbi.lua ;
+	Depends clean:luadbi : clean:dbdmysql ;
+	Depends clean:dbdmysql : clean:luadbi-dbi.lua ;
+
+	Lua.CModule : : $(SRCS) ;
+
+} # $(MYSQL_FOUND)
+
+###############################################################################
+###############################################################################
+{
+	ActiveTarget dbdsqlite3 ;
+
+	local SRCS =
+			dbd/sqlite3/connection.c
+			dbd/sqlite3/dbd_sqlite3.h
+			dbd/sqlite3/main.c
+			dbd/sqlite3/statement.c
+			dbd/common.h
+			../sqlite3/sqlite/sqlite3.c
+			../sqlite3/sqlite/sqlite3.h
+			../sqlite3/sqlite/sqlite3ext.h
+			DBI.lua
+	;
+
+    Depends luadbi : dbdsqlite3 ;
+	Depends dbdsqlite3 : luadbi-dbi.lua ;
+	Depends clean:luadbi : clean:dbdsqlite3 ;
+	Depends clean:dbdsqlite3 : clean:luadbi-dbi.lua ;
+
+	C.Defines : SQLITE_ENABLE_FTS3 ;
+	C.IncludeDirectories : ../sqlite3/sqlite ;
+
+	Lua.CModule : : $(SRCS) ;
+}
+
+}

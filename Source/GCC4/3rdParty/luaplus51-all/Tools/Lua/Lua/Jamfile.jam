@@ -1,0 +1,73 @@
+SubDir LUAPLUS Tools Lua Lua ;
+
+{
+
+local TILDE_SRCS =
+		../../../Src/tilde/HostConfig.cpp
+		../../../Src/tilde/HostConfig.h
+		../../../Src/tilde/LuaDebugger.cpp
+		../../../Src/tilde/LuaDebugger.h
+		../../../Src/tilde/LuaDebuggerComms.cpp
+		../../../Src/tilde/LuaDebuggerComms.h
+		../../../Src/tilde/LuaDebuggerProtocol.h
+		../../../Src/tilde/LuaHostWindows.cpp
+		../../../Src/tilde/LuaHostWindows.h
+		../../../Src/tilde/ReceiveMessageBuffer.h
+;
+
+local SRCS =
+		Lua.cpp
+;
+
+if $(NT)  &&  $(COMPILER.$(PLATFORM)) != vc6
+{
+	SRCS += $(TILDE_SRCS) ;
+}
+
+rule LuaApplication TARGET : OPTIONS
+{
+	ActiveTarget $(TARGET) ;
+
+	SubInclude LUAPLUS Src LuaPlus SharedLib : LuaPlusSharedLib ;
+
+	if $(NT)  &&  $(COMPILER.$(PLATFORM)) != vc6
+	{
+#		C.Defines : REMOTE_DEBUGGER ;
+	}
+	if $(MSVCNT)
+	{
+		C.LinkFlags : /DELAYLOAD:luaplus51-1201_debug.dll : debug ;
+		C.LinkFlags : /DELAYLOAD:luaplus51-1201.dll : release ;
+		C.LinkFlags : /DELAYLOAD:luaplus51-1201.dll : releaseltcg ;
+		C.LinkPrebuiltLibraries : DelayImp ;
+	}
+	C.IncludeDirectories : $(LUAPLUS)/Src $(LUAPLUS)/Src/LuaPlus/Src ; # [ FSubDirPath LUAPLUS Src ] ;
+	C.LinkLibraries : LuaPlusShared ;
+	if $(OS) = LINUX
+	{
+		C.LinkFlags : -Wl,-E -lreadline ;
+		C.LinkFlags : -Wl,--rpath=\\$ORIGIN -z origin ;
+	}
+	else if $(OS) in MACOS MACOSX
+	{
+		C.LinkFlags : -Wl,-rpath,@loader_path/ ;
+	}
+	LuaPlusFixUpTarget $(TARGET) ;
+	C.Application : $(SRCS) : $(OPTIONS) ;
+}
+
+NoWorkspace luaplus ;
+LuaApplication luaplus ;
+NoWorkspace "lua" ;
+LuaApplication "lua" ;
+
+if $(NT)
+{
+	C.Defines "luaw" : USE_WINMAIN ;
+	LuaApplication "luaw" : windows ;
+	NoWorkspace "luaw" ;
+}
+
+on "lua" LUA_EXE = $(LINK_TARGET) ;
+
+}

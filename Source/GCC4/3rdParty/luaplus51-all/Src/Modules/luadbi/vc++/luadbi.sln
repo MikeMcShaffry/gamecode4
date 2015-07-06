@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbdpostgresql", "dbdpostgresql\dbdpostgresql.vcproj", "{7DC4FC36-C3DC-475E-A6DA-CEB4BA237843}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbdmysql", "dbdmysql\dbdmysql.vcproj", "{C3A5B30E-0471-459E-AFF3-FF54F9F31599}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbdoracle", "dbdoracle\dbdoracle.vcproj", "{BD3DE628-23AE-416E-A983-8A0E8D4F0E15}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbddb2", "dbddb2\dbddb2.vcproj", "{9F935BC6-6766-4D60-8C48-9EF607883B7D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbdsqlite3", "dbdsqlite3\dbdsqlite3.vcproj", "{7B532158-C67A-490D-80EF-FF5552EE38B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DC4FC36-C3DC-475E-A6DA-CEB4BA237843}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7DC4FC36-C3DC-475E-A6DA-CEB4BA237843}.Debug|Win32.Build.0 = Debug|Win32
+		{7DC4FC36-C3DC-475E-A6DA-CEB4BA237843}.Release|Win32.ActiveCfg = Release|Win32
+		{7DC4FC36-C3DC-475E-A6DA-CEB4BA237843}.Release|Win32.Build.0 = Release|Win32
+		{C3A5B30E-0471-459E-AFF3-FF54F9F31599}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C3A5B30E-0471-459E-AFF3-FF54F9F31599}.Debug|Win32.Build.0 = Debug|Win32
+		{C3A5B30E-0471-459E-AFF3-FF54F9F31599}.Release|Win32.ActiveCfg = Release|Win32
+		{C3A5B30E-0471-459E-AFF3-FF54F9F31599}.Release|Win32.Build.0 = Release|Win32
+		{BD3DE628-23AE-416E-A983-8A0E8D4F0E15}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BD3DE628-23AE-416E-A983-8A0E8D4F0E15}.Debug|Win32.Build.0 = Debug|Win32
+		{BD3DE628-23AE-416E-A983-8A0E8D4F0E15}.Release|Win32.ActiveCfg = Release|Win32
+		{BD3DE628-23AE-416E-A983-8A0E8D4F0E15}.Release|Win32.Build.0 = Release|Win32
+		{9F935BC6-6766-4D60-8C48-9EF607883B7D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9F935BC6-6766-4D60-8C48-9EF607883B7D}.Debug|Win32.Build.0 = Debug|Win32
+		{9F935BC6-6766-4D60-8C48-9EF607883B7D}.Release|Win32.ActiveCfg = Release|Win32
+		{9F935BC6-6766-4D60-8C48-9EF607883B7D}.Release|Win32.Build.0 = Release|Win32
+		{7B532158-C67A-490D-80EF-FF5552EE38B1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7B532158-C67A-490D-80EF-FF5552EE38B1}.Debug|Win32.Build.0 = Debug|Win32
+		{7B532158-C67A-490D-80EF-FF5552EE38B1}.Release|Win32.ActiveCfg = Release|Win32
+		{7B532158-C67A-490D-80EF-FF5552EE38B1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

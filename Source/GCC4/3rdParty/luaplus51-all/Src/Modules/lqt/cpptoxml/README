@@ -1,0 +1,34 @@
+
+cpptoxml is a tool that transform C++ code into an XML file.
+
+It is based on the C++ parser originally written by Roberto
+Raggi for KDevelop, as published by Trolltech in their
+QtJambi product.
+
+== Building ==
+
+It currently depends on Qt 4. It is built with:
+
+qmake
+make
+
+== A Note on Licenses ==
+
+The parser itself (residing in the directory named parser)
+is under the GPLv2 license and is copyrighted by Trolltech.
+The rest of the code is under the GPLv2 as well.
+
+You can find a copy of the license in the file gpl-2.0.txt
+
+The parser has been modified slightly from the Trolltech
+version. While this is not enough to grant a new copyright,
+please avoid reporting bugs to them if you are not sure that
+it is their code at fault.
+
+== Contact ==
+
+You can contact the authors at:
+
+ * Mauro Iazzi <mauro.iazzi@gmail.com>
+
+

@@ -1,0 +1,16 @@
+#!/usr/bin/env op.cgi
+
+<html>
+<body>
+<p>Hello Cosmo!</p>
+<p>I am in $web|real_path, and the script is
+$web|script_name.</p>
+$lua{[[
+if not web.input.msg then
+  web.input.msg = "nothing"
+end
+]]}
+<p>You passed: $web|input|msg.</p>
+$include{ "bar.op" }
+</body>
+</html>

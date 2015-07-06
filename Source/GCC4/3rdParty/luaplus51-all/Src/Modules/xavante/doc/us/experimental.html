@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>The Xavante Lua Web Server Experimental Modules</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+    <div id="product_logo"><a href="http://www.keplerproject.org">
+    <img alt="Xavante logo" src="xavante.gif" /></a>
+    </div>
+    <div id="product_name"><big><strong>Xavante</strong></big></div>
+    <div id="product_description">A Lua Web Server with CGILua support</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+<h1>Xavante</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+            <ul>
+              <li><a href="index.html#over">Overview</a></li>
+              <li><a href="index.html#status">Status</a></li>
+              <li><a href="index.html#download">Download</a></li>
+              <li><a href="index.html#history">History</a></li>
+              <li><a href="index.html#components">Dependencies</a></li>
+              <li><a href="index.html#portability">Portability</a></li>
+              <li><a href="index.html#credits">Credits</a></li>
+              <li><a href="index.html#contact">Contact us</a></li>
+            </ul>
+        </li>
+		<li><a href="manual.html">Manual</a>
+            <ul>
+              <li><a href="manual.html#install">Installing</a></li>
+              <li><a href="manual.html#config">Configuring</a></li>
+              <li><a href="manual.html#running">Running</a></li>
+            </ul>
+        </li>
+        <li><strong>Sajax</strong></li>
+        <li><a href="license.html">License</a></li>
+		<li><a href="http://luaforge.net/projects/xavante/">LuaForge project</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+
+<div id="content">
+	<h2><a name="experimental"></a>Experimental Modules</h2>
+	
+	<p>
+		These are a few experimental modules included with Xavante; they're fairly functional
+		but might have very rough edges, or might not seem very useful at first.
+	</p>
+	
+	<p>
+		In general, these modules can be used when writing new Xavante handlers.  In my view
+		(not shared by most Kepler developers), static pages and CGILua are only two particular
+		ways to create websites and webapps.  There are many other ways to achieve those goals,
+		and when using Xavante, most of them start with writing a Handler.
+	</p>
+	
+	<p>
+		A Xavante Handler is just a function that gets called to serve a client request. The
+		Xavante core parses the request's URL, and decides which handler to call. The chosen
+		handler receives as parameters the request and response objects, usually we call these
+		"the <code>(req,res)</code> parameters".
+	</p>
+	
+	<p>
+		The handler analyses these parameters and produces the desired response, either calling
+		the <code>res:send(data)</code> function repeatedly, or setting the <code>res.content</code>
+		field with a string or an array of strings.
+	</p>
+	
+	<h3><a name="cookies"></a>cookies.lua</h3>
+	
+	<p>
+		Cookies are a common feature of many web development platforms.  This module is shamelessly
+		copied from the CGILua implementation, and exports three functions to be used from handlers:
+	</p>
+	
+<pre class="example">
+value = xavante.cookies.get (req, name)
+
+xavante.cookies.set (res, name, value [, options])
+
+xavante.cookies.delete (res, name [, options])
+</pre>
+	
+	<p>
+		Where <code>req</code> and <code>res</code> are the request and response objects,
+		respectively, the handler got from the Xavante core, <code>name</code> is the name under
+		which the cookie will be stored in the browser, <code>value</code> is the value to
+		store as a cookie, and <code>options</code> are the cookie's options, given as a
+		<code>name=>value</code> table.
+	</p>
+	
+	<p>
+		The cookie options are managed by the browser, but as a special case, if
+		<code>options.expires</code> is a number, it's converted into the corresponding date string.
+		This let's you use the <code>os.time()</code> function to specify a relative time.
+	</p>
+	
+	
+	<h3><a name="session"></a>session.lua</h3>
+
+	<p>
+		This module lets you store some data and make it persistant from one request to another
+		by the same client. In the current implementation, the session's stored data is just
+		a Lua table, and is only stored in memory.  If Xavante is restarted, all session data
+		is lost.
+	</p>
+	
+	<p>
+		To recognize the client coming back, a cookie is stored in the client's browser with
+		a randomly generated session ID (SID) as the value.
+	</p>
+	
+<pre class="example">
+S = xavante.session.open (req, res [, name])
+
+xavante.session.close (req, res [,name])
+</pre>
+
+	<p>
+		The <code>name</code> is optional but strongly suggested to use a string unique to
+		your handler, to minimize any chance of collision. Remember to give the same
+		name (if any) to the <code>session.close()</code> function.
+	</p>
+	
+	<p>
+		The table <code>S</code> would be a new table the first time the client visits this
+		webapp, but will be the same table each subsequent request. You can store any kind of
+		Lua data in this table.
+	</p>
+	
+	<p>
+		When the user wants to close his session, call the <code>session.close()</code> function.
+		The cookie in his browser will be deleted, and the session table will be detached from
+		the internal storage, so it will be eventually garbage collected.
+	</p>
+	
+	<h3><a name="codeweb"></a>codeWeb.lua</h3>
+	
+	<p>
+		Xavante was developed to efficiently handle a big number of handlers, each one could
+		manage as big or as little a part of the URL space as desired.  There's nothing
+		wrong with having several handlers to manage a single URL each.  codeWeb is a module
+		to help you with that kind of setting.
+	</p>
+	
+	<p>
+		As usual with Lua scripts, the Xavante config file is a script that gets executed at
+		startup time and sets up the running environment.  In most cases, this means using the
+		<code>xavante.HTTP {}</code> function to: associate the whole tree to
+		<code>xavante.filehandler</code>, any file ending with <code>.lp</code> or
+		<code>.lua</code> to <code>xavante.cgiluahandler</code>, and any URL ending with
+		<code>/</code> <code>xavante.redirecthandler</code>.
+	</p>
+	
+	<p>
+		The codeWeb module adds a function to register several handlers, joined as a
+		module, to part of the URL tree:
+	</p>
+	
+<pre class="example">
+xavante.codeWeb.addModule (host, urlpath, m [, as_tree])
+</pre>
+
+	<p>
+		Where <code>host</code> is the virtual host name, <code>urlpath</code> is the root
+		of the URL subtree where the module gets registered, <code>m</code> is a table in
+		the form <code>m[name]=h</code>, with <code>name</code> as the URL end part, and
+		<code>h</code> as the corresponding handler. The optional boolean <code>as_tree</code>
+		(false by default) tells if each handler should registered as a single URL, or as a
+		subtree itself.
+	</p>
+	
+	<p>
+		To use this function, the developer writes a module, where the exported functions are
+		the handlers.  The head of the subtree (<code>urlpath</code> itself) is managed by the
+		handler called "__main".  The function <code>coroWeb.addModule()</code> registers all
+		table elements where the key is a string not beginning with '_' and the value is
+		a function.
+	</p>
+	
+	<p>
+		Example:
+	</p>
+
+<pre class="example">
+local session = require ("xavante.session")
+require ("xavante.coroWeb")
+module (arg and arg[1])
+
+--
+-- the 'main' handler redirects to .../index
+--
+function __main (req,res)
+    local path = req.parsed_url.path
+    if string.sub (path, -1) ~= "/" then path = path.."/" end
+    xavante.httpd.redirect (res, path.."index")
+end
+
+--
+-- this is a hard-coded constant page
+--
+function index (req, res)
+
+    cookies.set (res, "mycook", "456", {["Max-Age"] = "60"})
+
+    res.content = [[
+        &lt;!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"&gt;
+        &lt;HTML&gt;&lt;HEAD&gt;
+            &lt;TITLE&gt;CodeWeb&lt;/TITLE&gt;
+        &lt;/HEAD&gt;&lt;BODY&gt;
+            &lt;H1&gt;Hi there!&lt;/H1&gt;
+
+            look &lt;a href="mira1"&gt;this&lt;/a&gt;,
+            and then &lt;a href="mira2"&gt;that&lt;/a&gt;.&lt;/br&gt;
+            &lt;a href="subpage"&gt;here&lt;/a&gt;'s another page.&lt;/br&gt;
+
+        &lt;/BODY&gt;&lt;/HTML&gt;]]
+    return res
+end
+
+--
+-- this two pages use a common session to check user status
+--
+function mira1 (req, res)
+    local ss = session.open (req, res, "mirando")
+
+    res.content = [[
+        &lt;HTML&gt;&lt;HEAD&gt;
+        &lt;TITLE&gt;CodeWeb&lt;/TITLE&gt;
+        &lt;/HEAD&gt;&lt;BODY&gt;
+    ]]
+
+    if ss.lastvio == "mira1" then
+        res.content = res.content .. "&lt;p&gt; repeating.... &lt;/p&gt;"
+    elseif ss.lastvio == "mira2" then
+        res.content = res.content .. "&lt;p&gt; should've come here first... &lt;/p&gt;"
+    else
+        res.content = res.content .. "&lt;p&gt; haven't seen anythig yet! &lt;/p&gt;"
+    end
+
+    res.content = res.content .. "&lt;/BODY&gt;&lt;/HTML&gt;"
+
+    ss.lastvio = "mira1"
+end
+
+function mira2 (req, res)
+    local ss = session.open (req, res, "mirando")
+
+    res.content = [[
+        &lt;HTML&gt;&lt;HEAD&gt;
+            &lt;TITLE&gt;CodeWeb&lt;/TITLE&gt;
+        &lt;/HEAD&gt;&lt;BODY&gt;
+    ]]
+
+    if ss.lastvio == "mira1" then
+        res.content = res.content .. "&lt;p&gt; see that? this one is better! &lt;/p&gt;"
+    elseif ss.lastvio == "mira2" then
+        res.content = res.content .. "&lt;p&gt; repeating the second... &lt;/p&gt;"
+    else
+        res.content = res.content .. "&lt;p&gt; see the other one first! &lt;/p&gt;"
+    end
+
+    res.content = res.content .. "&lt;/BODY&gt;&lt;/HTML&gt;"
+
+    ss.lastvio = "mira2"
+end
+
+--
+-- this page is loaded and compiled at startup time,
+-- but executed at request time
+--
+subpage = xavante.codeWeb.load_cw ("test.cw");
+
+</pre>
+	
+	<p>
+		This sample module defines five handlers: <code>__main()</code>, <code>index()</code>,
+		<code>mira1()</code>, <code>mira2()</code> and <code>subpage()</code>. If this code is
+		in the <code>cw_samp.lua</code> file, and you want it to be accessible under URLs
+		of the form: http://your.server.com/sample, the config file should include a line
+		like this:
+	</p>
+
+<pre class="example">
+xavante.codeWeb.addModule ("_", "/sample", require "cw_samp", true)
+</pre>
+
+	<p>
+		This line first does a <code>require "cw_samp"</code>, which compiles the module and
+		returns it as a table. Then the <code>xavante.codeWeb.addModule()</code> function
+		registers it under the "/sample" subtree of the default virtual host (named "_"),
+		making the handlers accessible under the URLs:
+	</p>
+	
+	<ul>
+		<li>http://your.server.com/sample</li>
+		<li>http://your.server.com/sample/index</li>
+		<li>http://your.server.com/sample/mira1</li>
+		<li>http://your.server.com/sample/mira2</li>
+		<li>http://your.server.com/sample/subpage</li>
+	</ul>
+	
+	<p>
+		The <code>main()</code> handler just redirects any request to <code>index</code>.
+		In some projects this could be the most convenient (and most flexible) way to
+		redirect or remap URLs.
+	</p>
+	
+	<p>
+		The <code>index()</code> handler stores a cookie of name "mycook" and value "456"
+		at the user's browser, with a maximum age of 60 seconds.  Then it just responds with a
+		constant HTML content.
+	</p>
+	
+	<p>
+		The two handlers <code>mira1()</code> and <code>mira2()</code> use a session called
+		"mirando", to store some data used to deduce the order in which the user clicked on
+		those links and present some annoying messages.
+	</p>
+	
+	<p>
+		The <code>subpage</code> handler uses the second feature of codeWeb: compiled templates.
+	</p>
+	
+	<p>
+		A codeWeb template is a file written in the same way as luaPages for CGILua; in fact,
+		the code is mostly copied from CGILua's luaPage translator.  The main difference is
+		that a template loaded by <code>codeWeb.load_cw()</code> gets compiled into a handler.
+		This compilation usually happens at startup time, so the response time is as fast
+		as other Xavante handlers.
+	</p>
+	
+	<p>
+		This is the code of the test_cw template:
+	</p>
+
+<pre class="example">
+&lt;html&gt;
+    &lt;?lua
+        local cookies = require ("xavante.cookies")
+
+        mycook, mck_opt = cookies.get (req, "mycook")
+    ?&gt;
+    &lt;?lua if mycook then ?&gt;
+        &lt;p&gt;cookie: &lt;?= mycook ?&gt; &lt;/p&gt;
+        &lt;ul&gt;&lt;?lua for k,v in pairs (mck_opt) do ?&gt;
+            &lt;li&gt;opt: &lt;?= k ?&gt; = &lt;?= v ?&gt;&lt;/li&gt;
+        &lt;?lua end ?&gt;&lt;/ul&gt;
+    &lt;?lua else ?&gt;
+        &lt;p&gt; there's no cookie &lt;/p&gt;
+    &lt;?lua end ?&gt;
+&lt;/html&gt;
+</pre>
+
+	<p>
+		Note: This is a bad example, there's almost no HTML code and lots of Lua, obscured
+		by the many <code>&lt;?lua ... ?&gt;</code> tags.
+	</p>
+	
+	<p>
+		As can be seen in the example, the <code>req</code>, and <code>res</code> objects
+		are available. The handler built by the <code>codeWeb.load_cw()</code> is of the form
+	</p>
+	
+<pre class="example">
+function (req, res, ...)
+    -- translated template code
+end
+</pre>
+
+	<p>
+		The Xavante core dispatcher is not the only one that can call handlers; any handler
+		could call another handler.  This is especially convenient to use several small templates
+		to generate pieces of HTML code, under the controlling logic of an 'outer' handler.
+	</p>
+	
+	<p>
+		To pass data between an 'outer' handler and a compiled template, just add more
+		parameters after the <code>req</code> and <code>res</code> required parameters.
+		If you wish, you could start your template with some code like:
+	</p>
+
+<pre class="example">
+&lt;?lua
+    local myparam1, myparam2 = unpack(arg)
+?&gt;
+</pre>
+
+	<p>
+		To give local names to your extra parameters.
+	</p>
+	
+	<h3><a name="coroWeb"></a>coroWeb</h3>
+	
+	<p>
+		This module uses sessions to keep track of a user, creating a coroutine to handle
+		it as the code flow.  Just write a simple handler, but instead of registering it,
+		wrap it into a coroWeb handler, like this:
+	</p>
+	
+<pre class="example">
+--
+-- this is a coroHandler, the user progresses
+-- through the code with each visit
+--
+coPage = xavante.coroWeb.handler ("coPage", function (req, res)
+        res.content = "&lt;html&gt;&lt;body&gt;one..&lt;/body&gt;&lt;/html&gt;"
+        req, res = yield ()
+        res.content = "&lt;html&gt;&lt;body&gt;two..&lt;/body&gt;&lt;/html&gt;"
+        req, res = yield ()
+        res.content = "&lt;html&gt;&lt;body&gt;and three, the end!&lt;/body&gt;&lt;/html&gt;"
+    end)
+</pre>
+	
+
+	<p>
+		The <code>coroWeb.handler()</code> function takes as paramters a name (used for the
+		session cookie), and a handler (a function with <code>(req,res)</code> parameters),
+		and returns a new handler, which could (for example) be one of many in a codeWeb module.
+	</p>
+	
+	<p>
+		A coroWeb handler produces some content (with the usual <code>res</code> parameter),
+		and calls <code>yield()</code>.  The function flow is suspended, the content is
+		sent to the browser, and the function only gets resumed when the same user returns to
+		the handler (on any URL managed by the same handler).  At this point, the
+		<code>yield()</code> function returns, with a new set of <code>req,res</code>
+		parameters.
+	</p>
+	
+	<p>
+		The handler gets started with each new user to enter the webapp; and the session is
+		closed when the handler finishes.
+	</p>
+	
+	<p>
+		In this example, the first time the user gets to this URL, he gets a page with
+		"<code>one..</code>", the second time he gets "<code>two..</code>", and the third
+		time he gets "<code>and three, the end!</code>".  If he reloads the page a fourth time,
+		the cycle starts again.
+	</p>
+	
+	<p>
+		A developer could want to write a webapp with a central 'event loop', much like
+		GUI apps are written.  To help on this pattern, there's the
+		<code>xavante.coroWeb.event()</code> function.
+	</p>
+	
+<pre class="example">
+req,res = xavante.coroWeb.event (req, sh_t [, get_all])
+</pre>
+
+	<p>
+		This function should be called in the main loop; it returns a new set of
+		<code>req, res</code> objects each iteration. The first parameter is the usual
+		<code>req</code> object, <code>sh_t</code> is a table of subhandlers, and the
+		optional <code>get_all</code> is a boolean (default false).
+	</p>
+	
+	<p>
+		An event driven handler should first create the 'main' page on <code>res</code>
+		and call <code>coroWeb.event()</code> with a table filled with the handlers for
+		all possible actions of the user.  Each of these subhandlers will be called with
+		the <code>req,res</code> objects corresponding to the user action.  If a subhandler
+		returns a string "refresh", or if the main handler set the <code>get_all</code>
+		parameter as true, the <code>coroWeb.event()</code> returns and the main loop
+		should refresh the main page.
+	</p>
+	
+	<p>
+		A simple example:
+	</p>
+	
+<pre class="example">
+coPage2 = xavante.coroWeb.handler ("coPage2", function (req, res)
+
+    local counter = 0
+    local count2 = 0
+    local sh_t = {
+        inc = function () counter = counter+1 return "refresh" end,
+        dec = function () counter = counter-1 return "refresh" end,
+    }
+
+    while true do
+        res.content = string.format ([[
+            &lt;html&gt;&lt;body&gt;
+                    counter: %s (%s)&lt;/br&gt;
+                &lt;a href="coPage2/inc"&gt;inc&lt;/a&gt;
+                &lt;a href="coPage2/dec"&gt;dec&lt;/a&gt;
+            &lt;/body&gt;&lt;/html&gt;]], counter, count2)
+
+        count2 = count2+1
+
+        req,res = xavante.coroWeb.event (req, sh_t)
+    end
+end)
+</pre>
+
+	<p>
+		The first time a user enters this handler, two local variables, <code>counter</code>
+		and <code>count2</code> are initialized at 0, and the subhandler table <code>sh_t</code>
+		is filled with two handlers: <code>inc()</code> and <code>dec()</code>.
+	</p>
+	<p>
+		The main loop does three things: sets the response content with a simple page (which
+		includes the counters values and links to the inc and dec subhandlers), increments
+		the <code>count2</code> variable, and waits for an event.
+	</p>
+	<p>
+		When the user clicks on a link, the corresponding subhandler is executed and the
+		<code>counter</code> variable is modified.  The subhandler then returns a "refresh" string,
+		which causes the <code>event()</code> function to return immediately to the main loop
+		and refresh the main page, with the updated counter variables.
+	</p>
+	<p>
+		Note that these
+		handlers don't use <code>req</code> and <code>res</code>, so we can leave the parameter
+		lists empty.  This is possible because all the data used by the subhandlers is accessible
+		as local variables (local to the enclosing scope), and all the output needed is
+		just refreshing the main page (in the main loop).  What's missing from this example
+		is a "logout" link that would let the main loop to finish, and eventually close the
+		thread.
+	</p>
+
+</div>
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+	<p><small>$Id: experimental.html,v 1.3 2007/11/17 16:09:41 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>

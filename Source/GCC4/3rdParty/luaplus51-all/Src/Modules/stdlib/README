@@ -1,0 +1,57 @@
+                        Standard Lua libraries
+                        ----------------------
+
+     by the stdlib project (http://luaforge.net/projects/stdlib/)
+
+
+This is a collection of Lua libraries for Lua 5.1. The libraries are
+copyright by their authors 2000-2009 (see the AUTHORS file for
+details), and released under the MIT license (the same license as Lua
+itself). There is no warranty.
+
+Stdlib has no prerequisites beyond a standard Lua 5.1 system.
+
+
+Installation
+------------
+
+Copy the contents of the modules directory into a location on your
+LUA_PATH.
+
+
+Use
+---
+
+As well as requiring individual libraries, you can load the standard
+set with
+
+  require "std"
+
+Some of the less-used libraries are not loaded by this method; these
+are intended to be removed from stdlib eventually.
+
+
+Documentation
+-------------
+
+The libraries are documented in a LuaDoc-like style, and HTML
+documentation is produced by the included utils/ldoc script. Run
+
+  ldoc *.lua
+
+To get a documentation file "foo.html" for each file "foo.lua".
+Pre-built HTML files are included.
+
+
+Bug reports and code contributions
+----------------------------------
+
+Please make bug reports on LuaForge (see URL at top of file).
+
+There is also a mailing list for discussing the libraries,
+stdlib-users@lists.luaforge.net. You can subscribe on the project
+page.
+
+These libraries are maintained and extended by their users. If you'd
+like to contribute, please write to the mailing list, or post code on
+the patch tracker.

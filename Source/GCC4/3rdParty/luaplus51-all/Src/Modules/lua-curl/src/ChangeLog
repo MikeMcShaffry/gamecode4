@@ -1,0 +1,13 @@
+2011-03-23  Kai Uwe Jesussek <kajot@gmx.net>
+	* ChangeLog Lua-cURL-setopt.c: Enabled uncommented setopt options
+
+2007-09-21  Juergen Hoetzel  <juergen@hoetzel.info>
+
+	* ChangeLog, Lua-cURL-setopt.c, Lua-cURL-share.c, Lua-cURL-share.h, Lua-cURL.c, Lua-cURL.h, Makefile.am:
+	added share interface
+
+	* ChangeLog: added ChangeLog
+
+	* Lua-cURL.h, Lua-cURL-setopt.c, Lua-cURL.c:
+	fixed memoryleak in lua_setopt_strings
+

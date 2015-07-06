@@ -1,0 +1,527 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>xls</title>
+    <link rel="stylesheet" href="doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_name"><big><strong>xls</strong></big></div>
+	<div id="product_description">Read/write xls files</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+<h1>xls</h1>
+	<ul>
+
+		<li><strong>Home</strong>
+			<ul>
+                            
+			</ul>
+		</li>
+
+		<li><a href="license.html">License</a>
+			<ul>
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Introduction</h2>
+
+<p>The module <em>xls</em> allows high performance read and write access to .xls files.</p>
+
+
+
+<h2>Example</h2>
+
+
+<pre>
+    require 'xls'
+
+    local doc = xls.BasicExcel()
+</pre>
+
+
+
+
+<hr/>
+<h2>xls Reference</h2>
+
+<h3>workbook = xls.Workbook([filename])</h3>
+
+<p>Creates or opens a Workbook object.  Returns a Workbook object.</p>
+
+<ul>
+    <li><code>filename</code> is the optional name of the .xls file to open.  If no <code>filename</code> is given, an empty Workbook is created.</li>
+</ul>
+
+
+
+
+<hr/>
+<h2>Workbook Reference</h2>
+
+<h3>workbook:New(sheets [ = 3])</h3>
+
+<p>Creates a new Excel workbook with a given number of worksheets.</p>
+
+<ul>
+    <li><code>sheets</code> is the number of worksheets to create within the workbook.  The minimum is 1.  The default is 3.</li>
+</ul>
+
+
+<h3>loaded = workbook:Load(filename)</h3>
+
+<p>Loads an Excel workbook from a file.</p>
+
+<p>Returns <code>true</code> if successful, <code>false</code> otherwise.</p>
+
+<ul>
+    <li><code>filename</code> is the path to the .xls file to open.</li>
+</ul>
+
+
+
+<h3>saved = workbook:Save()</h3>
+
+<p>Saves current Excel workbook to the opened file.</p>
+
+<p>Returns <code>true</code> if successful, <code>false</code> if unsuccessful.</p>
+
+
+
+
+<h3>saved = workbook:SaveAs(filename)</h3>
+
+<p>Loads an Excel workbook from a file.</p>
+
+<p>Returns <code>true</code> if successful, <code>false</code> otherwise.</p>
+
+<ul>
+    <li><code>filename</code> is the path to the .xls file to save.  <code>filename</code> may be a regular string or an <code>xls.wchar</code>.</li>
+</ul>
+
+
+
+<h3>workbook:Close()</h3>
+
+<p>Closes the current Excel workbook.</p>
+
+
+
+
+<h3>totalWorksheets = workbook:GetTotalWorksheets()</h3>
+
+<p>Returns the total number of Excel worksheets in the current Excel workbook.</p>
+
+
+
+
+<h3>worksheet = workbook:GetWorksheet(sheetIndex | name)</h3>
+
+<p>Returns an object representing the Excel worksheet specified by <code>sheetIndex</code> or <code>name</code>.  If no worksheet is found with the given <code>sheetIndex</code> or <code>name</code>, then <code>GetWorksheet</code> returns <code>nil</code>.</p>
+
+<ul>
+    <li><code>sheetIndex</code> is an index in the range of 0 &lt;= <code>sheetIndex</code> &lt; <code>GetTotalWorksheets()</code> representing the sheet to retrieve.</li>
+    <li><code>name</code> is either a string or an xls.wchar representing the sheet name to retrieve.</li>
+</ul>
+
+
+
+
+<h3>worksheet = workbook:AddWorksheet([sheetIndex] | [name [, sheetIndex]])</h3>
+
+<p>Adds a new worksheet to the workbook.  If no <code>sheetIndex</code> or <code>name</code> is specified, a new worksheet is added to the last position.  </p>
+
+<p>Returns an Excel worksheet specified by <code>sheetIndex</code> or <code>name</code>.</p>
+
+<ul>
+    <li><code>sheetIndex</code> is an index in the range of -1 &lt;= <code>sheetIndex</code> &lt; <code>GetTotalWorksheets()</code>.  If <code>-1</code> is specified, the new worksheet is added to the last position.  The name given to the new worksheet is <code>SheetX</code>, where <code>X</code> is a number which starts from 1.</li>
+    <li><code>name</code> is either a string or an xls.wchar that will become the name of the worksheet being added.</li>
+</ul>
+
+
+
+
+<h3>deleted = workbook:DeleteWorksheet(sheetIndex | name)</h3>
+
+<p>Deletes the specified Excel worksheet from the workbook.</p>
+
+<p>Returns <code>true</code> if the worksheet was deleted, <code>false</code> otherwise.</p>
+
+<ul>
+    <li><code>sheetIndex</code> is an index in the range of 0 &lt;= <code>sheetIndex</code> &lt; <code>GetTotalWorksheets()</code> representing the worksheet to delete.</li>
+    <li><code>name</code> is either a string or an xls.wchar representing the sheet name to delete.</li>
+</ul>
+
+
+
+
+<h3>ansiSheetName = workbook:GetAnsiSheetName(sheetIndex)</h3>
+
+<p>If possible, returns the ANSI name of the sheet.  Otherwise, returns <code>nil</code> if the name is Unicode.</p>
+
+<ul>
+    <li><code>sheetIndex</code> is an index in the range of 0 &lt;= <code>sheetIndex</code> &lt; <code>GetTotalWorksheets()</code> representing the worksheet to delete.</li>
+</ul>
+
+
+
+
+<h3>unicodeSheetName = workbook:GetUnicodeSheetName(sheetIndex)</h3>
+
+<p>If possible, returns the Unicode name of the sheet formatted as an <code>xls.wchar</code>.  Otherwise, returns <code>nil</code> if the name is ANSI.</p>
+
+<ul>
+    <li><code>sheetIndex</code> is an index in the range of 0 &lt;= <code>sheetIndex</code> &lt; <code>GetTotalWorksheets()</code> representing the worksheet to delete.</li>
+</ul>
+
+
+
+
+<h3>sheetName = workbook:GetSheetName(sheetIndex)</h3>
+
+<p>Returns either the ANSI name of the sheet or the Unicode name of the sheet as an <code>xls.wchar</code>.</p>
+
+<ul>
+    <li><code>sheetIndex</code> is an index in the range of 0 &lt;= <code>sheetIndex</code> &lt; <code>GetTotalWorksheets()</code> representing the worksheet to delete.</li>
+</ul>
+
+
+
+
+<h3>renamed = workbook:RenameWorksheet(sheetIndex | from, to)</h3>
+
+<p>Renames an Excel worksheet at <code>sheetIndex</code> or <code>from</code> to the name specified by <code>to</code>.</p>
+
+<p>Returns <code>true</code> if the operation succeeded, <code>false</code> otherwise.</p>
+
+
+<ul>
+    <li><code>sheetIndex</code> is an index in the range of 0 &lt;= <code>sheetIndex</code> &lt; <code>GetTotalWorksheets()</code> representing the worksheet to delete.</li>
+    <li><code>from</code> is either a string or <code>xls.wchar</code> name of the worksheet to rename.</li>
+    <li><code>to</code> is either a string or <code>xls.wchar</code> name, where the type must match that of <code>from</code> if <code>from</code> is specified, of the worksheet to rename.</li>
+</ul>
+
+
+
+
+<hr/>
+<h2>Worksheet Reference</h2>
+
+<h3>ansiSheetName = worksheet:GetAnsiSheetName()</h3>
+
+<p>If possible, returns the ANSI name of the sheet.  Otherwise, returns <code>nil</code> if the name is Unicode.</p>
+
+
+
+
+<h3>unicodeSheetName = worksheet:GetUnicodeSheetName()</h3>
+
+<p>If possible, returns the Unicode name of the sheet formatted as an <code>xls.wchar</code>.  Otherwise, returns <code>nil</code> if the name is ANSI.</p>
+
+
+
+
+<h3>sheetName = worksheet:GetSheetName(sheetIndex)</h3>
+
+<p>Returns either the ANSI name of the sheet or the Unicode name of the sheet as an <code>xls.wchar</code>.</p>
+
+
+
+
+<h3>renamed = worksheet:Rename(to)</h3>
+
+<p>Renames the Excel worksheet to the name specified by <code>to</code>.</p>
+
+<p>Returns <code>true</code> if the operation succeeded, <code>false</code> otherwise.</p>
+
+
+<ul>
+    <li><code>to</code> is either a string or <code>xls.wchar</code> name, where the type must match that of <code>from</code> if <code>from</code> is specified, of the worksheet to rename.</li>
+</ul>
+
+
+
+
+<h3>totalRows = worksheet:GetTotalRows()</h3>
+
+<p>Returns the total number of rows in the Excel worksheet.</p>
+
+
+
+
+<h3>totalColumns = worksheet:GetTotalCols()</h3>
+
+<p>Returns the total number of columns in the Excel worksheet.</p>
+
+
+
+<h3>cell = worksheet:Cell(row, col)</h3>
+
+<p>Retrieves the contents of a cell from the Excel worksheet.</p>
+
+<p>Returns the cell if the operation succeeded, <code>nil</code> if either the row or column are not in range.</p>
+
+<ul>
+    <li><code>row</code> is a value from 0 to 65535, representing the row in the Excel worksheet to retrieve.</li>
+    <li><code>col</code> is a value from 0 to 255, representing the column in the Excel worksheet to retrieve.</li>
+</ul>
+
+
+
+<h3>erased = worksheet:EraseCell(row, col)</h3>
+
+<p>Erases the contents of a cell from the Excel worksheet.</p>
+
+<p>Returns <code>true</code> if successful, <code>false</code> if either the row or column are not in range.</p>
+
+<ul>
+    <li><code>row</code> is a value from 0 to 65535, representing a row in the Excel worksheet.</li>
+    <li><code>col</code> is a value from 0 to 255, representing a column in the Excel worksheet.</li>
+</ul>
+
+
+
+<h3>worksheet:SetColWidth(col)</h3>
+
+<p>Sets the width of the given column in the Excel worksheet.</p>
+
+<ul>
+    <li><code>col</code> is a value from 0 to 255, representing the column in the Excel worksheet to retrieve.</li>
+</ul>
+
+
+
+<h3>columnWidth = worksheet:GetColWidth(col)</h3>
+
+<p>Returns the width of the column in the Excel worksheet.</p>
+
+<ul>
+    <li><code>col</code> is a value from 0 to 255, representing a column in the Excel worksheet.</li>
+</ul>
+
+
+
+
+<h3>worksheet:MergeCells(row, col, rowRange, colRange)</h3>
+
+<p>Merges the cell specified by <code>row</code> and <code>col</code> into a single cell consisting in height of <code>rowRange</code> rows and <code>colRange</code> columns.</p>
+
+<ul>
+    <li><code>row</code> is a value from 0 to 65535, representing a row in the Excel worksheet.</li>
+    <li><code>col</code> is a value from 0 to 255, representing a column in the Excel worksheet.</li>
+    <li><code>rowRange</code> is a value from 1 to (65535 - row - 1).</li>
+    <li><code>colRange</code> is a value from 1 to (255 - row - 1).</li>
+</ul>
+
+
+
+
+
+
+
+<hr/>
+<h2>Cell Reference</h2>
+
+<h3>cellType = cell:Type()</h3>
+
+<p>Returns one of the following as the type of this Excel cell.</p>
+
+<ul>
+    <li><code>cell.UNDEFINED</code></li>
+    <li><code>cell.INT</code></li>
+    <li><code>cell.DOUBLE</code></li>
+    <li><code>cell.STRING</code></li>
+    <li><code>cell.WSTRING</code></li>
+    <li><code>cell.FORMULA</code></li>
+</ul>
+
+
+
+<h3>cellContent = cell:Get()</h3>
+
+<p>If the type of the cell is <code>cell.INT</code> or <code>cell.DOUBLE</code>, the integer or double content of the cell is returned as a Lua number.  If the type of the cell is <code>cell.STRING</code>, the ANSI string content of the cell is returned as a Lua string.  If the type of the cell is <code>cell.WSTRING</code>, the Unicode string content of the cell are returned as an <code>xls.wchar</code>.  Otherwise, <code>nil</code> is returned.</p>
+
+
+
+<h3>cellContent = cell:GetInteger()</h3>
+
+<p>If the type of the cell is <code>cell.INT</code>, the integer content of the cell is returned as a Lua number.  Otherwise, <code>nil</code> is returned.</p>
+
+
+
+<h3>cellContent = cell:GetDouble()</h3>
+
+<p>If the type of the cell is <code>cell.DOUBLE</code>, the double content of the cell is returned as a Lua number.  Otherwise, <code>nil</code> is returned.</p>
+
+
+
+<h3>cellContent = cell:GetString()</h3>
+
+<p>If the type of the cell is <code>cell.STRING</code>, the ANSI string content of the cell is returned as a Lua string.  Otherwise, <code>nil</code> is returned.</p>
+
+
+
+<h3>cellContent = cell:GetWString()</h3>
+
+<p>If the type of the cell is <code>cell.WSTRING</code>, the Unicode string content of the cell is returned as an <code>xls.wchar</code>.  Otherwise, <code>nil</code> is returned.</p>
+
+
+
+<h3>cell:Set(value)</h3>
+
+<p>Sets the content of the cell to <code>value</code>.</p>
+
+<ul>
+    <li><code>value</code> represents the new content of the cell.
+    <em>* If <code>value</code> is a number, the number is assumed to be a double, and the cell type becomes <code>cell.DOUBLE</code>.
+    *</em> If <code>value</code> is a string, the cell type becomes <code>cell.STRING</code>.
+    ** If <code>value</code> is an <code>xls.wchar</code>, the cell type becomes <code>cell.WSTRING</code>.</li>
+</ul>
+
+
+
+<h3>cell:SetInteger(value)</h3>
+
+<p>Sets the content of the cell to <code>value</code>.</p>
+
+<ul>
+    <li><code>value</code> represents the new integer content of the cell.  The cell type becomes <code>cell.INT</code>.</li>
+</ul>
+
+
+
+<h3>cell:SetRKValue(value)</h3>
+
+<p>To be documented.</p>
+
+
+
+<h3>cell:SetString(value)</h3>
+
+<p>Sets the content of the cell to <code>value</code>.</p>
+
+<ul>
+    <li><code>value</code> represents the new ANSI string content of the cell.  The cell type becomes <code>cell.STRING</code>.</li>
+</ul>
+
+
+
+<h3>cell:SetWString(value)</h3>
+
+<p>Sets the content of the cell to <code>value</code>.</p>
+
+<ul>
+    <li><code>value</code> represents the new Unicode string content of the cell.  The cell type becomes <code>cell.WSTRING</code>.</li>
+</ul>
+
+
+
+<h3>cell:SetFormula(value)</h3>
+
+<p>NOT IMPLEMENTED.</p>
+
+
+
+<h3>cell:GetXFormatIdx()</h3>
+
+<p>To be documented.</p>
+
+
+
+<h3>cell:SetXFormatIdx(value)</h3>
+
+<p>To be documented.</p>
+
+
+
+<h3>cell:SetFormat(value)</h3>
+
+<p>To be documented.</p>
+
+
+
+<h3>cell:EraseContents()</h3>
+
+<p>Erase the content of the current Excel cell.  The cell type becomes <code>cell.UNDEFINED</code>.</p>
+
+
+
+<h3>numberOfMergedRows = cell:GetMergedRows()</h3>
+
+<p>Return the number of merged rows in the current Excel cell.</p>
+
+
+
+<h3>numberOfMergedColumns = cell:GetMergedColumns()</h3>
+
+<p>Return the number of merged columns in the current Excel cell.</p>
+
+
+
+<h3>cell:SetMergedRows(mergedRows)</h3>
+
+<p>Sets the number of merged rows in the current Excel cell.</p>
+
+
+
+<h3>cell:SetMergedColumns(mergedColumns)</h3>
+
+<p>Sets the number of merged columns in the current Excel cell.</p>
+
+
+
+
+<hr/>
+<h2>CellFormat Reference</h2>
+
+
+
+
+<hr/>
+<h2>ExcelFont Reference</h2>
+
+<h3>newFont = xls.Font()</h3>
+
+<p>Creates or opens a Workbook object.  Returns a Workbook object.</p>
+
+<ul>
+    <li><code>filename</code> is the optional name of the .xls file to open.  If no <code>filename</code> is given, an empty Workbook is created.</li>
+</ul>
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

@@ -1,0 +1,45 @@
+<html><head></head><body>
+<p>
+I/O<br>
+</p><hr>
+<p>
+<strong>readLines:</strong> <em>Read a file into a list of lines and close it<br></em>
+&nbsp;&nbsp;<strong>[h]</strong>: file handle or name [io.input ()]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>l</strong>: list of lines<br>
+</p><hr>
+<p>
+<strong>writeLine:</strong> <em>Write values adding a newline after each<br></em>
+&nbsp;&nbsp;<strong>[h]</strong>: file handle [io.output ()]<br>
+&nbsp;&nbsp;<strong>...</strong>: values to write (as for write)<br>
+</p><hr>
+<p>
+<strong>splitdir:</strong> <em>split a directory path into components<br></em>
+Empty components are retained: the root directory becomes {"", ""}.<br>
+The same as Perl's File::Spec::splitdir<br>
+&nbsp;&nbsp;<strong>path</strong>: path<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;@param: path1, ..., pathn: path components<br>
+</p><hr>
+<p>
+<strong>catdir:</strong> <em>concatenate directories into a path<br></em>
+The same as Perl's File::Spec::catdir<br>
+&nbsp;&nbsp;@param: path1, ..., pathn: path components<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>path</strong>: path<br>
+</p><hr>
+<p>
+<strong>shell:</strong> <em>Perform a shell command and return its output<br></em>
+&nbsp;&nbsp;<strong>c</strong>: command<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>o</strong>: output, or nil if error<br>
+</p><hr>
+<p>
+<strong>processFiles:</strong> <em>Process files specified on the command-line<br></em>
+If no files given, process io.stdin; in list of files, "-" means<br>
+io.stdin<br>
+&nbsp;&nbsp;<strong>f</strong>: function to process files with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>name</strong>: the name of the file being read<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>i</strong>: the number of the argument<br>
+</p><hr>
+</body></html>

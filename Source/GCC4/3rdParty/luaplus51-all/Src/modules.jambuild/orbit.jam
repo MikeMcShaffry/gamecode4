@@ -1,0 +1,19 @@
+{
+
+local ROOT_LUAS =
+		src/orbit.lua
+;
+
+local ORBIT_LUAS =
+		src/orbit/model.lua
+		src/orbit/ophandler.lua
+		src/orbit/pages.lua
+		src/orbit/schema.lua
+;
+
+Lua.Module orbit : orbit : $(ROOT_LUAS) $(ORBIT_LUAS) ;
+
+CopyFiles orbit : $(LUA_LDIR) : $(SUBDIR)/$(ROOT_LUAS) ;
+CopyFiles orbit : $(LUA_LDIR)/orbit : $(SUBDIR)/$(ORBIT_LUAS) ;
+
+}

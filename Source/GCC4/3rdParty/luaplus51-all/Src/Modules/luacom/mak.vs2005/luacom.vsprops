@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LuaCOM Properties"
+	>
+	<UserMacro
+		Name="LUA_SUFFIX"
+		Value="5.1"
+	/>
+	<UserMacro
+		Name="LUACOM_VERSION"
+		Value="1.4"
+	/>
+	<UserMacro
+		Name="LUA_BINDIR"
+		Value="..\..\lua5.1\bin"
+	/>
+	<UserMacro
+		Name="LUAC"
+		Value="$(LUA_BINDIR)\luac$(LUA_SUFFIX).exe"
+	/>
+	<UserMacro
+		Name="BIN2C"
+		Value="$(LUA_BINDIR)\bin2c$(LUA_SUFFIX).exe"
+	/>
+	<UserMacro
+		Name="LUA"
+		Value="$(LUA_BINDIR)\lua$(LUA_SUFFIX).exe"
+	/>
+</VisualStudioPropertySheet>

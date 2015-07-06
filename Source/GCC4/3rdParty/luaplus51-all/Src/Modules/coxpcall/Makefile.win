@@ -1,0 +1,11 @@
+# $Id: Makefile.win,v 1.3 2008/01/23 03:01:31 mascarenhas Exp $
+
+LUA_DIR=C:\lua5.1\lua
+
+install:
+	IF NOT EXIST "$(LUA_DIR)" mkdir "$(LUA_DIR)"
+	copy src\coxpcall.lua "$(LUA_DIR)\"
+
+install-rocks: install
+	IF NOT EXIST "$(PREFIX)\doc" mkdir "$(PREFIX)\doc"
+	xcopy /E doc "$(PREFIX)\doc\"

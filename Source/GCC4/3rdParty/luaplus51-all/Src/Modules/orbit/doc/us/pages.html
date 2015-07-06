@@ -1,0 +1,160 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Orbit</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://www.keplerproject.org">
+		<img alt="Orbit" src="orbit.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>Orbit</strong></big></div>
+	<div id="product_description">MVC for Lua Web Development</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>Orbit</h1>
+	<ul>
+
+		<li><a href="index.html">Home</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><strong>Pages</strong>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="reference.html">Reference</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="example.html">Tutorial</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="license.html">License</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Orbit Pages</h2>
+
+<p>Orbit Pages is a PHP-like programming environment built on top of Orbit. Orbit pages
+are HTML pages (but using the extension .op in a typical Orbit installation) that
+get dynamically converted into Orbit apps. They are launched by the op.cgi, op.fcgi
+and ophandler.lua launchers, for CGI, FastCGI, and Xavante, respectively. A standard
+Kepler installation includes support for Orbit pages by default.</p>
+
+<p>An Orbit page is also a template that uses the <a href="http://cosmo.luaforge.net">Cosmo</a>
+template language. The environment of this template is a sandbox that wraps the
+global environment and is recreated on each request. The main variable in this
+environment is the <code>web</code> variable, which is an Orbit request/response object.
+Other variables of note:</p>
+
+<p><strong>mapper</strong> - an instance of the default Orbit ORM</p>
+
+<p><strong>model(<em>name</em>, <em>dao</em>)</strong> - same as mapper:new(<em>name</em>, <em>dao</em>), except that if <em>name</em>
+is a tabel then calls mapper:new(<em>name[1]</em>, <em>name[2]</em>), so you can use this in the
+template as <code>$model{ name, dao }</code></p>
+
+<p><strong>app</strong> - the application's global environment, to be used as a session cache (for DB
+connections, for example) for persistent launchers</p>
+
+<p><strong>finish(<em>res</em>)</strong> - suspends the execution of the current page, and sends <em>res</em> as a
+response <strong>instead</strong> of the page's contents</p>
+
+<p><strong>redirect(<em>target</em>)</strong> - same as web:redirect(<em>target</em>) followed by finish(). If <em>target</em>
+is a table does web:redirect(<em>target[1]</em>), so you can use this in the template as
+<code>$redirect{ target }</code></p>
+
+<p><strong>include(<em>page</em>, [<em>env</em>])</strong> - evaluates the Orbit page in the file <em>page</em> (relative to the
+current page's path), optionally using the extra variables in <em>env</em> in the template's
+environment. Can also be used in the template as <code>$include{ page, env }</code></p>
+
+<p><strong>forward(<em>page</em>, [<em>env</em>])</strong> - aborts the execution of the current page and evaluates
+and sends the page in file <em>page</em> instead; otherwise same as <strong>include</strong></p>
+
+<p>There also a few more variables that should be used only in the template:</p>
+
+<p><strong>$lua{ <em>code</em> }</strong> - runs <em>code</em> in the same environment as the page, so
+<em>code</em> can change the template's variables and even define new ones</p>
+
+<p><strong>$if{ <em>condition</em> }[[ <em>then-part</em> ]],[[ <em>else-part</em> ]]</strong> - if <em>condition</em> is true then
+is replaced by the template evaluation of <em>then-part</em>, otherwise <em>else-part</em>. <em>else-part</em>
+is optional, defaulting to blank</p>
+
+<p><strong>$fill{ ... }[[ <em>template</em> ]]</strong> - replaced by the evaluation of <em>template</em> using the environment
+passed to fill (<em>template</em> does <strong>not</strong> inherit the variables of the page)</p>
+
+<p>Below is a very simple Orbit page that shows most of the concepts above (including Cosmo
+concepts, see the Cosmo documentation for that):</p>
+
+<pre><code>    #!/usr/bin/env op.cgi
+    &lt;html&gt;
+    &lt;body&gt;
+    &lt;p&gt;Hello Orbit!&lt;/p&gt;
+    &lt;p&gt;I am in $web|real_path, and the script is
+    $web|script_name.&lt;/p&gt;
+    $lua{[[
+      if not web.input.msg then
+        web.input.msg = "nothing"
+      end
+    ]]}
+    &lt;p&gt;You passed: $web|input|msg.&lt;/p&gt;
+    $include{ "bar.op" }
+    &lt;/body&gt;
+    &lt;/html&gt;
+</code></pre>
+
+<p>The <code>bar.op</code> page it includes is this:</p>
+
+<pre><code>    #!/usr/bin/env op.cgi
+    &lt;p&gt;This is bar, and you passed $web|input|msg!&lt;/p&gt;
+</code></pre>
+
+<p>The <a href="http://www.keplerproject.org">Kepler</a> distribution has a more complete example that has database
+access, POST, and even some simple AJAX.</p>
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

@@ -1,0 +1,59 @@
+if $(NOT_BROKEN)
+{
+
+IncludeModule c/mfc ;
+IncludeModule c/midl ;
+
+SubDir LUAPLUS Tools LuaPlusDebuggerAddin LuaPlusDebuggerAddin ;
+
+local HEADER_FILES_SRCS =
+		Connect.h
+		Resource.h
+		stdafx.h
+;
+
+local RESOURCE_FILES_SRCS =
+		AddIn.rc
+		AddIn.rgs
+;
+
+local SOURCE_FILES_SRCS =
+		AddIn.cpp
+		AddIn.def
+		AddIn.idl
+		Connect.cpp
+		stdafx.cpp
+;
+
+local SRCS =
+		$(HEADER_FILES_SRCS)
+		$(RESOURCE_FILES_SRCS)
+		$(SOURCE_FILES_SRCS)
+;
+
+SourceGroup LuaPlusDebuggerAddin : "Header Files" : $(HEADER_FILES_SRCS) ;
+SourceGroup LuaPlusDebuggerAddin : "Resource Files" : $(RESOURCE_FILES_SRCS) ;
+SourceGroup LuaPlusDebuggerAddin : "Source Files" : $(SOURCE_FILES_SRCS) ;
+
+C.UseMFC LuaPlusDebuggerAddin : link ;
+
+local MIDL_SRCS = [ C.MidlCompiler LuaPlusDebuggerAddin : AddIn.idl ] ;
+Includes <LuaPlusDebuggerAddin>AddIn.cpp <LuaPlusDebuggerAddin>AddIn.rc : $(MIDL_SRCS) ;
+GENERATED_HEADERS += $(MIDL_SRCS) ;
+
+C.RcIncludeDirectories LuaPlusDebuggerAddin : AddIn.rc : $(LOCATE_SOURCE) ;
+local RES_SRCS = [ C.ResourceCompiler LuaPlusDebuggerAddin : AddIn.rc ] ;
+
+C.IncludeDirectories LuaPlusDebuggerAddin : $(LOCATE_SOURCE) ;
+
+C.DefFile LuaPlusDebuggerAddin : AddIn.def ;
+
+C.OutputPostfix LuaPlusDebuggerAddin : .debug : debug ;
+C.OutputPostfix LuaPlusDebuggerAddin : : release ;
+C.OutputPath LuaPlusDebuggerAddin : $(LUAPLUS_OUTPUT_DIRECTORY)/LuaPlusDebuggerAddin ;
+
+Includes $(SRCS:G=<LuaPlusDebuggerAddin>) : LuaPlusDebuggerControls ;
+
+C.Library LuaPlusDebuggerAddin : $(SRCS) $(RES_SRCS) : shared noexportlib regserver ;
+
+}

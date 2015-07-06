@@ -1,0 +1,314 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>WSAPI</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://wsapi.luaforge.net">
+		<img alt="WSAPI" src="wsapi.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>WSAPI</strong></big></div>
+	<div id="product_description">Lua Web Server API</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>WSAPI</h1>
+	<ul>
+
+		<li><a href="index.html">Home</a></li>
+
+		<li><strong>Manual</strong></li>
+
+		<li><a href="libraries.html">Libraries</a></li>
+
+		<li><a href="license.html">License</a></li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Installation</h2>
+
+<p>To install WSAPI you need to have <a href="http://luarocks.org">LuaRocks</a>. Just
+install the <code>wsapi</code> package. If you want FastCGI
+support you need to have the <a href="http://www.fastcgi.com/#TheDevKit">FastCGI dev kit</a>
+installed, and use the <code>wsapi-fcgi</code> LuaRocks package. If you want Xavante support
+installed use the <code>wsapi-xavante</code> LuaRocks package.</p>
+
+<p>The WSAPI rock copies samples, docs and support files to its path inside your
+local Rocks repository.</p>
+
+<p>There is an all-in-one installer script that installs Lua, LuaRocks, and <code>wsapi-xavante</code> in
+a single step. Download the <a href="http://github.com/downloads/keplerproject/wsapi/wsapi-install-1.3.0.tar.gz">tarball</a>,
+unpack it, then run the provided <code>wsapi-install</code> script in its path. Run <code>wsapi-install --help</code> for
+installation options.</p>
+
+<h3>About web servers</h3>
+
+<p>To run WSAPI applications you will also need a web server such as
+<a href="http://keplerproject.github.com/xavante/">Xavante</a>,
+<a href="http://www.apache.org/">Apache</a>, <a href="http://www.lighttpd.net/">Lighttpd</a>, or
+<a href="http://www.iis.net/">IIS</a> (available only for Windows). Xavante is a webserver
+written in pure Lua. To use the Xavante connector, install the "wsapi-xavante"
+rock (it is already installed if you used the <code>wsapi-install</code> script).</p>
+
+<h2>A Simple WSAPI Application</h2>
+
+<p>WSAPI applications are Lua functions that take an <em>environment</em> and return
+the status code, response headers and an output iterator. A very simple
+application is the following:</p>
+
+
+<pre class="example">
+function hello(wsapi_env)
+  local headers = { ["Content-type"] = "text/html" }
+
+  local function hello_text()
+    coroutine.yield("&lt;html&gt;&lt;body&gt;")
+    coroutine.yield("&lt;p&gt;Hello Wsapi!&lt;/p&gt;")
+    coroutine.yield("&lt;p&gt;PATH_INFO: " .. wsapi_env.PATH_INFO .. "&lt;/p&gt;")
+    coroutine.yield("&lt;p&gt;SCRIPT_NAME: " .. wsapi_env.SCRIPT_NAME .. "&lt;/p&gt;")
+    coroutine.yield("&lt;/body&gt;&lt;/html&gt;")
+  end
+
+  return 200, headers, coroutine.wrap(hello_text)
+end
+</pre>
+
+
+<p>If you have some experience with web development the example code above should be self-explanatory.</p>
+
+<p>Applications usually are not implemented as naked functions, though, but packaged
+inside Lua modules with a <code>run</code> function that is the entry point for WSAPI. This <code>run</code> function
+is then passed to your server's WSAPI connector. The generic application launchers
+provided with WSAPI respect this pattern.</p>
+
+<p>This is how the above example would look packaged this way (for example, in a <em>hello.lua</em> file):</p>
+
+
+<pre class="example">
+#!/usr/bin/env wsapi.cgi
+
+module(..., package.seeall)
+
+function run(wsapi_env)
+  local headers = { ["Content-type"] = "text/html" }
+
+  local function hello_text()
+    coroutine.yield("&lt;html&gt;&lt;body&gt;")
+    coroutine.yield("&lt;p&gt;Hello Wsapi!&lt;/p&gt;")
+    coroutine.yield("&lt;p&gt;PATH_INFO: " .. wsapi_env.PATH_INFO .. "&lt;/p&gt;")
+    coroutine.yield("&lt;p&gt;SCRIPT_NAME: " .. wsapi_env.SCRIPT_NAME .. "&lt;/p&gt;")
+    coroutine.yield("&lt;/body&gt;&lt;/html&gt;")
+  end
+
+  return 200, headers, coroutine.wrap(hello_text)
+end
+</pre>
+
+
+<p>The first line tells the UNIX-based web servers such as Apache to run WSAPI's
+generic CGI launcher when executing this file as a CGI script.</p>
+
+<h2>Running the application</h2>
+
+<p>This step depends on your server and the connector you want to use.</p>
+
+<h3>Xavante</h3>
+
+<p>If you installed the <code>wsapi-xavante</code> package you already have a Xavante
+launcher with WSAPI support. Just run the <code>wsapi</code> script in the path you
+want as your document root, and point your browser either to the <code>hello.lua</code>
+or <code>hello.ws</code> script (both extensions are treated as WSAPI applications).
+See <code>wsapi --help</code> for the launcher's configuration options.</p>
+
+<h3>UNIX-like (Apache, Lighty, etc.) CGI/FastCGI</h3>
+
+<p>You can run <em>hello.lua</em> directly as a CGI script, through the generic CGI launcher
+<em>wsapi</em>. Just give execute permission <em>hello.lua</em> and put it in a URL-accessible path with
+execute permission. You should then see something like this when accessing the corresponding
+<em>hello.lua</em> URL:</p>
+
+<pre><code>    Hello Wsapi!
+    PATH\_INFO: /
+    SCRIPT\_NAME: /cgi-bin/hello.lua
+</code></pre>
+
+<p>The generic FastCGI launcher <em>wsapi-fcgi</em> can also run the <em>hello.lua</em> file
+directly. Configuration depends on your web server, but you should tell it to run
+<em>.lua</em> files as FastCGI scripts with <em>wsapi-fcgi</em> as the wrapper (the configuration
+is analogous to the necessary for running PHP scripts with FastCGI). As an example,
+this are the changes in <code>httpd.conf</code> for using Apache's *mod_fcgid*:</p>
+
+<pre><code>    AddHandler fcgid-script .lua
+    FCGIWrapper /usr/bin/wsapi-fcgi .lua
+</code></pre>
+
+<p>You can also run <em>hello.lua</em> through a launcher script specially tailored to it. The driver
+script is very similar for both connectors. For CGI it can be this one (<em>hello.cgi</em>):</p>
+
+
+<pre class="example">
+#!/usr/bin/env lua
+
+require "wsapi.cgi"
+require "hello"
+wsapi.cgi.run(hello.run)
+</pre>
+
+
+<p>For FastCGI (<em>hello.fcgi</em>):</p>
+
+
+<pre class="example">
+#!/usr/bin/env lua
+
+require "wsapi.fastcgi"
+require "hello"
+wsapi.fastcgi.run(hello.run)
+</pre>
+
+
+<p>You may need to change <em>lua</em> to the name or your Lua interpreter executable.
+Now flag the launcher as executable and put it in a URL-accessible path that has
+execute permissions. You should see something like this when accessing the corresponding URL:</p>
+
+<pre><code>    Hello Wsapi!
+    PATH\_INFO: /
+    SCRIPT\_NAME: /cgi-bin/hello.cgi
+</code></pre>
+
+<h3>Windows IIS CGI/FastCGI</h3>
+
+<p>The generic launchers on Windows are called <em>wsapi.exe</em> and <em>wsapi-fcgi.exe</em>. You
+should associate the <em>.lua</em> file extension with one of them on IIS' management console.
+Then copy <em>hello.lua</em> to some URL-accessible path.</p>
+
+<p>For CGI there is also a <em>launcher.exe</em> that you can rename to <em>hello.exe</em> and it
+will run the <em>hello.cgi</em> application launcher (<strong>not</strong> the <em>hello.lua</em> application!).
+Both should be in the same path, and it should be URL-accessible and have execute
+permissions on IIS. You should point your browser to <em>hello.exe</em>.</p>
+
+<h2>Writing WSAPI connectors</h2>
+
+<p>A WSAPI connector builds the environment from information passed by the web server
+and calls a WSAPI application, sending the response back to the web server.
+The first thing a connector needs is a way to specify which application to run,
+and this is highly connector specific. Most connectors receive the application
+entry point as a parameter (but WSAPI provides special applications called
+<em>generic launchers</em> as a convenience).</p>
+
+<p>The environment is a Lua table containing the CGI metavariables (at minimum
+the RFC3875 ones) plus any server-specific metainformation. It also contains
+an <em>input</em> field, a stream for the request's data, and an <em>error</em> field,
+a stream for the server's error log. The input field answers to the <em>read([n])</em>
+method, where <em>n</em> is the number of bytes you want to read (or nil if you want
+the whole input). The error field answers to the <em>write(...)</em> method.</p>
+
+<p>The environment should return the empty string instead of nil for undefined
+metavariables, and the <code>PATH\_INFO</code> variable should return "/" even if the path
+is empty. Behavior among the connectors should be uniform: <code>SCRIPT\_NAME</code> should
+hold the URI up to the part where you identify which application you are serving,
+if applicable (again, this is highly connector specific), while <code>PATH\_INFO</code>
+should hold the rest of the URL.</p>
+
+<p>After building the environment the connector calls the application passing the environment
+to it, and collecting three return values: the HTTP status code, a table with headers, and
+the output iterator. The connector sends the status and headers right away to the server,
+as WSAPI does not guarantee any buffering itself. After that it begins calling the iterator
+and sending output to the server until it returns nil.</p>
+
+<p>The connectors are careful to treat errors gracefully: if they occur before sending the
+status and headers they return an  "Error 500" page instead, if they occur while
+iterating over the response they append the error message to the response.</p>
+
+<h2>Conveniences for application writers</h2>
+
+<p>WSAPI is very low-level and just lets your application pretend that web servers
+and gateway interfaces are similar, but it does not do any kind of processing/parsing
+on the request, nor any buffering on the output. Most web applications need these
+features, so we provide helper libraries to do it.</p>
+
+<p>The first library is <em>wsapi.request</em>. This library encapsulates the environment,
+parsing the request data (GET and POST) and also handling file uploads and incoming
+cookies.</p>
+
+<p>The other helper is <em>wsapi.response</em>, which offers a simpler interface (along with
+buffering) for output instead of the inversion of control of the iterator. It also
+lets you easily send cookies back to the browser.</p>
+
+<p>Finally there is <em>wsapi.util</em>, which provides URI encoding/decoding and other utility
+functions.</p>
+
+<h2>WSAPI frameworks</h2>
+
+<p>The facilities above make it easier to write applications, but still are very basic.
+For more advanced web programming there are also frameworks built on top of WSAPI.
+Examples would be <strong><a href="http://keplerproject.github.com/orbit">Orbit</a></strong>, which adds niceties as dispatch based on
+pattern matching over the PATH_INFO, easy serving of static content, easy access
+to databases, and easy page caching, and <strong>SAPI</strong>, included in the WSAPI package as the
+<em>wsapi.sapi</em> application, for running <strong><a href="http://www.keplerproject.org/cgilua/">CGILua</a></strong>
+scripts and Lua pages.</p>
+
+<h2>Testing WSAPI applications</h2>
+
+<p>WSAPI comes with a mock connector that can be used for testing. It provides
+methods to send requests to your application and format responses. Functionality
+such as assertions and validations is left entirely to the testing framework you
+choose to use. Here's a simple example of how to use the mock connector:</p>
+
+
+<pre class="example">
+local connector = require "wsapi.mock"
+
+function hello(wsapi_env)
+  local headers = { ["Content-type"] = "text/html" }
+  local function hello_text()
+    coroutine.yield("hello world!")
+  end
+  return 200, headers, coroutine.wrap(hello_text)
+end
+
+local app = connector.make_handler(hello)
+
+do
+  local response, request = app:get("/", {hello = "world"})
+  assert(response.code                    == 200)
+  assert(request.request_method           == "GET")
+  assert(request.query_string             == "?hello=world")
+  assert(response.headers["Content-type"] == "text/html")
+  assert(response.body                    == "hello world!")
+end
+</pre>
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

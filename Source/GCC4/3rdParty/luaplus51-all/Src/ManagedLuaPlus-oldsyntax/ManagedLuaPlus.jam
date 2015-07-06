@@ -1,0 +1,41 @@
+SubDir LUAPLUS Src ManagedLuaPlus ;
+
+{
+
+local SRCS =
+		AssemblyInfo.cpp
+		DllMain.cpp
+		ManagedLuaPlus.cpp
+		ManagedLuaPlus.h
+		StdAfx.h
+;
+
+IncludeModule c/dotnet ;
+
+C.IncludeDirectories ManagedLuaPlus : .. ;
+
+C.OutputPostfix ManagedLuaPlus : : debug ;
+C.OutputPostfix ManagedLuaPlus : : release ;
+C.OutputPath ManagedLuaPlus : $(LUAPLUS_OUTPUT_DIRECTORY)/debug : debug ;
+C.OutputPath ManagedLuaPlus : $(LUAPLUS_OUTPUT_DIRECTORY) : release ;
+
+C.LinkPrebuiltLibraries ManagedLuaPlus : DelayImp ;
+C.LinkFlags ManagedLuaPlus : /DELAYLOAD:luaplus51-1200_debug.dll : debug ;
+C.LinkFlags ManagedLuaPlus : /DELAYLOAD:luaplus51-1200.dll : release ;
+C.LinkFlags ManagedLuaPlus : /KEYFILE:\"$(SEARCH_SOURCE)/ManagedLuaPlus.snk\" ;
+
+C.UseDotNet ManagedLuaPlus ;
+C.LinkLibraries ManagedLuaPlus : LuaPlusShared ;
+
+# Cheat until there is a way to do this.
+local oldC++FLAGS = [ on * Var C++FLAGS.win32.$(CONFIG) ] ;
+C++FLAGS.win32.$(CONFIG) on * -= /RTC1 /Gm /EHsc ;
+C.ObjectC++Flags ManagedLuaPlus : AssemblyInfo.cpp ManagedLuaPlus.cpp : /clr:oldSyntax /EHa ;
+
+C.OutputName ManagedLuaPlus : ManagedLuaPlus_1100 ;
+C.Library ManagedLuaPlus : $(SRCS) : shared noexportlib ;
+C.StrongName ManagedLuaPlus : $(SEARCH_SOURCE)/ManagedLuaPlus.snk ;
+
+C++FLAGS.win32.$(CONFIG) on * = $(oldC++FLAGS) ;
+
+}

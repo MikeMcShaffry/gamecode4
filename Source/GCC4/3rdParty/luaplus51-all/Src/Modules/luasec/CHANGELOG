@@ -1,0 +1,41 @@
+--------------------------------------------------------------------------------
+LuaSec 0.4
+------------
+- Add option 'no_ticket' (included in OpenSSL 0.9.8f).
+- Add HTTPS module. (thanks Tomas Guisasola and Pablo Musa)
+
+--------------------------------------------------------------------------------
+LuaSec 0.3.3
+------------
+- BUG: Clear the error queue before call I/O functions (see SSL_get_error 
+  manual).
+  (thanks Matthew Wild)
+
+--------------------------------------------------------------------------------
+LuaSec 0.3.2
+------------
+- BUG: Windows uses a different way to report socket error.
+  (thanks Sebastien Perin)
+
+--------------------------------------------------------------------------------
+LuaSec 0.3.1
+------------
+- BUG: receive("a") returns 'closed' error instead of the content when the
+  SSL/TLS connection is shut down cleanly. (thanks Matthias Diener)
+
+--------------------------------------------------------------------------------
+LuaSec 0.3
+----------
+- Add functions ssl.rawcontext() and ssl.rawconnection()
+- Add support to encrypted key password. (thanks Norbert Kiesel)
+
+--------------------------------------------------------------------------------
+LuaSec 0.2.1
+------------
+- 'key' and 'certificate' configurations become optional. (thanks René Rebe)
+- Add '_VERSION' variable to module.
+
+--------------------------------------------------------------------------------
+LuaSec 0.2
+----------
+Initial version

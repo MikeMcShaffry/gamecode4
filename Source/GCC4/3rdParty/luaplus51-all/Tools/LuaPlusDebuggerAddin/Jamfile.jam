@@ -1,0 +1,9 @@
+SubDir LUAPLUS Tools LuaPlusDebuggerAddin ;
+
+SubInclude LUAPLUS Tools LuaPlusDebuggerAddin LuaPlusDebuggerAddin : LuaPlusDebuggerAddin ;
+SubInclude LUAPLUS Tools LuaPlusDebuggerAddin LuaPlusDebuggerControls : LuaPlusDebuggerControls ;
+
+#local leftLinkTargets = [ on LuaPlusDebuggerAddin Var LINK_TARGET ] ;
+#local rightLinkTargets = [ on LuaPlusDebuggerControls Var LINK_TARGET ] ;
+#Depends [ on LuaPlusDebuggerAddin Var LINK_OBJECTS ] : $(rightLinkTargets[1]) ;
+#Includes [ on LuaPlusDebuggerAddin Var LINK_OBJECTS ] : $(rightLinkTargets[1]) ;

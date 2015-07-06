@@ -1,0 +1,37 @@
+= Dependencies =
+
+Before attempting to build LuaDBI the development libaries for each database
+must be installed. For Debian/Ubuntu systems, the list of required dependancies
+are:
+ 
+ * libsqlite3-dev
+ * libmysqlclient15-dev
+ * libpq-dev
+ * db2exc (optional for DB2 support)
+ * oracle-xe-client (optional for Oracle support)
+  
+= Building =
+
+Run `make` (or `make free`) in the source directory to build the Open Source 
+database drivers. To build the drivers for DB2 and Oracle, run `make all`. 
+
+== Windows ==
+
+Inside the vc++ directory are build projects for Visual C++ to build LuaDBI
+for Windows.
+
+= Make Targets =
+
+ * make free - builds MySQL, PostgreSQL and SQLite3 drivers
+ * make all - as above, but also builds DB2 and Oracle drivers
+ * make mysql
+ * make psql
+ * make sqlite3
+ * make db2
+ * make oracle
+
+= Installation =
+
+Please consult your distributions documentation on installing Lua modules.
+Please note that both the database binary driver packages (*.so|*.dll) and DBI.lua
+must be installed correctly to use LuaDBI

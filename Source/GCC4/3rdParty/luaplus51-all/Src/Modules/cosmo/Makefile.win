@@ -1,0 +1,23 @@
+# $Id: Makefile,v 1.1.1.1 2007/11/26 17:12:24 mascarenhas Exp $
+
+LUA_INCLUDE= c:\lua5.1\include
+LUA_LIB= c:\lua5.1\lua5.1.lib
+
+LUA_DIR= c:\lua5.1\lua
+LUA_LIBDIR= c:\lua5.1
+
+all:
+
+install:
+	IF NOT EXIST "$(LUA_DIR)\cosmo" mkdir "$(LUA_DIR)\cosmo"
+	copy src\cosmo.lua "$(LUA_DIR)\"
+	copy src\cosmo\grammar.lua "$(LUA_DIR)\cosmo"
+	copy src\cosmo\fill.lua "$(LUA_DIR)\cosmo"
+
+install-rocks: install
+	IF NOT EXIST "$(PREFIX)\samples" mkdir "$(PREFIX)\samples"
+	IF NOT EXIST "$(PREFIX)\doc" mkdir "$(PREFIX)\doc"
+	IF NOT EXIST "$(PREFIX)\tests" mkdir "$(PREFIX)\tests"
+	xcopy /E samples "$(PREFIX)\samples\"
+	xcopy /E doc "$(PREFIX)\doc\"
+	xcopy /E tests "$(PREFIX)\tests\"

@@ -1,0 +1,35 @@
+{
+
+local EXTRA_SRCS ;
+if $(NT)
+{
+	EXTRA_SRCS =
+			libffi/win32/ffi.c
+			libffi/win32/ffi.h
+			libffi/win32/ffi_common.h
+			libffi/win32/fficonfig.h
+			libffi/win32/ffitarget.h
+			libffi/win32/prep_cif.c
+			libffi/win32/types.c
+			libffi/win32/win32.c
+	;
+}
+
+local SRCS =
+		src/alien/alien.lua
+		src/alien/core.c
+		$(EXTRA_SRCS)
+;
+
+CopyFile alien.core : $(LUA_LDIR)/alien.lua : $(SUBDIR)/src/alien.lua ;
+
+C.IncludeDirectories alien.core : $(SUBDIR)/libffi/win32 ;
+Lua.CModule alien.core : alien/core : $(SRCS) ;
+
+Lua.CModule alien.struct : alien/struct : src/alien/struct.c ;
+
+Depends alien : alien.core alien.struct ;
+NotFile alien ;
+Depends clean:alien : clean:alien.core clean:alien.struct ;
+
+}

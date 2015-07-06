@@ -1,0 +1,13 @@
+IncludeModule copyfile ;
+
+{
+
+local SRCS =
+		src/coxpcall.lua
+;
+
+Lua.Module coxpcall : $(SRCS) ;
+
+CopyFiles coxpcall : $(LUA_LDIR) : $(SUBDIR)/$(SRCS) ;
+
+}

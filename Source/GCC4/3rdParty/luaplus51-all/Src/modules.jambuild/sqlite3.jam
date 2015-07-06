@@ -1,0 +1,20 @@
+{
+
+local SRCS =
+		sqlite/sqlite3.c
+		sqlite/sqlite3.h
+		sqlite/sqlite3ext.h
+		libluasqlite3.c
+;
+
+CopyFile sqlite3 : $(LUA_LDIR)/luasql-sqlite3.lua : $(SUBDIR)/luasql-sqlite3.lua ;
+CopyFile sqlite3 : $(LUA_LDIR)/lunit.lua : $(SUBDIR)/lunit.lua ;
+CopyFile sqlite3 : $(LUA_LDIR)/sqlite3.lua : $(SUBDIR)/sqlite3.lua ;
+
+C.Defines sqlite3 : SQLITE_ENABLE_FTS3 ;
+
+C.IncludeDirectories sqlite3 : sqlite ;
+
+Lua.CModule sqlite3 : sqlite3 sqlite3_core : $(SRCS) ;
+
+}

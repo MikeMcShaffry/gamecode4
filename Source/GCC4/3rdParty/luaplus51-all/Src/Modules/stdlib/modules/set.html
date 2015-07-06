@@ -1,0 +1,99 @@
+<html><head></head><body>
+<p>
+<h1>set<br></h1>
+</p><hr>
+<p>
+Primitive methods (know about representation)<br>
+</p><hr>
+<p>
+The representation is a table whose tags are the elements, and<br>
+whose values are true.<br>
+</p><hr>
+<p>
+<strong>member:</strong> <em>Say whether an element is in a set<br></em>
+&nbsp;&nbsp;<strong>s</strong>: set<br>
+&nbsp;&nbsp;<strong>e</strong>: element<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>f</strong>: true if e is in set, false otherwise<br>
+</p><hr>
+<p>
+<strong>insert:</strong> <em>Insert an element to a set<br></em>
+&nbsp;&nbsp;<strong>s</strong>: set<br>
+&nbsp;&nbsp;<strong>e</strong>: element<br>
+</p><hr>
+<p>
+<strong>new:</strong> <em>Make a list into a set<br></em>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s</strong>: set<br>
+</p><hr>
+<p>
+<strong>elements:</strong> <em>Iterator for sets<br></em>
+TODO: Make the iterator return only the key<br>
+</p><hr>
+<p>
+High level methods (representation unknown)<br>
+</p><hr>
+<p>
+<strong>difference:</strong> <em>Find the difference of two sets<br></em>
+&nbsp;&nbsp;<strong>s, t</strong>: sets<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: s with elements of t removed<br>
+</p><hr>
+<p>
+<strong>difference:</strong> <em>Find the symmetric difference of two sets<br></em>
+&nbsp;&nbsp;<strong>s, t</strong>: sets<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: elements of s and t that are in s or t but not both<br>
+</p><hr>
+<p>
+<strong>intersection:</strong> <em>Find the intersection of two sets<br></em>
+&nbsp;&nbsp;<strong>s, t</strong>: sets<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: set intersection of s and t<br>
+</p><hr>
+<p>
+<strong>union:</strong> <em>Find the union of two sets<br></em>
+&nbsp;&nbsp;<strong>s, t</strong>: sets<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: set union of s and t<br>
+</p><hr>
+<p>
+<strong>subset:</strong> <em>Find whether one set is a subset of another<br></em>
+&nbsp;&nbsp;<strong>s, t</strong>: sets<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: true if s is a subset of t, false otherwise<br>
+</p><hr>
+<p>
+<strong>propersubset:</strong> <em>Find whether one set is a proper subset of<br></em>
+another<br>
+&nbsp;&nbsp;<strong>s, t</strong>: sets<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: true if s is a proper subset of t, false otherwise<br>
+</p><hr>
+<p>
+<strong>equal:</strong> <em>Find whether two sets are equal<br></em>
+&nbsp;&nbsp;<strong>s, t</strong>: sets<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: true if sets are equal, false otherwise<br>
+</p><hr>
+<p>
+<h2>Metamethods for sets</h2><br>
+set + table = union<br>
+</p><hr>
+<p>
+set - table = set difference<br>
+</p><hr>
+<p>
+set * table = intersection<br>
+</p><hr>
+<p>
+set / table = symmetric difference<br>
+</p><hr>
+<p>
+set <= table = subset<br>
+</p><hr>
+<p>
+set < table = proper subset<br>
+</p><hr>
+</body></html>

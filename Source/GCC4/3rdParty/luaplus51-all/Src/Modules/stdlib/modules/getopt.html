@@ -1,0 +1,91 @@
+<html><head></head><body>
+<p>
+getopt<br>
+Simplified getopt, based on Svenne Panne's Haskell GetOpt<br>
+</p><hr>
+<p>
+TODO: Sort out the packaging. getopt.Option is tedious to type, but<br>
+surely Option shouldn't be in the root namespace?<br>
+TODO: Wrap all messages; do all wrapping in processArgs, not<br>
+usageInfo; use sdoc-like library (see string.format todos)<br>
+TODO: Don't require name to be repeated in banner.<br>
+TODO: Store version separately (construct banner?).<br>
+</p><hr>
+<p>
+Usage:<br>
+</p><hr>
+<p>
+options = Options {Option {...} ...}<br>
+getopt.processArgs ()<br>
+</p><hr>
+<p>
+Assumes prog = {name[, banner] [, purpose] [, notes] [, usage]}<br>
+</p><hr>
+<p>
+options take a single dash, but may have a double dash<br>
+arguments may be given as -opt=arg or -opt arg<br>
+if an option taking an argument is given multiple times, only the<br>
+last value is returned; missing arguments are returned as 1<br>
+</p><hr>
+<p>
+getOpt, usageInfo and dieWithUsage can be called directly (see<br>
+below, and the example at the end). Set _DEBUG.std to a non-nil<br>
+value to run the example.<br>
+</p><hr>
+<p>
+<strong>getOpt:</strong> <em>perform argument processing<br></em>
+&nbsp;&nbsp;<strong>argIn</strong>: list of command-line args<br>
+&nbsp;&nbsp;<strong>options</strong>: options table<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>argOut</strong>: table of remaining non-options<br>
+&nbsp;&nbsp;<strong>optOut</strong>: table of option key-value list pairs<br>
+&nbsp;&nbsp;<strong>errors</strong>: table of error messages<br>
+</p><hr>
+<p>
+Options table type<br>
+</p><hr>
+<p>
+Options table constructor: adds lookup tables for the option names<br>
+</p><hr>
+<p>
+Error and usage information formatting<br>
+</p><hr>
+<p>
+<strong>errNoArg:</strong> <em>argument when there shouldn't be one<br></em>
+&nbsp;&nbsp;@paramoptStr: option string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>err</strong>: option error<br>
+</p><hr>
+<p>
+<strong>errReqArg:</strong> <em>required argument missing<br></em>
+&nbsp;&nbsp;<strong>optStr</strong>: option string<br>
+&nbsp;&nbsp;<strong>desc</strong>: argument description<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>err</strong>: option error<br>
+</p><hr>
+<p>
+<strong>errUnrec:</strong> <em>unrecognized option<br></em>
+&nbsp;&nbsp;<strong>optStr</strong>: option string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>err</strong>: option error<br>
+</p><hr>
+<p>
+<strong>usageInfo:</strong> <em>produce usage info for the given options<br></em>
+&nbsp;&nbsp;<strong>header</strong>: header string<br>
+&nbsp;&nbsp;<strong>optDesc</strong>: option descriptors<br>
+&nbsp;&nbsp;<strong>pageWidth</strong>: width to format to [78]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>mess</strong>: formatted string<br>
+</p><hr>
+<p>
+<strong>dieWithUsage:</strong> <em>die emitting a usage message<br></em>
+</p><hr>
+<p>
+<strong>processArgs:</strong> <em>simple getOpt wrapper<br></em>
+adds -version/-v and -help/-h/-? automatically; stops program<br>
+if there was an error or -help was used<br>
+</p><hr>
+<p>
+A small and hopefully enlightening example:<br>
+</p><hr>
+</body></html>

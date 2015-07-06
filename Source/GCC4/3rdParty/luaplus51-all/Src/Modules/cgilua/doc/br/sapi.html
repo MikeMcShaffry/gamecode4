@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>CGILua: gera&ccedil;&atilde;o de scripts para a Web usando Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org"><img alt="Logotipo do CGILua" src="cgi-128.gif"/></a></div>
+	<div id="product_name"><big><strong>CGILua</strong></big></div>
+	<div id="product_description">Gera&ccedil;&atilde;o de scripts para a Web usando Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><a href="index.html">In&iacute;cio</a>
+			<ul>
+				<li><a href="index.html#overview">Vis&atilde;o geral</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">Hist&oacute;rico</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilidades</a></li>
+				<li><a href="index.html#credits">Cr&eacute;ditos</a></li>
+				<li><a href="index.html#contact">Fale conosco</a></li>
+			</ul>
+		</li>
+		<li><a href="manual.html">Manual</a>
+			<ul>
+				<li><a href="manual.html#intro">Introdu&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#installation">Instala&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#config">Configura&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Par&acirc;metros</a></li>
+			</ul>
+		</li>
+		<li><a href="reference.html">Refer&ecirc;ncia</a>
+			<ul>
+				<li><a href="reference.html#headers">Cabe&ccedil;alhos</a></li>
+				<li><a href="reference.html#contents">Gera&ccedil;&atilde;o de conte&uacute;do</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">Vari&aacute;veis do CGILua</a></li>
+				<li><a href="reference.html#error_handling">Tratamento de erros</a></li>
+				<li><a href="reference.html#behavior">Comportamento do CGILua</a></li>
+				<li><a href="reference.html#urlcode">Codifica&ccedil;&atilde;o de URL</a></li>
+				<li><a href="reference.html#auxiliar">Fun&ccedil;&otilde;es auxiliares</a></li>
+				<li><a href="reference.html#index">&Iacute;ndice alfab&eacute;tico</a></li>
+			</ul>
+		</li>
+		<li><a href="libraries.html">Bibliotecas</a>
+			<ul>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><strong>SAPI</strong></li>
+		<li><a href="license.html">Licen&ccedil;as</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h2>API do servidor</h2>
+
+<p>A API do servidor (SAPI) &eacute; um conjunto de fun&ccedil;&otilde;es que abstrai o servidor Web e o disparador usado. Um disparador de SAPI &eacute; o mecanismo que permite a um servidor Web executar e comunicar-se com o CGILua e os aplicativos Web. A SAPI permite a abstra&ccedil;&atilde;o de uma s&eacute;rie de detalhes internos, fazendo com que o CGILua seja muito mais port&aacute;til, j&aacute; que transportar o CGILua para uma nova plataforma significa simplesmente escrever um disparador de SAPI para a plataforma de destino.</p>
+
+<p>No momento, o CGILua oferece suporte a Apache, Microsoft IIS, Tomcat e Xavante como servidores Web, e a CGI, FastCGI, mod_lua, ISAPI e servlets como disparadores.</p>
+
+<p>As fun&ccedil;&otilde;es s&atilde;o separadas em dois pacotes: <code>SAPI.Request</code> e <code>SAPI.Response</code>:</p>
+
+<dl class="reference">
+    <dt><strong><code>SAPI.Request.getpostdata ([n])</code></strong></dt>
+    <dd>Obt&eacute;m um bloco de <em>dados de POST</em>. O par&acirc;metro opcional <em>n</em> &eacute; o n&uacute;mero de bytes para ler (o tamanho de bloco padr&atilde;o ser&aacute; usado se nenhum par&acirc;metro for informado).<br /> Retorna o bloco como uma string Lua.</dd>
+    
+    <dt><a href="#servervariable"><strong><code>SAPI.Request.servervariable (string)</code></strong></a></dt>
+    <dd>Obt&eacute;m o valor de uma vari&aacute;vel de ambiente do servidor. O argumento pode ser uma das <a href="http://hoohoo.ncsa.uiuc.edu/cgi/env.html">vari&aacute;veis CGI</a> definidas, embora nem todos os servidores implementem o conjunto completo de vari&aacute;veis. O conjunto consiste em:<br />
+    <ul>
+        <li><strong><code>AUTH_TYPE</code></strong> - se o servidor suportar autentica&ccedil;&atilde;o de usu&aacute;rio e o script estiver protegido, este &eacute; o m&eacute;todo de autentica&ccedil;&atilde;o espec&iacute;fico ao protocolo usado para validar o usu&aacute;rio.</li>
+        
+        <li><strong><code>CONTENT_LENGTH</code></strong> - o tamanho do conte&uacute;do como fornecido pelo cliente.</li>
+        
+        <li><strong><code>CONTENT_TYPE</code></strong> - para consultas que t&ecirc;m informa&ccedil;&otilde;es anexadas, por exemplo, HTTP POST e PUT, este &eacute; o tipo de conte&uacute;do dos dados.</li>
+        
+        <li><strong><code>GATEWAY_INTERFACE</code></strong> - a revis&atilde;o da especifica&ccedil;&atilde;o CGI com a qual esse servidor &eacute; compat&iacute;vel. Formato: CGI/revis&atilde;o</li>
+        
+        <li><strong><code>PATH_INFO</code></strong> - informa&ccedil;&otilde;es adicionais sobre o caminho, conforme fornecidas pelo cliente. Em outras palavras, os scripts podem ser acessados por meio dos respectivos nomes de caminho virtual, seguidos de informa&ccedil;&otilde;es adicionais no final desse caminho. As informa&ccedil;&otilde;es adicionais s&atilde;o enviadas como PATH_INFO. Essas informa&ccedil;&otilde;es devem ser decodificadas pelo servidor se vierem de uma URL antes de serem passadas para o script CGI.</li>
+        
+        <li><strong><code>PATH_TRANSLATED</code></strong> - o servidor fornece uma vers&atilde;o convertida de PATH_INFO, que realiza quaisquer mapeamentos de virtual para f&iacute;sico no caminho.</li>
+        
+        <li><strong><code>QUERY_STRING</code></strong> - as informa&ccedil;&otilde;es inseridas ap&oacute;s o &quot;?&quot; na URL que fez refer&ecirc;ncia a esse script. Essas s&atilde;o as informa&ccedil;&otilde;es da consulta e n&atilde;o devem ser decodificadas. Esta vari&aacute;vel deve ser sempre definida quando houver informa&ccedil;&otilde;es da consulta, qualquer que seja a decodifica&ccedil;&atilde;o da linha de comando.</li>
+        
+        <li><strong><code>REMOTE_ADDR</code></strong> - o endere&ccedil;o IP do host remoto que faz o pedido.</li>
+        
+        <li><strong><code>REMOTE_HOST</code></strong> - o nome do host que faz o pedido. Se o servidor n&atilde;o tiver essas informa&ccedil;&otilde;es, ele define REMOTE_ADDR e n&atilde;o define esta vari&aacute;vel.</li>
+        
+        <li><strong><code>REMOTE_IDENT</code></strong> - se o servidor HTTP oferecer suporte &agrave; identifica&ccedil;&atilde;o RFC 931, esta vari&aacute;vel ser&aacute; definida com o nome do usu&aacute;rio remoto recuperado do servidor. O uso desta vari&aacute;vel deve ser limitado apenas &agrave; conex&atilde;o.</li>
+        
+        <li><strong><code>REMOTE_USER</code></strong> - se o servidor oferecer suporte &agrave; autentica&ccedil;&atilde;o de usu&aacute;rio e o script estiver protegido, este &eacute; o nome de usu&aacute;rio com o qual eles foram autenticados.</li>
+        
+        <li><strong><code>REQUEST_METHOD</code></strong> - o m&eacute;todo com o qual o pedido foi feito. Para HTTP, isto equivale a &quot;GET&quot;, &quot;HEAD&quot;, &quot;POST&quot; etc.</li>
+        
+        <li><strong><code>SCRIPT_NAME</code></strong> - um caminho virtual para o script em execu&ccedil;&atilde;o, usado em URLs auto-referentes.</li>
+        
+        <li><strong><code>SERVER_NAME</code></strong> - o nome do host do servidor, o alias do DNS ou o endere&ccedil;o IP como exibido em URLs auto-referentes.</li>
+        
+        <li><strong><code>SERVER_PORT</code></strong> - o n&uacute;mero da porta &agrave; qual o pedido foi enviado.</li>
+        
+        <li><strong><code>SERVER_PROTOCOL</code></strong> - o nome e a revis&atilde;o do protocolo de informa&ccedil;&otilde;es com o qual este pedido foi enviado. Formato: protocolo/revis&atilde;o</li>
+        
+        <li><strong><code>SERVER_SOFTWARE</code></strong> - o nome e a vers&atilde;o do software do servidor Web que responde ao pedido (e executa o gateway). Formato: nome/vers&atilde;o</li>
+    </ul>
+    Al&eacute;m desses, as linhas do cabe&ccedil;alho recebidas do cliente, se houver, s&atilde;o colocadas no ambiente com o prefixo <code>HTTP_</code> seguido do nome do cabe&ccedil;alho. Quaisquer caracteres <code>-</code> (h&iacute;fen) no nome do cabe&ccedil;alho s&atilde;o alterados para caracteres <code>_</code> (sublinhado). O servidor pode excluir quaisquer cabe&ccedil;alhos que j&aacute; tenha processado, por exemplo, <em>Authorization</em>, <em>Content-type</em> e <em>Content-length</em>. Se necess&aacute;rio, o servidor pode optar por excluir todos ou qualquer um desses cabe&ccedil;alhos se a inclus&atilde;o exceder algum limite do ambiente do sistema.<br />
+    Retorna uma string.</dd>
+
+    <dt><strong><code>SAPI.Response.contenttype (string)</code></strong></dt>
+    <dd>Envia o cabe&ccedil;alho <em>Content-type</em> para o cliente. A string fornecida est&aacute; na forma &quot;<em>tipo</em>/<em>subtipo</em>&quot;. Esta fun&ccedil;&atilde;o deve ser chamada antes que qualquer sa&iacute;da seja enviada com o uso de <code>SAPI.Response.write</code>.<br /> N&atilde;o retorna nada.</dd>
+    
+    <dt><strong><code>SAPI.Response.errorlog (string)</code></strong></dt>
+    <dd>Gera uma sa&iacute;da de erro usando a string fornecida.<br /> N&atilde;o retorna nada.</dd>
+
+    <dt><strong><code>SAPI.Response.header (header, value)</code></strong></dt>
+    <dd>Envia um cabe&ccedil;alho gen&eacute;rico para o cliente. O primeiro argumento deve ser o nome do cabe&ccedil;alho, por exemplo, &quot;Set-Cookie&quot;. O segundo deve ser o valor. Esta fun&ccedil;&atilde;o n&atilde;o deve ser usada em substitui&ccedil;&atilde;o &agrave;s fun&ccedil;&otilde;es <code>SAPI.Response.contenttype</code> ou <code>SAPI.Response.redirect</code>.<br /> N&atilde;o retorna nada.</dd>
+
+    <dt><strong><code>SAPI.Response.redirect (url)</code></strong></dt>
+    <dd>Envia o cabe&ccedil;alho <em>Location</em> para o cliente. A <code>url</code> fornecida deve ser uma string.<br /> N&atilde;o retorna nada.</dd>
+  
+    <dt><strong><code>SAPI.Response.write (string)</code></strong></dt>
+    <dd>Gera uma sa&iacute;da usando a string fornecida.<br /> N&atilde;o retorna nada.</dd>
+</dl>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="XHTML 1.0 v&aacute;lido!" height="31" width="88" /></a></p>
+	<p><small>$Id: sapi.html,v 1.3 2005/11/03 18:48:57 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

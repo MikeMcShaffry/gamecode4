@@ -1,0 +1,19 @@
+# Deprecated and Windows only.
+if $(MSVCNT) {
+
+SubIncludeRelative Misc : Misc ;
+
+C.IncludeDirectories vdrive : ../zlib ;
+C.LinkLibraries vdrive : Misc ;
+
+if $(NT)
+{
+	C.LinkPrebuiltLibraries vdrive : user32 ;
+	if $(COMPILER) = mingw {
+		C.LinkPrebuiltLibraries vdrive : stdc++ ;
+	}
+}
+
+Lua.CModule vdrive : : vdrive.cpp ;
+
+}

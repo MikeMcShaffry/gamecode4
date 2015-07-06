@@ -1,0 +1,26 @@
+HKCR
+{
+	LuaPlusDebugger.Connect.1 = s 'Connect Class'
+	{
+		CLSID = s '{A1EE0FA1-0488-490A-920C-E69DC7A51AEE}'
+	}
+	LuaPlusDebugger.Connect = s 'Connect Class'
+	{
+		CLSID = s '{A1EE0FA1-0488-490A-920C-E69DC7A51AEE}'
+		CurVer = s 'LuaPlusDebugger.Connect.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove '{A1EE0FA1-0488-490A-920C-E69DC7A51AEE}' = s 'Connect Class'
+		{
+			ProgID = s 'LuaPlusDebugger.Connect.1'
+			VersionIndependentProgID = s 'LuaPlusDebugger.Connect'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C714166A-40B5-41A6-A632-7DD2783A8FC0}'
+		}
+	}
+}

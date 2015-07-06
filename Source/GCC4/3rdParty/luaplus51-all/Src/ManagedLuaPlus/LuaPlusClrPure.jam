@@ -1,0 +1,137 @@
+SubDir LUAPLUS Src ManagedLuaPlus : LuaPlusClrPure ;
+
+{
+
+local LUAPLUS_SRCS =
+		../LuaPlus/auxiliar.c
+		../LuaPlus/auxiliar.h
+		../LuaPlus/LuaAutoBlock.h
+		../LuaPlus/LuaCall.cpp
+		../LuaPlus/LuaCall.h
+		../LuaPlus/LuaFunction.h
+		../LuaPlus/LuaHelper.h
+		../LuaPlus/LuaHelper_Object.h
+		../LuaPlus/LuaHelper_StackObject.h
+		../LuaPlus/LuaLink.h
+		../LuaPlus/LuaObject.cpp
+		../LuaPlus/LuaObject.h
+		../LuaPlus/LuaObject.inl
+		../LuaPlus/LuaPlus.cpp
+		../LuaPlus/LuaPlus.h
+		../LuaPlus/LuaPlusAddons.c
+		../LuaPlus/LuaPlusCD.h
+		../LuaPlus/LuaPlusFunctions.cpp
+		../LuaPlus/LuaPlusFunctions.h
+		../LuaPlus/LuaPlusInternal.h
+		../LuaPlus/LuaPlus_Libs.cpp
+		../LuaPlus/LuaStackObject.cpp
+		../LuaPlus/LuaStackObject.h
+		../LuaPlus/LuaStackObject.inl
+		../LuaPlus/LuaStackTableIterator.cpp
+		../LuaPlus/LuaStackTableIterator.h
+		../LuaPlus/LuaState.cpp
+		../LuaPlus/LuaState.h
+		../LuaPlus/LuaState.inl
+		../LuaPlus/LuaStateOutFile.cpp
+		../LuaPlus/LuaStateOutFile.h
+		../LuaPlus/LuaState_DumpObject.cpp
+		../LuaPlus/LuaTableIterator.cpp
+		../LuaPlus/LuaTableIterator.h
+		../LuaPlus/luathread.c
+		../LuaPlus/luathread.h
+		../LuaPlus/lwstrlib.c
+		../LuaPlus/pt.c
+		../LuaPlus/pt.h
+		../LuaPlus/srm.c
+		../LuaPlus/srm.h
+		../LuaPlus/src/lapi.c
+		../LuaPlus/src/lapi.h
+		../LuaPlus/src/lauxlib.c
+		../LuaPlus/src/lauxlib.h
+		../LuaPlus/src/lbaselib.c
+		../LuaPlus/src/lcode.c
+		../LuaPlus/src/lcode.h
+		../LuaPlus/src/ldblib.c
+		../LuaPlus/src/ldebug.c
+		../LuaPlus/src/ldebug.h
+		../LuaPlus/src/ldo.c
+		../LuaPlus/src/ldo.h
+		../LuaPlus/src/ldump.c
+		../LuaPlus/src/lfunc.c
+		../LuaPlus/src/lfunc.h
+		../LuaPlus/src/lgc.c
+		../LuaPlus/src/lgc.h
+		../LuaPlus/src/linit.c
+		../LuaPlus/src/liolib.c
+		../LuaPlus/src/llex.c
+		../LuaPlus/src/llex.h
+		../LuaPlus/src/llimits.h
+		../LuaPlus/src/lmathlib.c
+		../LuaPlus/src/lmem.c
+		../LuaPlus/src/lmem.h
+		../LuaPlus/src/loadlib.c
+		../LuaPlus/src/lobject.c
+		../LuaPlus/src/lobject.h
+		../LuaPlus/src/lopcodes.c
+		../LuaPlus/src/lopcodes.h
+		../LuaPlus/src/loslib.c
+		../LuaPlus/src/lparser.c
+		../LuaPlus/src/lparser.h
+		../LuaPlus/src/lstate.c
+		../LuaPlus/src/lstate.h
+		../LuaPlus/src/lstring.c
+		../LuaPlus/src/lstring.h
+		../LuaPlus/src/lstrlib.c
+		../LuaPlus/src/ltable.c
+		../LuaPlus/src/ltable.h
+		../LuaPlus/src/ltablib.c
+		../LuaPlus/src/ltm.c
+		../LuaPlus/src/ltm.h
+		../LuaPlus/src/lua.h
+		../LuaPlus/src/luaconf.h
+		../LuaPlus/src/lualib.h
+		../LuaPlus/src/lundump.c
+		../LuaPlus/src/lundump.h
+		../LuaPlus/src/lvm.c
+		../LuaPlus/src/lvm.h
+		../LuaPlus/src/lzio.c
+		../LuaPlus/src/lzio.h
+		../LuaPlus/src/print.c
+;
+
+LUAPLUS_SRCS += ../LuaPlus/popen.c ;
+
+local SRCS =
+		AssemblyInfo.cpp
+		ManagedLuaPlus.cpp
+		ManagedLuaPlus.h
+		StdAfx.h
+		$(LUAPLUS_SRCS)
+;
+
+UseModule c/dotnet ;
+
+C.Defines LuaPlusClrPure : LUAPLUS_CPP ;
+
+C.IncludeDirectories LuaPlusClrPure : .. ../LuaPlus/src ;
+
+C.OutputPostfix LuaPlusClrPure : : debug ;
+C.OutputPostfix LuaPlusClrPure : : release ;
+C.OutputPath LuaPlusClrPure : $(LUAPLUS_OUTPUT_DIRECTORY)/debug : debug ;
+C.OutputPath LuaPlusClrPure : $(LUAPLUS_OUTPUT_DIRECTORY) : release ;
+
+C.LinkFlags LuaPlusClrPure : /KEYFILE:\"$(SUBDIR)/ManagedLuaPlus.snk\" ;
+
+C.UseDotNet LuaPlusClrPure ;
+C.LinkLibraries LuaPlusClrPure : LuaPlusShared ;
+
+# Cheat until there is a way to do this.
+C.RemoveFlags LuaPlusClrPure : /RTC1 /Gm /EHsc ;
+C.CFlags LuaPlusClrPure : /clr:pure /EHa /TP ;
+C.C++Flags LuaPlusClrPure : /clr:pure /EHa /TP ;
+
+C.OutputName LuaPlusClrPure : LuaPlusClrPure ;
+C.Library LuaPlusClrPure : $(SRCS) : shared noexportlib ;
+#StrongName LuaPlusClrPure : $(SEARCH_SOURCE)/LuaPlusClrPure.snk ;
+
+}

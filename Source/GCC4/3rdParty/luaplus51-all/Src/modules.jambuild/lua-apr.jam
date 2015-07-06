@@ -1,0 +1,333 @@
+{
+
+local APR_SRCS =
+		apr/atomic/win32/apr_atomic.c
+		apr/dso/win32/dso.c
+		apr/file_io/win32/buffer.apr/c
+		apr/file_io/unix/copy.c
+		apr/file_io/win32/dir.c
+		apr/file_io/unix/fileacc.c
+		apr/file_io/win32/filedup.c
+		apr/file_io/win32/filepath.c
+		apr/file_io/unix/filepath_util.c
+		apr/file_io/win32/filestat.c
+		apr/file_io/win32/filesys.c
+		apr/file_io/win32/flock.c
+		apr/file_io/unix/fullrw.c
+		apr/file_io/unix/mktemp.c
+		apr/file_io/win32/open.c
+		apr/file_io/win32/pipe.c
+		apr/file_io/win32/readwrite.c
+		apr/file_io/win32/seek.c
+		apr/file_io/unix/tempdir.c
+		apr/locks/win32/proc_mutex.c
+		apr/locks/win32/thread_cond.c
+		apr/locks/win32/thread_mutex.c
+		apr/locks/win32/thread_rwlock.c
+		apr/memory/unix/apr_pools.c
+		apr/misc/win32/apr_app.c
+		apr/misc/win32/charset.c
+		apr/misc/win32/env.c
+		apr/misc/unix/errorcodes.c
+		apr/misc/unix/getopt.c
+		apr/misc/win32/internal.c
+		apr/misc/win32/misc.c
+		apr/misc/unix/otherchild.c
+		apr/misc/win32/rand.c
+		apr/misc/win32/start.c
+		apr/misc/win32/utf8.c
+		apr/misc/unix/version.c
+		apr/mmap/unix/common.c
+		apr/mmap/win32/mmap.c
+		apr/network_io/unix/inet_ntop.c
+		apr/network_io/unix/inet_pton.c
+		apr/network_io/unix/multicast.c
+		apr/network_io/win32/sendrecv.c
+		apr/network_io/unix/sockaddr.c
+		apr/network_io/win32/sockets.c
+		apr/network_io/unix/socket_util.c
+		apr/network_io/win32/sockopt.c
+		apr/passwd/apr_getpass.c
+		apr/poll/unix/poll.c
+		apr/poll/unix/pollcb.c
+		apr/poll/unix/pollset.c
+		apr/poll/unix/select.c
+		apr/random/unix/apr_random.c
+		apr/random/unix/sha2.c
+		apr/random/unix/sha2_glue.c
+		apr/shmem/win32/shm.c
+		apr/strings/apr_cpystrn.c
+		apr/strings/apr_fnmatch.c
+		apr/strings/apr_snprintf.c
+		apr/strings/apr_strings.c
+		apr/strings/apr_strnatcmp.c
+		apr/strings/apr_strtok.c
+		apr/tables/apr_hash.c
+		apr/tables/apr_tables.c
+		apr/threadproc/win32/proc.c
+		apr/threadproc/win32/signals.c
+		apr/threadproc/win32/thread.c
+		apr/threadproc/win32/threadpriv.c
+		apr/time/win32/time.c
+		apr/time/win32/timestr.c
+		apr/user/win32/groupinfo.c
+		apr/user/win32/userinfo.c
+		apr/include/arch/win32/apr_arch_atime.h
+		apr/include/arch/win32/apr_arch_dso.h
+		apr/include/arch/win32/apr_arch_file_io.h
+		apr/include/arch/win32/apr_arch_inherit.h
+		apr/include/arch/win32/apr_arch_misc.h
+		apr/include/arch/win32/apr_arch_networkio.h
+		apr/include/arch/win32/apr_arch_thread_mutex.h
+		apr/include/arch/win32/apr_arch_thread_rwlock.h
+		apr/include/arch/win32/apr_arch_threadproc.h
+		apr/include/arch/win32/apr_arch_utf8.h
+		apr/include/arch/win32/apr_private.h
+		apr/include/arch/apr_private_common.h
+		apr/include/apr.h.in
+		apr/include/apr.hnw
+		apr/include/apr.hw
+		apr/include/apr_allocator.h
+		apr/include/apr_atomic.h
+		apr/include/apr_dso.h
+		apr/include/apr_env.h
+		apr/include/apr_errno.h
+		apr/include/apr_file_info.h
+		apr/include/apr_file_io.h
+		apr/include/apr_fnmatch.h
+		apr/include/apr_general.h
+		apr/include/apr_getopt.h
+		apr/include/apr_global_mutex.h
+		apr/include/apr_hash.h
+		apr/include/apr_inherit.h
+		apr/include/apr_lib.h
+		apr/include/apr_mmap.h
+		apr/include/apr_network_io.h
+		apr/include/apr_poll.h
+		apr/include/apr_pools.h
+		apr/include/apr_portable.h
+		apr/include/apr_proc_mutex.h
+		apr/include/apr_random.h
+		apr/include/apr_ring.h
+		apr/include/apr_shm.h
+		apr/include/apr_signal.h
+		apr/include/apr_strings.h
+		apr/include/apr_support.h
+		apr/include/apr_tables.h
+		apr/include/apr_thread_cond.h
+		apr/include/apr_thread_mutex.h
+		apr/include/apr_thread_proc.h
+		apr/include/apr_thread_rwlock.h
+		apr/include/apr_time.h
+		apr/include/apr_user.h
+		apr/include/apr_version.h
+		apr/include/apr_want.h
+		apr/libapr.rc
+;
+
+local APRICONV_SRCS =
+		apr-iconv/lib/iconv.c
+		apr-iconv/lib/iconv_ces.c
+		apr-iconv/lib/iconv_ces_euc.c
+		apr-iconv/lib/iconv_ces_iso2022.c
+		apr-iconv/lib/iconv_int.c
+		apr-iconv/lib/iconv_module.c
+		apr-iconv/lib/iconv_uc.c
+		apr-iconv/include/api_version.h
+		apr-iconv/include/apr_iconv.h
+		apr-iconv/lib/charset_alias.h
+		apr-iconv/lib/iconv.h
+;
+
+local APRUTIL_SRCS =
+		apr-util/buckets/apr_brigade.c
+		apr-util/buckets/apr_buckets.c
+		apr-util/buckets/apr_buckets_alloc.c
+		apr-util/buckets/apr_buckets_eos.c
+		apr-util/buckets/apr_buckets_file.c
+		apr-util/buckets/apr_buckets_flush.c
+		apr-util/buckets/apr_buckets_heap.c
+		apr-util/buckets/apr_buckets_mmap.c
+		apr-util/buckets/apr_buckets_pipe.c
+		apr-util/buckets/apr_buckets_pool.c
+		apr-util/buckets/apr_buckets_refcount.c
+		apr-util/buckets/apr_buckets_simple.c
+		apr-util/buckets/apr_buckets_socket.c
+		apr-util/crypto/apr_md4.c
+		apr-util/crypto/apr_md5.c
+		apr-util/crypto/apr_sha1.c
+		apr-util/crypto/getuuid.c
+		apr-util/crypto/uuid.c
+		apr-util/dbd/apr_dbd.c
+		apr-util/dbd/apr_dbd_freetds.c
+		apr-util/dbd/apr_dbd_mysql.c
+		apr-util/dbd/apr_dbd_odbc.c
+		apr-util/dbd/apr_dbd_oracle.c
+		apr-util/dbd/apr_dbd_pgsql.c
+		apr-util/dbd/apr_dbd_sqlite2.c
+		apr-util/dbd/apr_dbd_sqlite3.c
+		apr-util/dbm/apr_dbm.c
+		apr-util/dbm/apr_dbm_berkeleydb.c
+		apr-util/dbm/apr_dbm_gdbm.c
+		apr-util/dbm/apr_dbm_sdbm.c
+		apr-util/encoding/apr_base64.c
+		apr-util/hooks/apr_hooks.c
+		apr-util/ldap/apr_ldap_init.c
+		apr-util/ldap/apr_ldap_option.c
+		apr-util/ldap/apr_ldap_rebind.c
+		apr-util/ldap/apr_ldap_stub.c
+		apr-util/ldap/apr_ldap_url.c
+		apr-util/memcache/apr_memcache.c
+		apr-util/misc/apr_date.c
+		apr-util/misc/apu_dso.c
+		apr-util/misc/apr_queue.c
+		apr-util/misc/apr_reslist.c
+		apr-util/misc/apr_rmm.c
+		apr-util/misc/apr_thread_pool.c
+		apr-util/misc/apu_version.c
+		apr-util/dbm/sdbm/sdbm.c
+		apr-util/dbm/sdbm/sdbm_hash.c
+		apr-util/dbm/sdbm/sdbm_lock.c
+		apr-util/dbm/sdbm/sdbm_pair.c
+		apr-util/dbm/sdbm/sdbm_pair.h
+		apr-util/dbm/sdbm/sdbm_private.h
+		apr-util/dbm/sdbm/sdbm_tune.h
+		apr-util/strmatch/apr_strmatch.c
+		apr-util/uri/apr_uri.c
+		apr-util/xlate/xlate.c
+		apr-util/xml/apr_xml.c
+		apr-util/include/apr_ldap.h.in
+		apr-util/include/apr_ldap.hnw
+		apr-util/include/apr_ldap.hw
+		apr-util/include/apu.h.in
+		apr-util/include/apu.hnw
+		apr-util/include/apu.hw
+		apr-util/include/private/apu_config.h.in
+		apr-util/include/private/apu_config.hw
+		apr-util/include/private/apu_select_dbm.h.in
+		apr-util/include/private/apu_select_dbm.hw
+		apr-util/include/apu_want.h.in
+		apr-util/include/apu_want.hnw
+		apr-util/include/apu_want.hw
+		apr-util/include/apr_anylock.h
+		apr-util/include/apr_base64.h
+		apr-util/include/apr_buckets.h
+		apr-util/include/apr_date.h
+		apr-util/include/apr_dbm.h
+		apr-util/include/apr_hooks.h
+		apr-util/include/apr_ldap_url.h
+		apr-util/include/apr_md4.h
+		apr-util/include/apr_md5.h
+		apr-util/include/apr_memcache.h
+		apr-util/include/apr_optional.h
+		apr-util/include/apr_optional_hooks.h
+		apr-util/include/apr_queue.h
+		apr-util/include/apr_reslist.h
+		apr-util/include/apr_rmm.h
+		apr-util/include/apr_sdbm.h
+		apr-util/include/apr_sha1.h
+		apr-util/include/apr_strmatch.h
+		apr-util/include/apr_thread_pool.h
+		apr-util/include/apr_uri.h
+		apr-util/include/apr_uuid.h
+		apr-util/include/apr_xlate.h
+		apr-util/include/apr_xml.h
+		apr-util/include/apu_version.h
+;
+
+local EXPAT_SRCS =
+		../expat/lib/xmlparse.c
+		../expat/lib/xmlrole.c
+		../expat/lib/xmltok.c
+		../expat/lib/ascii.h
+		../expat/lib/asciitab.h
+		../expat/lib/expat.h
+		../expat/lib/expat_external.h
+		../expat/lib/iasciitab.h
+		../expat/lib/internal.h
+		../expat/lib/latin1tab.h
+		../expat/lib/nametab.h
+		../expat/lib/utf8tab.h
+		../expat/lib/xmlrole.h
+		../expat/lib/xmltok.h
+		../expat/lib/xmltok_impl.h
+;
+
+local SRCS =
+		src/apr.lua
+		src/base64.c
+		src/buffer.c
+		src/crypt.c
+		src/date.c
+		src/dbd.c
+		src/dbm.c
+		src/env.c
+		src/errno.c
+		src/filepath.c
+		src/fnmatch.c
+		src/getopt.c
+		src/http.c
+		src/io_dir.c
+		src/io_file.c
+		src/io_net.c
+		src/io_pipe.c
+		src/ldap.c
+		src/lua_apr.c
+		src/lua_apr.h
+		src/memcache.c
+		src/memory_pool.c
+		src/object.c
+		src/permissions.c
+		src/proc.c
+		src/shm.c
+		src/signal.c
+		src/stat.c
+		src/str.c
+		src/thread.c
+		src/thread_queue.c
+		src/time.c
+		src/tuple.c
+		src/uri.c
+		src/user.c
+		src/uuid.c
+		src/xlate.c
+		src/xml.c
+;
+
+# Build instructions
+C.Defines apr : APR_DECLARE_STATIC API_DECLARE_STATIC APU_DECLARE_STATIC APU_USE_SDBM ;
+C.Defines apr : XML_STATIC ;
+
+if $(PLATFORM) in win32 win64 {
+	C.ExcludeFromBuild apr : apr/misc/win32/apr_app.c ;
+	C.Defines apr : COMPILED_FROM_DSP HAVE_MEMMOVE HAVE_SQL_H ;
+	C.IncludeDirectories apr : apr/include/arch/win32 ;
+	C.LinkPrebuiltLibraries apr : advapi32 ws2_32 mswsock rpcrt4 wldap32 odbc32 ;
+}
+
+C.IncludeDirectories apr : $(LOCATE_TARGET) ;
+C.IncludeDirectories apr : apr/include apr/include/arch/unix ;
+C.IncludeDirectories apr : apr-iconv/include ;
+C.IncludeDirectories apr : apr-util/include apr-util/include/private ;
+C.IncludeDirectories apr : ../expat/lib ;
+
+Lua.CModule apr : apr/core : $(SRCS) $(APR_SRCS) $(APRICONV_SRCS) $(APRUTIL_SRCS) $(EXPAT_SRCS) ;
+
+rule GenerateAPRHeader SOURCE {
+	local TARGET = <apr>$(SOURCE:BS=.h) ;
+	CopyFile apr : $(TARGET) : $(SUBDIR)/$(SOURCE) ;
+	MakeLocate $(TARGET) : $(LOCATE_TARGET) ;
+	ForceCare $(TARGET) ;
+}
+
+GenerateAPRHeader apr/include/apr.hw ;
+GenerateAPRHeader apr-util/include/apr_ldap.hw ;
+GenerateAPRHeader apr-util/include/apu.hw ;
+GenerateAPRHeader apr-util/include/private/apu_config.hw ;
+GenerateAPRHeader apr-util/include/private/apu_select_dbm.hw ;
+GenerateAPRHeader apr-util/include/apu_want.hw ;
+
+CopyFile apr : $(LUA_LDIR)/apr.lua : $(SUBDIR)/src/apr.lua ;
+
+}
+

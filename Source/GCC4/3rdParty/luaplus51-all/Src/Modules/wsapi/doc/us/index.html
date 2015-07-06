@@ -1,0 +1,253 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>WSAPI</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://wsapi.luaforge.net">
+		<img alt="WSAPI" src="wsapi.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>WSAPI</strong></big></div>
+	<div id="product_description">Lua Web Server API</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>WSAPI</h1>
+	<ul>
+
+		<li><strong>Home</strong></li>
+
+		<li><a href="manual.html">Manual</a></li>
+
+		<li><a href="libraries.html">Libraries</a></li>
+
+		<li><a href="license.html">License</a></li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Overview</h2>
+
+<p><em>WSAPI</em> is an API that abstracts the web server from Lua web applications. By coding
+against WSAPI your application can run on any of the supported servers and
+interfaces (currently CGI, FastCGI and Xavante, on Windows and UNIX-based systems).</p>
+
+<p>WSAPI provides a set of helper libraries that help with request processing
+and output buffering. You can also write applications that act as filters that
+provide some kind of service to other applications, such as authentication,
+file uploads, request isolation, or multiplexing.</p>
+
+<p>WSAPI's main influence is Ruby's <a href="http://rack.rubyforge.org/">Rack</a> framework, but it was
+also influenced by Python's <a href="http://wsgi.org/wsgi">WSGI</a> (PEP 333). It's not a direct
+clone of either of them, though, and tries to follow standard Lua idioms.</p>
+
+<p>WSAPI is free software and uses the same license as Lua 5.1.</p>
+
+<h2>Status</h2>
+
+<p>Current version is 1.3.4. It was developed for Lua 5.1.</p>
+
+<h2>Download</h2>
+
+<p>You can get WSAPI using <a href="http://luarocks.org">LuaRocks</a>:</p>
+
+
+<pre class="example">
+luarocks install wsapi-xavante
+</pre>
+
+
+<h3>Unix Installer Script</h3>
+
+<p>You can also get an installer script that installs Lua+LuaRocks+WSAPI 
+<a href="http://github.com/downloads/keplerproject/wsapi/wsapi-install-1.3.4.tar.gz">here</a>. See
+the <a href="manual.html">manual</a> for installation instructions.</p>
+
+<h3>Customizing the installer</h3>
+
+<p>There is a section of wsapi-install-1.3.4 with the parameters that 
+control the installer: </p>
+
+
+<pre class="example">
+# Installer parameters 
+
+LUA_VERSION=5.1.4 
+PACKAGE=WSAPI 
+PACKAGE_OPT=wsapi 
+PACKAGE_ROCK=wsapi-xavante 
+INSTALLER_VERSION=0.6 
+PACKAGE_VERSION=1.3.4
+LUAROCKS_REPO=http://luarocks.org/repositories/rocks
+LUAROCKS_URL=http://www.luarocks.org/releases/luarocks-2.0.2.tar.gz
+LUAROCKS_VERSION=2.0.2 
+</pre>
+
+
+<p>To install something else change PACKAGE to the full name of the 
+package, PACKAGE_OPT to the name of the --with-foo option that lets 
+the user override the version (or skip installation of the package), 
+PACKAGE_ROCK to the name of the rock, and PACKAGE_VERSION to the 
+version. Also change LUAROCKS_REPO if you want to use another 
+repository (the installer uses --from, so will pull packages from 
+other repositories if the one you specified does not have them). </p>
+
+<p>If there is a LuaRocks update then change LUAROCKS_URL and 
+LUAROCKS_VERSION. Changing Lua version is much more involved, so I 
+won't go into that. </p>
+
+<p>Now to make the tarball, put the installer script in an empty folder and run: </p>
+
+
+<pre class = "example">
+bash ./your-install-script --prefix=/tmp/anything --bootstrap 
+</pre>
+
+
+<p>After it finishes you will have lua-5.1.4.tar.gz, 
+luarocks-2.0.2.tar.gz, and a rocks folder with .src.rocks for all the 
+rocks that the installer installs. </p>
+
+<h2>Latest Sources and Bug Tracker</h2>
+
+<p>WSAPI sources and bug tracker are available at its <a href="http://github.com/keplerproject/wsapi/">Github</a> page.</p>
+
+<h2>History</h2>
+
+<p><strong>WSAPI 1.4</strong> [TBR]</p>
+
+<ul>
+    <li>Refactoring of request, response, and util modules, to work with <a href="http://github.com/keplerproject/mk">mk</a></li>
+    <li>New methods for <code>wsapi.request</code>: qs<em>encode (encodes a table as a query string), route</em>link (makes a link to
+    a mk route, link (makes an internal app link), absolute<em>link (makes an absolute link), static</em>link (makes
+    an external link), empty (checks if a string is just blanks or nil), empty<em>param (checks if a request param
+    is empty), and renamed parse</em>post<em>data method to parse</em>post</li>
+    <li>New methods for <code>wsapi.response</code>: forward (sets path<em>info and returns an mk "keep parsing" code), content</em>type
+    (sets Content-Type header), redirect (sets Location header and returns redirect WSAPI response), changed
+    write to take multiple parameters and flatten nested tables</li>
+    <li>New functions in <code>wsapi.util</code>: make<em>env</em>get (makes a mock WSAPI environment for a GET request from a query
+    string), make<em>env</em>post (makes a mock WSAPI environment for a POST request from a postdata string, a postdata
+    type, default x-www-form-urlencoded, and a query string)</li>
+</ul>
+
+<p><strong>WSAPI 1.3.4</strong> [23/Mar/2010]</p>
+
+<ul>
+    <li>Bugfix release, fix bug introduced by previous fix :-)</li>
+</ul>
+
+<p><strong>WSAPI 1.3.3</strong> [22/Mar/2010]</p>
+
+<ul>
+    <li>Bugfix release, fix memory leak with reload option for persistent loaders</li>
+</ul>
+
+<p><strong>WSAPI 1.3.2</strong> [19/Mar/2010]</p>
+
+<ul>
+    <li>Bugfix release, do not send Transfer-Encoding header unless it is
+    raw HTTP response</li>
+</ul>
+
+<p><strong>WSAPI 1.3.1</strong> [19/Mar/2010]</p>
+
+<ul>
+    <li>Bugfix release, fix the unknown symbol in lfcgi.getenv()</li>
+</ul>
+
+<p><strong>WSAPI 1.3</strong> [18/Mar/2010]</p>
+
+<ul>
+    <li>Fixed segmentation fault when non-string is provided to lfcgi.getenv() (thanks to mkottman@github)</li>
+    <li>Added CGILua bootstrap to wsapi.sapi, so CGILua can run without a kepler_init module present</li>
+    <li>Added an <code>extra_vars</code> paremeter to wsapi.xavante.makeHandler and wsapi.xavante.makeGenericHandler, to
+    let you pass extra variables in the WSAPI environment</li>
+    <li>Added <code>overwrite</code> option to wsapi.request that tells the parameter parser to overwrite repeated parameters
+    instead of collecting them in a list    </li>
+    <li>Added a parameter <code>isolated</code> to the persistent generic loaders that controls whether you isolate
+    each script in a Lua state or not</li>
+    <li>Added parameters to the persistent generic loaders that let the user control the life cycle of Lua
+    states: <code>period</code> sets how long WSAPI should wait between collecting stale states, and <code>ttl</code> sets the
+    period after which a state becomes stale</li>
+    <li>Fixed bug in wsapi.ringer that didn't let you use wsapi.input:read inside the response iterator</li>
+    <li>Parameter <code>vars</code> for the WSAPI generic loaders that which variables WSAPI should check to get the physical
+    path of the script, and in which order. Defaults tro trying SCRIPT_FILENAME first and PATH_TRANSLATED second</li>
+</ul>
+
+<p><strong>WSAPI 1.2</strong> [27/Oct/2009]</p>
+
+<ul>
+    <li>Adds time-based collection of Lua states to FCGI and Xavante launchers</li>
+    <li>Adds "wsapi" laucher script, to start a Xavante WSAPI server</li>
+    <li>Fixed "undefined media type" error</li>
+    <li>Added is_empty utility function to check if a string is nil or ''</li>
+    <li>Fixed bug with empty bodies in wsapi.xavante, and added full http status codes to responses </li>
+    <li>Changing order of evaluating PATH_TRANSLATED and SCRIPT_FILENAME, to make non-wrapped launchers work in OSX Apache</li>
+    <li>Reload support for load_isolated_launcher</li>
+</ul>
+
+<p><strong>WSAPI 1.1</strong> [04/Feb/2009]</p>
+
+<ul>
+    <li>Adds <em>options</em> table to <strong>wsapi.request.new</strong>, *delay_post* option delays
+    POST processing until <strong>req:parse<em>post</em>data()</strong> is called</li>
+    <li>Moves call to <strong>lfs.setmode</strong> from wsapi.common to wsapi.cgi</li>
+    <li>Adds <strong>wsapi.util.make_rewindable(<em>wsapi_env</em>)</strong> method - wraps <em>wsapi_env</em> in a new
+    environment that lets you process the POST data more than once.</li>
+    <li>Correctly handles PATH_TRANSLATED and SCRIPT_FILENAME in case the web server gets creative</li>
+    <li>Statically links the FastCGI version on Windows</li>
+</ul>
+
+<p><a href="http://wsapi.luaforge.net/1.0/"><strong>WSAPI 1.0</strong></a> [18/May/2008]</p>
+
+<ul>
+    <li>First public version.</li>
+    <li>Includes CGI, FastCGI and Xavante WSAPI connectors.</li>
+</ul>
+
+<h2>Credits</h2>
+
+<p>WSAPI was designed and developed by Fabio Mascarenhas and
+Andr&eacute; Carregal, and is maintained by Fabio Mascarenhas.</p>
+
+<h2>Contact Us</h2>
+
+<p>For more information please <a href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
+Comments are welcome!</p>
+
+<p>You can also reach us and other developers and users on the Kepler Project 
+<a href="http://luaforge.net/mail/?group_id=104">mailing list</a>. </p>
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

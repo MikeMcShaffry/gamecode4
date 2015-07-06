@@ -1,0 +1,23 @@
+{
+
+SubDir LUAPLUS Samples TestLuaPlusAll ;
+
+local SRCS =
+		../TestScript/TestScript.cpp
+		../TestScript/SimpleHeap.cpp
+		../TestScript/SimpleHeap.h
+		../../Src/LuaPlus/LuaPlusAll.cpp
+		ScriptArrayTest.lua
+		ScriptCallbackTest.lua
+		ScriptDumpTest.lua
+		ScriptSaveTest.lua
+		ScriptVectorDump.lua
+;
+
+C.Defines TestLuaPlusAll : LUAPLUS_ALL ;
+C.IncludeDirectories TestLuaPlusAll : $(LUAPLUS)/Src ;
+C.ObjectC++Flags TestLuaPlusAll : LuaPlusAll.cpp : /P ;
+
+C.Application TestLuaPlusAll : $(SRCS) ;
+
+}

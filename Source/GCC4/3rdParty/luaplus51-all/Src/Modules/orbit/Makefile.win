@@ -1,0 +1,26 @@
+# $Id: Makefile.win,v 1.7 2008/07/31 18:55:46 mascarenhas Exp $
+
+LUA_DIR= c:\lua5.1\lua
+BIN_DIR= c:\lua5.1\bin
+
+all:
+
+install:
+	IF NOT EXIST "$(LUA_DIR)\orbit" mkdir "$(LUA_DIR)\orbit"
+	copy src\orbit.lua "$(LUA_DIR)"
+	copy src\model.lua "$(LUA_DIR)\orbit"
+	copy src\cache.lua "$(LUA_DIR)\orbit"
+	copy src\pages.lua "$(LUA_DIR)\orbit"
+	copy src\ophandler.lua "$(LUA_DIR)\orbit"
+	IF NOT EXIST "$(BIN_DIR)" mkdir "$(BIN_DIR)"
+	copy src\orbit "$(BIN_DIR)"
+
+install-rocks: install
+	IF NOT EXIST "$(PREFIX)\samples" mkdir "$(PREFIX)\samples"
+	IF NOT EXIST "$(PREFIX)\doc" mkdir "$(PREFIX)\doc"
+	IF NOT EXIST "$(PREFIX)\test" mkdir "$(PREFIX)\test"
+	xcopy /E samples "$(PREFIX)\samples\"
+	xcopy /E doc "$(PREFIX)\doc\"
+	xcopy /E test "$(PREFIX)\test\"
+
+clean:

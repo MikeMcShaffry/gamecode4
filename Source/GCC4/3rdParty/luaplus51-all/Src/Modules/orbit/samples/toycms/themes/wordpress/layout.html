@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <link rel="stylesheet" href="$(req:static_link('/themes/wordpress/css/base_styles.css'))" type="text/css" />
+ <link rel="stylesheet" href="$(req:static_link('/themes/wordpress/css/theme_styles.css'))" type="text/css" />
+ $(areas['head'])
+</head>
+<body class="main-index layout-two-column-right">
+  <div id="container">
+  <div id="container-inner" class="pkg">
+    $(areas['header'])
+    <div id="pagebody">
+      <div id="pagebody-inner" class="pkg">
+        <div id="alpha">
+          <div id="alpha-inner" class="pkg">
+          $inner
+          </div>
+        </div>
+
+        <div id="beta">
+          <div id="beta-inner" class="pkg">
+          $(areas['sidebar'])
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+$(areas['footer'])
+</body>
+</html>

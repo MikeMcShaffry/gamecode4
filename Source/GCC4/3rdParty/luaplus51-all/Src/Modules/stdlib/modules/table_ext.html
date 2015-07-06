@@ -1,0 +1,109 @@
+<html><head></head><body>
+<p>
+<h1>table<br></h1>
+</p><hr>
+<p>
+require "list" FIXME: allow require loops<br>
+</p><hr>
+<p>
+FIXME: use consistent name for result table: t_? (currently r and<br>
+u)<br>
+</p><hr>
+<p>
+<strong>sort:</strong> <em>Make table.sort return its result<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+&nbsp;&nbsp;<strong>c</strong>: comparator function<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>t</strong>: sorted table<br>
+</p><hr>
+<p>
+<strong>subscript:</strong> <em>Expose [] as a function<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+&nbsp;&nbsp;<strong>s</strong>: subscript<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>v</strong>: t[s]<br>
+</p><hr>
+<p>
+<strong>lookup:</strong> <em>Do a late-bound table lookup<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table to look up in<br>
+&nbsp;&nbsp;<strong>l</strong>: list of indices {l1 ... ln}<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>u</strong>: t[l1]...[ln]<br>
+</p><hr>
+<p>
+<strong>pathSubscript:</strong> <em>Subscript a table with a string containing<br></em>
+dots<br>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+&nbsp;&nbsp;<strong>s</strong>: subscript of the form s1.s2. ... .sn<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>v</strong>: t.s1.s2. ... .sn<br>
+</p><hr>
+<p>
+<strong>empty:</strong> <em>Say whether table is empty<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>f</strong>: true if empty or false otherwise<br>
+</p><hr>
+<p>
+<strong>size:</strong> <em>Find the number of elements in a table<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>n</strong>: number of elements in t<br>
+</p><hr>
+<p>
+<strong>indices:</strong> <em>Make the list of indices of a table<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>u</strong>: list of indices<br>
+</p><hr>
+<p>
+<strong>values:</strong> <em>Make the list of values of a table<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>u</strong>: list of values<br>
+</p><hr>
+<p>
+<strong>invert:</strong> <em>Invert a table<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table {i=v...}<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>u</strong>: inverted table {v=i...}<br>
+</p><hr>
+<p>
+<strong>rearrange:</strong> <em>Rearrange some indices of a table<br></em>
+&nbsp;&nbsp;<strong>m</strong>: table {oldindex=newindex...}<br>
+&nbsp;&nbsp;<strong>t</strong>: table to rearrange<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: rearranged table<br>
+</p><hr>
+<p>
+<strong>clone:</strong> <em>Make a shallow copy of a table, including any<br></em>
+metatable<br>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+&nbsp;&nbsp;<strong>nometa</strong>: if non-nil don't copy metatables<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>u</strong>: copy of table<br>
+</p><hr>
+<p>
+<strong>deepclone:</strong> <em>Make a deep copy of a table, including any<br></em>
+ metatable<br>
+&nbsp;&nbsp;<strong>t</strong>: table<br>
+&nbsp;&nbsp;<strong>nometa</strong>: if non-nil don't copy metatables<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>u</strong>: copy of table<br>
+</p><hr>
+<p>
+<strong>merge:</strong> <em>Merge two tables<br></em>
+If there are duplicate fields, u's will be used. The metatable of<br>
+the returned table is that of t<br>
+&nbsp;&nbsp;<strong>t, u</strong>: tables<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: the merged table<br>
+</p><hr>
+<p>
+<strong>newDefault:</strong> <em>Make a table with a default value<br></em>
+&nbsp;&nbsp;<strong>x</strong>: default value<br>
+&nbsp;&nbsp;<strong>[t]</strong>: initial table [{}]<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>u</strong>: table for which u[i] is x if u[i] does not exist<br>
+</p><hr>
+</body></html>

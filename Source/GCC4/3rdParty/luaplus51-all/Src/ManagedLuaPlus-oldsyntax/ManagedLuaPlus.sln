@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedLuaPlus", "ManagedLuaPlus.vcproj", "{0A9BE418-B76A-4CAA-8A21-2F5E7BD3B2DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D4F7A9DD-DF56-4468-86DE-991A446D239F} = {D4F7A9DD-DF56-4468-86DE-991A446D239F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaPlus", "..\..\Prj\Win32VS7\LuaPlus.vcproj", "{D4F7A9DD-DF56-4468-86DE-991A446D239F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{0A9BE418-B76A-4CAA-8A21-2F5E7BD3B2DD}.Debug.ActiveCfg = Debug|Win32
+		{0A9BE418-B76A-4CAA-8A21-2F5E7BD3B2DD}.Debug.Build.0 = Debug|Win32
+		{0A9BE418-B76A-4CAA-8A21-2F5E7BD3B2DD}.Release.ActiveCfg = Release|Win32
+		{0A9BE418-B76A-4CAA-8A21-2F5E7BD3B2DD}.Release.Build.0 = Release|Win32
+		{D4F7A9DD-DF56-4468-86DE-991A446D239F}.Debug.ActiveCfg = Debug|Win32
+		{D4F7A9DD-DF56-4468-86DE-991A446D239F}.Debug.Build.0 = Debug|Win32
+		{D4F7A9DD-DF56-4468-86DE-991A446D239F}.Release.ActiveCfg = Release|Win32
+		{D4F7A9DD-DF56-4468-86DE-991A446D239F}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

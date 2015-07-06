@@ -1,0 +1,163 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Orbit</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://www.keplerproject.org">
+		<img alt="Orbit" src="orbit.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>Orbit</strong></big></div>
+	<div id="product_description">MVC desenvolvimento Web em Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>Orbit</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><strong>Pages</strong>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><a href="reference.html">Referência</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><a href="example.html">Tutorial</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+		<li><a href="license.html">Licença</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Orbit Pages</h2>
+
+<p>Orbit Pages é um ambiente de programação similar ao PHP, construido sobre o Orbit.
+As Orbit Pages são páginas HTML (mas que utilizam a extensão .op em uma instalação do Orbit típica)
+que são convertidas dinamicamente em uma aplicação Orbit.
+Elas são inicializadas pelos disparadores op.cgi, op.fcg e ophandler.lua,
+para FastCGI e Xavante respectivamente. Uma instalação Kepler padrão,
+inclui suporte para Orbit Pages por default. </p>
+
+<p>Uma Orbit Page é também um template que utiliza a linguagem de template
+<a href="http://cosmo.luaforge.net">Cosmo</a>. O ambiente deste template é uma <em>sandbox</em>
+que envolve o ambiente global e é recriado cada vez que é solicitado.
+A principal variável deste ambiente é a variável <code>web</code>, que é um objeto request/response do Orbit. </p>
+
+<p>Outras variáveis importantes:</p>
+
+<p><strong>mapper</strong> - uma instância default do Orbit ORM </p>
+
+<p><strong>model(<em>name</em>, <em>dao</em>)</strong> - é o mesmo que mapper:new(<em>name</em>, <em>dao</em>), salvo quando <em>name</em> 
+é uma tabela, neste caso, chama mapper:new(<em>name[1]</em>, <em>name[2]</em>),
+logo você pode utilizar isso no template como <code>$model{ name, dao }</code> </p>
+
+<p><strong>app</strong> - é o ambiente global da aplicação, que deve ser usado como um cache de sessão
+(para conexões de dados, por exemplo) para disparadores persistentes </p>
+
+<p><strong>finish(<em>res</em>)</strong> - suspende a execução da página atual, e envia <em>res</em> como resposta
+<strong>no lugar</strong> do conteúdo da página </p>
+
+<p><strong>redirect(<em>target</em>)</strong> - o mesmo que web:redirect(<em>target</em>) seguido por finish(). Se <em>target</em> 
+for uma tabela, equivale a web:redirect(<em>target[1]</em>), então, você pode usar isto no template
+como <code>$redirect{ target }</code> </p>
+
+<p><strong>include(<em>page</em>, [<em>env</em>])</strong> - avalia o Orbit Page no arquivo <em>page</em>
+(relativo ao path da página atual), com a opção de utilizar as variaveis em <em>env</em>
+no ambiente do template. Também pode ser utilizado no template como <code>$include{ page, env }</code> </p>
+
+<p><strong>forward(<em>page</em>, [<em>env</em>])</strong> - interrompe a execução da pagina atual,
+avalia e envia a página no arquivo <em>page</em> no lugar; de outra forma o mesmo que <strong>include</strong> </p>
+
+<p>Também existem outras poucas variaveis que deveriam ser usadas somente no template:</p>
+
+<p><strong>$lua{ <em>code</em> }</strong> - roda <em>code</em> no mesmo ambiente que a página,
+logo <em>code</em> pode mudar as variáveis do template e até mesmo definir novas </p>
+
+<p><strong>$if{ <em>condition</em> }[[ <em>then-part</em> ]],[[ <em>else-part</em> ]]</strong> - se <em>condition</em> for verdade,
+será subistituida pelo resultado da avaliação do template do <em>then-part</em>,
+de outra forma <em>else-part</em>. <em>else-part</em> é opcional, sendo seu valor padrão definido como vazio </p>
+
+
+<p><strong>$fill{ ... }[[ <em>template</em> ]]</strong> - substituída pela avaliação do <em>template</em> utilizando
+o ambiente passado para preencher (<em>template</em> <strong>não</strong> herda as variáveis da página) </p>
+
+<p>Abaixo vemos uma Orbit Page extremamente simples que mostra a maioria dos conceitos acima,
+(incluindo o Cosmo, veja a documentação do Cosmo para maiores detalhes): </p>
+
+
+<pre>
+#!/usr/bin/env op.cgi 
+<html> 
+<body> 
+<p>Hello Orbit!</p> 
+<p>I am in $web|real_path, and the script is 
+$web|script_name.</p> 
+$lua{[[ 
+if not web.input.msg then 
+web.input.msg = "nothing" 
+end 
+]]} 
+<p>You passed: $web|input|msg.</p> 
+$include{ "bar.op" } 
+</body> 
+</html> 
+</pre>
+
+
+<p>A página <code>bar.op</code> que ela inclui é essa: </p>
+
+
+<pre>
+#!/usr/bin/env op.cgi 
+<p>This is bar, and you passed $web|input|msg!</p> 
+</pre>
+
+
+<p>A distribuição do <a href="http://www.keplerproject.org">Kepler</a> tem exemplos mais completos que possuem
+acesso ao banco de dados, POST, e até mesmo de alguns AJAX simples.</p>
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

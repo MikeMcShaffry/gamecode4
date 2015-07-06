@@ -1,0 +1,58 @@
+This is an MD5 library for Lua 5.1. It is based on the MD5 library by Rivest,
+described in rfc1321, but also it supports several other libraries that have
+a similar API (including libraries that compute SHA1 instead of MD5). For
+more information in MD5 and SHA1, see
+	http://en.wikipedia.org/wiki/MD5
+	http://en.wikipedia.org/wiki/SHA_hash_functions
+
+To try the library, just edit Makefile to reflect your installation of Lua and
+your MD5 or SHA1 library (see below) and then run make. This will build the
+library and run a simple test. For detailed installation instructions, see
+	http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html
+
+There is no manual but the library is simple and intuitive; see the summary
+below. Read also test.lua, which shows the library in action.
+
+This code is hereby placed in the public domain.
+Please send comments, suggestions, and bug reports to lhf@tecgraf.puc-rio.br .
+
+-------------------------------------------------------------------------------
+
+md5 library:
+ clone(c)                reset(c)                version 
+ digest(c or s,[raw])    tostring(c) 
+ new()                   update(c,s) 
+
+-------------------------------------------------------------------------------
+
+* Finding and selecting an MD5 library
+
+If you're running Linux, you probably already have Rivest's library installed
+somewhere. The problem is finding where. Most probably it's in libcrypto,
+which is part of openssl (or libsasl, but don't use /usr/include/sasl/md5.h).
+The Makefile assumes this as default.
+
+If you can't find an MD5 library in your system, then download one from
+	http://userpages.umbc.edu/~mabzug1/cs/md5/md5.html
+
+lmd5.c supports all three C libraries mentioned in that web page: Rivest's
+original library from rfc1321, Deutsch's library, and Plumb's public domain
+implementation, which can be downloaded at
+	http://archiv.tu-chemnitz.de/pub/1999/0004/data/md5/
+
+Those libraries are quite small and easy to compile. They are not included in
+this package because they are easily available and have their own licenses.
+
+* Finding and selecting a SHA1 library
+
+lmd5.c also supports SHA1. If you're running Linux, you probably already have
+a SHA1 library installed somewhere. If you have libcrypto, then select it in
+the Makefile. Otherwise, extract the C code from rfc3174:
+	http://www.faqs.org/rfcs/rfc3174.html
+
+A public domain SHA1 library is available in skalibs:
+	http://www.skarnet.org/software/skalibs/libstdcrypto.html
+	http://www.skarnet.org/software/skalibs/install.html
+but you'll have to spend a little time making its SHA1 module into a
+standalone module, without dependencies. It's not hard at all. If you have
+problems, let me know.

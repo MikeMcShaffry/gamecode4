@@ -1,0 +1,9 @@
+$lua{[[
+  items = todo_list:find_all{ order = "created_at desc" }
+]]}
+$if{$items|1}[==[
+$items[[
+<li item_id="$id"><input class="item" type="checkbox" $if{$done}[=[checked]=] item_id="$id"/> $title
+  <a href = "#" class = "remove" item_id = "$id">Remove</a></li>
+]]
+]==],[==[Nothing to do!]==]

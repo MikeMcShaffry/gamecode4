@@ -1,0 +1,13 @@
+# $Id: Makefile.win,v 1.4 2007/07/30 21:40:17 carregal Exp $
+
+LUA_DIR= c:\lua5.1\lua
+
+LUAS= src\logging\console.lua src\logging\email.lua src\logging\file.lua src\logging\socket.lua src\logging\sql.lua
+ROOT_LUAS= src\logging\logging.lua 
+
+build clean:
+
+install:
+	IF NOT EXIST $(LUA_DIR)\logging mkdir $(LUA_DIR)\logging
+	FOR %i IN ($(LUAS)) DO copy %i $(LUA_DIR)\logging
+	FOR %i IN ($(ROOT_LUAS)) DO copy %i $(LUA_DIR)

@@ -1,0 +1,59 @@
+LuaJSON
+	JSON Parser/Constructor for Lua
+
+Author:	Thomas Harning Jr. <harningt@gmail.com>
+
+Source code:
+    http://repo.or.cz/luajson
+
+Bug reports:
+    http://github.com/harningt/luajson
+    harningt@gmail.com
+
+Requirements
+	Lua 5.1
+	LPeg (Tested with 0.7, 0.8, 0.9 ... 0.6 mostly works)
+	For regressionTest:
+		lfs (Tested with 1.4.1)
+	For lunit-tests:
+		lunit >= 0.4
+
+License
+	All-but tests: MIT-style, See LICENSE for details
+	tests/*:       Public Domain / MIT - whichever is least restrictive
+
+Module/Function overview:
+	json.encode (callable module referencing json.encode.encode)
+	--encode ( value : ANY-valid )
+
+		Takes in a JSON-encodable value and returns the JSON-encoded text
+		Valid input types:
+			table
+			array-like table (spec below)
+			string
+			number
+			boolean
+			'null' - represented by json.util.null
+		Table keys (string,number,boolean) are encoded as strings, others are erroneus
+		Table values are any valid input-type
+		Array-like tables are converted into JSON arrays...
+			Position 1 maps to JSON Array position 0
+	--isEncodable ( value : ANY )
+		Returns a boolean stating whether is is encodeable or not
+		NOTE: Tables/arrays are not deeply inspected
+
+	json.decode (callable module referencing json.decode.decode)
+	--decode	(data : string, strict : optional boolean)
+		Takes in a string of JSON data and converts it into a Lua object
+		If 'strict' is set, then the strict JSON rule-set is used
+
+	json.util
+	--printValue (tab : ANY, name : string)
+			recursively prints out all object values - if duplicates found, reference printed
+	--null
+			Reference value to represent 'null' in a well-defined way to
+			allow for null values to be inserted into an array/table
+
+Attribution:
+	parsing test suite from JSON_checker project of http://www.json.org/
+	No listed license for these files in their package.

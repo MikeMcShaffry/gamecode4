@@ -1,0 +1,6 @@
+message Foo {
+	optional int32 foo_val = 1;
+	optional int32 foo2_val = 200;
+	extensions 100 to 199;
+}
+

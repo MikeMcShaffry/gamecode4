@@ -1,0 +1,79 @@
+{
+
+ActiveProject socket ;
+
+local EXTRA_SRCS ;
+if $(MSVCNT)
+{
+	EXTRA_SRCS = src/wsocket.c src/wsocket.h ;
+}
+else
+{
+	EXTRA_SRCS = src/usocket.c src/usocket.h ;
+}
+
+local SRCS =
+	src/auxiliar.c
+	src/auxiliar.h
+	src/buffer.c
+	src/buffer.h
+	src/except.c
+	src/except.h
+	src/inet.c
+	src/inet.h
+	src/io.c
+	src/io.h
+	src/luasocket.c
+	src/luasocket.h
+	src/options.c
+	src/options.h
+	src/select.c
+	src/select.h
+	src/socket.h
+	src/tcp.c
+	src/tcp.h
+	src/timeout.c
+	src/timeout.h
+	src/udp.c
+	src/udp.h
+
+	src/ftp.lua
+	src/http.lua
+	src/ltn12.lua
+	src/mime.lua
+	src/smtp.lua
+	src/socket.lua
+	src/tp.lua
+	src/url.lua
+
+	$(EXTRA_SRCS)
+;
+
+CopyFile : $(LUA_LDIR)/socket/ftp.lua : $(SUBDIR)/src/ftp.lua ;
+CopyFile : $(LUA_LDIR)/socket/http.lua : $(SUBDIR)/src/http.lua ;
+CopyFile : $(LUA_LDIR)/ltn12.lua : $(SUBDIR)/src/ltn12.lua ;
+CopyFile : $(LUA_LDIR)/mime.lua : $(SUBDIR)/src/mime.lua ;
+CopyFile : $(LUA_LDIR)/socket/smtp.lua : $(SUBDIR)/src/smtp.lua ;
+CopyFile : $(LUA_LDIR)/socket.lua : $(SUBDIR)/src/socket.lua ;
+CopyFile : $(LUA_LDIR)/socket/tp.lua : $(SUBDIR)/src/tp.lua ;
+CopyFile : $(LUA_LDIR)/socket/url.lua : $(SUBDIR)/src/url.lua ;
+
+C.Defines : LUASOCKET_EXPORTS ;
+
+if $(MSVCNT)
+{
+	C.Defines : "LUASOCKET_API=__declspec(dllexport)" ;
+	C.LinkPrebuiltLibraries : wsock32 ;
+}
+
+C.OutputName socket : core ;
+Lua.CModule socket : socket/core : $(SRCS) ;
+
+###############################################################################
+###############################################################################
+ActiveProject mime ;
+
+Lua.CModule mime : mime/core : src/mime.c ;
+
+}
+

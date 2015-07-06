@@ -1,0 +1,13 @@
+# $Id: config,v 1.16 2007/11/17 14:15:23 carregal Exp $
+
+# Default prefix
+PREFIX = /usr/local
+
+# System's libraries directory (where binary libraries are installed)
+LUA_LIBDIR= $(PREFIX)/lib/lua/5.1
+
+# System's lua directory (where Lua libraries are installed)
+LUA_DIR= $(PREFIX)/share/lua/5.1
+
+# Complete path to Lua command line interpreter
+LUA_INTERPRETER= $(PREFIX)/bin/lua

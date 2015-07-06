@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>CGILua: Building Web Scripts with Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org">
+		<img alt="CGILua logo" src="cgi-128.gif"/>
+	</a></div>
+	<div id="product_name"><big><strong>CGILua</strong></big></div>
+	<div id="product_description">Building Web Scripts with Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+			<ul>
+				<li><a href="index.html#overview">Overview</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">History</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilities</a></li>
+				<li><a href="index.html#credits">Credits</a></li>
+				<li><a href="index.html#contact">Contact us</a></li>
+			</ul>
+		</li>
+		<li><a href="manual.html">Manual</a>
+			<ul>
+				<li><a href="manual.html#intro">Introduction</a></li>
+				<li><a href="manual.html#installation">Installation</a></li>
+				<li><a href="manual.html#config">Configuration</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Parameters</a></li>
+				<li><a href="manual.html#dispatching">Dispatching</a></li>
+                <li><a href="manual.html#authentication">Authentication</a></li>
+                <li><a href="manual.html#error_handling">Error Handling</a></li>
+			</ul>
+		</li>
+		<li><a href="reference.html">Reference</a>
+			<ul>
+				<li><a href="reference.html#headers">Headers</a></li>
+				<li><a href="reference.html#contents">Content Generation</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">CGILua Variables</a></li>
+				<li><a href="reference.html#error_handling">Error Handling</a></li>
+				<li><a href="reference.html#behavior">CGILua Behavior</a></li>
+				<li><a href="reference.html#urlcode">URL Encoding</a></li>
+				<li><a href="reference.html#auxiliar">Auxiliary functions</a></li>
+				<li><a href="reference.html#index">Alphabetic Index</a></li>
+			</ul>
+		</li>
+		<li><a href="libraries.html">Libraries</a>
+			<ul>
+				<li><a href="libraries.html#authentication">Authentication</a></li>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#dispatcher">Dispatcher</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><strong>SAPI</strong></li>
+		<li><a href="license.html">License</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h2>Server API</h2>
+
+<p>The Server API (SAPI) allows the abstraction of a series of internal web server details
+and allows CGILua to be used over <a href="http://wsapi.luaforge.net/">WSAPI</a>.
+Kepler is the reference implementation of WSAPI and currently supports Apache,
+Microsoft IIS and Xavante as Web servers, and CGI, FastCGI, as WSAPI connectors.
+Xavante has a native WSAPI connector.
+</p>
+
+<p>
+The SAPI API is separated into two packages:
+<code>SAPI.Request</code> and <code>SAPI.Response</code>.
+</p>
+
+<p>
+The <code>SAPI.Request</code> package offers two functions:
+</p>
+
+<dl class="reference">
+    <dt><strong><code>SAPI.Request.getpostdata ([n])</code></strong></dt>
+    <dd>Gets a block of <em>POST data</em>. The optional parameter <em>n</em> is
+    the number of bytes to read (a default block size is used if no parameter is
+    passed).<br />
+    Returns the block as a Lua string.</dd>
+    
+    <dt><a href="#servervariable"></a><strong><code>SAPI.Request.servervariable (varname)</code></strong></dt>
+    <dd>Gets the value of a server environment variable. The argument can be
+    one of the defined
+    <a href="http://hoohoo.ncsa.uiuc.edu/cgi/env.html">CGI Variables</a>, although
+    not all servers implements the full set of variables. The set consists of:<br />
+    <ul>
+        <li><strong><code>AUTH_TYPE</code></strong> - If the server supports
+        user authentication, and the script is protected, this is the
+        protocol-specific authentication method used to validate the user.</li>
+        
+        <li><strong><code>CONTENT_LENGTH</code></strong> - The length of the
+        content itself as given by the client.</li>
+        
+        <li><strong><code>CONTENT_TYPE</code></strong> - For queries which
+        have attached information, such as HTTP POST and PUT, this is the
+        content type of the data.</li>
+        
+        <li><strong><code>GATEWAY_INTERFACE</code></strong> - The revision of
+        the CGI specification to which this server complies.
+        Format: CGI/revision</li>
+        
+        <li><strong><code>PATH_INFO</code></strong> - The extra path
+        information, as given by the client. In other words, scripts can be
+        accessed by their virtual pathname, followed by extra information at
+        the end of this path. The extra information is sent as PATH_INFO.
+        This information should be decoded by the server if it comes from a
+        URL before it is passed to the CGI script.</li>
+        
+        <li><strong><code>PATH_TRANSLATED</code></strong> - The server provides
+        a translated version of PATH_INFO, which takes the path and does any
+        virtual-to-physical mapping to it.</li>
+        
+        <li><strong><code>QUERY_STRING</code></strong> - The information which
+        follows the "?" in the URL which referenced this script. This is the
+        query information. It should not be decoded in any fashion. This variable
+        should always be set when there is query information, regardless of
+        command line decoding.</li>
+        
+        <li><strong><code>REMOTE_ADDR</code></strong> - The IP address of the
+        remote host making the request.</li>
+        
+        <li><strong><code>REMOTE_HOST</code></strong> - The hostname making
+        the request. If the server does not have this information, it should
+        set REMOTE_ADDR and leave this unset.</li>
+        
+        <li><strong><code>REMOTE_IDENT</code></strong> - If the HTTP server
+        supports RFC 931 identification, then this variable will be set to the
+        remote user name retrieved from the server. Usage of this variable
+        should be limited to logging only.</li>
+        
+        <li><strong><code>REMOTE_USER</code></strong> - If the server supports
+        user authentication, and the script is protected, this is the username
+        they have authenticated as.</li>
+        
+        <li><strong><code>REQUEST_METHOD</code></strong> - The method with which
+        the request was made. For HTTP, this is "GET", "HEAD", "POST", etc.</li>
+        
+        <li><strong><code>SCRIPT_NAME</code></strong> - A virtual path to the
+        script being executed, used for self-referencing URLs.</li>
+        
+        <li><strong><code>SERVER_NAME</code></strong> - The server's hostname,
+        DNS alias, or IP address as it would appear in self-referencing URLs.</li>
+        
+        <li><strong><code>SERVER_PORT</code></strong> - The port number to which
+        the request was sent.</li>
+        
+        <li><strong><code>SERVER_PROTOCOL</code></strong> - The name and revision
+        of the information protcol this request came in with.
+        Format: protocol/revision</li>
+        
+        <li><strong><code>SERVER_SOFTWARE</code></strong> - The name and version
+        of the web server software answering the request (and running the gateway).
+        Format: name/version</li>
+    </ul>
+    In addition to these, the header lines received from the client, if any, are
+    placed into the environment with the prefix <code>HTTP_</code> followed by the
+    header name. Any <code>-</code> characters in the header name are changed to
+    <code>_</code> characters. The server may exclude any headers which it has
+    already processed, such as <em>Authorization</em>, <em>Content-type</em>, and
+    <em>Content-length</em>. If necessary, the server may choose to exclude any
+    or all of these headers if including them would exceed any system environment
+    limits.<br />
+    Returns a string.</dd>
+</dl>
+
+<p>
+And the <code>SAPI.Response</code> package offers five functions:
+</p>
+
+<dl class="reference">
+    <dt><strong><code>SAPI.Response.contenttype (header)</code></strong></dt>
+    <dd>Sends the <em>Content-type</em> header to the client. The given
+    header should be in the form "<em>type</em>/<em>subtype</em>".
+    This function must be called before any output is sent using
+    <code>SAPI.Response.write</code>.<br />
+    Returns nothing.</dd>
+    
+    <dt><strong><code>SAPI.Response.errorlog (message)</code></strong></dt>
+    <dd>Generates error output using the given string or number.<br />
+    Returns nothing.</dd>
+
+    <dt><strong><code>SAPI.Response.header (header, value)</code></strong></dt>
+    <dd>Sends a generic header to the client. The first argument must be the
+    header name, such as "Set-Cookie". The second argument should be its value.
+    This function should not be used to replace the
+    <code>SAPI.Response.contenttype</code> nor the
+    <code>SAPI.Response.redirect</code> functions.<br />
+    Returns nothing.</dd>
+
+    <dt><strong><code>SAPI.Response.redirect (url)</code></strong></dt>
+    <dd>Sends the <em>Location</em> header to the client. The given <code>url</code>
+    should be a string.<br />
+    Returns nothing.</dd>
+  
+    <dt><strong><code>SAPI.Response.write (...)</code></strong></dt>
+    <dd>Generates output using the given arguments.
+    The arguments must be strings or numbers.<br />
+    Returns nothing.</dd>
+</dl>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+	<p><small>$Id: sapi.html,v 1.33 2009/02/06 00:56:06 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

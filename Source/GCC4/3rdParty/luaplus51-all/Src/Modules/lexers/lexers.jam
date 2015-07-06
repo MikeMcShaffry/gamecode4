@@ -1,0 +1,12 @@
+{
+
+local SRCS =
+		c.lua
+		csv.lua
+		ini.lua
+;
+
+Lua.Module lexers : : $(SRCS) ;
+CopyFiles lexers : $(LUA_LDIR)/lexers : $(SUBDIR)/$(SRCS) ;
+
+}

@@ -1,0 +1,8 @@
+
+EXPORTS
+	AddIn_LuaObject=_AddIn_LuaObject@28
+	AddIn_LuaTableIterator=_AddIn_LuaTableIterator@28
+	AddIn_LuaStackObject=_AddIn_LuaStackObject@28
+	AddIn_LuaStackTableIterator=_AddIn_LuaTableIterator@28
+	AddIn_TString=_AddIn_TString@28
+

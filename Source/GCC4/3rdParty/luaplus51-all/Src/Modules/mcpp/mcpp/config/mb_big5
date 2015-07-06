@@ -1,0 +1,2 @@
+AC_CHECK_MBCHAR_IS_ESCAPE_FREE( [BIGFIVE], [bigfive], [¥\ÁZ])
+

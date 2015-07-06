@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta name="description" content="The LuaThread Homepage">
+<meta name="keywords" content="Lua, Library, Multi-Threading, Threads, Installation">
+<title>LuaThread: Multi-(platform|threading) support for the Lua language
+</title>
+<link rel="stylesheet" href="reference.css" type="text/css">
+</head>
+
+<body>
+
+<!-- header +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=header>
+<hr>
+<center>
+<table summary="LuaThread logo">
+<tr><td align=center><a href="http://www.lua.org">
+<img width=128 height=128 border=0 alt="LuaThread" src="luathread.png">
+</a></td></tr>
+<tr><td align=center valign=top>Multi-(platform|threading) support for the
+Lua language
+</td></tr>
+</table>
+<p class=bar>
+<a href="home.html">home</a> &middot;
+<a href="installation.html">installation</a> &middot;
+<a href="examples.html">examples</a> &middot;
+<a href="reference.html">reference</a> 
+</p>
+</center>
+<hr>
+</div>
+
+<!-- building ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<h2 id=build>Building LuaThread</h2>
+
+<p>
+LuaThread  is a  delicate Lua  extension library  that requires  you to
+completely recompile the Lua distribution.  We know of no general, clean
+and automatic  way of  doing this.  Therefore, you  will have  to modify
+yourself the project used to create the Lua distribution you plan to use
+in conjunction with LuaThread.
+</p>
+
+<p>
+To ensure that LuaThread makes it into the Lua core, 
+<tt>luathread.h</tt> should  be
+included in  every module present in  the Lua distribution. This  can be
+done by  redefining the  <tt>LUA_USER_H</tt> preprocessor  macro
+present  in  the  standard  <tt>lua.h</tt> file.  If  you  have  trouble
+redefining <tt>LUA_USER_H</tt> externally (with Microsoft Visual Studio,
+for instance), don't  be shy  and modify  <tt>lua.h</tt> by  hand. Feel
+free to  place <tt>luathread.h</tt>,   <tt>pt.h</tt>  and   <tt>srm.h</tt>
+in   the  Lua distribution <tt>include</tt> directory to simplify your 
+life.  Rebuild the Lua library from scratch for the changes to take effect. 
+</p> 
+
+<p>
+It doesn't matter how you link everything together as long as in the end
+all LuaThread modules get linked with your application and the Lua library
+(on Unix systems you will also need the Pthreads library).
+To initialize the client side of LuaThread, invoke <tt>luaopen_thread</tt>
+function on a given Lua state. If you are building the Lua interpreter
+itself, there is a handy preprocessor macro for that purpose:
+<tt>LUA_EXTRALIBS</tt>. </p> 
+
+<!-- installation+++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<h2 id=install>Installing LuaThread</h2>
+
+<p> LuaThread uses the new package proposal for Lua 5.1.  
+All Lua library developers are encouraged to update their libraries so that
+all libraries can coexist peacefully and users can benefit from the
+standardization and flexibility of the standard.
+</p>
+
+<p> 
+The proposal was considered important enough by some of us to justify 
+early adoption, even before release of Lua 5.1.
+Thus, a compability module 
+<a href=http://www.keplerproject.org/compat/>compat-5.1</a> 
+has been released in conjunction with Roberto Ierusalimschy and 
+<a href=http://www.keplerproject.org/>The Kepler Project</a> team. 
+It implements the Lua 5.1 package proposal on top of Lua 5.0. </p>
+
+<p> Here we will only describe the standard distribution. If the standard
+doesn't meet your needs, we refer you to the Lua discussion list, where any
+question about the package scheme will likely already have been answered.
+</p>
+
+<h3>Directory structure</h3>
+
+<p> The standard distribution reserves a directory to be the root of
+the libraries installed
+on a given system. Let's call this directory <tt>&lt;ROOT&gt;</tt>. 
+On my system, this is the <tt>/usr/local/share/lua/5.0</tt> directory.
+Here is the standard LuaThread distribution directory structure:</p>
+
+<pre class=example>
+&lt;ROOT&gt;/compat-5.1.lua
+&lt;ROOT&gt;/thread/queue.lua
+</pre>
+
+<p> In order for the interpreter to find all LuaThread components, two
+environment variables need to be set. The first environment variable tells
+the interpreter to load the <tt>compat-5.1.lua</tt> module at startup: </p>
+
+<pre class=example>
+LUA_INIT=@&lt;ROOT&gt;/compat-5.1.lua
+</pre>
+
+The other environment variables instruct the compatibility module to
+look for extension modules in the appropriate directories and
+with the appropriate filename extensions.
+
+<pre class=example>
+LUA_PATH=&lt;ROOT&gt;/?.lua;?.lua
+</pre>
+
+<h3>Using LuaThread </h3>
+
+<p> With the above setup, and an interpreter linked to a LuaThread enabled
+library, it should be easy to use LuaThread. 
+Just fire the interpreter and use the
+<tt>require</tt> function to gain access to the API:</p>
+
+<pre class=example>
+Lua 5.0.2  Copyright (C) 1994-2004 Tecgraf, PUC-Rio
+&gt; thread = require("thread")
+&gt; print(thread.VERSION)
+--&gt; LuaThread 1.0 (alpha)
+</pre>
+
+<!-- footer +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=footer>
+<hr>
+<center>
+<p class=bar>
+<a href="home.html">home</a> &middot;
+<a href="installation.html">installation</a>  &middot;
+<a href="examples.html">examples</a>  &middot;
+<a href="reference.html">reference</a> 
+</p>
+<p>
+<small>
+Last modified by Diego Nehab on <br>
+Thu Jun 17 02:47:14 EDT 2004
+</small>
+</p>
+</center>
+</div>
+
+</body>
+</html>

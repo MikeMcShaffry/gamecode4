@@ -1,0 +1,4 @@
+LIBRARY "lfcgi"
+EXPORTS
+	luaopen_lfcgi
+

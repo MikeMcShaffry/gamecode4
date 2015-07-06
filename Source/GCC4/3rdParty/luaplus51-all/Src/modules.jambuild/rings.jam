@@ -1,0 +1,11 @@
+{
+
+local SRCS =
+		src/rings.c
+;
+
+CopyFile rings : $(LUA_LDIR)/stable.lua : $(SUBDIR)/src/stable.lua ;
+
+Lua.CModule rings : : $(SRCS) ;
+
+}

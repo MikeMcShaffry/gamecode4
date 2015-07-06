@@ -1,0 +1,33 @@
+{
+
+local SRCS =
+		amalloc.h
+		basename.c
+		bench.lua
+		config.h
+		Csio.c
+		css.c
+		cstring.h
+		docheader.c
+		dumptree.c
+		emmatch.c
+		exunit.lua
+		generate.c
+		ldiscount.c
+		LICENSE
+		lua-discount-dev-1.rockspec
+		Makefile
+		markdown.c
+		markdown.h
+		mkdio.c
+		mkdio.h
+		README.mkd
+		resource.c
+		test_discount.lua
+		toc.c
+		xml.c
+;
+
+Lua.CModule lua-discount : discount : $(SRCS) ;
+
+}

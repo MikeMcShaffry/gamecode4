@@ -1,0 +1,68 @@
+# $Id: Makefile.win,v 1.28 2009/01/22 16:50:28 mascarenhas Exp $
+
+LUA_INCLUDE= c:\lua5.1\include
+LUA_LIB= c:\lua5.1\lua5.1.lib
+
+LUA_DIR= c:\lua5.1\lua
+LUA_LIBDIR= c:\lua5.1
+
+.c.obj:
+        $(CC) /c /MD /Fo$@ $(CFLAGS) /I$(LUA_INCLUDE) $<
+
+src\launcher\launcher.exe: src\launcher\launcher.obj
+	link /out:src\launcher\launcher.exe src\launcher\launcher.obj $(LUA_LIB)
+	mt -manifest src\launcher\launcher.exe.manifest -outputresource:src\launcher\launcher.exe;1
+
+src\launcher\wsapi.exe: src\launcher\wsapi.obj
+	lua5.1 src\launcher\make_rc.lua src\launcher\wsapi.cgi > src\launcher\wsapi.rc
+	rc /r /fosrc\launcher\wsapi.res src\launcher\wsapi.rc
+	link /out:src\launcher\wsapi.exe src\launcher\wsapi.obj src\launcher\wsapi.res $(LUA_LIB) user32.lib
+	mt -manifest src\launcher\wsapi.exe.manifest -outputresource:src\launcher\wsapi.exe;1
+
+src\launcher\wsapi-fcgi.exe: src\launcher\wsapi.obj
+	lua5.1 src\launcher\make_rc.lua src\launcher\wsapi.fcgi > src\launcher\wsapi-fcgi.rc
+	rc /r /fosrc\launcher\wsapi-fcgi.res src\launcher\wsapi-fcgi.rc
+	link /out:src\launcher\wsapi-fcgi.exe src\launcher\wsapi.obj src\launcher\wsapi-fcgi.res $(LUA_LIB) user32.lib
+	mt -manifest src\launcher\wsapi-fcgi.exe.manifest -outputresource:src\launcher\wsapi-fcgi.exe;1
+
+all: cgi fcgi
+
+cgi: src\launcher\launcher.exe src\launcher\wsapi.exe
+
+src\fastcgi\lfcgi.dll: src\fastcgi\lfcgi.obj
+      link /manifest:no /dll /out:src\fastcgi\lfcgi.dll /def:src\fastcgi\lfcgi.def $(LIB_OPTION) src\fastcgi\lfcgi.obj Ws2_32.lib
+
+fcgi: src\fastcgi\lfcgi.dll src\launcher\wsapi-fcgi.exe
+
+install:
+	IF NOT EXIST $(LUA_DIR)\wsapi mkdir $(LUA_DIR)\wsapi
+	copy src\wsapi\*.lua $(LUA_DIR)\wsapi
+
+install-rocks:
+	IF NOT EXIST "$(PREFIX)\lua" mkdir "$(PREFIX)\lua"
+	IF NOT EXIST "$(PREFIX)\lua\wsapi" mkdir "$(PREFIX)\lua\wsapi"
+	copy src\wsapi\*.lua "$(PREFIX)\lua\wsapi"
+	del "$(PREFIX)\lua\wsapi\fastcgi.lua"
+	del "$(PREFIX)\lua\wsapi\xavante.lua"
+	IF NOT EXIST "$(PREFIX)\bin" "mkdir $(PREFIX)\bin"
+	copy src\launcher\launcher.exe "$(PREFIX)\bin"
+	copy src\launcher\wsapi.exe "$(PREFIX)\bin"
+	IF NOT EXIST "$(PREFIX)\samples" mkdir "$(PREFIX)\samples"
+	copy samples\* "$(PREFIX)\samples"
+	IF NOT EXIST "$(PREFIX)\doc" mkdir "$(PREFIX)\doc"
+	IF NOT EXIST "$(PREFIX)\doc\us" mkdir "$(PREFIX)\doc\us"
+	copy doc\us\* "$(PREFIX)\doc\us"
+
+install-fcgi:
+	IF NOT EXIST "$(PREFIX)\lua" mkdir "$(PREFIX)\lua"
+	IF NOT EXIST "$(PREFIX)\lua\wsapi" mkdir "$(PREFIX)\lua\wsapi"
+	copy src\wsapi\fastcgi.lua "$(PREFIX)\lua\wsapi"
+	copy src\launcher\wsapi-fcgi.exe "$(BIN_DIR)"
+	copy src\fastcgi\lfcgi.dll "$(LUA_LIBDIR)\"
+
+clean:
+	del src\launcher\launcher.obj
+	del src\launcher\launcher.exe
+	del src\launcher\launcher.exe.manifest
+	del src\fastcgi\lfcgi.dll
+	del src\launcher\wsapi-fcgi.exe

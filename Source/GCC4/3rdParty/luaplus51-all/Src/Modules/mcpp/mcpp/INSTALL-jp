@@ -1,0 +1,468 @@
+  ここでは、MCPP のソースをコンパイルして実行プログラムを生成する方法を
+説明します。詳細はさらに mcpp-porting.html を見てください。
+
+1、実行プログラムの種類
+
+  MCPP の実行プログラムは build する方法に応じて何種類かあります。Build
+する方法には次の２つの次元があります。
+
+    1. stand-alone-build vs subroutine-build
+    2. compiler-independent-build vs compiler-specific-build
+
+stand-alone-build: １つのコマンドとして単体で動くプリプロセッサです。処
+    理系のコンパイラ・ドライバから呼び出されるものもあります。
+subroutine-build: 他のメインプログラムの中からサブルーチンとして（必要な
+    ら繰り返し）呼び出されるものです。
+
+compiler-independent-build: 処理系からは独立して動くプリプロセッサです。
+    実行時オプションなどの仕様は処理系のいかんによらず一定です。プリプロ
+    セスだけすることができますが、処理系の一部として動作することはできま
+    せん。
+compiler-specific-build: 特定の処理系のプリプロセッサを（もし可能なら）
+    代替するためのものです。その処理系に専用の仕様を持ち、その処理系の専
+    用のディレクトリにインストールされます。
+
+  Subroutine-build についてはここでは説明は略します。mcpp-porting.html 3.
+12 を見てください。以下はすべて stand-alone-build についての説明です。
+
+2、configure と make
+
+  MCPP をコンパイルするには、UNIX 系のシステムおよび CygWIN, MinGW では
+configure スクリプトを使うことができます。configure と make は任意のディ
+レクトリで実行できます。以下の説明では mcpp-${VERSION} ディレクトリのあ
+る path を ${mcpp-dir} と表記します。${VERSION} は 2.6.4, 2.7.1 等の
+MCPP のバージョンです。
+
+Configure はコンパイラを cc (c++) または gcc (g++) という名前で、環境変
+数 $PATH にセットされた path list の順にサーチします。したがって、gcc-4.
+3.0, g++-4.3.0 といった名前のコンパイラを使うなら、configure する前にそ
+れを環境変数 CC, CXX で指定するか、または gcc, g++ にリンクしておいてく
+ださい。もし、path list 上で最初にサーチされるコンパイラ以外のコンパイラ
+を使うなら、$PATH を次のように変更しなければなりません。
+
+    export PATH=/my/gcc/bin:$PATH
+
+この設定は make が終わるまで維持してください。Path list 上で最初にサーチ
+されるコンパイラ以外のコンパイラを CC, CXX で指定してはいけません。たと
+え絶対パスで指定してもダメです。Path list は configure のすべてに影響を
+与えるからです。
+
+2、1、compiler-independent-build
+
+    ${mcpp-dir}/configure; make; make install
+
+とすると、compiler-independent 版の実行プログラムが生成されて mcpp とい
+う名前でインストールされます。一部のドキュメントもインストールされます。
+
+    ${mcpp-dir}/configure --prefix=/usr; make; make install
+
+等とした場合は、prefix で指定されたディレクトリの中の bin ディレクトリに
+インストールされます。これを指定しないと /usr/local を指定したのと同じこ
+とになります。
+  make install には通常は root 権限が必要なので、
+
+    sudo make install
+
+とします。あるいは su してから configure; make; make install とします。
+なお、FreeBSD では make ではなく gmake を使ってください。
+  実行プログラムを strip するには、make install のかわりに
+
+    make install-strip
+
+とします。
+
+    make uninstall
+
+とすると、MCPP の実行プログラムは削除されます。
+
+  make (un)install では DESTDIR=DIR というオプションを指定すると、DIR 以
+下のディレクトリにインストールされます。例えば、
+
+    make DESTDIR=/tmp/mcpp install
+
+とすると、/tmp/mcpp/usr/local/bin/ に MCPP がインストールされます（存在
+しないディレクトリは作成される。configure で --prefix=DIR オプションを指
+定していると '/usr/local' の部分が 'DIR' に置き換わる）。バイナリ・パッ
+ケージを作るにはこの方法を使います。
+
+  GCC 4.1 以降には -fstack-protector (-fstack-protector-all) というオプ
+ションがありますが、make で CFLAGS+='-fstack-protector' というオプション
+を指定することでこれを有効にすることができます。これは GCC-specific-
+build でも同様です。MCPP を gdb でデバッグする時には CFLAGS+='-ggdb -O0'
+とします。
+
+  compiler-independent-build では make install で最小限のドキュメントが
+インストールされるようにしました。これはバイナリ・パッケージを作るつごう
+に合わせたものです。
+
+  Linux, Mac OS X, CygWIN, MinGW ではシステムの標準ヘッダに欠陥があるの
+で、compiler-independent-build の MCPP ではその対策が必要です。この問題
+については mcpp-manual.html 3.9.9 を見てください。
+
+2、2、compiler-specific-build
+
+    ${mcpp-dir}/configure --enable-replace-cpp; make; make install
+
+とすると、compiler-specific 版の実行プログラムが生成されて、その処理系の
+専用のディレクトリにインストールされます。
+  make install-strip, make uninstall は compiler-independent-build と同
+じです。
+  prefix ディレクトリは GCC の path から自動的に設定されます。例えば GCC
+の path が /usr/local/bin/gcc であれば、/usr/local を prefix とします。
+configure の --prefix オプションを指定しても、それが GCC の path と矛盾
+していれば無視されます。また、make での DESTDIR オプションも、実行プログ
+ラムのインストールには関係しません。
+
+  ただし、GCC 以外の処理系では先に移植作業を行い、configure でさらにいく
+つかのオプションを指定しないと、適切なコンパイルとインストールがされませ
+ん。
+
+2、2、1、処理系が GCC の場合
+
+2、2、1、1、make install
+  --enable-replace-cpp オプションで configure した場合、make install で
+はコンパイラの置かれるディレクトリ（/usr/libexec, /usr/lib/gcc-lib/i686-
+pc-linux-gnu/VERSION 等）に実行プログラムがインストールされます。これは
+gcc の呼び出す cc1 (cpp0) が置かれているディレクトリです。make install
+は GCC / cc1, cc1plus (cpp0) を保存した上で、gcc, g++ から MCPP が呼び出
+されるように適切な設定をします。この設定は GCC が V.2.* であるか V.3.*,
+4.* であるかによって違っています（mcpp-manual.html 3.9.5, 3.9.7 を参照の
+こと）。また、GCC のバージョンに応じたヘッダファイルが compiler-specific
+な include directory の中の mcpp-gcc* というディレクトリに生成されます。
+
+2、2、1、2、make check
+  MCPP の検証セットには GCC の testsuite に対応した edition があります。
+GCC / testsuite がインストールされている場合は、make check によってこの
+testsuite 版検証セットで MCPP の Standard モードのテストをすることができ
+ます。Testsuite 版検証セットは GCC / testsuite の一部として使うようにな
+っているので、あらかじめ GCC / testsuite がインストールされ実行できる状
+態になっていることが必要です。GCC / testsuite は通常は GCC のソースの一
+部となっています（別のパッケージとなっている場合もある）。GCC V.2.95.*
+以降の testsuite が使えますが、V.4.3.* のものには若干の問題があるので、V.
+4.2.* までのものを使ってください。
+  また、configure する時に GCC / testsuite の置かれているディレクトリを
+指定しておく必要があります。そのためには次のようにします。
+
+    ${mcpp-dir}/configure --with-gcc-testsuite-dir=DIR  \
+            --enable-replace-cpp
+
+この 'DIR' は GCC のソースが置かれているディレクトリを ${gcc-source} と
+すると、
+
+    ${gcc-source}/gcc/testsuite
+
+となるはずです。
+  こうして configure しておいて、make; make install した後で
+
+    make check
+
+とすると、検証セットの testsuite 版が GCC / testsuite の中にコピーされ、
+GCC が V.2.* であるかそれとも V.3.*, 4.* であるかに応じて必要な設定がさ
+れます。Testsuite では gcc の名前は文字通り 'gcc' でなければなりませんが、
+MCPP をインストールした gcc の名前が違っている場合は、gcc という名前が一
+時的にその名前に symbolic link されます。そして testsuite が実行されます。
+通常のソフトウェアでは make install の前に make check しますが、MCPP の
+場合は順序が逆になります。gcc から MCPP が呼び出されるようにしておかない
+と testsuite が MCPP に適用できないからです。また、このため --enable-
+replace-cpp オプションも必要です。
+  ${gcc-source} のありかによっては make check は sudo make check としな
+ければなりませんが、その場合は root と現ユーザとで 'which gcc' の結果が
+一致していなければならないことに注意してください。
+  Testsuite 版検証セットは MCPP だけでなく、GCC V.2.95 以降の cc1,
+cc1plus (cpp0) にも適用することができます（cpp-test.html 3.2.3 参照）。
+
+2、2、1、3、make uninstall
+  make uninstall とすると、MCPP の実行プログラムは削除されます。
+mcpp-gcc* ディレクトリのヘッダファイルも削除されます。gcc, cc1, cc1plus
+(cpp0) の設定は初期状態に戻ります。何かのつごうで make install した後で
+configure を再実行する場合は、その前に make uninstall しなければなりませ
+ん。Configure が調査すべきなのは GCC であり MCPP ではないからです。
+  GCC / testsuite の中に検証セットがインストールされていれば、それも
+make uninstall で削除されます。GCC に検証セットを適用するには、手動で検
+証セットをコピーしてください。
+  GCC-specific-build の configure で生成された何本かの Makefile は MCPP
+を uninstall するときに必要なので、そのまま残しておいてください。make
+distclean する場合は、その前に make uninstall を実行してください。手動で
+uninstall するのは少し手間がかかるからです。同様に、configure や
+Makefile.in が更新される場合は、その前に make uninstall; make distclean
+しておかなければなりません。MCPP を update する場合は注意してください。
+
+2、2、2、処理系が Mac OS X の Apple-GCC の場合
+
+  Mac OS X は UNIX 系とは言え、framework directory 等の独自の要素を持っ
+ています。GCC も Apple による多くの拡張を施されたものがシステムコンパイ
+ラになっています。さらに Intel-Mac の登場以降は、x86 用のコンパイラシス
+テムと powerpc 用のコンパイラシステムとが（片方はネイティブコンパイラで
+他方はクロスコンパイラですが）同一マシンに共存するようになり、x86 用の実
+行プログラムと powerpc 用の実行プログラムを１つに束ねてどちらのマシンで
+も動くようにした universal binary というものまで作られるようになってきて
+いるので、かなり複雑な構成になっています。
+  この複雑なシステムに MCPP をインストールするのは、2、2、1、の方法だけ
+では足りません。そこで、Mac OS X / Apple-GCC の場合を、別にとりあげて説
+明します。私は Intel-Mac の Mac OS X Leopard を使っているのでそれを例に
+とりますが、Powerpc-Mac では i686 と powerpc を逆にして読んでください。
+また、Tiger では darwin9 を darwin8 に読み替えてください。
+  なお、ここでとりあげるのは GCC 4.0.1 です。そのほか GCC 3.3 も Apple
+によって用意されていますが、少なくとも Leopard 上のものは正しくコンパイ
+ルされていないので、とりあげません。
+
+2、2、2、1、ネイティブコンパイラとクロスコンパイラ
+
+  まず、native コンパイラ（Intel-Mac なら i686 用 GCC）用の MCPP をイン
+ストールのは簡単で、2、2、1、の方法ですみます。
+  しかし、クロスコンパイラ用の MCPP をインストールするのは、そう簡単では
+ありません。MCPP の configure は一般にはクロスコンパイリングに対応してい
+ません。サンプルプログラムをコンパイルして run させるテストがいくつか含
+まれているからです。ターゲット環境用のバイナリをビルド環境で実行すること
+は、普通はできません。また、ビルド環境のテストをしても、その結果はターゲ
+ット環境とは違っているかもしれません。
+  しかし、Mac OS X の場合は例外的に、クロスコンパイルに対応できる場合が
+多くあります。まず、Intel-Mac は ppc 用のバイナリをエミュレータで自動実
+行させるようになっています。また、CPU が違っても OS とそのバージョンも
+GCC のバージョンも同じであれば、ビルド環境でのテストでターゲット環境のテ
+ストの多くを代用できます。
+  Intel-Mac 上での compiler-independent-build ではまず、CC, CXX という環
+境変数で C コンパイラと C++ コンパイラを指定します。Mac OS X の /usr/bin
+にはいくつもの gcc や g++ がありますが、Intel-Mac の Mac OS X Leopard で
+は powerpc-apple-darwin9-gcc-4.0.1, powerpc-apple-darwin9-g++-4.0.1 とい
+うのが powerpc 用の C コンパイラと C++ コンパイラです（実際には /usr/bin
+の gcc, g++ はすべて i386, ppc 双方のバイナリを合わせた universal binary
+ですが）。さらに、ターゲットシステムを --target オプションで指定します。
+この場合はコンパイラの名前から -gcc-4.0.1 等の部分を削除した powerpc-
+apple-darwin9 を使います。結局、こうなります。
+
+    ${mcpp-dir}/configure --target=powerpc-apple-darwin9    \
+            CC=powerpc-apple-darwin9-gcc-4.0.1  \
+            CXX=powerpc-apple-darwin9-g++-4.0.1
+
+  他方で ppc-Mac では x86 のバイナリを実行できないので、この configure
+では compiler-independent-build のクロスコンパイルはできません。差分ファ
+イルと mac_osx.mak を使った手動コンパイルであればクロスコンパイルもでき
+るので、必要なら mcpp-porting.html#3.1.4, #3.11 を見てください。また、
+configure でも次節の方法を使えば、ppc-Mac の native compiler で
+universal binary を作ることはできます。
+  GCC-specific-build では CC, CXX は使わず、次のように --with-target-cc=
+というオプションで C コンパイラを指定します（その名前の gcc を g++ に変
+えたものを C++ コンパイラと解釈します）。
+
+    ${mcpp-dir}/configure --target=powerpc-apple-darwin9    \
+            --with-target-cc=powerpc-apple-darwin9-gcc-4.0.1    \
+            --enable-replace-cpp
+
+  これはターゲット環境の実行テストは含まないので、powerpc を i686 に置き
+換えれば ppcMac で使えるはずです。
+  デフォルトのネイティブコンパイラ（gcc, g++）と --with-target-cc= で指
+定するクロスコンパイラとで大きくバージョンが違っている場合は、そのクロス
+コンパイラになるべく近いバージョンのネイティブコンパイラを環境変数 CC,
+CXX で指定してください。CC (CXX) で指定するのは MCPP をビルドするための
+コンパイラであり、--with-target-cc= で指定するのは MCPP をインストールす
+るターゲットのコンパイラです。
+  クロスコンパイラはネイティブコンパイラとは libexec directory, compiler-
+specific include directory, 事前定義マクロ等が異なりますが、それらがこの
+オプション指定によって適切に設定されます。これらのオプションは make では
+なく configure で指定する必要があります。
+  なお、クロスコンパイラはホストシステム上で動作するものなので、その「ク
+ロスコンパイラに」インストールされる compiler-specific-build の MCPP も
+同様です。他方で「クロスコンパイラで」コンパイルされた compiler-
+independent-build の MCPP は、ターゲットシステムで動くものになります。ま
+た、GCC-specific-build はネイティブコンパイラにインストールされるものも
+クロスコンパイラにインストールされるものも、ともにネイティブコンパイラで
+コンパイルされます。このため、この双方をインストールする場合は、クロスコ
+ンパイラ用を先にインストールする必要があります。
+
+2、2、2、2、Universal binary の make
+
+  Universal binary を作るには、make する時に CFLAGS+='-arch i386 -arch
+ppc' というように、対象とする CPU を -arch オプションで指定します。指定
+できる CPU は i386, x86_64, ppc, ppc64 の４種類です。make CFLAGS+='-arch
+i386 -arch x86_64 -arch ppc -arch ppc64' とすると４種の CPU に対応したも
+のができます。configure は universal binary でない場合と同じで、特別なオ
+プションは必要ありません。
+  GCC には -isysroot DIR（または --sysroot=DIR）というオプションがありま
+す。これが指定されると、システムヘッダの include directory としてデフォ
+ルトの include directory に DIR を頭に付けたものが使われます。このオプシ
+ョンは Mac OS に限ったものではありませんが、Mac OS では universal binary
+のコンパイルにこれが使われています。Mac OS のバージョン間の互換性の範囲
+を広げるためです。例えば、-isysroot /Developer/SDKs/MacOSX10.4u.sdk とす
+ると、/usr/include が /Developer/SDKs/MacOSX10.4u.sdk/usr/include となり
+ます。この例は Mac OS X 10.5 (Leopard) 上で 10.4 (Tiger) と互換の
+universal binary をコンパイルするためのものです。MCPP の make でこれを使
+うためには、さらに -mmacosx-version-min= というオプションで SDK と同じバ
+ージョンを指定する必要があります。
+  MCPP の universal binary は、上記の configure オプションとこれらの
+make オプションを組み合わせることで、compiler-independent-build, GCC-
+specific-build のどちらでも、native-compiler, cross-compiler のどちらで
+も生成することができます。例えば compiler-independent-build で Tiger 互
+換の i386 と ppc 用のものを作るにはこうします（実際には、'*' の中を \ で
+２行に分けることはできない）。
+
+    ${mcpp-dir}/configure
+    make CFLAGS+='-isysroot /Developer/SDKs/MacOSX10.4u.sdk     \
+            -mmacosx-version-min=10.4 -arch i386 -arch ppc'
+    sudo make install
+
+2、2、3、処理系が GCC でない場合
+
+  処理系が GCC でない場合は configure でいくつかのオプションを指定しなけ
+ればなりません。また、その処理系のプリプロセッサと置換できるように、ソー
+スコードを書き足す「移植」作業が必要です。作者自身は Linux, FreeBSD, Mac
+OS X, CygWIN, MinGW 等で GCC を使っているので移植がすんでおり、configure
+で情報を収集することもできるのですが、UNIX 系システムの他の処理系につい
+ては知らないので、移植はおろが configure で何をどう調べれば良いのかもわ
+からないからです。
+  UNIX 系システムの GCC 以外の処理系では、次のような手順でコンパイルを進
+めてください。
+
+2、2、3、1、オプションを指定して configure
+  まず、いくつかのオプションを指定して configure してみます。例えば次の
+ようにします。
+
+    ${mcpp-dir}/configure --enable-replace-cpp --bindir=DIR \
+            --with-cxx-include-dir=CXXDIR   \
+            --enable-SYSTEM-STD-macro=_MACRO=val
+
+  --bindir で指定するのは、コンパイラドライバから呼び出されるプリプロセ
+ッサが置かれるディレクトリです。さらに C++ 固有のインクルードディレクト
+リを --with-cxx-include-dir で、また処理系固有の事前定義マクロを
+--enable-SYSTEM-STD-macro その他のオプションで指定します。
+
+    ${mcpp-dir}/configure --help
+
+とするとオプションが表示されます。
+  そして make; make install して、さらにコンパイラドライバから MCPP が呼
+び出されるように細工をします。その方法については、GCC での設定方法を参考
+にしてください。
+
+2、2、3、2、「移植」作業
+  処理系のプリプロセッサを MCPP に置き換えて使うためには、ソースコードを
+書き足す「移植」作業が必要です。処理系固有の実行時オプションや #pragma
+等の実装です。中でもしばしば使われる実行時オプションで MCPP と異なるもの
+があれば、最低限、その実装が必要です。そのためには、configed.H でそのコ
+ンパイラを表すマクロを定義した上で、system.c にコードを書き加えます
+（mcpp-porting.html のことに 4.2 を参照）。
+
+2、2、3、3、オプションを追加して configure しなおす
+  ソースの移植ができたら、--with-compiler-name=COMPILER というオプション
+を追加して configure し直します。COMPILER は configed.H で定義したそのコ
+ンパイラを表すマクロです。
+  make; make install ができたら、さらに make clean; make とすると、MCPP
+を使って MCPP のリコンパイルが行われます。これが通れば、最低限の移植はで
+きています。
+
+2、2、4、configure の制約
+
+  compiler-specific-build の MCPP のコンパイルではターゲット処理系（MCPP
+をプリプロセッサとして使う予定の処理系）の仕様を詳しく知る必要があります。
+同時に、コンパイルする処理系についても別の側面の仕様を知る必要があります。
+MCPP のソースはこの両者の処理系が違っていてもかまわないように、両者の設
+定を分けてヘッダファイル (configed.H) を書いてあります。しかし、
+configure ではこの両者を同時に調べることができません。そのため、ターゲッ
+トとする処理系とコンパイルする処理系は同じであるという前提で調査をします。
+  もしこの両者の処理系が違う場合は、configed.H の Part 2 を編集すること
+が必要です。
+  MCPP の configure は同様にクロスコンパイルにも対応していません。また、
+クロスコンパイルでは実行できないテストもいくつか含まれています。クロスコ
+ンパイルではその場合はデフォルト値をセットしますが、うまくゆかないかもし
+れません。
+
+3、Windows 上の処理系での make
+
+  Windows 上の処理系は CygWIN, MinGW 以外は configure の対象にならないの
+で、ソースを修正して make することが必要です。すでに移植ずみの処理系につ
+いては差分ファイルを用意してあるので、これを使ってパッチをあてることがで
+きます。差分ファイルを使う場合の手順を以下に説明します。
+  また、configure の対象になる処理系でも、ヘッダファイルや makefile を直
+接、編集することできめのこまかい制御をすることができます。
+
+3、1、パッチをあてる
+  noconfig というディレクトリに各種処理系用の差分ファイルと makefile が
+用意されています。MCPP のソースはデフォルトでは FreeBSD / GCC 3.4 用の設
+定になっています。差分ファイルはこれを別の処理系用に修正するものです。
+Makefile は各処理系に付属する make を使うように書かれています。
+  src ディレクトリに入って次のようにします。以下の作業はすべて src ディ
+レクトリで行います。
+
+    patch -c < ..\noconfig\which-compiler.dif
+    copy ..\noconfig\which-compiler.mak Makefile
+
+  patch は UNIX 系システムのコマンドですが、Windows にも移植されているの
+で、それを使います。もちろん、差分ファイルを見て、エディタで修正してもか
+まいません。
+
+3、2、必要ならさらに noconfig.H, Makefile を修正する
+  差分ファイルでは各種ディレクトリの設定が筆者の環境を元にしているので、
+自分の環境に合わせて修正します。
+  使う処理系が差分ファイルのものとはバージョンが違っている場合は、ヘッダ
+ファイル noconfig.H にさらに修正を加えます（noconfig.H そのものおよび
+mcpp-porting.html 3.1 を参照）。通常使う multi-byte character が日本語で
+はない場合も同様に、nocongig.H の MBCHAR というマクロの定義を書き換えま
+す。
+  また、実行プログラムをインストールするディレクトリを Makefile の
+BINDIR という変数に書きます。Visual C 用の Makefile では次の行の # を削
+除して、install ターゲットを有効にしてください。
+
+    #install :
+
+3、3、compiler-independent-build
+  これで  make して make install すると、compiler-independent 版の実行プ
+ログラムが生成されてインストールされます（Visual C++ では make ではなく
+nmake を使う）。
+
+3、4、compiler-specific-build
+  compiler-specific 版を生成するためには、まず Makefile の BINDIR をその
+処理系の実行プログラムの置かれているディレクトリに書き換えます。そして、
+noconfig.H の次の行の 'INDEPENDENT' をそのコンパイラを表すマクロに書き換
+えて、'make' し 'make install' します。
+
+    #define COMPILER    INDEPENDENT
+
+'COMPILER' は make のオプションで上書きすることもできるので、noconfig.H
+は必ずしも書き換える必要はありません。例えば、Visual C では 'nmake
+COMPILER=MSC' として 'nmake COMPILER=MSC install' します。Borland C では
+'make -DCOMPILER=BORLANDC' として 'make -DCOMPILER=BORLANDC install' し
+ます。
+
+  もし、ターゲット処理系とコンパイルする処理系とが違っている場合は、
+noconfig.H / Part 1 をターゲット処理系の仕様に合わせ、Part 2 をコンパイ
+ルする処理系の仕様に合わせます。Makefile はコンパイルする処理系用のもの
+を使い、インストールするディレクトリをターゲット処理系用に変更します。
+
+  しかし、Windows の処理系の多くはプリプロセッサがコンパイラ本体と一体に
+なっているので、MCPP をインストールしてもプリプロセッサを置換することが
+できません。そうした処理系で MCPP を使うためには、そのように makefile を
+書く必要があります。noconfig ディレクトリの各 makefile には、MCPP を使っ
+て MCPP をリコンパイルする設定が書いてあるので、それを参考にしてください。
+  Visual C++ ではそうした makefile を使って、IDE で「メイクファイルプロ
+ジェクト」を作成すると、IDE のソースレベルデバッグ等の機能がすべて使えま
+す（mcpp-manual.html 2.10 参照）。
+
+3、5、テスト
+  Windows では MinGW / GCC-specific-build および CygWIN 以外では include
+directory は設定されないので、INCLUDE という環境変数で設定します（必要な
+ら CPLUS_INCLUDE も）。
+  Windows では GCC / testsuite は使えないので、test-t, test-c, test-l デ
+ィレクトリにあるテスト用サンプルを直接、プリプロセスして確かめます。tool
+/cpp_test.c を使うと、一部のテストだけですが、自動的に実行できます（cpp-
+test.html 3.2.2 参照）。
+  compiler-specific-build では、MCPP 自身をプリプロセッサとして使って、
+MCPP の "pre-preprocess" という機能を使って MCPP をリコンパイルしてみる
+と、その処理系でとりあえず使えるようになったかどうかを確かめることができ
+ます（mcpp-porting.html 3.7 参照）。
+
+4、移植のための情報をお寄せください
+
+  MCPP をまだ移植されてない処理系に移植するためには、多くの情報が必要で
+す。みなさんの情報をお待ちしています。
+  GCC 以外の処理系について configure のオプションで指定する値がおわかり
+のかたは教えてください。configure.ac に取り込んでゆきたいと思います。
+
+5、「検証セット」とは
+
+  MCPP には「検証セット」というものが付属しています。これは C/C++ プリプ
+ロセッサについて 265 項目にわたる徹底的なテストと評価をするものです。
+MCPP だけでなく任意のプリプロセッサに適用することができます。その使い方
+については、cpp-test.html 3.1, 3.2 を参照してください。
+
+2008/11
+                                         松井　潔 <kmatsui@t3.rim.or.jp>
+

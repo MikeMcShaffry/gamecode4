@@ -1,0 +1,2 @@
+recursive-include src *.c *.h
+include MANIFEST.in python.lua LICENSE Makefile

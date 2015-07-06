@@ -1,0 +1,212 @@
+<html><head></head><body>
+<p>
+<h1>list<br></h1>
+</p><hr>
+<p>
+<strong>elems:</strong> <em>An iterator over the elements of a list<br></em>
+&nbsp;&nbsp;<strong>l</strong>: list to iterate over<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>f</strong>: iterator function<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>l</strong>: list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>n</strong>: index<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>v</strong>: value (l[n - 1])<br>
+&nbsp;&nbsp;<strong>l</strong>: the list, as above<br>
+&nbsp;&nbsp;@param 0<br>
+</p><hr>
+<p>
+<strong>relems:</strong> <em>An iterator over the elements of a list, in reverse<br></em>
+&nbsp;&nbsp;<strong>l</strong>: list to iterate over<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>f</strong>: iterator function<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>l</strong>: list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>n</strong>: index<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>v</strong>: value (l[n - 1))<br>
+&nbsp;&nbsp;<strong>l</strong>: the list, as above<br>
+&nbsp;&nbsp;<strong>n</strong>: #l + 1<br>
+</p><hr>
+<p>
+<strong>map:</strong> <em>Map a function over a list<br></em>
+&nbsp;&nbsp;<strong>f</strong>: function<br>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: result list {f (l[1]), ..., f (l[#l])}<br>
+</p><hr>
+<p>
+<strong>mapWith:</strong> <em>Map a function over a list of lists<br></em>
+&nbsp;&nbsp;<strong>f</strong>: function<br>
+&nbsp;&nbsp;<strong>ls</strong>: list of lists<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: result list {f (unpack (ls[1]))), ...,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;f (unpack (ls[#ls]))}<br>
+</p><hr>
+<p>
+<strong>filter:</strong> <em>Filter a list according to a predicate<br></em>
+&nbsp;&nbsp;<strong>p</strong>: predicate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>a</strong>: argument<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>f</strong>: flag<br>
+&nbsp;&nbsp;<strong>l</strong>: list of lists<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: result list containing elements e of l for which p (e)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;is true<br>
+</p><hr>
+<p>
+<strong>slice:</strong> <em>Slice a list<br></em>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+&nbsp;&nbsp;<strong>[from], @param [to]</strong>: start and end of slice<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from defaults to 1 and to to #l;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;negative values count from the end<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: {l[from], ..., l[to]}<br>
+</p><hr>
+<p>
+<strong>tail:</strong> <em>Return a list with its first element removed<br></em>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: {l[2], ..., l[#l]}<br>
+</p><hr>
+<p>
+<strong>foldl:</strong> <em>Fold a binary function through a list left<br></em>
+associatively<br>
+&nbsp;&nbsp;<strong>f</strong>: function<br>
+&nbsp;&nbsp;<strong>e</strong>: element to place in left-most position<br>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: result<br>
+</p><hr>
+<p>
+<strong>foldr:</strong> <em>Fold a binary function through a list right<br></em>
+associatively<br>
+&nbsp;&nbsp;<strong>f</strong>: function<br>
+&nbsp;&nbsp;<strong>e</strong>: element to place in right-most position<br>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: result<br>
+</p><hr>
+<p>
+<strong>cons:</strong> <em>Prepend an item to a list<br></em>
+&nbsp;&nbsp;<strong>x</strong>: item<br>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: {x, unpack (l)}<br>
+</p><hr>
+<p>
+<strong>append:</strong> <em>Append an item to a list<br></em>
+&nbsp;&nbsp;<strong>x</strong>: item<br>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: {l[1], ..., l[#l], x}<br>
+</p><hr>
+<p>
+<strong>concat:</strong> <em>Concatenate lists<br></em>
+&nbsp;&nbsp;<strong>l1, l2, ... ln</strong>: lists<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: result {l1[1], ..., l1[#l1], ...,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ln[1], ..., ln[#ln]}<br>
+</p><hr>
+<p>
+<strong>rep:</strong> <em>Repeat a list<br></em>
+&nbsp;&nbsp;<strong>n</strong>: number of times to repeat<br>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: n copies of l appended together<br>
+</p><hr>
+<p>
+<strong>reverse:</strong> <em>Reverse a list<br></em>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: list {l[#l], ..., l[1]}<br>
+</p><hr>
+<p>
+<strong>transpose:</strong> <em>Transpose a list of lists<br></em>
+&nbsp;&nbsp;<strong>ls</strong>: {{l11, ..., l1c}, ..., {lr1, ..., lrc}}<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>ms</strong>: {{l11, ..., lr1}, ..., {l1c, ..., lrc}}<br>
+This function is equivalent to zip and unzip in more strongly typed<br>
+languages<br>
+</p><hr>
+<p>
+<strong>zipWith:</strong> <em>Zip lists together with a function<br></em>
+&nbsp;&nbsp;<strong>f</strong>: function<br>
+&nbsp;&nbsp;<strong>ls</strong>: list of lists<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: {f (ls[1][1], ..., ls[#ls][1]), ...,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f (ls[1][N], ..., ls[#ls][N])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;where N = max {map (table.getn, ls)}<br>
+</p><hr>
+<p>
+<strong>project:</strong> <em>Project a list of fields from a list of tables<br></em>
+&nbsp;&nbsp;<strong>f</strong>: field to project<br>
+&nbsp;&nbsp;<strong>l</strong>: list of tables<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: list of f fields<br>
+</p><hr>
+<p>
+<strong>enpair:</strong> <em>Turn a table into a list of pairs<br></em>
+FIXME: Find a better name<br>
+&nbsp;&nbsp;<strong>t</strong>: table {i1=v1, ..., in=vn}<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>ls</strong>: list {{i1, v1}, ..., {in, vn}}<br>
+</p><hr>
+<p>
+<strong>depair:</strong> <em>Turn a list of pairs into a table<br></em>
+FIXME: Find a better name<br>
+&nbsp;&nbsp;<strong>ls</strong>: list {{i1, v1}, ..., {in, vn}}<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>t</strong>: table {i1=v1, ..., in=vn}<br>
+</p><hr>
+<p>
+<strong>flatten:</strong> <em>Flatten a list<br></em>
+&nbsp;&nbsp;<strong>l</strong>: list to flatten<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: flattened list<br>
+</p><hr>
+<p>
+<strong>shape:</strong> <em>Shape a list according to a list of dimensions<br></em>
+Dimensions are given outermost first and items from the original<br>
+list are distributed breadth first; there may be one 0 indicating<br>
+an indefinite number. Hence, {0} is a flat list, {1} is a<br>
+singleton, {2, 0} is a list of two lists, and {0, 2} is a list of<br>
+pairs.<br>
+&nbsp;&nbsp;<strong>s</strong>: {d1, ..., dn}<br>
+&nbsp;&nbsp;<strong>l</strong>: list to reshape<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: reshaped list<br>
+Algorithm: turn shape into all +ve numbers, calculating the zero if<br>
+necessary and making sure there is at most one; recursively walk<br>
+the shape, adding empty tables until the bottom level is reached at<br>
+which point add table items instead, using a counter to walk the<br>
+flattened original list.<br>
+</p><hr>
+<p>
+<strong>indexKey:</strong> <em>Make an index of a list of tables on a given<br></em>
+field<br>
+&nbsp;&nbsp;<strong>f</strong>: field<br>
+&nbsp;&nbsp;<strong>l</strong>: list of tables {t1, ..., tn}<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: index {t1[f]=1, ..., tn[f]=n}<br>
+</p><hr>
+<p>
+<strong>indexValue:</strong> <em>Copy a list of tables, indexed on a given<br></em>
+field<br>
+&nbsp;&nbsp;<strong>f</strong>: field whose value should be used as index<br>
+&nbsp;&nbsp;<strong>l</strong>: list of tables {i1=t1, ..., in=tn}<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: index {t1[f]=t1, ..., tn[f]=tn}<br>
+</p><hr>
+<p>
+<h2>Metamethods for lists</h2><br>
+</p><hr>
+<p>
+<strong>new:</strong> <em>List constructor<br></em>
+Needed in order to use metamethods<br>
+&nbsp;&nbsp;<strong>t</strong>: list (as a table)<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>l</strong>: list (with list metamethods)<br>
+</p><hr>
+<p>
+Function forms of operators<br>
+</p><hr>
+</body></html>

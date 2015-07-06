@@ -1,0 +1,14 @@
+#ifndef N2_H
+#define N2_H
+
+namespace n2
+{
+	class F {
+	public: 
+		F() {}
+		int foo() { return 2; }
+	};
+}
+
+
+#endif

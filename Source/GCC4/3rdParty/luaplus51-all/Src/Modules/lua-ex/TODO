@@ -1,0 +1,6 @@
+luaL_Buffer usage in posix/spawn.c and w32api/spawn.c is broken (reported by Rici Lake)
+w32api/spawn.c spawn_param_args should properly quote arguments according to CommandLineToArgv(quote) (reported by Rici Lake)
+os.sleep(math.huge) returns immediately on Windows (reported by David Manura)
+os.dir() with no parameter should use the . working directory (reported by David Manura)
+Bug in Windows?  require "ex"; assert(io.open("234", "w")):lock("w") (reported by David Manura)
+run in a tight loop, os.dir() leaks handles faster than garbage collection will collect them (reported by m.i.)

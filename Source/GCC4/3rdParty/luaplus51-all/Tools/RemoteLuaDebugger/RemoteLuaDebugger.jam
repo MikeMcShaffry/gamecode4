@@ -1,0 +1,97 @@
+{
+
+SubInclude LUAPLUS Src LuaPlus SharedLib : LuaPlusSharedLib ;
+SubInclude LUAPLUS Tools Scintilla ScintillaWrapper : ScintillaWrapper ;
+SubInclude LUAPLUS Tools SharedMFC : SharedMFC ;
+
+SubDir LUAPLUS Tools RemoteLuaDebugger ;
+
+local LUAREMOTEDEBUGGINGSERVER_SRCS =
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkClient.cpp
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkClient.h
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkHelpers.cpp
+		../../Src/LuaRemoteDebuggingServer/LuaNetworkHelpers.h
+;
+
+local HEADER_FILES_SRCS =
+		CallStackDlg.h
+		CommandLineDlg.h
+		DebuggerView.h
+		FindDlg.h
+		GotoLineDlg.h
+		MainFrm.h
+		OutputDlg.h
+		RemoteLuaDebugger.h
+		RemoteLuaDebuggerDoc.h
+		RemoteLuaDebugger_InternalPch.h
+		Resource.h
+		VariablesBar.h
+		VariablesGrid.h
+		WindowListDlg.h
+;
+
+local RESOURCE_FILES_SRCS =
+		res/folders.bmp
+		res/RemoteLuaDebugger.ico
+		res/RemoteLuaDebugger.rc2
+		res/RemoteLuaDebuggerDoc.ico
+		res/Toolbar.bmp
+;
+
+local SOURCE_FILES_SRCS =
+		CallStackDlg.cpp
+		CommandLineDlg.cpp
+		DebuggerView.cpp
+		FindDlg.cpp
+		GotoLineDlg.cpp
+		MainFrm.cpp
+		OutputDlg.cpp
+		RemoteLuaDebugger.cpp
+		RemoteLuaDebugger.rc
+		RemoteLuaDebuggerDoc.cpp
+		RemoteLuaDebugger_InternalPch.cpp
+		VariablesBar.cpp
+		VariablesGrid.cpp
+		WindowListDlg.cpp
+;
+
+local SRCS =
+		$(HEADER_FILES_SRCS)
+		$(RESOURCE_FILES_SRCS)
+		$(SOURCE_FILES_SRCS)
+;
+
+SourceGroup RemoteLuaDebugger : "Header Files" : $(HEADER_FILES_SRCS) ;
+SourceGroup RemoteLuaDebugger : "Resource Files" : $(RESOURCE_FILES_SRCS) ;
+SourceGroup RemoteLuaDebugger : "Source Files" : $(SOURCE_FILES_SRCS) ;
+SourceGroup RemoteLuaDebugger : "Lua Remote Debugging Server" : $(LUAREMOTEDEBUGGINGSERVER_SRCS) ;
+
+IncludeModule c/mfc ;
+
+C.UseMFC RemoteLuaDebugger : shared link ;
+
+LuaPlusFixUpTarget RemoteLuaDebugger ;
+
+if $(COMPILER.$(PLATFORM)) = vs2010 {
+	C.Defines RemoteLuaDebugger : WINVER=0x0501 _WIN32_WINNT=0x0501 ;
+}
+
+C.Defines RemoteLuaDebugger : _UNICODE UNICODE LUAPLUS_DLL ;
+
+C.IncludeDirectories RemoteLuaDebugger :
+		$(LUAPLUS)/Src
+		../Scintilla/ScintillaWrapper
+		../SharedMFC
+;
+
+C.PrecompiledHeader RemoteLuaDebugger : RemoteLuaDebugger_InternalPch : $(SRCS) ;
+
+local RES_SRCS = [ C.ResourceCompiler RemoteLuaDebugger : RemoteLuaDebugger.rc ] ;
+
+C.LinkFlags RemoteLuaDebugger : /ENTRY:"wWinMainCRTStartup" ;
+C.LinkLibraries RemoteLuaDebugger : LuaPlusShared ScintillaWrapper SharedMFC ;
+C.LinkPrebuiltLibraries RemoteLuaDebugger : winmm ;
+
+C.Application RemoteLuaDebugger : $(SRCS) $(LUAREMOTEDEBUGGINGSERVER_SRCS) $(RES_SRCS) : windows ;
+
+}

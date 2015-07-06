@@ -1,0 +1,11 @@
+{
+
+local SRCS =
+		src/copas/copas.lua
+;
+
+Lua.Module copas : $(SRCS) ;
+
+CopyFiles copas : $(LUA_LDIR) : $(SUBDIR)/$(SRCS) ;
+
+}

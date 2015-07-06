@@ -1,0 +1,209 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Orbit</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://www.keplerproject.org">
+		<img alt="Orbit" src="orbit.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>Orbit</strong></big></div>
+	<div id="product_description">MVC desenvolvimento Web em Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>Orbit</h1>
+	<ul>
+
+		<li><strong>Home</strong>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="pages.html">Pages</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="reference.html">Referência</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="example.html">Tutorial</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="license.html">Licença</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Apresentação</h2>
+
+<p>O Orbit é um framework MVC web para a linguagem Lua. O design é ispirado por framework leves em Ruby como o <a href="http://code.whytheluckystiff.net/camping/">Camping</a>. Abandona completamente o modelo atual de CGILua que usa "scripts" em favor de aplicações, onde cada aplicação do Orbit pode caber em um único arquivo, mas se você quiser, pode dividi-lo em múltiplos arquivos. Todos os aplicativos do Orbit seguem o protocolo <a href="http://wsapi.luaforge.net">WSAPI</a>, por tanto atualmente trabalha com Xavante, CGI e Fastcgi. Isto inclui um disparador que torna mais fácil iniciar uma instância do Xavante para o desenvolvimento. </p>
+
+<h2>Histórico</h2>
+
+<ul>
+    <li><p>Versão 2.0.1: consertado o bug na função redirect nas Orbit pages (agradecimentos a Ignacio Burgueño por ter encontrado o bug )</p></li>
+    <li><p>Versão 2.0: Revisão completa do Orbit</p></li>
+    <li><p>Versão 1.0: Versão inicial, obsoleta</p></li>
+</ul>
+
+<h2>Hello World</h2>
+
+<p>Segue uma aplicação muito simples do Orbit:</p>
+
+
+<pre>
+#!/usr/bin/env wsapi.cgi
+
+require"orbit"
+
+-- As aplicações do Orbit normalmente são módulos,
+-- o orbit.new faz as inicializações necessárias
+
+module("hello", package.seeall, orbit.new)
+
+-- Esses são os controladores, cada um recebe um objeto web correspondente 
+-- ao request/response, mais qualquer capturas extras dos
+-- padrões de dispatch. O controlador envia qualquer cabeçalho extra e/ou
+-- o status, caso não seja 200, então retona a resposta. 
+-- É recomendado delegar a geração das respostas para um função
+-- de visualização.
+
+function index(web)
+return render_index()
+end
+
+function say(web, name)
+return render_say(web, name)
+end
+
+-- Constrói a tabela de dispatch das aplicações, você pode 
+-- passar multiplos padrões, e todas as capturas são repassadas 
+-- ao controlador
+
+hello:dispatch_get(index, "/", "/index")
+hello:dispatch_get(say, "/say/(%a+)")
+
+-- Essas são funções de visualização as quais os controladores fazem refência.
+-- orbit.htmlify percorre as funções na tabela passada como primeiro parâmetro
+-- e tenta combinar seus nomes com os padrões passados (usando um ^ e um $
+-- implícitos ao redor do padrão). Cada função que corresponde ao padrão recebe
+-- um ambiente onde funções de geração de HTML são geradas por demanda.
+-- Estas funções aceitam nil (tags vazias), uma string (texto presente entre
+-- a tag de abertura e a de fechamento), ou uma tabela com atributos e uma lista
+-- de strings que correspondem ao texto. A indexação das funções adiciona um atributo
+-- de classe ao tag. Funções são cacheadas.
+
+-- Função de apoio para as partes comuns de uma página
+
+function render_layout(inner_html)
+return html{
+head{ title"Hello" },
+body{ inner_html }
+}
+end
+
+function render_hello()
+return p.hello"Hello World!"
+end
+function render_index()
+return render_layout(render_hello())
+end
+
+function render_say(web, name)
+return render_layout(render_hello() .. 
+p.hello((web.input.greeting or "Hello ") .. name .. "!"))
+end
+
+orbit.htmlify(hello, "render_.+")
+
+return _M
+</pre>
+
+
+<p>O exemplo utiliza a geração de HTML nativa do Orbit, mas sinta-se a vontade para utilizar qualquer método de geração de HTML. 
+Por exemplo, um dos exemplos de aplicação do Orbit utiliza a biblioteca de template <a href="http://cosmo.luaforge.net">Cosmo</a></p>
+
+<h2>Mapeamento OR</h2>
+
+<p>O Orbit inclui um mapeador objeto-relacional básico que no momento funciona somente com  drivers
+SQLite3 e MySQL do <a href="http://luaforge.net/projects/luasql">LuaSQL's</a>. O mapeador fornece um método dinâmico de busca 'como o ActiveRecord de Rails (find_by_field1_and_field2{val1, val2}), bem como templates para condições (find_by("field1 = ? or field1 = ?", { val1, val2 })). A aplicação de exemplo utiliza esse mapeador.</p>
+
+<p>Um bom efeito collateral do modelo de aplicação do Orbit é que nós conseguimos um "console de aplicações" de graça. No caso do blog, por exemplo, podemos adicionar uma nova postagem usando:</p>
+
+
+<pre>
+$ lua -l luarocks.require -i blog.lua
+> p = blog.posts:new()
+> p.title = "Novo post"
+> p.body = "Este é um novo post. Use *Markdown* se preferir."
+> p.published_at = os.time()
+> p:save()
+</pre>
+
+
+<p>Você também pode atualizar ou deletar qualquer itens do modelo direto do seu console, bastanto obte-los do banco de dados, mudar o que você quer e chamar <code>save()</code>(ou <code>delete()</code> se você quiser remove-lo).</p>
+
+<h2>Download e instalação</h2>
+
+<p>A forma mais fácil de baixar e instalar o Orbit é atraves do <a href="http://luarocks.org">LuaRocks</a>. Você pode instalar o Orbit com o simples comando <code>luarocks install orbit</code> Vá para o path onde o LuaRocks coloca o Orbit para ver as aplicações e esta documentação. O Luarocks obtem e instala qualquer qualquer dependência que você ainda não tenha.</p>
+
+<p>Você também pode obter o Orbit no site do <a href="http://luaforge.net/projects/orbit">LuaForge</a>. A instalação em sistemas Unix e similares é "configure &amp;&amp; make &amp;&amp; make install", mas você pode ter que instalar algumas dependências sozinho (como o WSAPI e o Xavante).</p>
+
+<h2>Créditos</h2>
+
+<p>O Orbit foi projetado e desenvolvido por Fabio Mascarenhas and André Carregal e é mantido por Fabio Mascarenhas. Orbit foi patrocinado pela Fábrica Digital, FINEP e SEBRAE</p>
+
+<h2>Fale conosco</h2>
+
+<p>Para maiores informações, por favor [fale conosco] (mailto:info-NO-SPAM-THANKS@keplerproject.org). Comentários são bem-vindos.</p>
+
+<p>Você também pode nos contactar e a outros desenvolvedores e usuários na <a href="http://luaforge.net/mail/?group_id=104">lista de discussão</a> do projeto Kepler.</p>
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

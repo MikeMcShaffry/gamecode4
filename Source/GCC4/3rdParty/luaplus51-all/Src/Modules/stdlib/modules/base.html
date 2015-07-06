@@ -1,0 +1,229 @@
+<html><head></head><body>
+<p>
+<h1>base<br></h1>
+Adds to the existing global functions<br>
+</p><hr>
+<p>
+require "list" FIXME: sort out op table<br>
+</p><hr>
+<p>
+require "io_ext" FIXME: allow loops<br>
+</p><hr>
+<p>
+<strong>metamethod:</strong> <em>Return given metamethod, if any, or nil<br></em>
+&nbsp;&nbsp;<strong>x</strong>: object to get metamethod of<br>
+&nbsp;&nbsp;<strong>n</strong>: name of metamethod to get<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>m</strong>: metamethod function or nil if no metamethod or not a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;function<br>
+</p><hr>
+<p>
+<strong>render:</strong> <em>Turn tables into strings with recursion detection<br></em>
+N.B. Functions calling render should not recurse, or recursion<br>
+detection will not work<br>
+&nbsp;&nbsp;<strong>x</strong>: object to convert to string<br>
+&nbsp;&nbsp;<strong>open</strong>: open table renderer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@t: table<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@s: open table string<br>
+&nbsp;&nbsp;<strong>close</strong>: close table renderer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@t: table<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@s: close table string<br>
+&nbsp;&nbsp;<strong>elem</strong>: element renderer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@e: element<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@s: element string<br>
+&nbsp;&nbsp;<strong>pair</strong>: pair renderer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;N.B. this function should not try to render i and v, or treat<br>
+&nbsp;&nbsp;&nbsp;&nbsp;them recursively<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@t: table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@i: index<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@v: value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@is: index string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@vs: value string<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@s: element string<br>
+&nbsp;&nbsp;<strong>sep</strong>: separator renderer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@t: table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@i: preceding index (nil on first call)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@v: preceding value (nil on first call)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@j: following index (nil on last call)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@w: following value (nil on last call)<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@s: separator string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s</strong>: string representation<br>
+</p><hr>
+<p>
+<strong>tostring:</strong> <em>Extend tostring to work better on tables<br></em>
+&nbsp;&nbsp;<strong>x</strong>: object to convert to string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s</strong>: string representation<br>
+</p><hr>
+<p>
+<strong>print:</strong> <em>Make print use tostring, so that improvements to tostring<br></em>
+are picked up<br>
+&nbsp;&nbsp;<strong>arg</strong>: objects to print<br>
+</p><hr>
+<p>
+<strong>prettytostring:</strong> <em>pretty-print a table<br></em>
+&nbsp;&nbsp;@t: table to print<br>
+&nbsp;&nbsp;@indent: indent between levels ["\t"]<br>
+&nbsp;&nbsp;@spacing: space before every line<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;@s: pretty-printed string<br>
+</p><hr>
+<p>
+<strong>totable:</strong> <em>Turn an object into a table according to __totable<br></em>
+metamethod<br>
+&nbsp;&nbsp;<strong>x</strong>: object to turn into a table<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>t</strong>: table or nil<br>
+</p><hr>
+<p>
+<strong>pickle:</strong> <em>Convert a value to a string<br></em>
+The string can be passed to dostring to retrieve the value<br>
+TODO: Make it work for recursive tables<br>
+&nbsp;&nbsp;<strong>x</strong>: object to pickle<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>s</strong>: string such that eval (s) is the same value as x<br>
+</p><hr>
+<p>
+<strong>id:</strong> <em>Identity<br></em>
+&nbsp;&nbsp;@param ...<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>...</strong>: the arguments passed to the function<br>
+</p><hr>
+<p>
+<strong>pack:</strong> <em>Turn a tuple into a list<br></em>
+&nbsp;&nbsp;<strong>...</strong>: tuple<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>l</strong>: list<br>
+</p><hr>
+<p>
+<strong>bind:</strong> <em>Partially apply a function<br></em>
+&nbsp;&nbsp;<strong>f</strong>: function to apply partially<br>
+&nbsp;&nbsp;<strong>a1 ... an</strong>: arguments to bind<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>g</strong>: function with ai already bound<br>
+</p><hr>
+<p>
+<strong>curry:</strong> <em>Curry a function<br></em>
+&nbsp;&nbsp;<strong>f</strong>: function to curry<br>
+&nbsp;&nbsp;<strong>n</strong>: number of arguments<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>g</strong>: curried version of f<br>
+</p><hr>
+<p>
+<strong>compose:</strong> <em>Compose functions<br></em>
+&nbsp;&nbsp;<strong>f1 ... fn</strong>: functions to compose<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>g</strong>: composition of f1 ... fn<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>args</strong>: arguments<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;@param f1 (...fn (args)...)<br>
+</p><hr>
+<p>
+<strong>eval:</strong> <em>Evaluate a string<br></em>
+&nbsp;&nbsp;<strong>s</strong>: string<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>v</strong>: value of string<br>
+</p><hr>
+<p>
+<strong>ripairs:</strong> <em>An iterator like ipairs, but in reverse<br></em>
+&nbsp;&nbsp;<strong>t</strong>: table to iterate over<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>f</strong>: iterator function<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>t</strong>: table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>n</strong>: index<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>i</strong>: index (n - 1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>v</strong>: value (t[n - 1])<br>
+&nbsp;&nbsp;<strong>t</strong>: the table, as above<br>
+&nbsp;&nbsp;<strong>n</strong>: #t + 1<br>
+</p><hr>
+<p>
+<strong>collect:</strong> <em>collect the results of an iterator<br></em>
+&nbsp;&nbsp;<strong>i</strong>: iterator<br>
+&nbsp;&nbsp;<strong>...</strong>: arguments<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;@t: results of running the iterator on its arguments<br>
+</p><hr>
+<p>
+<strong>map:</strong> <em>Map a function over an iterator<br></em>
+&nbsp;&nbsp;<strong>f</strong>: function<br>
+&nbsp;&nbsp;<strong>i</strong>: iterator<br>
+&nbsp;&nbsp;<strong>...</strong>: iterator's arguments<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>t</strong>: result table<br>
+</p><hr>
+<p>
+<strong>filter:</strong> <em>Filter an iterator with a predicate<br></em>
+&nbsp;&nbsp;<strong>p</strong>: predicate<br>
+&nbsp;&nbsp;<strong>i</strong>: iterator<br>
+&nbsp;&nbsp;<strong>...</strong>:<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>t</strong>: result table containing elements e for which p (e)<br>
+</p><hr>
+<p>
+<strong>fold:</strong> <em>Fold a function into an iterator leftwards<br></em>
+&nbsp;&nbsp;<strong>f</strong>: function<br>
+&nbsp;&nbsp;<strong>d</strong>: element to place in left-most position<br>
+&nbsp;&nbsp;<strong>i</strong>: iterator<br>
+&nbsp;&nbsp;<strong>...</strong>:<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>r</strong>: result<br>
+</p><hr>
+<p>
+<strong>treeIter:</strong> <em>tree iterator<br></em>
+&nbsp;&nbsp;<strong>t</strong>: tree to iterate over<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>f</strong>: iterator function<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>e</strong>: event<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>t</strong>: table of values<br>
+</p><hr>
+<p>
+FIXME: this version is more obvious but has an illegal yield<br>
+<strong>treeIter:</strong> <em>tree iterator<br></em>
+&nbsp;&nbsp;<strong>t</strong>: tree to iterate over<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>f</strong>: iterator function<br>
+&nbsp;&nbsp;<strong>returns</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>e</strong>: event<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>t</strong>: table of values<br>
+function _G.treeIter (t)<br>
+&nbsp;&nbsp;if not coroutine.yield ("branch", t) then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for i, v in ipairs (t) do<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if type (v) ~= "table" then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if coroutine.yield ("leaf", {i, v}) then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f (v)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coroutine.yield ("join", t)<br>
+&nbsp;&nbsp;end<br>
+end<br>
+</p><hr>
+<p>
+<strong>assert:</strong> <em>Extend to allow formatted arguments<br></em>
+&nbsp;&nbsp;<strong>v</strong>: value<br>
+&nbsp;&nbsp;<strong>f, ...</strong>: arguments to format<br>
+<strong>returns</strong><br>
+&nbsp;&nbsp;<strong>v</strong>: value<br>
+</p><hr>
+<p>
+<strong>warn:</strong> <em>Give warning with the name of program and file (if any)<br></em>
+&nbsp;&nbsp;<strong>...</strong>: arguments for format<br>
+</p><hr>
+<p>
+<strong>die:</strong> <em>Die with error<br></em>
+&nbsp;&nbsp;<strong>...</strong>: arguments for format<br>
+</p><hr>
+<p>
+Function forms of operators<br>
+</p><hr>
+</body></html>

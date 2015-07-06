@@ -1,0 +1,78 @@
+<html>
+
+<table>
+  <tr>
+    <td colspan="3"> GET: </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="/cgi-bin/cgi/t/tcgi1.lua?field1=ab&field2=cd">cgi</a>
+    </td>
+    <td>
+      <a href="/fcgi/fastcgi.lua/t/tfcgi1.lua?field1=ab&field2=cd">fcgi</a>
+    </td>
+    <td>
+      <a href="/t/tmod1.lua?field1=ab&field2=cd">modulo</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="3"> POST: </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <form method="POST" action="">
+        <table>
+          <tr>
+            <td colspan="3">
+              field 1: <input type="text" name="field1"><br>
+              field 2: <input type="text" name="field2"><br>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="javascript:document.forms[0].action='/cgi-bin/cgi/t/tcgi1.lua';document.forms[0].submit()">cgi</a>
+            </td>
+            <td>
+              <a href="javascript:document.forms[0].action='/fcgi/fastcgi.lua/t/tfcgi1.lua';document.forms[0].submit()">fcgi</a>
+            </td>
+            <td>
+              <a href="javascript:document.forms[0].action='/t/tmod1.lua';document.forms[0].submit()">modulo</a>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="3"> POST (with upload): </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <form method="POST" enctype="multipart/form-data" action="">
+        <table>
+          <tr>
+            <td colspan="3">
+              field 1: <input type="text" name="field1"><br>
+              file: <input type="file" name="file"><br>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="javascript:document.forms[1].action='/cgi-bin/cgi/t/tcgi1.lua';document.forms[1].submit()">cgi</a>
+            </td>
+            <td>
+              <a href="javascript:document.forms[1].action='/fcgi/fastcgi.lua/t/tfcgi1.lua';document.forms[1].submit()">fcgi</a>
+            </td>
+            <td>
+              <a href="javascript:document.forms[1].action='/t/tmod1.lua';document.forms[1].submit()">modulo</a>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>
+<small>$Id: test.html,v 1.2 2004/06/07 12:04:10 tomas Exp $</small>
+</html>

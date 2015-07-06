@@ -1,0 +1,12 @@
+{
+
+local SRCS =
+		lzio.c
+		pdep.c
+		pluto.h
+		pluto.vc.c
+;
+
+Lua.CModule pluto : : $(SRCS) ;
+
+}

@@ -1,0 +1,19 @@
+{
+
+local SRCS =
+		lxls.cpp
+		ExcelFormat/BasicExcel.cpp
+		ExcelFormat/BasicExcel.hpp
+		ExcelFormat/ExcelFormat.cpp
+		ExcelFormat/ExcelFormat.h
+;
+
+if $(NT) {
+} else {
+}
+
+C.IncludeDirectories xls : ExcelFormat ;
+
+Lua.CModule xls : : $(SRCS) ;
+
+}

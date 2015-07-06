@@ -1,0 +1,8 @@
+
+ * removed dependency from LuaExpat. Lqt now uses Roberto Ierusalimschy XML parser. Thanks to it I can bulid indices of the entries while parsing, reducing generation time to few seconds from several minutes.
+ * included an old lqtscript code, for historical reasons.
+ * the generated code can now be built with cmake.
+ * X11 specific code should have gone.
+ * fixed a big number of bugs in the generator code. Most of the generated code compiles cleanly now and in some cases where it does not it is gccxml fault, not mine.
+ * added the future replacement for gccxml
+

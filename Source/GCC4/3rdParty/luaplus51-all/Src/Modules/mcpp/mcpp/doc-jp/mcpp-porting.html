@@ -1,0 +1,1213 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+  <style> pre {color: navy} tt {color: maroon} </style>
+  <style> table {border-collapse: separate; border-spacing: 0px; empty-cells: show; background-color: #f0f0ff} </style>
+  <style> th, td {text-align: left; padding-left: 15px; padding-right: 15px} </style>
+</head>
+<body>
+<div align="center">
+<h1>MCPP-PORTING</h1>
+<h2>== How to Port MCPP ==</h2>
+</div>
+<div align="right">
+<h4>for V.2.7.2 (2008/11)<br>
+松井  潔 (kmatsui@t3.rim.or.jp)</h4>
+</div>
+<div align="center">
+<h2>== 目次 ==</h2>
+</div>
+
+<h4><dl><dt><a name="toc.1" href="#1">1. 概要</a>
+<dd><a name="toc.1.1" href="#1.1">1.1. ＯＳや処理系を選ばない portable なソース</a>
+<dd><a name="toc.1.2" href="#1.2">1.2. 正確な Standard C モードに加えてその他の各種モードも</a>
+<dd><a name="toc.1.3" href="#1.3">1.3. このドキュメントの表記法</a>
+<br>
+<br>
+<dt><a name="toc.2" href="#2">2. 履歴</a>
+<br>
+<br>
+<dt><a name="toc.3" href="#3">3. 各処理系に移植する方法：概要</a>
+<dd><dl><dt><a name="toc.3.1" href="#3.1">3.1. 移植ずみの処理系: compiler-specific-build のコンパイル</a>
+<dd><a name="toc.3.1.1" href="#3.1.1">3.1.1. どの処理系でも必要な設定</a>
+<dd><a name="toc.3.1.2" href="#3.1.2">3.1.2. FreeBSD / GCC V.2.*, V.3.*, V.4.*</a>
+<dd><a name="toc.3.1.3" href="#3.1.3">3.1.3. Linux / GCC V.2.*, V.3.*, V.4.*</a>
+<dd><a name="toc.3.1.4" href="#3.1.4">3.1.4. Mac OS X / Apple-GCC V.4.*</a>
+<dd><a name="toc.3.1.5" href="#3.1.5">3.1.5. CygWIN / GCC V.2.*, V.3.*</a>
+<dd><a name="toc.3.1.6" href="#3.1.6">3.1.6. MinGW / GCC V.3.*</a>
+<dd><a name="toc.3.1.7" href="#3.1.7">3.1.7. LCC-WIN32 2003-08, 2006-03</a>
+<dd><a name="toc.3.1.8" href="#3.1.8">3.1.8. Visual C++ V.6.0, 2002, 2003, 2005, 2008</a>
+<dd><a name="toc.3.1.9" href="#3.1.9">3.1.9. Borland C V.5.*</a></dl>
+<dd><a name="toc.3.2" href="#3.2">3.2. DECUS cpp で対応していた処理系</a>
+<dd><a name="toc.3.3" href="#3.3">3.3. noconfig.H, configed.H, system.H</a>
+<dd><a name="toc.3.4" href="#3.4">3.4. system.c</a>
+<dd><a name="toc.3.5" href="#3.5">3.5. ライブラリ関数</a>
+<dd><a name="toc.3.6" href="#3.6">3.6. 標準ヘッダ</a>
+<dd><a name="toc.3.7" href="#3.7">3.7. makefile と <b>mcpp</b> を使ったリコンパイル</a>
+<dd><a name="toc.3.8" href="#3.8">3.8. <b>mcpp</b> をコンパイルできる処理系</a>
+<dd><a name="toc.3.9" href="#3.9">3.9. コンパイルする処理系とターゲットの処理系</a>
+<dd><a name="toc.3.10" href="#3.10">3.10. MS-DOS 上の処理系、DJGPP 等</a>
+<dd><a name="toc.3.11" href="#3.11">3.11. Compiler-independent-build のコンパイル</a>
+<dd><dl><dt><a name="toc.3.12" href="#3.12">3.12. Subroutine-build のコンパイル</a>
+<dd><a name="toc.3.12.1" href="#3.12.1">3.12.1. configure する場合</a>
+<dd><a name="toc.3.12.2" href="#3.12.2">3.12.2. noconfig/*.mak を使う場合</a>
+<dd><a name="toc.3.12.3" href="#3.12.3">3.12.3. static library と shared library および DLL</a></dl>
+<br>
+<dt><a name="toc.4" href="#4">4. 各処理系に移植する方法：詳細</a>
+<dd><dl><dt><a name="toc.4.1" href="#4.1">4.1. noconfig.H, configed.H, system.H の設定</a>
+<dd><dl><dt><a name="toc.4.1.1" href="#4.1.1">4.1.1. PART 1 ターゲットシステムの設定: compiler-specific-build</a>
+<dd><a name="toc.4.1.1.1" href="#4.1.1.1">4.1.1.1. 事前定義マクロ</a>
+<dd><a name="toc.4.1.1.2" href="#4.1.1.2">4.1.1.2. Include ディレクトリ等</a>
+<dd><a name="toc.4.1.1.3" href="#4.1.1.3">4.1.1.3. 行番号情報の出力形式その他</a>
+<dd><a name="toc.4.1.1.4" href="#4.1.1.4">4.1.1.4. 処理系の言語仕様に応じた設定</a>
+<dd><a name="toc.4.1.1.5" href="#4.1.1.5">4.1.1.5. Multi-byte character</a>
+<dd><a name="toc.4.1.1.6" href="#4.1.1.6">4.1.1.6. ターゲットとホストに共通の設定</a></dl>
+<dd><a name="toc.4.1.2" href="#4.1.2">4.1.2. PART 2 ホストシステムの設定</a>
+<dd><dl><dt><a name="toc.4.1.3" href="#4.1.3">4.1.3. PART 3 <b>mcpp</b> の動作仕様の設定</a>
+<dd><a name="toc.4.1.3.1" href="#4.1.3.1">4.1.3.1. 新旧各種の動作モード</a>
+<dd><a name="toc.4.1.3.2" href="#4.1.3.2">4.1.3.2. 動作モードの細部の指定</a>
+<dd><a name="toc.4.1.3.3" href="#4.1.3.3">4.1.3.3. Translation limits の指定</a></dl></dl>
+<dd><a name="toc.4.2" href="#4.2">4.2. system.c</a>
+<dd><a name="toc.4.extra" href="#4.extra">4.extra. malloc()</a>
+<br>
+<br>
+<dt><a name="toc.5" href="#5">5. バグ報告と移植の報告</a>
+<dd><a name="toc.5.1" href="#5.1">5.1. バグかどうか？</a>
+<dd><a name="toc.5.2" href="#5.2">5.2. malloc() 関連のバグチェック</a>
+<dd><a name="toc.5.3" href="#5.3">5.3. バグ報告を</a>
+<dd><a name="toc.5.4" href="#5.4">5.4. 移植の報告を</a>
+<dd><a name="toc.5.5" href="#5.5">5.5. GCC 以外の処理系での configure の情報を</a>
+<dd><a name="toc.5.6" href="#5.6">5.6. データを送ってくれれば移植してみます</a>
+<dd><a name="toc.5.7" href="#5.7">5.7. 検証セットによる他の処理系のテスト報告を</a>
+<dd><a name="toc.5.8" href="#5.8">5.8. 改善のご意見を</a>
+<br>
+<br>
+<dt><a name="toc.6" href="#6">6. <b>mcpp</b> の長い道のり</a>
+<dd><a name="toc.6.1" href="#6.1">6.1. 構想３日、制作６年</a>
+<dd><a name="toc.6.2" href="#6.2">6.2. V.2.3 へ</a>
+<dd><a name="toc.6.3" href="#6.3">6.3. 「未踏ソフトウェア創造事業」に採択</a>
+</dl>
+<br>
+
+<h1><a name="1" href="#toc.1">1. 概要</a></h1>
+<p><b>mcpp</b> は Martin Minow の DECUS cpp を元に kmatsui（松井 潔）が全面的に書き直したＣプリプロセッサです。<b>mcpp</b> という名前は Matsui cpp という意味です。これはソースで提供するもので、各処理系で使うには、その処理系に合わせてソースに若干の変更を加えた上でコンパイルして、<b>mcpp</b> の実行プログラムを作る必要があります。*1</p>
+<p>このドキュメントはソースを各処理系に移植する方法を説明しています。できあがった実行プログラムの動作仕様については、mcpp-manual.html というマニュアルを参照してください。<br>
+これらのソース、ドキュメントはすべてオープンソース・ソフトウェアとして提供します。<br>
+<b>mcpp</b> は次のような特徴を持っています。</p>
+<p>注:</p>
+<p>*1 <b>mcpp</b> V.2.6.3 からはコンパイルずみの何種類かのバイナリ・パッケージも次のサイトで提供するようにした。しかし、このドキュメントではそれには触れない。バイナリ・パッケージについてはこの web page を参照のこと。</p>
+<blockquote>
+<p><a href="http://mcpp.sourceforge.net/">http://mcpp.sourceforge.net/</a></p>
+</blockquote>
+<br>
+
+<h2><a name="1.1" href="#toc.1.1">1.1. ＯＳや処理系を選ばない portable なソース</a></h2>
+<p>Linux, FreeBSD, Windows 等の多くのＯＳをサポートしている portable なプリプロセッサであり、そのソースは Standard C (ANSI/ISO/JIS C) の処理系でさえあればコンパイルできる広い portability を持っています。ライブラリ関数は古典的なものしか使っていません。<br>
+各処理系に移植するためには、多くの場合、ヘッダファイル中のいくつかのマクロ定義を書き替えてコンパイルするだけですみます。最悪の場合でもソースファイルに数十行書き足す程度です。</p>
+<p>Multi-byte character（漢字）の処理は日本の EUC-JP, shift-JIS, ISO2022-JP、中国の GB-2312、台湾の Big-5、韓国の KSC-5601 (KSX 1001) に対応しており、UTF-8 も使えます。Shift-JIS, ISO2022-JP, Big-5 の場合、コンパイラ本体が漢字を認識しない処理系では、<b>mcpp</b> がそれを補います。</p>
+<br>
+
+<h2><a name="1.2" href="#toc.1.2">1.2. 正確な Standard C モードに加えてその他の各種モードも</a></h2>
+<p>Standard C 準拠の動作モードのほかに、K&amp;R 1st. のモードや "Reiser" model cpp のモードもあり、さらには自称 post-Standard 仕様のモードまであります。C++ のプリプロセッサとして動作する実行時オプションもあります。<br>
+Standard C モードは既存の多くのプリプロセッサと違って、規格を完全に実装しているつもりです。C90, C95, C99, C++98 のすべてに対応しています。Standard C プリプロセスの reference model となるものを目指して作ってあります。これらの規格のバージョンは実行時オプションで指定することができます。*1</p>
+<p>ほかにいくつかの有用な拡張機能も持っています。マクロの展開機序や #if 式の評価機序をトレースする #pragma MCPP debug もあります。ヘッダファイルを "pre-preprocess" しておくこともできます。<br>
+いくつかの有用な実行時オプションも備えています。ウォーニングのレベルを指定するオプションや、include directory を指定するオプション等です。<br>
+ソースにどんな間違いがあっても <b>mcpp</b> は暴走したり見当外れなメッセージを出したりせず、正確でわかりやすい診断メッセージを出して適切な処理をします。移植上で問題となる点についても警告を発します。<br>
+高品質でありながら、コードサイズは比較的小さく、メモリ消費も比較的少なくてすみます。<br>
+詳細なドキュメントも付属しています。</p>
+<p><b>mcpp</b> の欠点を強いて挙げれば、速度がやや遅いことです。GCC 3.*, 4.* / cc1 に比べると２倍から３倍の時間がかかります。しかし、Borland C 5.5 / cpp と同じくらいの速度で、ヘッダファイルの pre-preprocess の機能を使うともう少し速くなるので、特に遅いほうではありません。正確であること、portable なソースであること、少ないメモリでも動作すること等のためには、この程度の処理時間はやむをえないと考えています。</p>
+<p>なお、プリプロセッサの Standard C 準拠度をテストするための検証セットである "Validation Suite for Standard C Preprocessing"、その解説およびそれを使ってテストした各種プリプロセッサの採点簿 cpp-test.html を <b>mcpp</b> とともに公開しています。これを見ると、「Standard C 準拠」と称する既存のプリプロセッサにいかに多くの問題があるかがわかります。*2</p>
+<p>注:</p>
+<p>*1 Ｃ言語の規格としては ISO/IEC 9899:1990 (JIS X 3010-1993) が長く使われてきたが、1999 年には ISO/IEC 9899:1999 が採択された。ここでは前者を C90、後者を C99 と呼ぶ。前者は ANSI X3.159-1989 が移行したものなので、一般には ANSI C または C89 と呼ばれることもある。また、ISO/IEC 9899:1990 + Amendment 1995 を C95 と呼ぶことがある。C++ の規格は ISO/IEC 14882:1998 およびその正誤訂正版である ISO/IEC 14882:2003 で、この両者をここでは C++98 と呼ぶ。</p>
+<p>*2 この cpp は V.2.2 までは単に cpp と呼んでいたが、一般の cpp と紛らわしいので、V.2.3 からは <b>mcpp</b> と呼ぶことにした。このドキュメントでは V.2.2 までのバージョンも <b>mcpp</b> と呼ぶ。また、このドキュメントの名前は V.2.2 までは cpp.doc としていたが、V.2.3 からは porting.txt と変更し、V.2.5 からは mcpp-porting.txt と変更し、さらに V.2.6.2 からは mcpp-porting.html と変更した。私自身の名前も、V.2.2 までは Psycho としていたが、V.2.3 からは kmatsui に変更した。</p>
+<br>
+
+<h2><a name="1.3" href="#toc.1.3">1.3. このドキュメントの表記法</a></h2>
+<p>このドキュメントはかつてはテキストファイルでしたが、V.2.6.2 からは html ファイルに変わりました。<br>
+このドキュメントでは次のようにフォントを使い分けています。</p>
+<ul>
+<li><tt style="color:navy">source</tt>:<br>
+<tt style="color:navy">紺色</tt>の等幅フォントは、
+ソースコードの断片およびコマンドラインの入力を示すのに使われます。<br>
+<li><tt>__STDC__</tt>:<br>
+<tt style="color:maroon">くり色</tt>の等幅フォントは、標準事前定義マクロおよび何らかのマクロを示すのに使われます。<br>
+<li><i>STD</i>:<br>
+<i>Italic</i> フォントは <b>mcpp</b> の <samp>system.H</samp> というソースファイルで定義されるマクロを表します。このドキュメントではこれらの名前を <b>mcpp</b> の種々の設定を表記するためにも使います。これらのマクロは <b>mcpp</b> をコンパイルする時に使われるだけで、<b>mcpp</b> の実行プログラムには存在していないことに注意してください。<br>
+</ul>
+<br>
+
+<h1><a name="2" href="#toc.2">2. 履歴</a></h1>
+<ol>
+<li>DECUS cpp は Martin Minow によって作られ、1984/05 に usenet / net.sources で公開されました。DECUS というのは、DEC Users' Society という DEC 社のコンピュータのユーザグループだそうです。DECUS cpp は DEC の PDP-11 / RT11, PDP-11 / RSX, VAX / VMS, VAX / ULTRIX 等のシステムの当時のＣ言語処理系のために書かれたＣプリプロセッサです。移植性の良い書き方がされているので、他のシステムに移植することは比較的容易で、オリジナル版でもすでに DEC 以外のいくつかの UNIX システムに対応していたようです。<br>
+<br>
+<li>私が <b>mcpp</b> の出発点としたのは、C Users' Group の配付ディスク #243 でした。このソース中にある修正履歴を見ると、原作者による最終修正が 85/06 となっています。その後、原作者がバージョンアップをしているという話は聞きません。<br>
+<br>
+<li>その後 88/12 までに何人かによって MS-DOS 上のいくつかの処理系にも移植されました。CUG のディスクに入っているのはこのバージョンです。<br>
+<br>
+<li>ftp.oreilly.com/pub/examples/imake/DECUS-cpp.tar.gz にもソースがあり、その time-stamp は 93/02 となっていますが、実際の内容は CUG のものより古く、85/01 のものです。なお、これに含まれている Martin Minow の README によると、このプログラムは public domain となっています（この README 自体も 84 または 85 年のものと思われる）。<br>
+<br>
+<li>89/04 に Gigo らによって OS-9/6x09 の Microware C に移植されたものが NIFTY-SERVE / FOS9 / lib 2 に登録されていました。<br>
+<br>
+<li><b>mcpp</b> V.2 は、私がこれらを元に全面的に書き直したものです。移植性をさらに向上させ、Standard C に完全に対応させるため、ソースファイルの分割の仕方も変え、多くのマクロを追加し、関数と変数の追加・分割・書き換え・改名を大幅に行っています。ソースの量もオリジナル版の３倍になっています。ドキュメントと検証セットはすべて、私がまったく新しく書いたものです。<br>
+私はこれらをオープンソース・ソフトウェアとして公開します。私自身は DECUS とは何の関係もありません。<br>
+なお、オリジナル版には版数が付けられていませんが、<b>mcpp</b> と対比する時には、そちらを DECUS cpp と呼ぶことにします。<br>
+<br>
+<li>Standard C のマクロ展開の実装方法については、E. Ream 作の MS-DOS 上の PDS である CPP V.5.3 (1989/08, CUG #319) のソースも参考にしました。そのほか、GCC / cpp の動作や、J. Roskind の JRCPP のドキュメントからもいくつかの示唆を得ています。<br>
+<br>
+<li><b>mcpp</b> V.2.0 は検証セット V.1.0 とともに 1998/08 に NIFTY SERVE / FC / LIB 2 で公開され、ベクター社のサイトにも転載されました。<br>
+<br>
+<li><b>mcpp</b> V.2.1 は、V.2.0 に C99 1998/08 draft に対応するための修正を加えたものです。検証セット V.1.1 とともに 1998/09 に NIFTY SERVE / FC / LIB 2 およびベクター社のサイトに同時にアプロードされました。<br>
+<br>
+<li><b>mcpp</b> V.2.2 は V.2.1 を 1998/07 に決まった C++ Standard (ISO/IEC 14882:1998) に対応して update したものです。検証セット V.1.2 とともに 1998/11 に NIFTY SERVE / FC / LIB 2 およびベクター社のサイトに同時にアプロードされました。<br>
+<br>
+<li><b>mcpp</b> V.2.3 は V.2.2 を C99 に対応して update し、さらに Linux / GCC 2.95, GCC 3.2 等への移植を追加して、GCC / cpp との互換性を向上させたものです。また、実行時オプションを追加し、一部を変更しました。V.2.3 ではドキュメントの英語版も作成されました。<b>mcpp</b> に付属する検証セットには、GCC / testsuite の一部として自動的にテストを実行することのできる edition が追加されました。<br>
+<br>
+<li><b>mcpp</b> は V.2.3 の開発の途中で、検証セット V.1.3 とともに、情報処理推進機構(IPA) の平成１４年度「未踏ソフトウェア創造事業」に新部 裕・プロジェクトマネージャによって採択され、2002/07 - 2003/02 の間は IPA の資金援助と新部ＰＭの助言のもとに開発が進められました。英語版ドキュメントもこのプロジェクトの中で、有限会社・ハイウェル（東京）に翻訳を委託し、それに私が修正とテキスト整形を加えてできあがったものです。このプロジェクトの中で cvs repository と ftp site が用意され、V.2.3 はそこで 2002/08 に pre-release 1 が、2002/12 に pre-release 2 が、2003/02 にリリース版が開発されました。その後、2003/03 に V.2.3 patch 1 が出されています。*1<br>
+<br>
+<li><b>mcpp</b> はさらに平成１５年度にも「未踏ソフトウェア創造事業」に伊知地 宏 PM によって継続して採択され、2003/06 - 2004/02 の間は IPA の資金援助と伊知地ＰＭの助言のもとに V.2.4 への update 作業が進められました。そして、2003/11 には V.2.4 prerelease が開発されました。このバージョンでは Visual C++ 2003 への移植が追加され、また、<b>mcpp</b> の make を自動化する configure スクリプトが作成されました。なお、<b>mcpp</b> はそれまで明確なライセンス表示をしていませんでしたが、この時から BSD スタイルのライセンス表示をするようになりました。さらに、2004/02 にはリリース版が開発されました。このバージョンでは multi-byte character の処理が拡張されました。また、英語版ドキュメントもハイウェルに翻訳を委託し、日本語版に合わせて update されました。<br>
+2004/03 には <b>mcpp</b> V.2.4.1 がリリースされました。これは再帰的マクロの展開方法を修正したものです。<br>
+<br>
+<li>2005/03 には <b>mcpp</b> V.2.5 がリリースされました。このバージョンでは、<i>POST_STANDARD</i> というコンパイル時のモードは <i>STANDARD</i> モードにその実行時オプションの一つとして吸収され、<i>OLD_PREPROCESSOR</i> というコンパイル時の設定は <i>PRE_STANDARD</i> モードの実行時オプションとして吸収されました。再帰的マクロの展開方法は再修正されて完全なものとなりました。また、GCC V.3.3, 3.4 に対応した一方で、16 ビットシステムでの処理系に関するドキュメントの多くを削除しました。<br>
+<br>
+<li>2006/07 には <b>mcpp</b> V.2.6 がリリースされました。このバージョンでは、<i>STANDARD</i> モードと <i>PRE_STANDARD</i> モードが１つの実行プログラムにまとめられました。compiler-independent-build の仕様は処理系に依存しないものに改められました。いくつかの処理系の新しいバージョンへの対応が追加された一方で、pre-C90 の仕様の処理系に移植するための設定は削除されました。MS-DOS 上のコンパイラへの移植も削除されました。ソースの書き換えは大幅なものになりました。今後はソースの追加や細部の修正はあっても、大幅な書き換えは発生しない見込みです。<br>
+2006/08 には <b>mcpp</b> V.2.6.1 がリリースされました。このバージョンでは、MinGW への移植が追加されました。そのほか、バグ修正といくつかの比較的小さい改良がありました。<br>
+2006/11 には <b>mcpp</b> V.2.6.2 がリリースされました。このバージョンでは、いくつかのバグが修正されるとともに、テキストファイルのドキュメントが html に変更されました。また、Juergen Mueller の contribution による subroutine-build が実装されました。<br>
+2007/04 には <b>mcpp</b> V.2.6.3 がリリースされました。このバージョンでは、GCC-specific-build の GCC との互換性が強化されました。Subroutine-build では Greg Kress の contribution によってメモリ上のバッファへの出力が実装されました。また、このバージョンからいくつかのシステム用のバイナリ・パッケージが提供されるようになりました。<br>
+2007/05 には <b>mcpp</b> V.2.6.4 がリリースされました。これは V.2.6.3 のバグフィックス版です。<br><br>
+<li>2008/03 には <b>mcpp</b> V.2.7 がリリースされました。
+マクロに関する情報をコメントに書き込んで出力する「マクロ注釈モード」(macro notification mode) というものが実装され、コードがかなり増えました。このモードでは、プリプロセス後の出力から元のソース上のマクロの位置を知ることができます。このモードは C/C++ の refactoring tool のために実装されたものです。
+また、Mac OS X / Apple-GCC への移植が追加されました。
+Visual C++ 2008 への移植もされました。
+GCC-specific-build はさらに GCC に近いものになりました。
+前バージョンのいくつかのバグも修正されました。<br>
+2008/05 には <b>mcpp</b> V.2.7.1 がリリースされました。
+これは V.2.7 のバグフィックス版で、前バージョンのいくつかのバグが修正されました。
+また、UNIX 系システムのバイナリ・パッケージはすべて shared library または DLL と、それをリンクした実行プログラムを提供するようになりました。<br>
+2008/11 には <b>mcpp</b> V.2.7.2 がリリースされました。
+これは前バージョンのバグフィックス版です。<br>
+</ol>
+<p>注:</p>
+<p>*1 「未踏ソフトウェア創造事業」(Exploratory Software Project) の概要は次のところで知ることができる。</p>
+<blockquote>
+<p><a href="http://www.ipa.go.jp/jinzai/esp/">http://www.ipa.go.jp/jinzai/esp/</a></p>
+</blockquote>
+<p><b>mcpp</b> V.2.3 から V.2.5 までは次のところに置いてきたが、</p>
+<blockquote>
+<p><a href="http://www.m17n.org/mcpp/">http://www.m17n.org/mcpp/</a></p>
+</blockquote>
+<p>2006/04 に次のところに移った。
+</p>
+<blockquote>
+<p><a href="http://mcpp.sourceforge.net/">http://mcpp.sourceforge.net/</a></p>
+</blockquote>
+<p>cpp V.2.2 はベクター社のサイトの次のところにある。dos/prog/c というディレクトリに入れられているが、MS-DOS 専用ではない。ソースは UNIX, WIN32/MS-DOS 等に対応している。</p>
+<blockquote>
+<a href="http://www.vector.co.jp/soft/dos/prog/se081188.html">http://www.vector.co.jp/soft/dos/prog/se081188.html</a><br>
+<a href="http://www.vector.co.jp/soft/dos/prog/se081189.html">http://www.vector.co.jp/soft/dos/prog/se081189.html</a><br>
+<a href="http://www.vector.co.jp/soft/dos/prog/se081186.html">http://www.vector.co.jp/soft/dos/prog/se081186.html</a><br>
+</blockquote>
+<p>これらのアーカイブファイル中のテキストファイルは、Vector のものは DOS/Windows 系に合わせて、改行コードは [CR]+[LF]、漢字は shift-JIS で encode してある。SourceForge のものは V.2.5 までは UNIX 系に合わせて改行コードは [LF]、漢字は EUC-JP である。V.2.6 からは [CR]+[LF] / shift-JIS の zip 版と [LF] / EUC-JP の tar.gz 版の２種類のアーカイブファイルを置くようにした。</p>
+<br>
+
+<h1><a name="3" href="#toc.3">3. 各処理系に移植する方法：概要</a></h1>
+<p><b>mcpp</b> のソースは５本のヘッダファイルと７本の *.c ファイルからなっています。ＯＳや処理系に依存する部分は <samp>configed.H, noconfig.H, system.H, system.c</samp> の４本のソースにまとめてあります。<samp>configed.H</samp> と <samp>noconfig.H</samp> とは同時に使われることはなく、必ずどちらか一方が使われます。また、ライブラリ関数の一部のＣによるソースが <samp>system.c</samp> にあります。したがって、<b>mcpp</b> を何らかの処理系で使うには、それに合わせてこれらのソースファイルに変更を加える必要があります。</p>
+<p><b>mcpp</b> の実行プログラムは build する方法に応じて何種類かあります。
+Build する方法には次の２つの次元があります。
+
+<ol>
+<li>stand-alone-build vs subroutine-build
+<li>compiler-independent-build vs compiler-specific-build
+</ol>
+<ul>
+<li><b>stand-alone-build</b>: １つのコマンドとして単体で動くプリプロセッサです。
+処理系のコンパイラ・ドライバから呼び出されるものもあります。
+<li><b>subroutine-build</b>: 他のメインプログラムの中からサブルーチンとして
+（必要なら繰り返し）呼び出されるものです。
+これについては <a href="#3.12">3.12</a> で述べます。</p>
+</ul>
+<ul>
+<li><b>compiler-independent-build</b>: 処理系からは独立して動くプリプロセッサです。
+実行時オプションなどの仕様は処理系のいかんによらず一定です。
+プリプロセスだけすることができますが、処理系の一部として動作することはできません。*1<br>
+これは多くの場合、コンパイルさえ通ればすむのでごく簡単です。これについては <a href="#3.11">3.11</a> で述べます。*2
+<li><b>compiler-specific-build</b>: 特定の処理系のプリプロセッサを（もし可能なら）代替するためのものです。
+その処理系に専用の仕様を持ち、その処理系の専用のディレクトリにインストールされます。
+</ul>
+
+<p>以下の 3.1 - 3.9 ではこの stand-alone の compiler-specific-build を説明します。「GCC 版」「Visual C 用」等と表記しているのはすべて、それぞれ GCC-specific-build, Visual C-specific-build のことです。</p>
+<p><b>mcpp</b> をコンパイルするには２つの方法があります。１つは configure スクリプトを実行して、<samp>config.h</samp> というヘッダファイルと Makefile を自動生成する方法です。あとは単に make; make install とするだけですみます。<samp>configed.H</samp> というヘッダファイルはこの場合に使われます。しかし、configure は UNIX 系のシステムと CygWIN, MinGW でしか使えません。<br>
+もう１つは各処理系用の差分ファイルを使ってヘッダファイルに変更を加え、必要ならさらにヘッダファイルを編集した上で、その処理系専用の makefile を使って make する方法です。<samp>noconfig.H</samp> というヘッダファイルはこの場合に使われます。差分ファイルと makefile は noconfig というディレクトリにあります。Configure の使えるシステムでも、ヘッダファイルを直接、編集することで細かい制御をすることができます。しかし、差分ファイルはすでに移植ずみの処理系用のものしかありません。<br>
+この章では差分ファイルを使う方法について説明します。Configure については INSTALL を見てください。</p>
+<p>注:</p>
+<p>*1 これを V.2.6, V.2.6.1 では stand-alone-build と呼んでいた。
+V.2.6.2 で subroutine-build ができたのに伴って、呼称を変更した。</p>
+<p>*2 <b>mcpp</b> V.2.6.3 からは mcpp.sourceforge.net で何種類かのバイナリ・パッケージが提供されるようになったが、これはすべて stand-alone の compiler-independent-build である。</p>
+<br>
+
+<h2><a name="3.1" href="#toc.3.1">3.1. 移植ずみの処理系: compiler-specific-build のコンパイル</a></h2>
+<p>私自身が動かすことのできるＣ処理系は次のもので、このいずれにも <b>mcpp</b> を移植してあります。すなわち、このソースをコンパイルでき、生成されたプリプロセッサがそれぞれの処理系の上で正しく動作することを確認しています。いずれも CPU は x86 系を使っています。Ubuntu だけが 64 ビット版で、他は 32 ビット版です。</p>
+<blockquote>
+<table>
+  <tr><th>FreeBSD 6.3        </th><td>GCC V.3.4.6</td></tr>
+  <tr><th>Vine Linux 4.2     </th><td>GCC V.2.95.3, V.3.2, V.3.3.6, V.3.4.3, V.4.1.1</td></tr>
+  <tr><th>Fedora Linux 9     </th><td>GCC V.4.3.0</td></tr>
+  <tr><th>Debian LInux 4.0   </th><td>GCC V.4.1.2</td></tr>
+  <tr><th>Ubuntu Linux 8.04 / x86_64 </th><td>GCC V.4.2.3</td></tr>
+  <tr><th>Mac OS 10.5        </th><td>GCC V.4.0.1</td></tr>
+  <tr><th>CygWIN 1.3.10      </th><td>GCC V.2.95.3</td></tr>
+  <tr><th>CygWIN 1.5.18      </th><td>GCC V.3.4.4</td></tr>
+  <tr><th>MinGW (MSYS 1.0.11)</th><td>GCC V.3.4.5</td></tr>
+  <tr><th>WIN32              </th><td>Visual C++ 2003, 2005, 2008</td></tr>
+  <tr><th>WIN32              </th><td>Borland C++ V.5.5J</td></tr>
+  <tr><th>WIN32              </th><td>LCC-Win32 2003-08, 2006-03</td></tr>
+</table>
+</blockquote>
+<p>また、他のユーザから提供された <b>Visual C++ V.6.0, Visual C++ 2002, C++Builder 2007 (aka BCC V.5.9)</b> の情報もあり、それらの処理系でコンパイルすることもできます。</p>
+<p>これらの処理系で <b>mcpp</b> をコンパイルするための修正は簡単で、<samp>noconfig.H</samp> の数個のマクロ定義を変更するだけです。</p>
+<p>noconfig ディレクトリの *.dif というファイルは FreeBSD 6.* / GCC 3.4 用の <samp>noconfig.H</samp> を各処理系用に修正する差分ファイルです。Visual C++ 2005 を例にとると、src ディレクトリで</p>
+<pre>
+patch -c &lt; ..\noconfig\vc2005.dif
+</pre>
+<p>とすると、修正されます。patch は UNIX の標準的なコマンドで、Windows 等にも移植されています。patch を使わなくても、差分ファイルを見てエディタで修正してもかまいません。</p>
+<p>Include ディレクトリの指定などは、差分ファイルによる修正とは別に、ユーザが自分のシステムに合わせて修正しなければなりません。</p>
+<p>こうして修正したソースをコンパイルするための各処理系用の makefile も添付してあります（<a href=#3.7>3.7</a> 参照）。</p>
+<pre>
+copy ..\noconfig\visualc.mak Makefile
+</pre>
+<p>として src ディレクトリにコピーします。</p>
+<p>以下の作業も src ディレクトリで行います。作業は特に断らない限り、<samp>noconfig.H</samp> の修正です。</p>
+
+<h3><a name="3.1.1" href="#toc.3.1.1">3.1.1. どの処理系でも必要な設定</a></h3>
+<p>以下のどの処理系でも、compiler-specific-build を作るためには、</p>
+<pre>
+#define COMPILER        INDEPENDENT
+</pre>
+<p>となっている行を</p>
+<pre>
+#define COMPILER        MSC
+</pre>
+<p>等と、その処理系を表すマクロに変更します。そして、
+</p>
+<pre>
+#define VERSION_MSG     "GCC 3.4"
+</pre>
+<p>という行を次のように適宜書き換えます。
+</p>
+<pre>
+#define VERSION_MSG     "Visual C 2005"
+</pre>
+<p><i>COMPILER</i> の定義は make のオプションで上書きすることもできます。
+例えば、</p>
+<pre>
+nmake COMPILER=MSC
+nmake COMPILER=MSC install
+</pre>
+<p>等とします。差分ファイルで <samp>noconfig.H</samp> を書き換えた場合は、compiler-specific-build のための設定もその処理系用に書き換えられるので、<i>COMPILER</i> は書き換える必要はありません。make で <i>COMPILER</i> を指定すると compiler-specific-build が生成され、指定しないと compiler-independent-build が生成されます。</p>
+<p>また、デフォルトの include directory の設定が <samp>noconfig.H</samp> のものと異なる場合は、それを <i>C_INCLUDE_DIR1</i>, <i>C_INCLUDE_DIR2</i> というマクロに書いておきます。C と異なる C++ 固有の include directory がある場合は、それを <i>CPLUS_INCLUDE_DIR1</i>, <i>CPLUS_INCLUDE_DIR2</i>, <i>CPLUS_INCLUDE_DIR3</i> に書きます（これらのディレクトリは実行時に環境変数や -I オプションで指定することもできる）。<samp>noconfig.H</samp> で設定するのは処理系固有の include directory です。<br>
+Include directory はこのほか、<samp>system.c</samp> でも設定されています。UNIX で言えば <samp>system.c</samp> で設定されるのはいわゆる OS-specific なもの（通常は /usr/include）といわゆる site-specific なもの（通常は /usr/local/include）です。Windows では <samp>system.c</samp> では include directory は何も設定されません。Windows では <samp>noconfig.H</samp> でもデフォルトでは include directory は設定されないので、自分で書くか、または環境変数 INCLUDE, CPLUS_INCLUDE で指定する必要があります。</p>
+<p>また、必要なら <i>COMPILER_STD1</i>, <i>COMPILER_STD2</i> 等で定義される組み込みマクロ名も変更します。</p>
+<p>Multi-byte character の encoding はデフォルトでは、UNIX 系では EUC-JP、Windows では shift-JIS としていますが、必要なら <i>MBCHAR</i> というマクロを書き換えて他の encoding に変更します（Multi-byte character encoding は実行時に環境変数・オプション・#pragma で変更することもできる）。<br>
+処理系によっては shift-JIS や Big5 等の encoding に対応していないため、multi-byte character の中に '\\' と同じ 0x5c の値のバイトがあると tokenization でエラーになることがありますが、そういう処理系では <b>mcpp</b> は特殊な処理をしてコンパイラの欠陥を補います。この設定については <a href="#4.1.1.5">4.1.1.5</a> を見てください。</p>
+<p>添付の makefile については、BINDIR という変数で処理系のバイナリの置かれているディレクトリを書きます。</p>
+<p>GCC V.3, V.4 ではプリプロセスがコンパイラ (cc1, cc1plus) に吸収されてしまったので、GCC-specific-build の <b>mcpp</b> を使うには、gcc, g++ の呼び出しを shell-script に置き換えて、mcpp =&gt; cc1, mcpp =&gt; cc1plus の順序で実行されるようにしなければなりません。添付の makefile では、</p>
+<pre>
+make COMPILER=GNUC
+make COMPILER=GNUC install
+</pre>
+<p>とすると、これが自動的に設定されます。詳細は <a href="mcpp-manual.html#3.9.7">mcpp-manual.html#3.9.7</a> を見てください。</p>
+<p>ユーザが BINDIR 等への書き込み権限を持っていない場合は、UNIX 系では sudo make COMPILER=GNUC install とします。Windows ではあらかじめ administrator アカウントで、そのディレクトリの permission を変更しておきます。</p>
+
+<h3><a name="3.1.2" href="#toc.3.1.2">3.1.2. FreeBSD / GCC V.2.*, V.3.*, V.4.*</a></h3>
+<p>ソースは FreeBSD 6.* 上の GCC (GNU C) V.3.4.* でコンパイルして compiler-independent-build の <b>mcpp</b> を生成する状態になっています。FreeBSD 6.* / GCC V.3.4.* 用の compiler-specific-build を作るには、</p>
+<pre>
+#define COMPILER        INDEPENDENT
+</pre>
+<p>となっている行を</p>
+<pre>
+#define COMPILER        GNUC
+</pre>
+<p>として、コンパイルすればできあがりです。
+<i>COMPLIER</i> は make COMPILER=GNUC で上書きすることもできます。</p>
+<p>GCC の他のバージョンであれば、<i>VERSION_MSG</i> というマクロおよび</p>
+<pre>
+#define COMPILER_EXT_VAL    "3"
+#define COMPILER_EXT2_VAL   "4"
+#define COMPILER_CPLUS_VAL  "3"
+#define GCC_MAJOR_VERSION   3
+</pre>
+<p>となっているところのバージョン番号を変更します。
+<i>COMPILER_EXT_VAL</i> は GCC の major version number を、<i>COMPILER_EXT2_VAL</i> は minor version number をいずれも文字列リテラルで書きます。<i>COMPILER_CPLUS_VAL</i> は <tt>__GNUG__</tt> マクロの値で、<i>COMPILER_EXT_VAL</i> と同じになります。
+また、<i>GCC_MAJOR_VERSION </i> は <i>COMPILER_EXT_VAL</i> と同じ値を数値で書きます。</p>
+
+<p>FreeBSD のバージョンが 6.* でなければ、</p>
+<pre>
+#define SYSTEM_EXT_VAL      "6"     /* V.5.*: 5, V.6.*:6    */
+</pre>
+<p>の値を変更します。
+</p>
+<p>さらに include directory が FreeBSD 6.* の標準と違っている場合は、
+</p>
+<pre>
+#define CPLUS_INCLUDE_DIR1  "/usr/include/c++/3.4"
+#define CPLUS_INCLUDE_DIR2  "/usr/include/c++/3.4/backward"
+</pre>
+<p>となっているディレクトリを変更します。<i>CPLUS_INCLUDE_DIR3</i>, <i>C_INCLUDE_DIR1</i> の設定も必要かもしれません。</p>
+<p>GCC V.2.7-2.95 であれば次のマクロの定義を 199409L に変更します。</p>
+<pre>
+#define STDC_VERSION        0L
+</pre>
+<p>他の UNIX 系 OS でもコンパイラが GCC であれば、このバージョン表示や、include ディレクトリの設定、ＯＳ固有の組み込みマクロの設定、等を変えるだけですむかもしれません（<a href="#4.1.1">4.1.1</a> 参照）。</p>
+
+<h3><a name="3.1.3" href="#toc.3.1.3">3.1.3. Linux / GCC V.2.*, V.3.*, V.4.*</a></h3>
+<p>Linux / GCC ではまず、</p>
+<pre>
+#define SYSTEM      SYS_FREEBSD
+</pre>
+<p>を</p>
+<pre>
+#define SYSTEM      SYS_LINUX
+</pre>
+<p>に変更します。
+そして、FreeBSD の場合と同じように、<i>COMPILER, VERSION_MSG, COMPILER_EXT_VAL, COMPILER_EXT2_VAL, COMPILER_CPLUS_VAL, GCC_MAJOR_VERSION CPLUS_INCLUDE_DIR1, CPLUS_INCLUDE_DIR2, C_INCLUDE_DIR1</i> 等のマクロの値を変更します。</p>
+<p>GCC 2.* では <i>STDC_VERSION</i> の値を変更し、さらに、</p>
+<pre>
+#define COMPILER_SP3_VAL    "int"
+</pre>
+<p>を</p>
+<pre>
+#define COMPILER_SP3_VAL    "long int"
+</pre>
+<p>に変更します。</p>
+<p>include directory は</p>
+<pre>
+gcc -xc -E -v /dev/null
+g++ -xc++ -E -v /dev/null
+</pre>
+<p>として確かめてから設定してください。</p>
+<p>noconfig ディレクトリの linux_gcc2953.dif, linux_gcc32.dif, linux_gcc336.dif, linux_gcc343.dif は FreeBSD 6.* / GCC V.3.4 用のソースを VineLinux 4.0 / GCC V.2.95.3, V.3.2, V.3.3.6, V.3.4.3 用に修正する差分ファイルです。
+また、linux_gcc412.dif は Debian 4.0 / GCC V.4.1.2 用に修正するものです。
+それぞれ compiler-specific-build ではさらに <i>COMPILER</i> を変更します。Distribution の標準の GCC と追加インストールした GCC とで include directory がかなり異なる点に注意してください。</p>
+<p>なお、glibc の getopt() は POSIX 等の標準のものとは仕様が異なるので、使わずに、<samp>system.c</samp> の mcpp_getopt() を使ってください。</p>
+
+<h3><a name="3.1.4" href="#toc.3.1.4">3.1.4. Mac OS X / Apple-GCC V.4.*</a></h3>
+<p>Mac OS X では Xcode というパッケージをインストールすると GCC もインストールされます。
+/usr/bin に多くの gcc, cc, g++, c++ 等々が現れますが、Intel-Mac の Mac OS X 10.5 (Leopard) の場合は、i686-apple-darwin9-gcc-4.0.1, i686-apple-darwin9-g++-4.0.1 というのがそのマシン用の native code を生成するコンパイラです。
+同時にクロスコンパイラもインストールされます。
+Intel-Mac の場合は、powerpc-apple-darwin9-gcc-4.0.1, powerpc-apple-darwin9-g++-4.0.1 というのが powerpc 用のバイナリを生成するクロスコンパイラです。
+単なる gcc (g++) は gcc-4.0 (g++-4.0) へのリンクで、これはデフォルトでは native compiler として動作しますが、-arch ppc というオプションを付けて起動すると powerpc 用のコンパイラ本体が呼び出されます。
+また、/Developer/usr/bin にも /usr/bin と同じコンパイラ一式がインストールされます。</p>
+<p>これらはいずれも Apple によって多くの拡張を施された Mac OS X 専用の GCC です。
+他のシステムの GCC と異なるのは、１つは framework と呼ばれる独特なディレクトリを system header directory としていることです。
+もう１つは Intel-Mac と PowerPC-Mac の双方のバイナリを片方の（１台の）マシン上で生成できるようになっていることです。
+さらに双方のバイナリを１つにバンドルしてどちらのマシンでも動くようにした universal binary というものを生成するしくみもあります。
+実は gcc-4.0, i686-apple-darwin9-gcc-4.0.1, powerpc-apple-darwin9-gcc-4.0.1 等や、そこから呼び出されるコンパイラ本体である /usr/libexec/gcc/SYSTEM/4.0.1 の cc1, cc1plus 等々もすべて i386 用と ppc 用との universal binary なのです（SYSTEM は i686-apple-darwin9 または powerpc-apple-darwin9）。
+これらをそのまま x86 マシンから powerpc マシンに持っていけば、native と cross の関係が逆転した状態で動くようになっているものと思われます。
+その上、Intel-Mac は ppc 用のバイナリを x86 のコードに変換しながら自動的に動かすようになっています。</p>
+<p>こういうことで、/usr/bin と /Developer/usr/bin に多くの gcc, g++ があり、それらへのリンクがあり、x86 用と ppc 用の libexec ディレクトリがあり、１つの実行プログラムに２つのバイナリがバンドルされており、ppc 用のバイナリが x86 で動き、拡張機能があり、非常に紛らわしいので注意してください。
+ここでは Intel-Mac 上の Mac OS X 10.5 (Leopard) を例にとりますが、ppc-Mac では i686 と powerpc (ppc) を入れ替えて読んでください。
+また、Mac OS X 10.4 (Tiger) では darwin9 を darwin8 と読み替えてください。</p>
+
+<h4><a name="3.1.4.1">3.1.4.1. ネイティブコンパイラとクロスコンパイラ</a></h4>
+<p>ネイティブコンパイラ用の <b>mcpp</b> のインストールは簡単です。
+noconfig.H に mac_gcc401_i686.dif の変更を加えると、Intel-Mac 上の Mac OS X 10.5 / GCC 4.0.1 用の設定になります。
+Makefile としては mac_osx.mak を使います。
+make; sudo make install とすると compiler-independent-build が、make COMPILER=GNUC; sudo make COMPILER=GNUC install とすると GCC-specific-build ができます。
+/Developer/usr/bin には通常は PATH は通っていないので、コンパイラは /usr/bin のものが使われます。</p>
+<p>Intel-Mac 上で powerpc 用のクロスコンパイラにインストールするには、まず noconfig.H に mac_gcc401_powerpc.dif の変更を加えます。
+さらに Makefile を修正します。
+<p>compiler-independent-build では NAME, CC, CXX という変数の定義を、いずれも mac_osx.mak 中のコメントにあるように powerpc を含む文字列に変更します。
+そして make; sudo make install とします。
+これは「クロスコンパイラで」コンパイルされたもので、ppc-Mac 上で動くはずです。</p>
+<p>GCC-specific-build では NAME, INCDIR, BINDIR, target_cc, arch を、やはり powerpc (ppc) を含む名前に変更します（CC, CXX は変更しない）。
+そして、make COMPILER=GNUC; sudo make COMPILER=GNUC install とします。
+これは Intel-Mac 上で動く「クロスコンパイラのための」ものなので、Intel-Mac 上で動きます。</p>
+<p>ppcMac 上では、Intel-Mac とは逆に、mac_gcc401_powerpc.dif でネイティブコンパイラ用の設定になり、mac_gcc401_i686.dif でクロスコンパイラ用の設定になるはずです。
+クロスコンパイラ用では、上記の Intel-Mac の Makefile の設定で変数に powerpc を含む名前を使ったところを、すべて i686 に変更します。</p>
+
+<h4><a name="3.1.4.2">3.1.4.2. Universal binary</a></h4>
+<p>Universal binary を作るには、mac_osx.mak の UFLAGS という変数定義をコメントアウトしている # を外して、これを有効にするだけです。
+あとは前節の設定のままです。</p>
+
+<h3><a name="3.1.5" href="#toc.3.1.5">3.1.5. CygWIN / GCC V.2.*, 3.*</a></h3>
+<p>CygWIN V.1.3.10 / GCC V.2.95.3 では <samp>noconfig.H</samp> に cyg1310.dif にあるような変更を加えます。<br>
+CygWIN V.1.5.18 / GCC V.3.4.4 では cyg1518.dif を使います。</p>
+<p>さらに <i>CYGWIN_ROOT_DIRECTORY</i> というマクロを自分の環境に合わせて修正します。これは CygWIN の存在する Windows 上のディレクトリを次の形式で定義するものです。</p>
+<pre>
+#define CYGWIN_ROOT_DIRECTORY   "c:/pub/compilers/cygwin"
+</pre>
+<p>path-list 中の大文字・小文字は関係ありません。</p>
+<p>他の version でも、<i>VERSION_MSG</i>, <i>CYGWIN_ROOT_DIRECTORY</i>、および include directory のマクロを変更することで対応できるでしょう。</p>
+<p>CygWIN は Windows 上のシステムですが、UNIX のファイルシステムがシミュレートされているので、<b>mcpp</b> では UNIX 系システムの GCC とほぼ同様に扱います。Include directories も UNIX 系と同様に組み込まれます。</p>
+
+<h3><a name="3.1.6" href="#toc.3.1.6">3.1.6. MinGW / GCC V.3.*</a></h3>
+<p>MinGW / GCC V.3.4.5 では <samp>noconfig.H</samp> に mingw345.dif のような変更を加えます。<br>
+さらに <i>MSYS_ROOT_DIRECTORY</i>, <i>MINGW_DIRECTORY</i> という２つのマクロを自分の環境に合わせて修正します。これは次のように、それぞれ /, /mingw ディレクトリの Windows 上の位置に定義するものです。</p>
+<pre>
+#define MSYS_ROOT_DIRECTORY "C:/Program Files/MSYS/1.0"
+#define MINGW_DIRECTORY     "C:/Program Files/MinGW"
+</pre>
+<p>path-list 中の大文字・小文字は関係ありません。</p>
+<p>他の version でも、これらのマクロと <i>VERSION_MSG</i>、および include directory のマクロを変更することで対応できるでしょう。Include directory のマクロ定義は "C:/dir/mingw/include" という絶対パスでも、"/mingw/include" という MinGW 内のディレクトリでもかまいません。</p>
+<p>MinGW では symbolic link がサポートされていないので、gcc から GCC-specific-build の <b>mcpp</b> を起動するのに symbolic link が使えません。その上、MinGW / gcc はたとえ cc1 という名前でも shell-script の起動は拒否します。そこで、<b>mcpp</b> のコンパイルでは cc1.exe という実行プログラムを生成して、この中から mcpp.exe または GCC の cc1.exe, cc1plus.exe を呼び出します。</p>
+<p>MinGW の GCC-specific-build では include directories は <b>mcpp</b> が設定しますが、compiler-independent-build では設定されないので、環境変数 INCLUDE, CPLUS_INCLUDE で指定する必要があります。</p>
+
+<h3><a name="3.1.7" href="#toc.3.1.7">3.1.7. LCC-WIN32 2003-08, 2006-03</a></h3>
+<p>LCC-WIN32 2003-08-*, 2006-03-* ではそれぞれ lcc0308.dif, lcc0603.dif のような変更を加えます。<br>
+他の version では <i>VERSION_MSG</i> マクロを変更します。</p>
+
+<h3><a name="3.1.8" href="#toc.3.1.8">3.1.8. Visual C++ V.6.0, 2002, 2003, 2005, 2008</a></h3>
+<p>Visual C++ 2008, 2005, 2003, 2002, 6.0 ではそれぞれ vc2008.dif, vc2005.dif, vc2003.dif, vc2002.dif, vc6.dif のような変更を加えます。もちろん、compiler-specific-build では <i>COMPILER</i> マクロを書き換えるか、nmake -DCOMPILER=MSC オプションで上書きします。</p>
+<p>Visual C の他のバージョンでは、<i>VERSION_MSG</i> マクロを変更するほか、<tt>_MSC_VER</tt> および <tt>_MSC_FULL_VER</tt> という組み込みマクロの値をそれぞれ <i>COMPILER_EXT_VAL</i>, <i>COMPILER_EXT2_VAL</i> というマクロの設定を変えることで対応させます。</p>
+
+<h3><a name="3.1.9" href="#toc.3.1.9">3.1.9. Borland C++ V.5.*</a></h3>
+<p>Borland C V.5.5, V.5.9 (C++Builder 2007) / bcc32 ではそれぞれ bc55.dif, bc59.dif のような変更を加えます。</p>
+<p>Borland C/C++ の別のバージョンでは <i>VERSION_MSG</i> のほか、<tt>__TURBOC__</tt>, <tt>__BORLANDC__</tt>, <tt>__BCPLUSPLUS__</tt> という組み込みマクロの値をそれぞれ <samp>noconfig.H</samp> の <i>COMPILER_STD2_VAL</i>, <i>COMPILER_EXT_VAL</i>, <i>COMPILER_CPLUS_VAL</i> というマクロの設定を変えることで、対応させます（<a href="#4.1.1.1">4.1.1.1</a> 参照）。Digraphs の実装されているバージョンであれば、<i>HAVE_DIGRAPHS</i> の設定を変更します。<tt>__STDC_VERSION__</tt> の実装されているバージョンであれば、<i>STDC_VERSION</i> の設定を変更します。</p>
+<br>
+
+<h2><a name="3.2" href="#toc.3.2">3.2. DECUS cpp で対応していた処理系</a></h2>
+<p>PDP-11 上の RT-11 / DECUS C, RSX / DECUS C、VAX 上の VMS / VAX-11 C、PDP-11 / UNIX, VAX / ULTRIX の何かのＣには DECUS cpp が対応していたようです。MS-DOS 上の Microsoft C, Lattice C のかなり古い版にも対応していたようです。これらはさすがにもう不要と思われ、また私自身がメンテナンスできないので、削除しました。</p>
+<br>
+
+<h2><a name="3.3" href="#toc.3.3">3.3. noconfig.H, configed.H, system.H</a></h2>
+<p><samp>system.H</samp> は <i>HAVE_CONFIG_H</i> というマクロが non-0 に定義されていると <samp>configed.H</samp> を include し、そうでなければ <samp>noconfig.H</samp> を include します。<samp>configed.H, noconfig.H</samp> には <b>mcpp</b> の設定の PART 1 と PART 2 という部分があり、<samp>system.H</samp> には PART 3 があります。</p>
+<p>これらのファイルには、各処理系に移植する時に必要ないくつかのマクロが定義されています。まだ移植されていない処理系に移植するには、PART 1 に数行ないし十数行を書き足します。<br>
+PART 1 はＯＳと target 処理系に依存する定義で、PART 2 は host 処理系に依存する定義、そして PART 3 は <b>mcpp</b> の動作仕様の定義です。<br>
+<samp>configed.H, noconfig.H</samp> ではターゲット処理系とホスト処理系とが同じであると仮定していますが、異なる場合は PART 2 を編集する必要があります。</p>
+<p>デフォルトの設定と違う設定で移植する場合は、これらのファイルの全体に必ず目を通してください。</p>
+<br>
+
+<h2><a name="3.4" href="#toc.3.4">3.4. system.c</a></h2>
+<p><samp>configed.H (noconfig.H), system.H</samp> のマクロだけでは吸収できないＯＳや処理系の差異は、<samp>system.c</samp> で吸収しています。未実装の処理系に移植するには、ここに数十行のソースを書き足すことが必要になるでしょう。</p>
+<p>このファイルに記述されているのは、<b>mcpp</b> 起動時のオプション、usage 文、include ディレクトリ、ヘッダファイルやソースファイルをオープンする時のＯＳ固有のディレクトリパスの扱い、#pragma の処理、処理系固有の拡張ディレクティブの処理、等です。ほとんどは target OS と target 処理系の設定です。</p>
+<br>
+
+<h2><a name="3.5" href="#toc.3.5">3.5. ライブラリ関数</a></h2>
+<p>ライブラリ関数のうち、Standard C にない getopt(), stpcpy() のＣによるソースも system.c に書いてあります。<b>mcpp</b> は getcwd(), stat() も使い、UNIX 系では readlink() も使いますが、この３つは OS に依存する関数であり portable に書くことができないので、ここには含めていません。この３つは Standard C にはありませんが、POSIX では規定されています。<b>mcpp</b> の使う低水準関数はこの３つだけです。これらを持たない処理系はないでしょう。
+このほか、MSC では stricmp() を、Mac OS X, CygWIN, MinGW では strcasecmp() も使います。*1, *2<br>
+ライブラリ関数はいずれも、処理系によって微妙に違う恐れのある仕様に依存した使い方はしていないので、どの処理系のものでもバグさえなければ大丈夫です。</p>
+<p>注:</p>
+<p>*1 MinGW 版に限って spawnv() も使われる。</p>
+<p>*2 <b>mcpp</b> V.2.6.4 までは lib.c というソースファイルを独立させていたが、その内容が getopt(), stpcpy() の２つだけになったので、V.2.7 から system.c に吸収した。
+そして、getopt() は mcpp_getopt() と名前を変えて、リンクのトラブルを解消した。</p>
+<br>
+
+<h2><a name="3.6" href="#toc.3.6">3.6. 標準ヘッダ</a></h2>
+<p><b>mcpp</b> のソースでは <samp>stdio.h, ctype.h, errno.h, stdlib.h, string.h, stddef.h, limits.h, time.h, sys/types.h, sys/stat.h</samp> を無条件で include しています。UNIX 系のシステムでは <samp>unistd.h</samp> も include します。これらを持たない処理系はまずないでしょう。</p>
+<br>
+
+<h2><a name="3.7" href="#toc.3.7">3.7. makefile と <b>mcpp</b> を使ったリコンパイル</a></h2>
+<p>noconfig ディレクトリにある *.mak は個別の処理系用の makefile です。詳細な設定ができます。make そのものは各処理系に付属のもの、またはそのシステムの標準的なものを想定しています。Visual C では make ではなく nmake を使います。</p>
+<p>まず、処理系を xyz とすると、FreeBSD / GCC 以外では</p>
+<pre>
+patch -c &lt; ../noconfig/xyz.dif
+</pre>
+<p>として <samp>noconfig.H</samp> を修正します。次に、<samp>noconfig.H</samp> の <i>COMPILER</i> と <i>VERSION_MSG</i> というマクロを書き換えます。さらに自分のシステムに合わせて <samp>noconfig.H</samp> の <i>C_INCLUDE_DIR?</i> 等のマクロを修正します。そして、使用する noconfig/xyz.mak を Makefile にコピーし、ディレクトリ指定等を自分のシステムに合わせて修正した上で、</p>
+<pre>
+make
+make install
+make clean
+</pre>
+<p>としてください。</p>
+<p>他の処理系では、これらを参考に必要な makefile を書いてください。ソースの依存関係は単純で、</p>
+<ol>
+<li><samp>main.c, directive.c, eval.c, expand.c, support.c, system.c, mbchar.c</samp> は <samp>system.H, internal.H</samp> に依存する<br>
+<li><samp>system.H</samp> は <samp>configed.H (noconfig.H)</samp> に依存する<br>
+</ol>
+<p>という関係になっています。
+<samp>system.H</samp> は <samp>internal.H</samp> より先に include する必要があります。
+<samp>internal.H</samp> はさらに <samp>mcpp_lib.h</samp> を include します。</p>
+<p><b>mcpp</b> 自身を使って <b>mcpp</b> をリコンパイルするには、処理系のプリプロセッサのある場所にこの実行プログラムをおきます。例えば GCC V.2.95 であれば、処理系付属の cpp0 を cpp0_gnuc とでも rename しておき、その時に使うものを cpp0 にリンクするのが良いでしょう。すなわち、使うプリプロセッサを mcpp とすると、</p>
+<pre>
+ln -sf mcpp cpp0
+</pre>
+<p>とします。Windows では使うものを cpp32.exe 等にコピーします。*1</p>
+<p><b>mcpp</b> 実行プログラムの名前は</p>
+<pre>
+make NAME=mcpp
+</pre>
+<p>等として指定することができます（同じことを BC make では make -DNAME=mcpp とする。UCB make では -D は付けても付けなくても良い。GNU make では -D は付けてはいけない）。</p>
+<p>添付の makefile では GCC 用（freebsd.mak, linux.mak, mac_osx.mak, cygwin.mak, mingw.mak）以外は make install ではこまかい処理はしないので、手で補ってください。処理系付属のプリプロセッサは、make install で消してしまうことのないように、あらかじめ別名のファイルにコピーしておいてください。</p>
+<p>Visual C, Borland C のような１パスコンパイラで <b>mcpp</b> を使ってリコンパイルする場合は、<b>mcpp</b> の出力ファイルをコンパイラに与えるソースファイルとします（例えば <samp>main.c</samp> というソースをプリプロセスしたものを <samp>main.i</samp> といった名前で出力して、それを cl や bcc32 にコンパイルさせる）。</p>
+<p><b>mcpp</b> を使ってリコンパイルする時は、ヘッダファイルの "pre-preprocess" の機能を使うと、プリプロセス時間が大幅に短縮されます。添付の makefile を使う場合は、UCB make, GNU make, MS nmake では、</p>
+<pre>
+make PREPROCESSED=1
+</pre>
+<p>BC make では</p>
+<pre>
+make -DPREPROCESSED=1
+</pre>
+<p>とすると、自動的にヘッダファイルを pre-preprocess した上でプリプロセスし、それからコンパイルします。LCC-Win32 の make では if 文による場合分けができないので、makefile を修正してリコンパイルする必要があります。修正の内容は makefile そのものにコメントとして書いてあります。</p>
+<p>UCB make, GNU make, MS nmake では、MALLOC=KMMALLOC というオプションを付けて make すると、私が書いた malloc() をリンクします。これについては <a href=#4.extra>4.extra</a> を見てください。BC make では同じことを -DKMMALLOC というオプションで指定します。LCC-Win32 make で私の malloc() をリンクするためには、makefile を修正する必要があります。</p>
+<p>注:</p>
+<p>*1 FreeBSD では cpp0, cc1 を置く標準のディレクトリは /usr/libexec である。Linux では /usr/lib/gcc-lib/i686-redhat-linux/3.3.2 といったひどく奥深いディレクトリになっている。Linux / GCC では distribution やその version に応じて makefile のこのディレクトリの指定を書き換える必要がある。Include directory もいろいろあるので、確かめなければならない。</p>
+<p>また、Linux や FreeBSD では /usr/bin/cpp というものがあるが、これは実際には cpp0 または cc1 を呼び出す。gcc も cpp0 または cc1 を呼び出す。<br>
+なお、<a href="mcpp-manual.html#3.9.5">mcpp-manual.html#3.9.5</a>, <a href="mcpp-manual.html#3.9.7">mcpp-manual.html#3.9.7</a> も参照のこと。GCC 3.*, 4.* ではプリプロセスがコンパイラ (cc1, cc1plus) に吸収されてしまったので、<b>mcpp</b> を使うには gcc, g++ の呼び出しを shell-script に置き換える必要がある。</p>
+<br>
+
+<h2><a name="3.8" href="#toc.3.8">3.8. <b>mcpp</b> をコンパイルできる処理系</a></h2>
+<p>各処理系に移植するためにはいくつかの設定が必要ですが、<b>mcpp</b> のソースをコンパイルすること自体は、C90 (ANSI C) の仕様を満たしている処理系であれば十分できます。プリプロセッサも同様です。*1, *2</p>
+<p>char 型は符号付きでも符号なしでもかまいません。<br>
+浮動小数点演算は不要です。
+</p>
+<p>このソースは処理系の微妙な差に影響されないように書いてあります。
+もっとも、実際に各処理系でコンパイルするためには、さらにその処理系のバグも回避する必要があります。これはやってみないと何が出てくるかわかりません。私が移植したいくつかの処理系でも、バグであることを確かめその回避方法を見つけるまでにかなりの時間がかかってしまったことが何回かあります。</p>
+<p><b>mcpp</b> が対応していないのは、pre-C90 の処理系のほか、特殊な文字セットを持つ処理系と特殊な CPU です。<br>
+EBCDIC には対応していません。<br>
+また、整数演算が２の補数でない 
+CPU にも、対応していません。２の補数でない場合は、#if 式でオーバーフローが発生した時に、おかしくなるかもしれません。</p>
+<p>注:</p>
+<p>*1 <b>mcpp</b> V.2.5 までは K&amp;R 1st. の処理系でもコンパイルできるようにしていたが、すでにその必要はなくなっていると思われるので、V.2.6 からは C90 を前提とするように改めた。それに伴ってソースを整理し、このドキュメントも整理した。</p>
+<p>*2 V.2.6.2 までは C++ でもコンパイルできるようにしていたが、V.2.6.3 からは C だけとした。</p>
+<br>
+
+<h2><a name="3.9" href="#toc.3.9">3.9. コンパイルする処理系とターゲットの処理系</a></h2>
+<p><b>mcpp</b> のソースをコンパイルする処理系（ホスト）と、それによって生成された <b>mcpp</b> の実行プログラムを使う処理系（ターゲット）とは、必ずしも同じである必要はありません。これが違っている場合は、<samp>noconfig.H (configed.H)</samp> の <i>SYSTEM</i>, <i>COMPILER</i> でターゲットを指定し、<i>HOST_SYSTEM</i>, <i>HOST_COMPILER</i> はホストを指定します。また、PART 1 にある諸定義はターゲット用のもので、PART 2 にあるものはホスト用の設定です。<samp>system.c</samp> は主としてターゲット用のものです。</p>
+<p>ホストとターゲットの関係には、次のような制限があります。</p>
+<ol>
+<li>ホスト処理系はターゲット処理系と同じＯＳ上のものであるか、またはクロスコンパイラであることが必要です。
+ホスト処理系とターゲット処理系の文字セットとはともに ASCII であることが必要です。<br>
+<li>ホスト処理系の long (unsigned long) はターゲット処理系のそれより範囲が狭くてはいけません。これは Standard C で規定されている条件でもあります。C99 では long long (unsigned long long) について同じことが言えます。<br>
+</ol>
+<p>なお、ここで言うホストとターゲットというのは、クロスコンパイラのそれとは関係ありません。クロスコンパイルするのはコンパイラ本体の仕事で、プリプロセッサは原則としてそれには関知しません。<b>mcpp</b> を「クロスコンパイラに」移植する場合は、そのクロスコンパイラがここで言うターゲット処理系です。ホスト処理系としてはクロスコンパイラでないものを使うことになるはずです。<b>mcpp</b> を「クロスコンパイラで」コンパイルする場合は、そのクロスコンパイラがホスト処理系で、クロスコンパイラのターゲットがターゲット処理系となります。</p>
+<br>
+
+<h2><a name="3.10" href="#toc.3.10">3.10. MS-DOS 上の処理系、DJGPP 等</a></h2>
+<p><b>mcpp</b> の過去のバージョンでサポートしていたもののその後、サポートをやめた処理系について述べておきます。</p>
+<p><b>mcpp</b> V.2.2 までは次の処理系をサポートしていましたが、V.2.4 で削除しました。</p>
+<blockquote><table>
+<tr><td>MS-DOS          </td><td>Turbo C V.2.0</td></tr>
+<tr><td>OS-9/6x09       </td><td>Microware C</td></tr>
+</table></blockquote>
+<p>V.2.5 では次の処理系に関するドキュメントを削除しました。</p>
+<blockquote><table>
+<tr><td>DJGPP V.1.12    </td><td>GCC V.2.7.1</td></tr>
+<tr><td>MS-DOS          </td><td>LSI C-86 V.3.3 試食版</td></tr>
+</table></blockquote>
+<p>V.2.6 では上の２つの処理系の設定をソースからも削除し、さらに次の処理系に関するドキュメントとソースを削除しました。</p>
+<blockquote><table>
+<tr><td>MS-DOS          </td><td>Borland C 4.0</td></tr>
+<tr><td>Plan 9          </td><td>pcc</td></tr>
+</table></blockquote> 
+<p>V.2.6 ではまた、MS-DOS 上の処理系やメモリの小さいシステムのための設定をすべて削除し、pre-C90 の処理系のための設定も削除しました。</p>
+<p>V.2.7.2 では次の処理系のサポートも削除しました。</p>
+<blockquote><table>
+<tr><td>Win32           </td><td>Borland C 4.0</td></tr>
+</table></blockquote> 
+<p>いずれも古い処理系で、ユーザは少なくなっていると思われるものです。<br>
+もしそれらの処理系でコンパイルする場合は、compiler-specific-build では多くの設定が必要で簡単ではありませんが、compiler-independent-build なら、その処理系が C90 の仕様をほぼ実装していれば、次のようにして簡単にできます。</p>
+<p>DJGPP については、noconfig.H で <i>SYSTEM, HOST_SYSTEM</i> を <i>SYS_WIN32</i> とし、<i>HAVE_INTMAX_T, HAVE_INTTYPES_H</i> を <i>FALSE</i> とし、system.H で <i>NBUFF</i> をデフォルトの 1/4 くらいに押さえます。*1</p>
+<p>MS-DOS 上の処理系については、noconfig.H で <i>SYSTEM, HOST_SYSTEM</i> を <i>SYS_WIN32</i> とし、<i>HAVE_LONG_LONG</i> を <i>FALSE</i> とし、system.H で <i>NBUFF</i> をデフォルトの 1/16 くらいに、<i>IDMAX</i> をデフォルトの 1/4 くらいに押さえます。さらに directive.c で <i>SBSIZE</i> をデフォルトの 1/8 くらいにします。そして、large memory model でコンパイルします。<br>
+ただし、MS-DOS ではメモリの制約が厳しいので、この設定でコンパイルしておいても、長大なマクロ定義の多い場合などは out of memory となることがあります。</p>
+<p>注:</p>
+<p>*1 DJGPP / GCC 4.1.0 ではこの設定で <b>mcpp</b> V.2.6.1 をコンパイルできたという報告がある。</p>
+<br>
+
+<h2><a name="3.11" href="#toc.3.11">3.11. Compiler-independent-build のコンパイル</a></h2>
+<p><b>mcpp</b> を処理系からは独立して単体で動く compiler-independent 版としてコンパイルすることもできます。これは多くの場合はコンパイルさえ通ればすむので簡単です。Compiler-independent 版は実行時オプションなどの仕様は一定で、処理系依存の部分はありません。OS による相違が少しあるだけです。include directory も UNIX 系で /usr/include, /usr/local/include が設定されるだけなので、あとは環境変数や -I オプションで指定する必要があります。*1, *2</p>
+<p>configure が使えるシステムで GCC でコンパイルする場合は単に mcpp のルートディレクトリで</p>
+<pre>
+./configure; make; make install
+</pre>
+<p>とすればすみます。この場合は <samp>noconfig.H</samp> ではなく <samp>configed.H</samp> というヘッダファイルが使われます。configure の詳細については INSTALL-jp を参照してください。</p>
+<p>configure の使えないシステムでも <b>mcpp</b> がすでに移植されている処理系では、noconfig ディレクトリにある所定の差分ファイルを使って <samp>noconfig.H</samp> を書き換えればすみます。それ以外の変更は必要ありません。makefile も noconfig ディレクトリにあるものをコピーして使います。インストールするディレクトリは makefile 中の BINDIR という変数に書きます。そして、src ディレクトリで make し、make install します。<br>
+<b>mcpp</b> がすでに移植されている処理系とバージョンが少し違うだけの場合は、まず近いバージョンの差分ファイルを適用して、それを編集します。</p>
+<p><b>mcpp</b> がまだ移植されていない処理系では、<samp>noconfig.H</samp> を編集して数個のマクロを書き換えたり書き加えたりしてください。まず、<i>HOST_COMPILER</i> を適宜定義します。そして、<i>COMPILER</i> を <i>INDEPENDENT</i> に定義し、<i>SYSTEM</i> をその OS に定義し、<i>VERSION_MSG</i> を適宜定義します。ターゲット処理系は存在しないので、PART 1 には設定することはありません。</p>
+<p>PART 2 は <b>mcpp</b> をコンパイルするホスト処理系が Standard C の仕様をどれだけ実装しているか、必要な関数を持っているかによって、設定が違ってきます。最も違うのは long long という型の実装です。Visual C 2002, 2003, 2005 や Borland C 5.5 等では <samp>__int64</samp> という型になっていて、その値を printf() で表示する指定子が VC 2005 以外では j や ll ではなく I64 なので、<i>LL_FORM</i> というマクロを "I64" に定義します。MinGW では long long がありますが、printf() の指定子は I64 です。
+Visual C 2008 では long long という型名も使えるようになりました。</p>
+<p>stpcpy() という関数のない処理系では、<i>HOST_HAVE_STPCPY</i> を <i>FALSE</i> に定義します。</p>
+<p>makefile は noconfig ディレクトリにあるものを参考にして書いてください（<a href="#3.7">3.7</a> も参照のこと）。</p>
+<p>Mac OS X には x86 と powerpc の双方のバイナリを片方のマシンで作れるように、ネイティブコンパイラとクロスコンパイラとが用意されています。
+また、それを使って universal binary というものも作れるようになっています。
+これは x86 と powerpc 用のバイナリを１本のファイルに束ねたものです。
+これらの仕組みは少し複雑なので、<a href="#3.1.4">3.1.4</a> に compiler-specific-build と compiler-independent-build の双方についてまとめて説明してあります。</p>
+<p>なお、<b>mcpp</b> V.2.6.3 からは sourceforge のサイトで compiler-independent-build の何種類かのバイナリ・パッケージが提供されるようになりましたが、これはそれぞれのパッケージング方式に固有の方法でパッケージングされたものです。そのパッケージング仕様はそれぞれに対応するソース・パッケージ中にある設定ファイルに書かれています。FreeBSD, Linux, Mac OS X 用のものはすべてコンパイルには configure スクリプトを使っています。</p>
+<p>注:</p>
+<p>*1 <b>mcpp</b> V.2.4, V.2.5 では compiler-independent 版の仕様は中途半端で、
+処理系の仕様に対応した一般のコマンドとしてのプリプロセッサであった。V.2.6 からは処理系から独立した一定の仕様とした。</p>
+<p>*2 コンパイルさえ通ればすむと言っても、MS-DOS 上の処理系ではメモリの制約が厳しいので、コンパイルはできても実行すると out of memory になることがある。MS-DOS では translation limits の設定を大幅に押さえてコンパイルしなければならない。3.10 を参照。</p>
+<br>
+
+<h2><a name="3.12" href="#toc.3.12">3.12. Subroutine-build のコンパイル</a></h2>
+<p><b>mcpp</b> を他の何らかのメインプログラムからサブルーチンとして呼び出すようにコンパイルすることもできます。これは独立したプリプロセッサと同じように、呼び出し元から実行時オプションを受取り、指定された入力ファイルをプリプロセスして出力ファイルに出力して、呼び出し元に戻るものです。必要なら複数のファイルについて繰り返し呼び出すこともできます。しかし、呼び出し元とトークン単位のやりとりをするものではありません。</p>
+<p>サブルーチン版では、出力先としてファイルではなくメモリ上のバッファを使うこともできます。</p>
+<p><b>mcpp</b> のソースは、<i>MCPP_LIB</i> というマクロを non-0 に定義してコンパイルすると、サブルーチン版としてコンパイルされるようになっています。サブルーチンの入り口は stand-alone 版の main() が次のように mcpp_lib_main() という名前に変わるだけです。</p>
+<pre>    int mcpp_lib_main( int argc, char ** argv);</pre>
+<p>GCC では <i>COMPILER</i> マクロは <i>GNUC</i> ではなく <i>INDEPENDENT</i> のままでコンパイルします。<i>GNUC</i> とすると、GCC の libexec ディレクトリにインストールされて GCC から呼び出されるものができてしまうからです。<br>
+他方で、Visual C, Borland C, LCC-Win32 等では <i>COMPILER</i> は <i>INDEPENDENT</i> でも <i>MSC, BORLANDC, LCC</i> 等のどちらでもかまいません。これらの処理系ではプリプロセッサが独立していないので、compiler-specific-build でも処理系から呼び出されることはないからです。compiler-specific-build では処理系固有の事前定義マクロやオプションやいくつかの処理系固有の仕様が定義されるので、それがつごうが良いか悪いかでコンパイルの仕方を選びます。</p>
+<p>実際にコンパイルする時の手順を configure script を使う場合と noconfig/*.mak ファイルを使う場合とに分けて説明します。</p>
+
+<h3><a name="3.12.1" href="#toc.3.12.1">3.12.1. configure する場合</a></h3>
+<p>GCC でコンパイルする場合は configure が使えます。</p>
+<pre>
+./configure --enable-mcpplib
+make
+sudo make install
+</pre>
+<p>とすると、Linux や FreeBSD では compiler-independent 版の libmcpp.a, libmcpp.so.$(SHLIB_VER) が生成されて、デフォルトでは /usr/local/lib にインストールされます。
+そして、libmcpp.so および libmcpp.so.0 から libmcpp.so.$(SHLIB_VER) へのリンクが張られます。
+*.a は static ライブラリ、*.so は shared ライブラリです。
+libmcpp.la というファイルも生成されますが、これは libtool というツールが使うためのものです。
+$(SHLIB_VER) は <b>mcpp</b> V.2.6.3 では 0.0.0、V.2.6.4 では 0.0.1、V.2.7 では 0.1.0、V.2.7.1 では 0.2.0、V.2.7.2 では 0.3.0 としています。
+mcpp_lib.h, mcpp_out.h というヘッダファイルも /usr/local/include にインストールされます。
+これは libmcpp を使うプログラムに必要なものです。</p>
+<p>Mac OS X では *.so ではなく *.dylib という名前になります。
+また、make で CFLAGS+='-arch i386 -arch ppc' 等と、-arch オプションでいくつかの CPU を指定すると、それらに対応する universal binary のライブラリができます。
+さらに -isysroot と -mmacosx-version-min= というオプションを使って、使える Mac OS X のバージョンの範囲を広げることができます。
+次の例は、Leopard 上で Tiger と互換の i386 と ppc 用の universal binary の shared ライブラリを作るコマンドです。</p>
+<pre>
+make CFLAGS+='-isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.4 -arch i386 -arch ppc'
+</pre>
+<p>CygWIN, MinGW では *.so ではなく *.dll という名前の DLL となります。
+CygWIN では libmcpp.a, libmcpp.dll.a, libmcpp.la が /usr/local/lib に、cygmcpp-0.dll が /usr/local/bin にインストールされます。
+MinGW もほとんど同じですが、cygmcpp-0.dll が libmcpp-0.dll という名前になります。
+DLL を使うときは libmcpp.dll.a をリンクします。
+これは import library というものです。</p>
+<p>生成された libmcpp.so をリンクする main_libmcpp.c という簡単なソースもコンパイルされて、<b>mcpp</b> という名前で /use/local/bin にインストールされます。
+このソースでわかるように、libmcpp を使うには mcpp_lib.h というヘッダファイルを include します。*1</p>
+<p>最小限のドキュメントもインストールされます。</p>
+<p>testmain.c をコンパイルしてライブラリとリンクすると、もう少し複雑なテストができます。
+これは configure ではやらないので、次節の方法で行います。</p>
+<p>注:</p>
+<p>*1 libmcpp を使わない stand-alone 版の compiler-independent-build の mcpp も同じ名前で同じディレクトリにインストールされるので、お互いに上書きし合うことになる。
+ドキュメントは同じものが同じディレクトリにインストールされるので、これも上書きされる。</p>
+
+<h3><a name="3.12.2" href="#toc.3.12.2">3.12.2. noconfig/*.mak を使う場合</a></h3>
+<p>noconfig.H と noconfig ディレクトリの makefile を使う場合は（noconfig.H にその処理系のバージョン用の patch を当てて、makefile の各ディレクトリの設定を自分のシステムに合わせて修正した上で）、次のようにします。
+<pre>
+make MCPP_LIB=1 mcpplib
+make MCPP_LIB=1 mcpplib_install
+</pre>
+これは compiler-independent 版のコンパイルですが、GCC 以外では COMPILER=MSC 等として compiler-specific 版でコンパイルしてもかまいません。<br>
+Visual C では make ではなく nmake を使います。<br>
+LCC-Win32 の make は低機能で if 文による場合分けができないので、makefile を編集しながら make する必要があります。</p>
+<p>Linux, FreeBSD, Mac OS X, CygWIN, MinGW では、libmcpp.la が生成されないのとドキュメントがインストールされない以外は、configure して make した場合と同様の結果になります。
+Mac OS X では、mac_osx.mak の UFLAGS という変数定義をコメントアウトしている # を外すと、universal binary の設定になります。
+Windows 上の処理系ではライブラリの名前は Linux 等とは違って、次のようになります。</p>
+
+<table border='1' frame='below'>
+  <tr><th></th><th>FreeBSD / GCC</th><th>Linux / GCC</th><th>Mac OS X / GCC</th><th>CygWIN / GCC</th><th>MinGW / GCC</th><th>Visual C, Borland C, LCC-Win32</th></tr>
+  <tr><th>static library</th><td>libmcpp.a</td><td>libmcpp.a</td><td>libmcpp.a</td><td>libmcpp.a</td><td>libmcpp.a</td><td>mcpp.lib</td></tr>
+  <tr><th>shared library or DLL</th><td>libmcpp.so.$(SHL_VER)</td><td>libmcpp.so.$(SHLIB_VER)</td><td>libmcpp.$(SHLIB_VER).dylib</td><td>cygmcpp-$(DLL_VER).dll<td>libmcpp-$(DLL_VER).dll</td><td>mcpp$(DLL_VER).dll</td></tr>
+  <tr><th>import library of DLL</th><td></td><td></td><td></td><td>libmcpp-$(DLL_VER).dll.a</td><td>libmcpp-$(DLL_VER).dll.a</td><td>mcpp$(DLL_VER).lib</td></tr>
+</table>
+
+<p>$(SHL_VER) は <b>mcpp</b> V.2.6.3, V.2.6.4 では 0、V.2.7 では 1、V.2.7.1 では 2、V.2.7.2 では 3 です。
+$(SHLIB_VER) は <b>mcpp</b> V.2.6.3 では 0.0.0、V.2.6.4 では 0.0.1、V.2.7 では 0.1.0、V.2.7.1 では 0.2.0、V.2.7.2 では 0.3.0 です。
+$(DLL_VER) は <b>mcpp</b> V.2.6.3, V.2.6.4, V.2.7, V.2.7.1, V.2.7.2 ともに 0 です。
+$(SHLIB_VER) の１ケタ目または $(DLL_VER) が同じ場合は、$(SHLIB_VER) の２ケタ目以降の高いバージョンは低いバージョンの上位互換の関係にあります。</p>
+<p>Windows 上の処理系では import library というものも生成されますが、これは DLL を使うためのものです。
+DLL を使うときはこの import library をリンクします。
+Static library と import library は makefile 中で指定された $(LIBDIR) に、DLL 本体は $(BINDIR) にインストールされます。
+DLL を $(BINDIR) にインストールするのは、Windows では DLL は実行プログラムの PATH の通ったディレクトリになければならないからです。
+<p>mcpp_lib.h, mcpp_out.h が $(INCDIR) にインストールされます。</p>
+<p>ライブラリ版をリンクする main_mcpplib.c もコンパイルされて mcpp という名前で $(BINDIR) にインストールされます。
+Windows 上の処理系ではさらに 'DLL_IMPORT=1' というオプションを指定すると、DLL 版の <b>mcpp</b> がリンクされます。</p>
+<p>次のようにすると、testmain.c というサンプルをメインプログラムとしてライブラリ版の <b>mcpp</b> がリンクされます。</p>
+<pre>
+make testmain
+make testmain_install
+</pre>
+<p>testmain.c にはメモリ上のバッファに出力する例も書いてあります。
+メモリに出力するには、メインプログラム中で mcpp_lib.h というヘッダファイルを include して、そこで宣言されている関数を使います。
+上記のコマンドに 'OUT2MEM=1' というオプションを付け加えると、testmain.c でこれが有効になります。
+<samp>OUT2MEM</samp> というマクロは単に testmain.c のためのもので、<b>mcpp</b> のためにはこのマクロは必要ありません。</p>
+<p>ライブラリ版を使うときは、testmain.c を参考に main プログラムを書き、noconfig/*.mak を参考に makefile を書いてください。</p>
+
+<h3><a name="3.12.3" href="#toc.3.12.3">3.12.3. static library と shared library および DLL</a></h3>
+<p>ライブラリには static library と shared library（Windows 上では dynamically-linking library: DLL）とあります。
+Static library は *.o (*.obj) ファイルを集めたもので、コンパイル時にリンクされます。
+その変数や関数の global name はそのまま呼び出し側の global name となり、名前の衝突の危険もあります。
+このことは、V.2.6.1 まではライブラリ化を予定せずに開発されてきた <b>mcpp</b> にとっては大きな問題となります。
+これに対して shared library (DLL) は実行時にリンクされるもので、他のプログラムと共有されます。</p>
+<p>Windows 上の DLL ではライブラリの global name は外からは見えず、明示的に export された名前だけが外から import 可能です。
+<b>mcpp</b> の場合は mcpp_lib.h にある名前だけを import できます。</p>
+<p>UNIX 上の shared library では、一般にはライブラリの global name は外から丸見えで、名前の衝突に神経を使わなければなりません。
+しかし、GCC 4.0 以降で <b>mcpp</b> V.2.7 以降をコンパイルした場合は、mcpp_lib.h にある名前以外は外からは見えません。*1, *2</p>
+<p>こういうことで、Windows 上では DLL を使い、UNIX 上では GCC 4.0 以降でコンパイルした shared library を使うのが、名前の衝突が起こらず安心です。</p>
+<p>注:</p>
+<p>*1 <b>mcpp</b> V.2.7 以降では GCC V.4.0 で実装された #pragma GCC visibility * というディレクティブを使うようにしたためである。</p>
+<p>*2 なお、GCC V.4.1 以降には -fstack-protector というオプションがあるが、これは #pragma GCC visibility hidden とは両立しないようである。
+したがって、libmcpp のコンパイルでは使えない。</p>
+<br>
+
+<h1><a name="4" href="#toc.4">4. 各処理系に移植する方法：詳細</a></h1>
+
+<h2><a name="4.1" href="#toc.4.1">4.1. noconfig.H, configed.H, system.H の設定</a></h2>
+<p>これらのヘッダファイルに記述されていることの意味は、たいていは読めばわかると思います。コメントも多く書き込んであります。さらに念のために以下に注釈を書いておきます。<br>
+設定の PART 1, PART 2 は <samp>noconfig.H (configed.H)</samp> にあり、PART 3 は <samp>system.H</samp> にあります。</p>
+<p>まず、ターゲットシステム（<b>mcpp</b> を移植するシステム）とホストシステム（<b>mcpp</b> をコンパイルするシステム）を指定します。</p>
+<ul>
+<li><samp><i>SYSTEM</i></samp><br>
+ターゲット処理系が動くＯＳを指定します。ＯＳの名前はこの直後に定義されています。名前が定義されていないＯＳは適宜定義してください。<br>
+<li><samp><i>COMPILER</i></samp><br>
+ターゲット処理系を指定します。コンパイラの名前はこの直後に定義されています。名前が定義されていないコンパイラは適宜定義してください。<i>COMPILER</i> を <i>INDEPENDENT</i> に定義すると、ターゲット処理系の存在しない compiler-independent 版の <b>mcpp</b> が生成されます。この場合は PART 1 の多くの設定が無視されます。<br>
+<li><samp><i>VERSION_MSG</i></samp><br>
+-v オプションや usage() 文で表示するためのホスト処理系のバージョン情報を文字列リテラルで書きます。<br>
+<li><samp><i>HOST_SYSTEM</i>, <i>HOST_COMPILER</i></samp><br>
+ホストＯＳ、ホスト処理系を指定します。ターゲットと同じ場合は、<br>
+<pre>
+#define HOST_SYSTEM     SYSTEM
+#define HOST_COMPILER   COMPILER
+</pre>
+としておきます。<br>
+</ul>
+<p><i>SYSTEM</i>, <i>COMPILER</i> の命名には一定の規則がありますが、ソースを見たほうがわかりやすいでしょう。いささか仰々しい形になっていますが、<i>SYSTEM</i> はインクルードファイルのパスリストの形式やＯＳ標準のインクルードディレクトリ等を知るためにしか使われていないので、あまり考える必要はありません。</p>
+
+<h3><a name="4.1.1" href="#toc.4.1.1">4.1.1. PART 1  ターゲットシステムの設定: compiler-specific-build</a></h3>
+
+<h4><a name="4.1.1.1" href="#toc.4.1.1.1">4.1.1.1. 事前定義マクロ</a></h4>
+<ul>
+<li><samp><i>SYSTEM_OLD, SYSTEM_STD1, SYSTEM_STD2, SYSTEM_EXT, SYSTEM_EXT2, COMPILER_OLD, COMPILER_STD1, COMPILER_STD2, COMPILER_EXT, COMPILER_EXT2</i></samp><br>
+<b>mcpp</b> で predefine する処理系固有のマクロの名前を文字列リテラルで指定します。不要なものは定義しないでおきます（0 個のトークンに定義してはいけない）。<i>*_OLD</i> で生成されるのは '_' (underline) で始まらない古い流儀のマクロで、これらは <b>mcpp</b> 実行時に -S &lt;n&gt; オプションで &lt;n&gt; に 1 以上を指定すると predefine されません（ただし、GCC-specific-build の STD モードでは、-ansi または -std=iso* オプションが指定されない限り、これらのマクロも定義される）。
+<i>*_STD?, *_EXT, *_EXT2</i> では必ず _ で始まるマクロ名を指定します。<i>*_STD1</i> は <samp>__</samp> で始まるもので、<i>*_STD2</i> は <samp>__</samp> で始まって <samp>__</samp> で終わるものです。<i>SYSTEM_EXT, SYSTEM_EXT2, COMPILER_STD1, COMPILER_STD2, COMPILER_EXT, COMPILER_EXT2</i> ではそのマクロの値も <i>SYSTEM_EXT_VAL, SYSTEM_EXT2_VAL, COMPILER_STD1_VAL, COMPILER_STD2_VAL, COMPILER_EXT_VAL, COMPILER_EXT2_VAL</i> で指定します。これは整数を "" で囲んだ文字列リテラルで指定します。0 個のトークンに展開されるマクロは "" と定義します。指定されなければ、そのマクロの値は 1 になります。その他の predefined マクロ（<i>SYSTEM_OLD, SYSTEM_STD1, SYSTEM_STD2, COMPILER_OLD</i> で指定されるもの）はすべて 1 の値を持ちます。<br>
+<li><samp><i>SYSTEM_SP_OLD</i>, <i>SYSTEM_SP_STD</i></samp><br>
+処理系固有の特殊な事前定義マクロの名前を文字列リテラルで書き、その値を <i>SYSTEM_SP_OLD_VAL</i>, <i>SYSTEM_SP_STD_VAL</i> で定義します。<br>
+<li><samp><i>COMPILER_SP1</i>, <i>COMPILER_SP2</i>, <i>COMPILER_SP3</i></samp><br>
+処理系固有の特殊な事前定義マクロの名前を文字列リテラルで書き、その値を <i>COMPILER_SP1_VAL</i>, <i>COMPILER_SP2_VAL</i>, <i>COMPILER_SP3_VAL</i> で定義します。<br>
+<li><samp><i>COMPILER_CPLUS</i>, <i>COMPILER_CPLUS_VAL</i></samp><br>
+-+ オプション（C++ プリプロセス）を指定した時に定義される処理系固有の事前定義マクロの名前とその値を上記と同じように文字列リラテルで指定します。<i>COMPILER_CPLUS_VAL</i> を指定しないと、そのマクロの値は 1 になります。名前は '_' で始まるものでなければなりません。必要がなければ <i>COMPILER_CPLUS</i> そのものを定義しないでおきます。<br>
+</ul>
+<p>このほか、実行時オプションに応じて <samp>system.c</samp> で定義される事前定義マクロもあります。CPU-dependent なマクロなどです。GCC V.3.3 以降では大量の事前定義マクロがあるので、これらの設定とは別に <samp>mcpp_g*.h</samp> という名前の４本の専用のヘッダファイルが <b>mcpp</b> のインストール時に自動的に生成されます。</p>
+<p>以上の設定で事前定義されたマクロはすべて実行時には -N オプションで無効となります。</p>
+
+<h4><a name="4.1.1.2" href="#toc.4.1.1.2">4.1.1.2. Include ディレクトリ等</a></h4>
+<ul>
+<li><samp><i>C_INCLUDE_DIR1, C_INCLUDE_DIR2, CPLUS_INCLUDE_DIR1, CPLUS_INCLUDE_DIR2, CPLUS_INCLUDE_DIR3</i></samp><br>
+<b>mcpp</b> でサーチする標準ヘッダファイルの include directory を指定します。<i>CPLUS_INCLUDE_DIR?</i> は C++ の include directory がＣのものと違っている場合に、設定します（<b>mcpp</b> を起動する時に -+ オプションを指定することで有効となる）。UNIX の /usr/include, /usr/local/include は <samp>system.c</samp> で設定されるので、<i>C_INCLUDE_DIR?</i> にはそれ以外の処理系固有のものを指定します。<br>
+<li><samp><i>ENV_C_INCLUDE_DIR</i>, <i>ENV_CPLUS_INCLUDE_DIR</i></samp><br>
+<b>mcpp</b> でサーチする標準ヘッダファイルの include directory を実行時に環境変数で指定する場合のために、その環境変数の名前に定義します。<i>ENV_CPLUS_INCLUDE_DIR</i> は C++ の include directory を指定する環境変数の名前です。デフォルトではそれぞれ "INCLUDE", "CPLUS_INCLUDE" に定義されます。GCC-specific-build では "C_INCLUDE_PATH", "CPLUS_INCLUDE_PATH" がデフォルトです。<br>
+サーチパスはその外、<samp>system.c</samp> で設定されるもの、-I オプションで設定されるものがあります（それらの優先順位については <a href="mcpp-manual.html#4.2">mcpp-manual.html#4.2</a> を参照）。<br>
+<li><samp><i>ENV_SEP</i></samp><br>
+この環境変数に複数のパスを書く時の separator を文字定数で書きます。<br>
+<samp>/usr/local/abc/include:/usr/local/xyz/include</samp> と書く時の ':' や<br>
+<samp>C:/BC55/INCLUDE;C:/BC55/LOCAL/INCLUDE</samp> と書く時の ';' がこれです。<br>
+<li><samp><i>SEARCH_INIT</i></samp><br>
+ターゲット処理系が include ファイルをサーチする時のルールを書きます。#include "../dir/header.h" といったディレクティブを処理する時に、include ディレクトリをサーチする前にどのディレクトリをサーチするのかというルールです。カレントディレクトリからの相対パスをサーチする処理系では <i>CURRENT</i> とし、ソースファイル（include 元）のあるディレクトリからの相対パスをサーチする処理系では <i>SOURCE</i> とします。この両者の組合わせである場合は (<i>CURRENT</i> &amp; <i>SOURCE</i>) とします。<br>
+</ul>
+
+<h4><a name="4.1.1.3" href="#toc.4.1.1.3">4.1.1.3. 行番号情報の出力形式その他</a></h4>
+<ul>
+<li><samp><i>LINE_PREFIX</i></samp><br>
+<b>mcpp</b> から compiler-proper にファイル名と行番号情報を伝える形式を設定します。<br>
+<pre>
+#line 123 "fname"
+</pre>
+というＣのソースの形式がデフォルトとなっています。その他の形式を使う処理系では、この <samp>"#line "</samp> の部分を置き換える sequence を文字列リテラルで書いておきます。<br>
+<pre>
+# 123 "fname"
+</pre>
+という形式なら <samp>"# "</samp> と定義し、どちらでもない独自の形式ならそれに合わせて定義します（場合によっては <samp>main.c</samp> の sharp() 等に書き足さなければならないかもしれない）。<br>
+Visual C++ .net や Borland C のような１パスコンパイラの前段に <b>mcpp</b> を使う場合は、組み込みプリプロセッサに出力を渡すことになるので、<b>mcpp</b> の出力はＣのソースになっていなければなりません。したがって、行番号の受け渡しは１番目の形式でなければなりません。<br>
+<br>
+<li><samp><i>EMFILE</i></samp><br>
+<samp>&lt;errno.h&gt;</samp> で too many open files (for the process) を意味する errno の値を表すマクロが <i>EMFILE</i> でない場合は、<i>EMFILE</i> をそのマクロ名に定義します（もちろん、<samp>&lt;errno.h&gt;</samp> 自体に書き加えてもかまわない）。<br>
+<li><samp><i>ONE_PASS</i></samp><br>
+ターゲット処理系がプリプロセッサの分離されていないいわゆる「ワンパスコンパイラ」であればこれを <i>TRUE</i> に、そうでなければ <i>FALSE</i> に定義します。これを <i>TRUE</i> とすると、#pragma MCPP put_defines (#put_defines) では、処理系の事前定義マクロはすべてコメントで囲んで出力します。ワンパスコンパイラでは <b>mcpp</b> の出力をこれに与えると再度プリプロセスされることになるので、二重定義を避けるためです。<br>
+ただし、GCC V.3, V.4 はワンパスコンパイラとも言えますが、独立したプリプロセッサを使うこともできるので、このマクロは <i>FALSE</i> としておきます。<br>
+<li><samp><i>FNAME_FOLD</i></samp><br>
+Windows のようにファイル名の大文字と小文字が区別されないＯＳではこれを <i>TRUE</i> と定義し、そうでなければ <i>FALSE</i> とします。<br>
+</ul>
+
+<h4><a name="4.1.1.4" href="#toc.4.1.1.4">4.1.1.4. 処理系の言語仕様に応じた設定</a></h4>
+<ul>
+<li><samp><i>EXPAND_PRAGMA</i></samp><br>
+#pragma 行の引数が STDC 以外であればマクロ展開の対象となる処理系では、これを <i>TRUE</i> に定義します。デフォルトでは <i>FALSE</i> としています。Visual C, Borland C では #pragma 行の引数は常にマクロ展開の対象となるので、これは <i>TRUE</i> とします。C99 では #pragma の引数がマクロ展開の対象となるかどうかは implementation-defined で、C90 ではマクロ展開されないのが規定なのですが、しかし、<b>mcpp</b> は Visual C, Borland C 用に限っては C99 でなくてもマクロ展開の対象とします（引数が STDC または MCPP で始まらない限り）。<br>
+<br>
+<li><samp><i>HAVE_DIGRAPHS</i></samp><br>
+Digraphs 処理が実装されている場合は <i>TRUE</i>、そうでなければ <i>FALSE</i> とします。<br>
+<li><samp><i>STDC</i></samp><br>
+ターゲット処理系の事前定義マクロ <tt>__STDC__</tt> のデフォルト値に定義します。<tt>__STDC__</tt> が定義されていなければ 0 とします。<br>
+<li><samp><i>STDC_VERSION</i></samp><br>
+ターゲット処理系の事前定義マクロ <tt>__STDC_VERSION__</tt> のデフォルト値に定義します。<tt>__STDC_VERSION__</tt> が定義されていなければ 0L とします。<br>
+<br>
+<li><samp><i>CHARBIT, UCHARMAX, LONGMAX, ULONGMAX</i></samp><br>
+ターゲット処理系の <samp>&lt;limits.h&gt;</samp> の <tt>CHAR_BIT, UCHAR_MAX, LONG_MAX, ULONG_MAX</tt> の値を書きます。<br>
+ただし、<samp>limits.h</samp> の <tt>UCHAR_MAX</tt> の定義は間違っている場合があるので、注意が必要です。255U, 0xffU 等と unsigned にしてはいけません。255, 0xff 等と signed int の値に定義します（<a href=cpp-test.html#5.1.3>cpp-test.html#5.1.3</a> 参照）。
+</ul>
+
+<h4><a name="4.1.1.5" href="#toc.4.1.1.5">4.1.1.5. Multi-byte character</a></h4>
+<p><i>MBCHAR</i> というマクロは multi-byte character の encoding を指定するものです。<b>mcpp</b> では下記の数種の encoding がすべて同時に実装されます。<i>MBCHAR</i> はデフォルトの encoding を指定するだけで、実行時に encoding を環境変数・オプション・#pragma で変更することができます（使い方については <a href=mcpp-manual.html#2.3>mcpp-manual.html#2.3</a>, <a href=mcpp-manual.html#2.8>mcpp-manual#2.8</a>, <a href=mcpp-manual.html#3.4>mcpp-manual.#3.4</a> を参照）。</p>
+<ul>
+<li><samp><i>MBCHAR</i></samp><br>
+ターゲットの multi-byte character（日本語では漢字）の encoding の種類を定義します。<br>
+<blockquote>
+<table>
+  <tr><th><i>EUC_JP</i>    </th><td>日本の extended UNIX code (UJIS)</td></tr>
+  <tr><th><i>SJIS</i>      </th><td>日本の shift-JIS (MS-Kanji)</td></tr>
+  <tr><th><i>GB2312</i>    </th><td>中国の EUC-like な GB-2312（簡体字）</td></tr>
+  <tr><th><i>BIGFIVE</i>   </th><td>台湾の Big5（繁体字）</td></tr>
+  <tr><th><i>KSC5601</i>   </th><td>韓国の EUC-like な KSC-5601 (KSX 1001)</td></tr>
+  <tr><th><i>ISO2022_JP</i></th><td>ISO-2022-JP1 という国際規格の日本語</td></tr>
+  <tr><th><i>UTF8</i>      </th><td>unicode の encoding の１種である UTF-8</td></tr>
+</table>
+</blockquote>
+初めの５つはいずれも shift-states を持たない、１文字が２バイトを占める encoding です。なお、multi-byte character, wide character の encoding が２バイトであるにもかかわらず、wchar_t が４バイトの型になっている処理系もありますが、プリプロセッサは wchar_t の型には関知しません。ソース上では multi-byte character や wide character が２バイトを占めているので、それに従って処理をします。<br>
+ISO-2022-* は shift-states を持つ encoding です。UTF-8 は２バイトの unicode を１バイトないし３バイトで encode するものです。漢字は３バイトになります。<br>
+<i>MBCHAR</i> を 0 に定義した場合、multi-byte character の処理をしないのがデフォルトの仕様になるだけで、環境変数・オプション・#pragma で実行時に変更されます。<br>
+<br>
+<li><samp><i>SJIS_IS_ESCAPE_FREE</i></samp><br>
+コンパイラ本体が shift-JIS の処理をする場合は <i>TRUE</i> とし、しない場合は <i>FALSE</i> とします。<br>
+Shift-JIS では漢字の２バイト目が '\\' と同じ 0x5c の値になることがあります。コンパイラ本体が shift-JIS を認識しない場合は、これを escape sequence と解釈してしまい、tokenization でエラーになります。<br>
+<i>SJIS_IS_ESCAPE_FREE</i> を <i>FALSE</i> とすると、<b>mcpp</b> が処理を補います。すなわち、最終出力の時に、文字列リテラルまたは文字定数の中の shift-JIS 漢字第２バイトが 0x5c であった場合は、そこに 0x5c のバイトをもう１つ付加します。これによって、英語版のコンパイラを一応 shift-JIS に対応させることができます。<br>
+<li><samp><i>BIGFIVE_IS_ESCAPE_FREE</i></samp><br>
+同様に、コンパイラ本体が Big 5 の処理をする場合はこれを <i>TRUE</i> とし、しない場合は <i>FALSE</i> とします。<br>
+<li><samp><i>IS02022_JP_IS_ESCAPE_FREE</i></samp><br>
+同様に、コンパイラ本体が ISO-2022-JP の処理をする場合はこれを <i>TRUE</i> とし、しない場合は <i>FALSE</i> とします。IS0-2022-* では '\\' ばかりでなく、'\'' や '"' と一致するバイトも出現します。<i>ISO2022_JP_IS_ESCAPE_FREE</i> が <i>FALSE</i> の場合は <b>mcpp</b> は、'\\', '\'', '"' と一致するバイトの直前にすべて 0x5c のバイトを１つ挿入します。<br>
+</ul>
+<p>なお、multi-byte character に関するコンパイラの動作は実行する時の環境によって変わる場合があります。自分の使う環境に合わせて設定してください。これについては、<a href="mcpp-manual.html#2.8">mcpp-manual.html#2.8</a> も参照してください。</p>
+
+<h4><a name="4.1.1.6" href="#toc.4.1.1.6">4.1.1.6. ターゲットとホストに共通の設定</a></h4>
+<p>次の２つは便宜上、PART 2 に書いてありますが、
+ターゲット処理系とホスト処理系の双方が指定の型を持つ場合に <i>TRUE</i> とし、そうでない場合は <i>FALSE</i> とします。</p>
+<ul>
+<li><samp><i>HAVE_LONG_LONG</i></samp><br>
+long long というデータ型を持つ処理系ではこれを <i>TRUE</i> とします。<br>
+Visual C の 2005 までや Borland C 5.* のように、long long はないが __int64 という同じサイズの型があり printf() で表示するための length modifier も用意されている場合は、これは <i>TRUE</i> とします。
+Visual C 2008 では long long が使えます。<br>
+<li><samp><i>HAVE_INTMAX_T</i></samp><br>
+intmax_t というデータ型が定義されていればこれを <i>TRUE</i> とします。<br>
+<br>
+<li><samp><i>LL_FORM</i></samp><br>
+双方の処理系が long long を持っている場合は、ホスト処理系の最大の整数型の値を printf() で表示するための length modifier を文字列リテラルで定義します。C99 では "j" です。また、C99 では long long の length modifier は "ll" (ell-ell) です。Visual C の 2003 までと Borland C 5.* では __int64 の値を表示する "I64" を使います。MinGW でも "I64" です。<br>
+</ul>
+
+<h3><a name="4.1.2" href="#toc.4.1.2">4.1.2. PART 2  ホストシステムの設定</a></h3>
+<p><samp>noconfig.H, configed.H</samp> ではターゲット処理系とホスト処理系とが同一であると仮定していますが、異なる場合は PART 2 を書き直す必要があります。</p>
+<ul>
+<li><i>HOST_HAVE_STPCPY</i></samp><br>
+ホスト処理系のライブラリに stpcpy() があれば <i>TRUE</i> に、なければ <i>FALSE</i> に定義します。<i>FALSE</i> であれば stpcpy() には <samp>system.c</samp> のものが使われます。<br>
+<li><samp><i>PATHMAX</i></samp><br>
+ホスト処理系の <samp>&lt;limits.h</samp>&gt; の <tt>PATH_MAX</tt> の値です。
+これは POSIX で規定されているマクロですが、これがない処理系では <samp>&lt;stdio.h</samp>&gt; の <tt>FILENAME_MAX</tt> の値を使います。<br>
+</ul>
+<p>PART 1 にもホストとターゲットが同一と仮定している部分があるので、必要ならそれを書き換えます。例えば次のようにホスト処理系の事前定義マクロを使っている行です。</p>
+<pre>
+#if _MSC_VER &gt;= 1200
+</pre>
+
+<h3><a name="4.1.3" href="#toc.4.1.3">4.1.3. PART 3  <b>mcpp</b> の動作仕様の設定</a></h3>
+
+<h4><a name="4.1.3.1" href="#toc.4.1.3.1">4.1.3.1. 新旧各種の動作モード</a></h4>
+<p><samp>system.H</samp> では <b>mcpp</b> の動作仕様を指定するマクロが定義されています。</p>
+<p><b>mcpp</b> には mcpp_mode という変数があり、これがマクロの展開方法、使えるディレクティブ、使える predefined マクロ等、プリプロセッサの根幹となる動作の仕様を決めています。mcpp_mode の値には <i>OLD_PREP, KR, STD, POST_STD</i> の４種があります。<br>
+<b>mcpp</b> の動作モードは実行時オプションで指定されます。<b>mcpp</b> をコンパイルする時には、これらの４つのマクロについては何も設定することはありません。しかし、各種の設定を正しく行うためには４つの動作仕様の違いを理解することが必要です。<br>
+このほかに <i>COMPAT</i> モードもありますが、これは <i>STD</i> の変種です。</p>
+<ul>
+<li><samp><i>OLD_PREP</i></samp><br>
+いわゆる "Reiser" model cpp の動作仕様です。<br>
+<li><samp><i>KR</i></samp><br>
+C90 以前の K&amp;R 1st. のプリプロセス仕様です。<br>
+<li><samp><i>STD</i></samp><br>
+規格 (C90, C99, C++98) 準拠のプリプロセス仕様です。<br>
+<li><samp><i>POST_STD</i></samp><br>
+筆者が勝手に作ったプリプロセス仕様で、規格の首尾一貫しない規定を整理して単純化したものです。<br>
+</ul>
+<p>ここでは <i>KR</i> と <i>OLD_PREP</i> を合わせて pre-Standard モード、<i>STD</i> と <i>POST_STD</i> を合わせて Standard モードと呼ぶことにします。各モードの仕様の詳細については <a href="mcpp-manual.html#2.1">mcpp-manual.html#2.1</a> を参照してください。</p>
+
+<h4><a name="4.1.3.2" href="#toc.4.1.3.2">4.1.3.2. 動作モードの細部の指定</a></h4>
+<ul>
+<li><samp><i>CPLUS</i></samp><br>
+-+ オプションで C++ のプリプロセッサとして動作させた時に、標準組み込みマクロ <tt>__cplusplus</tt> がこの値に事前定義されます。C++98 では 199711L です。-V オプションによって実行時に変更できます。<br>
+<li><samp><i>TRIGRAPHS_INIT</i></samp><br>
+<i>STD</i> モードでの trigraph 処理の初期状態を指定します。-3 オプションはその状態を反転させます。これを <i>TRUE</i> にすると、default で trigraph が認識され、-3 オプションで起動すると認識しません。<i>FALSE</i> の場合は逆に default で認識せず、-3 オプションで認識するようになります。<br>
+<li><samp><i>DIGRAPHS_INIT</i></samp><br>
+Standard モードでの digraph 処理の初期状態を指定します。-2 オプションはその状態を反転させます。これを <i>TRUE</i> にすると、default で digraph が認識され、-2 オプションで起動すると認識しません。<i>FALSE</i> の場合は逆に default で認識せず、-2 オプションで認識するようになります。<br>
+<i>HAVE_DIGRAPHS</i> == <i>FALSE</i> の処理系の場合、digraphs は <b>mcpp</b> が通常のトークンに変換します。<br>
+<li><samp><i>OK_UCN</i></samp><br>
+<i>STD</i> モード で -V199901L または -+ オプションを指定した時に UCN (universal-character-name) を有効にするには、これを <i>TRUE</i> に定義します。デフォルトでは <i>TRUE</i> としています。*1<br>
+<li><samp><i>OK_MBIDENT</i></samp><br>
+<i>STD</i> モード で -V199901L オプションを指定したときに identifier 中に multi-byte character を使えるようにするには、これを <i>TRUE</i> に定義します。デフォルトでは <i>FALSE</i> としています。<br>
+<br>
+<li><samp>expr_t, uexpr_t</samp><br>
+最も大きい整数の型に typedef で定義します。intmax_t, uintmax_t という型があればそれに、そうでなくて long long, unsigned long long を持つ処理系ではそれに、そうでなくて __int64, unsigned __int64 を持つ処理系ではそれに、そうでなければ long, unsigned long に定義します。<br>
+<li><samp><i>EXPR_MAX</i></samp><br>
+uexpr_t の最大値に定義します。<br>
+</ul>
+<p>注:</p>
+<p>*1 UCN は C++, C99 の仕様で、Unicode の文字の値を \u または \U で始まる１６進 escape sequence で表記するものである（<a href="mcpp-manual.html#3.7">mcpp-manual.html#3.7</a>, <a href="cpp-test.html#2.8">cpp-test.html#2.8</a>, <a href="cpp-test.html#4.6">cpp-test.html#4.6</a> 参照）。
+</p>
+
+<h4><a name="4.1.3.3" href="#toc.4.1.3.3">4.1.3.3. Translation limits の指定</a></h4>
+<ul>
+<li><samp><i>RESCAN_LIMIT</i></samp><br>
+Standard モードでのマクロ展開時の再走査回数の限度を定義します。
+Standard モード では再走査回数は少ないので、あまり大きな値を設定する必要はありません。<br>
+<li><samp><i>PRESTD_RESCAN_LIMIT</i></samp><br>
+pre-Standard モードでのマクロ展開時の再走査回数の限度を定義します。pre-Standard モード では再帰的なマクロ展開によって無限ループが発生しえますが、それがこのリミットにひっかかります。<br>
+<li><samp><i>NBUFF</i></samp><br>
+論理行（ソースの物理行の行末の \ を取って接続した行）の最大長 +1 を定義します。コメントを a space に変換した後の行（コメントによって複数の論理行にまたがることもありうる）もこの長さにおさまっていなければなりません。<br>
+<li><samp><i>NMACWORK</i></samp><br>
+マクロ展開の内部的なバッファのサイズを定義します。すなわち、１つの論理行中のマクロを展開した結果（マクロ呼び出しが複数行にまたがる場合は、それを展開した結果）はこのサイズにおさまっていなければなりません。これはまた、１つのマクロ定義の置換リストを内部的に記憶する際の最大長としても使われます。これは <i>NBUFF</i>*2 以上で <i>NWORK</i>*2 以上でなければなりません。<br>
+<li><samp><i>NWORK</i></samp><br>
+<b>mcpp</b> の出力する最大行長を定義します。これは compiler-proper の受け取れる最大行長+1 を越えてはいけません。また、<i>NBUFF</i> の値を越えてもいけません。マクロ展開後の行長がこれを越えた時は、<b>mcpp</b> がこれ以下の行長に分割して出力します。文字列リテラルの長さは <i>NWORK</i>-2 の範囲に収まっていなければなりません（文字列リテラルの長さというのは、char 配列の要素数のことではなく、ソース上での文字列リテラルというトークンの長さである。両端の " を含み、\n 等は２バイトと数える。ワイド文字列リテラルでは先頭の L も含む）。<br>
+ただし、GCC 版および Visual C 版では出力の最大行長としては <i>NWORK</i> ではなく <i>NMACWORK</i> を使います。
+これらの処理系ではコンパイラがかなり長い行を受け取ることができるので、分割して出力する必要がないからです。<br>
+<li><samp><i>IDMAX</i></samp><br>
+識別子の最大長を定義します。これより長い名前もエラーにはなりませんが、この長さに切り詰められます。<br>
+<li><samp><i>NMACPARS</i></samp><br>
+関数様マクロの引数の最大数を定義します。これは <i>UCHARMAX</i> よりも大きくはできません。<br>
+<li><samp><i>NEXP</i></samp><br>
+#if 行の式のカッコでくくられるネストレベルの限度を定義します（本当はネストレベルがこれで直接決まるわけではない。正確には、式中の定数トークンの数がこの２倍、演算子トークンの数がこの３倍まで使える。かっこは一対で２つと数える）。<br>
+<li><samp><i>BLK_NEST</i></samp><br>
+#if (#ifdef, #ifndef) section のネストレベルの限度（#if, etc. が何段階にネストできるか）を定義します。<br>
+<li><samp><i>INCLUDE_NEST</i></samp><br>
+#include のネストレベルの限度を定義します。#include の無限再帰をチェックするためのものです。同時にオープンできるファイルの数に関する OS の制限を超えていてもかまいません。<br>
+<li><samp><i>SBSIZE</i></samp><br>
+マクロを内部的に hash で分類して記憶する際の hash table の要素数を定義します。必ず２のベキ乗でなければなりません。マクロの数より小さくても動作は正常にしますが、大きいほうが処理はやや速くなります。<br>
+</ul>
+<p>それぞれ大きい値にするほど仕様は上等になりますが、<i>NWORK</i>, <i>NBUFF</i>, <i>NMACWORK</i>, <i>SBSIZE</i> は大きいとそれだけ大きなメモリを食います。実際のメモリ消費はマクロ定義の量によってさらに増えてゆきます（それぞれのマクロ定義の長さによって必要メモリが決まる。マクロ定義の内部的な形式は <samp>internal.H</samp> の struct defbuf に書いてある）。</p>
+<p><i>NMACWORK</i>, <i>NEXP</i>, <i>RESCAN_LIMIT</i> はスタックを消費します。<br>
+他のものはメモリはさほど必要としませんが、<samp>system.H</samp> のデフォルトの値以上にしても実用上の意味はほとんどないでしょう。</p>
+<p>C90, C99 の要求する translation limits の最低限度は <samp>system.H</samp> の最後のほうに書いてあります。C++98 の translation limits も書いてありますが、これはＣと異なり、要求仕様ではありません。</p>
+<br>
+
+<h2><a name="4.2" href="#toc.4.2">4.2. system.c</a></h2>
+<p>主としてターゲット処理系に関するいくつかの設定を実装しています。</p>
+<ul>
+<li><samp><i>PATH_DELIM</i></samp><br>
+ＯＳの path-delimiter を定義しています。<i>PATH_DELIM</i> は \ としてはいけません（プログラムのつごうで）。Windows では / としています。ユーザプログラムではもちろん \ も使えますが、それを内部的には / に変換します。<br>
+<li><samp><i>OBJEXT</i></samp><br>
+処理系の生成するいわゆるオブジェクトファイルの接尾子を文字列リテラルで定義します。UNIX 上の処理系の "o"、Windows 上の処理系の "obj" 等です。これは -M* オプションを指定した時の makefile 用依存関係行の出力に使われるものです。<br>
+<br>
+<li><samp>do_options()</samp><br>
+<b>mcpp</b> を起動する時のオプションを実装しています。まだ移植されていない処理系に移植する時には、その処理系付属のコンパイラドライバに合わせて、ここに何行か書き足すことが必要でしょう。do_options() に追加した時は、それに対応して次の set_opt_list(), usage() にも書き足します。<br>
+do_options() は mcpp_getopt() を呼び出します。mcpp_getopt() は POSIX の getopt() と同じ仕様です。
+そのため、１つのオプション文字は引数なしか引数ありのどちらかに決めなければなりません。-P と -P- といったオプションの使い方は原則としてできません（しかし、処理系付属のプリプロセッサとの互換性のために必要な場合は、無理やりできなくもない。-M オプションの実装を参照）。また、-trigraphs といった長いオプションは t をオプション文字として rigraphs を引数とすることで実装するしかありません。<br>
+<li><samp>set_opt_list()</samp><br>
+do_options() で使うオプション文字を設定します。<br>
+<li><samp>usage()</samp><br>
+Usage 文が書かれています。
+モードごとのオプションがアルファベット順に並べられています。<br>
+<li><samp>set_sys_dirs()</samp><br>
+Include directory を設定しています。<samp>noconfig.H (configed.H)</samp> のマクロ <i>C_INCLUDE_DIR?</i>, <i>CPLUS_INCLUDE_DIR?</i> で指定された処理系固有のディレクトリのほか、UNIX 系ＯＳでの /usr/include, /usr/local/include もここで設定しています（<samp>noconfig.H, configed.H</samp> のマクロ <i>ENV_C_INCLUDE_DIR</i>, <i>ENV_CPLUS_INCLUDE_DIR</i> で定義された名前の環境変数による include directory 指定は set_env_dirs() で設定される）。<br>
+<br>
+<li><samp>do_pragma()</samp><br>
+#pragma の処理を実装しています。<b>mcpp</b> 自身が処理しない #pragma sub-directive はそのまま出力して compiler-proper に渡します。<b>mcpp</b> 自身が処理する #pragma MCPP debug 等はここから呼び出す関数で処理します。<b>mcpp</b> 自身が処理する #pragma sub-directive は原則として MCPP という名前で始まるようにしています。MCPP で始まる #pragma 行そのものは出力しません。また #pragma once も出力しません。しかし、#pragma __setlocale 行は出力します。規格では処理系固有の拡張 directive は #pragma sub-directive として実装することになっています。<br>
+<li><samp>do_old()</samp><br>
+規格に合致しない preprocessing directive （#pragma sub-directive でない #assert, #asm, #endasm, #include_next, #warning, #put_defines, #debug 等）が必要な場合は、その処理をする関数を書き足したうえで、ここからそれを呼び出すようにします（ただし、GCC 用では #include_next, #warning は <i>STD</i> モード でも使えるようにしてある）。<br>
+</ul>
+<p>Standard C にはないライブラリ関数のうち、getopt() と stpcpy() のソースがここに書いてあります。
+getopt() はリンクのトラブルを防ぐため、mcpp_getopt() と名前を変えてあります。
+stpcpy() は HOST_HAVE_STPCPY が FALSE の時に使われます。</p>
+<br>
+
+<h2><a name="4.extra" href="#toc.4.extra">4.extra. malloc()</a></h2>
+<p>「kmmalloc -- デバッグ機能を持つ malloc()」というのは、私がＣで書いた malloc(), free(), realloc(), calloc() の portable なソースです。これはメモリ効率を改善するとともに、デバッグのつごうを考えて書いてあります。デバッグ用のルーチンも添付してあります。これをリンクしておくと、思わぬバグがひっかかってくることがあります。*1, *2</p>
+<p>noconfig/*.mak で -DKMMALLOC -D_MEM_DEBUG -DXMALLOC というオプションを与えているのは、この私の malloc() 等とデバッグルーチンをリンクするためのものです。これをリンクした <b>mcpp</b> が<i>EFREEP</i>, <i>EFREEBLK</i>, <i>EALLOCBLK</i>, <i>EFREEWRT</i>, <i>ETRAILWRT</i> というエラー番号で途中で exit することがあれば、それは <b>mcpp</b> のバグを意味します。<br>
+<p><i>BSD_MALLOC</i>, <i>DB_MALLOC</i>, <i>MALLOC_DBG</i> というマクロのどれかを 1 に定義して <b>mcpp</b> をコンパイルすると、私の malloc() とは別のそれぞれデバッグ機能を持った malloc() が使われます。いずれにしても、処理系付属のものではない malloc() を使うには、コンパイルする前にライブラリを作っておかなければなりません。これについては kmmalloc のドキュメントを見てください。</p>
+<p>注:</p>
+<p>*1 kmmalloc は次のところにある。
+</p>
+<blockquote>
+<p><a href="http://download.vector.co.jp/pack/dos/prog/se026997.html">http://download.vector.co.jp/pack/dos/prog/se026997.html</a></p>
+</blockquote>
+<p>*2 CygWIN ではライブラリの組み立てが他の malloc() を使えないようになっているので、私の malloc() は使っていない。
+Visual C 2005, 2008 でも同様である。</p>
+<br>
+
+<h1><a name="5" href="#toc.5">5. バグ報告と移植の報告</a></h1>
+
+<h2><a name="5.1" href="#toc.5.1">5.1. バグかどうか？</a></h2>
+<p>プリプロセスの Standard C 適合性を検証するための Validation Suite を <b>mcpp</b> といっしょに公開しています。Standard C のプリプロセスのすべての規定を検証できるものにしたつもりです。もちろん、<b>mcpp</b> はこれを使ってチェックしてあります。それも、上記のすべての処理系でコンパイルしてチェックしてあります。したがって、バグや誤仕様はほとんどないと思いますが、しかし、まだいくつか残っている恐れもあります。まだ移植されていない処理系に新しく移植した場合は、処理系のバグにひっかかる可能性もあります。</p>
+<p>もし、不可解な動作が発見されたら、ぜひご報告ください。その際には、次の点のチェックをお願いします。</p>
+<ol>
+<li><i>STD</i> モードの場合、自分の Standard C 解釈を確かめるため、まず Validation Suite を使ってみる。GCC / testsuite の使えるシステムでは、オプションを付けて configure して make check で自動テストができる。<br>
+<li>自分の <b>mcpp</b> の移植に間違いはないかどうか、ドキュメントを確かめる。<br>
+<li>バグを再現するサンプルソースを抽出する。<br>
+<li>バグを引き出す部分を 
+#pragma MCPP debug &lt;args&gt; と #pragma MCPP end_debug ではさんで <b>mcpp</b> の動作をトレースしてみる。この &lt;args&gt; をさらに増やしてより詳細にトレースしてみる。<br>
+</ol>
+<p>もし、"Bug: ..." という診断メッセージが出たら、それは間違いなく <b>mcpp</b> または処理系の（たぶん <b>mcpp</b> の）バグです。また、たとえむちゃくちゃな「ソース」でも、それを食わせることで <b>mcpp</b> が暴走するなら、それもバグです。<br>
+もちろん、Standard C モード以外のモードの <b>mcpp</b> は Validation Suite では「間違い」だらけの動作をしますが、それは仕様です（それでも暴走はしないはず）。どういう仕様かは <a href="#4.1.3">4.1.3</a> を見てください。</p>
+<br>
+
+<h2><a name="5.2" href="#toc.5.2">5.2. malloc() 関連のバグチェック</a></h2>
+<p>私が書いた kmmalloc という malloc() 等のライブラリがあります（<a href="#4.extra">4.extra</a> 参照）。
+<br>
+もし、私のこの malloc() 等をリンクした <b>mcpp</b> で 120 から 124（処理系によっては 2120 から 2124）のエラー番号で途中で exit することがあれば、それは間違いなく <b>mcpp</b> または処理系の（たぶんライブラリ関数の）バグです。</p>
+<p>また、テストに使うサンプルソースのどこかに</p>
+<pre>#pragma MCPP debug memory</pre>
+<p>と書いておくと、その個所および終了時にヒープメモリに関する情報が出力されますが、ここで Heap error: ... というメッセージが出ることがあれば、それも間違いなく <b>mcpp</b> または処理系のバグです。</p>
+<p>これらのバグが発見されたら、サンプルソースの各部分を #if 0 と #endif ではさんでテストを繰り返し、バグを発生する部分を絞り込んでみてください。</p>
+<br>
+
+<h2><a name="5.3" href="#toc.5.3">5.3. バグ報告を</a></h2>
+<p>バグ報告には次のようなデータを付けてくださるようお願いします。</p>
+<ol>
+<li><b>mcpp</b> を移植した処理系。<br>
+<li>移植した方法（<samp>noconfig.H</samp> 等の設定）。
+<br>
+<li>バグと思われるものを再現できるサンプルソース。
+<br>
+<li>その処理結果。
+</ol>
+<br>
+
+<h2><a name="5.4" href="#toc.5.4">5.4. 移植の報告を</a></h2>
+<p><b>mcpp</b> はほとんどの処理系に比較的簡単に移植できるように書いてあるつもりです。
+しかし、私が持っている処理系は少数です。他の処理系への移植ではソースの書き足しが必要なはずです。それらの処理系への移植の報告をお待ちしています。それをソースにフィードバックしていきたいと思います。<br>
+移植の報告は次のような形でお願いします。</p>
+<ol>
+<li>処理系。
+<br>
+<li><samp>noconfig.H (configed.H), system.H, system.c</samp> の設定。
+なるべくオリジナルとの差分ファイルが良いが、簡単なものならメモでも可。<br>
+</ol>
+<p>正しく移植できたかどうかを確かめるには、compiler-specific-build では、まずプリプロセッサを入れ替えて、ヘッダファイルの "pre-preprocess" の機能を使って自分自身をリコンパイルしてみるのが手っ取り早いでしょう。</p>
+<p>さらに Validation Suite で <i>STD</i> モードのチェックをします。ただ、これはファイルの数が多いので、デバッグを繰り返す時には手間がかかりすぎます。デバッグ中はまず、n_std.c をコンパイルして、正常にコンパイル・実行されるかどうかを見ます。処理系付属のコンパイラドライバでは <b>mcpp</b> に渡す方法のないオプションもありますが、それについては <a href="mcpp-manual.html#2.2">mcpp-manual.html#2.2</a> を見てください。先に <b>mcpp</b> を通してからコンパイルする手もあります。</p>
+<p>もしこれがうまくいかない場合は、 n_std.t というサンプルを使って、どこが悪いのか、目でチェックします。これがうまくいったら、e_std.t, m_*.t, unspcs.t, warns.t, misc.t もチェックします。"post-Standard" モードでは n_post.t, e_post.t を使います。</p>
+<p>これらを mcpp -QCz23 というオプションを付けて処理します（post-Standard モードでは -3 は不可）。<i>STDC</i> == 0 でコンパイルしてあれば -S1 -V199409L オプションも付けます。-C オプションでコメントも出力されるので、処理結果が期待通りかどうかがすぐわかります。<br>
+-Q オプションで診断メッセージは mcpp.err というファイルに出力されるので、それをページャー等で読みます。<br>
+-z オプションで、ヘッダファイルの出力は省略されます。<br>
+-2 -3 で digraph と trigraph が有効になります。-S1 -V199409L で <tt>__STDC__</tt> が 1 に <tt>__STDC_VERSION__</tt> が 199409L になります。<br>
+C99 対応のテストをするためには、-V199901L オプションを付けて n_std99.t, e_std99.t のチェックをします。</p>
+<p>Validation Suite の <samp>cpp_test.c</samp> というプログラムを使うと、n_*.c, i_*.c のサンプルのテストを自動的に行うことができます（ただし、これは○×をつけるだけで、詳細はわからない。また、e_*.?, u_*.?, unspcs.?, warns.? 等のテストは含まれない。<b>mcpp</b> 自身のテストをするためには、n_std.c をコンパイルするほうが早い）。</p>
+<p>なお、Validation Suite は GCC の testsuite に対応しています。したがって、<b>mcpp</b> を GCC のどれかのバージョンに移植した場合は、GCC / testsuite がインストールされていれば、GCC のプリプロセッサを <b>mcpp</b> に置き換えると、<b>mcpp</b> の自動テストができます。これについては <a href="cpp-test.html#3.2.3">cpp-test.html#3.2.3</a>, <a href="mcpp-manual.html#3.9.7">mcpp-manual.html#3.9.7</a> を見てください。
+</p>
+<br>
+
+<h2><a name="5.5" href="#toc.5.5">5.5. GCC 以外の処理系での configure の情報を</a></h2>
+<p><b>mcpp</b> は UNIX 系システムでは configure スクリプトが使えます。
+しかし、UNIX 系システムでの GCC 以外の処理系については私はまったく知らないので、compiler-specific-build の configure ではいくつかのオプションを指定してもらわなければなりません。</p>
+<p>これらのオプションで指定する内容については、その処理系を使っている人は知っているか、または調べることができるはずです。おわかりの方はぜひ教えてください。Configure に取り込んでゆきたいと思います。<br>
+Configure については INSTALL をご覧ください。</p>
+<br>
+
+<h2><a name="5.6" href="#toc.5.6">5.6. データを送ってくれれば移植してみます</a></h2>
+<p>移植がうまくいかない場合は、そのようすをお知らせください。<br>
+次のデータを付けてくれれば、移植したソースをお返しできるかもしれません。Configure の使える環境では、これらのデータのうちのかなりの部分を configure によって知ることができます。<br>
+なお、C90 (ANSI C) に対応していない処理系は、<b>mcpp</b> V.2.6 からは移植の対象から外しました。</p>
+<ol>
+<li>ＯＳとそのパスリストの形式（私は UNIX 系, DOS/Windows 系, OS-9 しか知らない）。<br>
+<li>処理系の名前とバージョン。<br>
+<li>基本文字セットは ASCII か。
+そうでなければどういう文字セットか。Multi-byte character（漢字）の encoding はシフト JIS か EUC-JP か、それとも何か。Shift-JIS のように &lt;backslash&gt; と同じコードが multi-byte character に含まれる encoding の場合、コンパイラ本体はそれを認識するか。<br>
+<li>Shell（コマンドプロセッサ）は大文字と小文字を区別するか。<br>
+<li>ファイル名の大文字と小文字は区別されるか。
+<br>
+<li>実装したい実行時オプション。コンパイラドライバから渡されるオプション。
+プリプロセッサ単体で動かす時のオプション（getopt() で実装できないものは不可）。<br>
+<li>プリプロセッサが分離されている処理系か、それともいわゆるワンパスコンパイラか。<br>
+<li>その処理系の事前定義マクロとその値。C++ の時はどうなるか（コンパイラドライバから -D オプション等でプリプロセッサに渡されるマクロと、プリプロセッサ自身が事前定義するマクロとを区別すること）。<br>
+<li>long long 型はあるか。long long がある場合、printf() での long long の length modifier は何か。long long がなくても同じサイズの型があるか。<br>
+<li>#pragma 行の引数はマクロ展開の対象となるか。<br>
+<li>Include directory を指定する環境変数にはどういう名前を使うか。環境変数で複数のパスを記述する時の separator には何を使うか。<br>
+<li>通常使う include directory。#include でヘッダファイルをサーチする時の規則。<br>
+<li>必要な関数で、ライブラリに無いものがあるか。<br>
+<li>コンパイラ本体は digraph を認識するか。<br>
+<li>識別子に $ を使うか。
+<br>
+<li>#asm, #endasm はあるか。
+これではさまれたブロックのコンパイラ本体への受け渡し形式はどうか。その他の規格外 directive にはどんなものがあるか。<br>
+<li>プリプロセッサで処理すべき #pragma sub-directive には何があるか。<br>
+<li>コンパイラ本体が受け取れる行長はどのくらいまでか（Validation Suite にある <samp>test-l/l_37_8.c</samp> をコンパイルするとわかる）。<br>
+<li>コンパイラ本体では、識別子は何バイトまで識別されるか。<br>
+<li>コンパイル後、リンク前の「オブジェクトファイル」の接尾子は何か（UNIX 上の処理系の .o や Windows 上の処理系の .obj に相当するもの）。<br>
+<li>次の <samp>t_line.c</samp> というサンプルをプリプロセッサだけに通した結果（単体プリプロセッサを使うか、またはオプションでプリプロセス後の出力を指定する）。これは行番号とファイル名の情報をコンパイラ本体に渡す方法を見るためのものである。<samp>&lt;stdio.h&gt;</samp> の内容は長すぎるので、途中をカットして最初の１０〜２０行と最後の１０〜２０行があれば十分である。<br>
+さらに、#line 1000 が処理された結果が #line 1000 "t_line.c" とならず #1000 "t_line.c" とかその他の形式になる処理系では、その部分を #line 1000 "t_line.c" と書き替えてコンパイラ本体に渡して、これを認識できるかどうかを見る（#line 1000 "t_line.c" でエラーにならなければ error line; の行でエラーメッセージが出るはずであるが、その時に行番号がどう出るか）。<br>
+</ol>
+<pre>
+/* t_line.c */
+#include    &lt;stdio.h&gt;
+
+#line 1000
+
+error line;
+
+main( void)
+{
+    return  0;
+}
+</pre>
+<p>ホスト処理系とターゲット処理系が違う場合はその双方について上記のデータがあれば、何とかなるでしょう。</p>
+<p>こうして並べてみると、チェックすべきことがずいぶんたくさんありますね。しかし、多くの処理系では移植ずみの処理系と共通の特性が多いでしょうから、一応動作するだけの移植であればさほどの手間ではないはずです。比較的手間のかかるのは実行時オプションと #pragma、さらに規格外仕様の実装です。これは一応動作するようになってから、徐々にやってゆくこともできます。唯一面倒なのは、処理系のバグにひっかかった場合です。</p>
+<br>
+
+<h2><a name="5.7" href="#toc.5.7">5.7. 検証セットによる他の処理系のテスト報告を</a></h2>
+<p>私が持っている処理系のプリプロセッサを私の検証セットでテストした結果は、<a href=cpp-test.html#6>cpp-test.html#6</a> にまとめてあります。<br>
+その他の処理系についてテストした結果をお知らせください。項目が多いのでかなりの手間ですが。<br>
+<samp>cpp_test.c</samp> によるテストであれば手間はかからないので、これだけでもお願いします。GCC の場合は、検証セットによる自動テストができます。</p>
+<br>
+
+<h2><a name="5.8" href="#toc.5.8">5.8. 改善のご意見を</a></h2>
+<p>バグ報告のほかにも、<b>mcpp</b> の使い勝手、診断メッセージ、<b>mcpp</b> のソース、Validation Suite、私の Standard C 解釈、ドキュメントの書き方、などについてご意見をお寄せください。<br>
+趣味で作ったプリプロセッサですが、V.2.0 までだけでも６年半もかけて凝りに凝った労作です。凝りついでにできるだけ良いものにしたいと思っています。Ｃプリプロセッサについては、私の持っていない処理系への移植とテスト以外は、やって意味のあることはほとんどすべてやったつもりです。多少とも問題が残っていれば、手を入れたいと思います。<br>
+Martin Minow のソースはとてもきれいな、クセのない、わかりやすいもので、これを読むだけでも私にとってはずいぶん勉強になりました。<br>
+こういうものに興味を持つ人はかなり限られていると思いますが、多くのコメントと情報をお待ちしています。<br>
+ご意見と情報は</p>
+<p><a href="http://mcpp.sourceforge.net/">http://mcpp.sourceforge.net/</a></p>
+<p>の "Open Discussion Forum" またはメールでお願いします。
+</p>
+<br>
+
+<h1><a name="6" href="#toc.6">6. <b>mcpp</b> の長い道のり</a></h1>
+
+<h2><a name="6.1" href="#toc.6.1">6.1. 構想３日、制作６年</a></h2>
+<p>1992/01 に DECUS cpp をいじりだした時には、
+こんな長丁場になるとは夢にも思いませんでした。正月休みにちょこっとバージョンアップしてみようと思っただけだったのです。<br>
+やり始めて、ソースをちゃんと読まないとダメだとわかり、２か月くらいかけて読みました。読みがいのあるソースだったからでもあります。次にいくつかの仕様を C90 対応にバージョンアップしました。ここまでは当初の目的の通りでした。</p>
+<p>しかし、ここで私は自分が C90 のプリプロセス仕様を正確には知っていないことに気付きました。P. J. Plauger &amp; Jim Brodie "Standard C" (1989) を読んだところ、function-like マクロの展開方法は、私の先入見をひっくり返すものでした（ある邦訳書はここを誤訳していたが）。そこで規格書を買って、プリプロセスに関する難解な文章をくり返し読みました。その結果、C90 のプリプロセスは伝統的なものとは多くの点で異なっていることがわかりました。#, ## 演算子が追加されたことは、そのほんの一部分にすぎなかったのです。</p>
+<p>ことに function-like マクロの展開ルーチンにはかなり頭を悩ましました。E. Ream の cpp のソースを参考に２〜３週間考えて、C90 用マクロ展開ルーチンを新しく書きました。私がプログラムのアルゴリズムでこんなに一生懸命考えたのは、後にも先にもないことです。1992/04 のことでした。</p>
+<p>さて、これで峠を越して、今度こそ cpp いじりはおしまいだと思ったのですが、ところがそれからさらに６年あまりたってしまいました。といっても、この間にはさほど頭を悩ます問題はなかったのです。にもかかわらず、時間はずいぶんかかりました。考えるだけ考えたら飽きてきて、cpp いじりに集中しなくなったせいもあります。しかし、それだけではありません。この間にやったのは次のようなことです。</p>
+<ol>
+<li>仕様をさらに明確にする。Standard モードでは規格に完全に対応させる。<br>
+<li>Standard C のモードを中心にプログラム構造・データ構造を再構成する。<br>
+<li>Portability を上げるため、ソースのスタイルを変える。<br>
+<li>デバッグをする。
+処理系のバグや不備に対処する。<br>
+<li>テストプログラムすなわち Validation 
+Suite を作る。<br>
+<li>他の処理系のテストをする。
+<br>
+<li>ドキュメントを書く。
+<br>
+<li>1997/07 には新しいパソコンを買ったため、初めて使う WindowsNT/95,X Window System とそのソフトのインストールと習得に追われた。そうしているうちに C99-1997/11 draft が出て、これへの対応が必要となった。<br>
+</ol>
+<p>中でも時間のかかったのはドキュメントでした。ことに後半の４年くらいはソースをいじった時間はほんの少しで、ドキュメント書きが作業の大半を占めていました。おかげで大変な分量になってしまいましたが、しかし、時間がかかったのは量が多いせいばかりではありません。ドキュメントを書いていると、仕様の不明確なところが次々と出てくるのです。そのたびに規格書を読み返し、ソースを少しずついじりました。ソースをいじった時間は少なくても、回数は少なくありません。規格書もプリプロセス規定だけではなく、全体を ANSI C の Rationale も含めてよく読んでみました。私はプリプロセッサを作ることを通して C90 の勉強をしたようなものです。さらにはこれを通して、C90 の規定の問題点も明確に把握することができました。</p>
+<p>テストプログラムは初めは簡単なサンプルを何本か書いただけでした。ところが、書いて cpp をテストするたびに意外なバグが見つかるのです。そこで、C90 プリプロセスの全規定をテストする Validation Suite を書くことにしました。そして、Valadation Suite を書くことを通して、C90 の問題点がさらに明らかになってきました。C90 の不規則な部分に対応するのは、自分にとってはわずらわしいばかりであまり意味のないことでしたが、それよりも意味のある部分のほうがはるかに多かったことは確かです。<br>
+この作業を通して私が学んだのは、次のようなことです。</p>
+<ol>
+<li>プログラムの仕様は、詳細なドキュメントを書き終えるまで確定しない。<br>
+<li>プログラムのデバッグは、全仕様をテストするサンプルが完成するまで終わらない。<br>
+</ol>
+<p>この考え方は完全主義的なものです。
+世の中のことは完全主義ではうまくゆかないものが多く、プログラムも例外ではありませんが、中には完全主義が重要な意味を持つ分野もあります。言語処理系はその一つでしょう。<br>
+趣味だから何年もかけて徹底的にやることができたとも言えます。それにしても６年半は長すぎました。こんなに時間をかけて完全なプログラムを作って、いったいだれが使うのだろうという疑問がずっと続いていました。趣味で作るプログラムとしては、このくらいが規模の限度なのでしょう。</p>
+<p>しかし、<b>mcpp</b> はもう作ってしまったので、今後もメンテナンスをしていくつもりです。せっかくですから皆さん、コメント、報告、移植をお願いします。</p>
+<br>
+
+<h2><a name="6.2" href="#toc.6.2">6.2. V.2.3 へ</a></h2>
+<p>V.2.0 を公開した後、さらに V.2.1, V.2.2, V.2.3 と update を繰り返しました。C99 や正式に承認された ISO / C++ に対応させたり、対応処理系を増やしたり、バグをとったりというのがその内容です。</p>
+<p>V.2.2 までは簡単に update できていました。V.2.2 は V.2.0 から３か月しかたっていません。ところが、V.2.3 は V.2.2 から４年あまりもたってしまいました。私の身辺が多忙になり、時間がとれなくなったのが主な原因です。2000/07 に 60 歳になって、仕事を週４日に減らしてから、いくらか時間がとれるようになり、cpp いじりに復帰しました。</p>
+<p>V.2.3 は時間だけでなく、手間も比較的かかっています。GCC V.2.9x に実装してみたところ、GCC / cpp との互換性確保のためにかなり手を加えなければならないことがわかったからです。多くのオプションを追加し、拡張仕様を実装しました。また、一部のエラーをウォーニングに格下げしたり、頻発するウォーニングをデフォルトのウォーニングクラスからはずしたりして、規格による制限を緩和しています。</p>
+<p>こうした変更の多くは後向きのものであり、楽しいものではありませんでした。ことに C90 以前の "traditional" な仕様の一部を C99 の仕様と両立させなければならないというのは、はなはだ不本意なことでした。しかし、これが現在のオープンソース界の実情であれば、それにある程度合わせるのはやむをえません。<br>
+規格による制約を緩和したことで、他の処理系用の版も、処理系付属のプリプロセッサと置き換えて使うためには使いやすくなったと思います。</p>
+<br>
+
+<h2><a name="6.3" href="#toc.6.3">6.3. 「未踏ソフトウェア創造事業」に採択</a></h2>
+<p>V.2.3 への update の途中で、<b>mcpp</b> および Validation Suite は情報処理振興事業協会 (IPA) の平成１４年度「未踏ソフトウェア創造事業」というものに採択されました。たまたまこの事業のことを知ったので応募してみたところ、新部 裕・プロジェクトマネージャが採択してくれたのです。こうして 2002/07 から 2003/02 までは IPA の資金援助と新部ＰＭの助言のもとに、開発が進められることになりました。ドキュメントの英訳も、ハイウェルが引き受けてくれることになりました</p>
+<p>比較的小さいソフトウェアながらも、これだけ時間をかけ、私のライフワークのようになってしまったものです。その完成度には自信がありましたが、世に出る機会がなく、残念な思いをしてきました。その機会がついに与えられたのです。私はこのプロジェクトを遂行するため、仕事を週３日に減らしました。<br>
+私がこのプロジェクトでやることとして考えたのは、次のようなことでした。</p>
+<ol>
+<li>英語版のドキュメントを作成する。それを使って、<b>mcpp</b> と検証セットを国際的な評価の場に出してゆく。Ｃ処理系の大半が外国製となっている現状では、英語版ドキュメントの存在は評価と普及のために必須だからである。<br>
+<li>移植の対象を広げる。これまで対応してきた処理系の新しいバージョンに対応させるほか、市販の主要な処理系への移植を進める。<br>
+</ol>
+<p>さらに新部 PM から次の提案がありました。</p>
+<ol>
+<li>GCC 3.x にも移植し、さらにその testsuite で私の検証セットが利用できるようにする。
+<li>開発をオープンな形で進めてゆく。
+開発とその成果を共有しやすいように、標準的なやり方を採用する。
+</ol>
+<p>私自身もこれらはぜひやりたいことであるので、喜んで計画に追加しました。<br>
+ところが、私の計画は遅延に遅延を重ねました。
+まず、ディスククラッシュに見舞われました。また、何か新しいことをするたびに使ったことのないソフトウェアを使って、そのたびに時間がかかりました。GCC をソースからコンパイルしたのも初めてですが、これはいくつかのトラブルに見舞われました。大量のドキュメントの更新と大量の英訳のチェックと修正にも、かなりの時間がかかりました。その上、母の入院という事態まで発生しました。プロジェクトは市販の処理系への対応等、計画の一部を断念する結果となりました。</p>
+<p>私はこれまで一つの穴を深く掘ってゆくようなことしかしてこなかったので、穴を少し広げようとするとひどく手間がかかってしまうのです。アマチュアプログラマが何かを掘り下げるには、こういうやり方をしなければできることではありません。しかし、その成果を世に出すためには、穴をいくらか広げなければならないのでした。<br>
+穴を広げる過程で、私は新部 PM の助言と励ましを得て、いくつかの未経験のソフトウェアを習得し、開発の前線というものに触れることができました。自分の文章がこなれた英文に翻訳されて戻ってくるのも、大変うれしいことでした。時間に追われるのは苦しいことですが、内容はどれも新鮮で楽しいことでした。</p>
+<p>「未踏ソフトウェア創造事業」はこれでおしまいではありませんでした。平成１５年度にも、伊知地 宏・プロジェクトマネージャが <b>mcpp</b> を継続プロジェクトとして採択してくれたのです。こうして、前年度の積み残しの課題を初めとして、私にとっては未経験の領域のいくつかの課題に取り組むこととなりました。</p>
+<p>今回も私の６年前のパソコンにトラブルが発生し、ハードウェアと OS を upgrade する過程でさらにいくつかのトラブルに見舞われました。未経験のソフトウェアの習得にも時間を要し、開発はやはり遅れ気味でした。いったん退院して比較的元気になっていた母の容態が、プロジェクトが大詰めに近づくのと並行して以前にも増して悪くなってきたことも、心配の種でした（母は 2004 年 2 月に死去した）。しかし、伊知地ＰＭが目標を無理のないところに設定してくれたおかげで、あわてずにじっくりと課題に取り組むことができました。</p>
+<p>Visual C++ への移植、configure スクリプトの作成、多様な multi-byte character encoding への対応等の課題を達成することができました。また、ソースコードの整理という目立たないながらも作者としてはこだわりのある課題にも取り組みました。日本語版と英語版のドキュメントの更新という手間のかかる作業も、ハイウェルの協力を得て達成することができました。</p>
+<p>この成果によって、私は伊知地ＰＭから何と「スーパークリエータ」という評価を受けることができました。私の実力にとっては過分の評価ですが、長年にわたる <b>mcpp</b> の積み重ねを認めていただいたものと思い、大変喜んでいます。</p>
+<p>２年近くにわたる「未踏ソフトウェア」のプロジェクトによって、<b>mcpp</b> は世界一高品質な C/C++ プリプロセッサに仕上がったつもりです。熟年のアマチュアプログラマとして非力ながらもよくやったと自分では納得しています。</p>
+<p>未踏ソフトウェアのプロジェクトが終わってからも、<b>mcpp</b> の改良作業は続けられています。まだいくつかの課題が残っています。これらの課題を達成し、<b>mcpp</b> を普及させるために、今後も着実に取り組みを続けてゆくつもりです。</p>
+</body>
+</html>

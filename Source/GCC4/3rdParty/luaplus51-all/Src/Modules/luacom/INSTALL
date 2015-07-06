@@ -1,0 +1,48 @@
+This is LuaCom 1.4
+
+* Installation Steps
+--------------------
+
+  1. Install LuaRocks
+  2. Do "luarocks install luacom"
+
+  or (the hard way)...
+
+  1. Make sure that Lua is installed in your system.
+  2. Edit the Makefile file to suit your environment.
+     (in general, you only need to specify where Lua is installed)
+  3. Run "nmake" from the luacom directory.
+
+
+* What you get
+--------------
+
+  If "nmake" succeeds, you get:
+        * the luacom interpreter and dll in ./bin
+        * the luacom library in ./lib (luacom.lib)
+        * include files in ./include
+  These are the only directories you need for development.
+
+
+* Tested Platforms
+------------------
+
+  Operating System:   MS Windows XP
+  Lua version:        5.1
+  Compiler:           MS Visual C++ 2005
+
+
+* If you have problems (and solutions!)
+---------------------------------------
+
+  If "nmake" fails, please let us know (luacom@tecgraf.puc-rio.br).
+  If you make changes to "Makefile", please send them to us.
+
+
+* More Information:
+-------------------
+
+   LuaCom:  http://www.tecgraf.puc-rio.br/~rcerq/luacom
+
+   Lua:     http://www.lua.org
+

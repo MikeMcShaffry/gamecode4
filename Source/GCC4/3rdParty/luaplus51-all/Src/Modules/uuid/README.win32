@@ -1,0 +1,30 @@
+luuid -- UUID generation for Lua
+
+This version of luuid has been extended to build successfully on
+Windows systems.  It has been tested with gcc 3.4.2 under MingW on
+Windows XP SP2 and Lua 5.1.2 from LuaBinaries. It should also build
+with either VC6, VC7, or VC8 with appropriate tweaking of the Makefile
+although that has not been explicitly tested.
+
+The principle changes are an implementation of the small number of
+functions out of libuuid.so that are actually used by the Lua
+wrappers. These functions were implemented in terms of their closest
+equivilents in the Win32 RPC API. The exception is uuid_time(), which
+is implemented to return -1 for any UUID, with the effect that the Lua
+function uuid.time(s) returns -1 for a valid UUID and nothing at all
+for an invalid UUID. The emulation of libuuid is contained in wuuid.c
+and wuuid.h, and only includes those entry points from libuuid that
+are actually used by luuid.
+
+Cosmetic changes to the Makefile collect the platform differences
+together where the build configuration can be easily adjusted for
+Windows or *nix. I also added a zip target that depends on the
+info-zip open-source ZIP implementation because Windows platforms are
+more likely to have that than tar.  I made no attempt to make the doc
+target work. I assume that installation of enough pieces from the
+GnuWin32 project would be sufficient, as would be Cygwin, but I have
+not attempted that either. If there were more user documentation of
+this library, that might be worth the effort.
+
+See the file README and the comments in luuid.c for more information
+about the original version and its usage.

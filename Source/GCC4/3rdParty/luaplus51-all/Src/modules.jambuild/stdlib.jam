@@ -1,0 +1,25 @@
+{
+
+local SRCS =
+		base.lua
+		debug_ext.lua
+		getopt.lua
+		io_ext.lua
+		lcs.lua
+		list.lua
+		math_ext.lua
+		mbox.lua
+		object.lua
+		parser.lua
+		set.lua
+		std.lua
+		string_ext.lua
+		table_ext.lua
+		xml.lua
+;
+
+Lua.Module stdlib : : $(SRCS) ;
+
+CopyFiles stdlib : $(LUA_LDIR) : $(SUBDIR)/modules/$(SRCS) ;
+
+}

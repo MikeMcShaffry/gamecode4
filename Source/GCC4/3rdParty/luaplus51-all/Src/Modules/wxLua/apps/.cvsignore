@@ -1,0 +1,6 @@
+config.*
+Makefile
+bk-deps
+*.o
+*.d
+.deps

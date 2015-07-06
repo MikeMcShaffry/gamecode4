@@ -1,0 +1,78 @@
+Orbit 2.2.0
+http://keplerproject.github.com/orbit
+
+Orbit is an MVC web framework for Lua. The design is inspired by lightweight
+Ruby frameworks such as Camping. It completely abandons the CGILua model
+of "scripts" in favor of applications, where each Orbit application can fit
+in a single file, but you can split it into multiple files if you want.
+All Orbit applications follow the WSAPI protocol, so they currently work with
+Xavante, CGI and Fastcgi. It includes a launcher that makes it easy to launch
+a Xavante instance for development.
+
+History
+
+* Version 2.2.0 (31/Mar/2010)
+  Reparse response to resume the dispatcher
+  better parser for orbit.model conditions, fixes parsing bugs
+  orbit launcher has parameters to control logging and port
+  op.cgi/op.fcgi launchers have the same parameters as wsapi.cgi/wsapi.fcgi
+  Optional Sinatra-like (http://www.sinatrarb.com/) route parser, using LPEG
+  Pluggable route parsers (route patterns can be strings or objects that answer to :match)
+
+* Version 2.1.0 (29/Oct/2009)
+  better decoupling of orbit and orbit.model
+  support for anything with a match method as patterns
+  new options for orbit.model finders: distinct, fields
+  count option for orbit.model now limits number of rows in the SQL
+  logging of queries in orbit.model
+  overhaul of the "orbit" script: better options, --help, sets application path
+  content_type method in the web object to set content type
+  support for PUT and DELETE (methods `dispatch_put` and `dispatch_delete`)
+  orbit.model.recycle(*conn_builder*, *timeout*) function, to make a connection that automatically reopens after a certain time
+  more samples in the samples folder
+  added a "higher-order" $if to Orbit Pages
+  
+* Version 2.0.2 (10/Mar/2009)
+  url-decodes path captures (suggested by Ignacio Burgueno on a Jul 24 email to the Kepler list)
+  added tutorial and new examples
+  fixed escape.string
+  web:delete_cookie receives a path parameter in order to correctly remove the cookie. Bug report and patch by Ignacio Burgueño
+  stripping UTF-8 BOM from templates read from disk
+  removing SoLazer files in order to make the Orbit package smaller
+  added alternate name for integer (int)
+  better error reporting for missing escape and convert functions
+  removed toboolean
+  fixed bugs 13451 and 25418: setting status 500 on application errors not throwing an error if file not exists when invalidating
+  cache
+
+* Version 2.0.1 (10/Jun/2008): bug-fix release, fixed bug in Orbit pages' redirect function (thanks for Ignacio Burgueño for finding the bug)
+
+* Version 2.0 (06/Jun/2008): Complete rewrite of Orbit
+
+* Version 1.0: Initial release, obsolete
+
+Download and Installation
+
+Download and Installation
+
+The easiest way to download and install Orbit is via LuaRocks. You can install Orbit
+with a simple command:
+
+luarocks install orbit
+
+Go to the path where LuaRocks put Orbit to see the sample apps and this documentation.
+LuaRocks will automatically fetch and install any dependencies you don't already have.
+
+To run the supplied example, go to the samples directory
+of this distribution and do:
+
+orbit hello.lua
+
+After the server is running go to your web browser. Some sample
+urls for hello.lua:
+
+http://127.0.0.1:8080/ will show "Hello World!"
+http://127.0.0.1:8080/say/foo will show "Hello foo!"
+http://127.0.0.1:8080/anythingelse will show "Not found!"
+
+For more information please check http://keplerproject.github.com/orbit

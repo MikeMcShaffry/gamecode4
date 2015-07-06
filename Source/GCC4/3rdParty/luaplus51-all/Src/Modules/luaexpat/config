@@ -1,0 +1,36 @@
+# Installation directories
+# System's libraries directory (where binary libraries are installed)
+LUA_LIBDIR= /usr/local/lib/lua/5.0
+# System's lua directory (where Lua libraries are installed)
+LUA_DIR= /usr/local/share/lua/5.0
+# Lua includes directory
+LUA_INC= /usr/local/include
+# Expat includes directory
+EXPAT_INC= /usr/local/include
+
+# OS dependent
+LIB_OPTION= -shared #for Linux
+#LIB_OPTION= -bundle -undefined dynamic_lookup #for MacOS X
+
+LIBNAME= $T.so.$V
+# Lua version number
+# (according to Lua 5.1 definition:
+# first version digit * 100 + second version digit
+# e.g. Lua 5.0.2 => 500, Lua 5.1 => 501, Lua 5.1.1 => 501)
+LUA_VERSION_NUM= 500
+COMPAT_DIR= ../compat/src
+
+# Compilation parameters
+CWARNS = -Wall -pedantic \
+        -Waggregate-return \
+        -Wcast-align \
+        -Wmissing-prototypes \
+        -Wstrict-prototypes \
+        -Wnested-externs \
+        -Wpointer-arith \
+        -Wshadow \
+        -Wwrite-strings
+
+CFLAGS = $(CWARNS) -ansi -O2 -I$(LUA_INC) \
+   -I$(COMPAT_DIR) -I$(EXPAT_INC)
+CC = gcc

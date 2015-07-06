@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>CGILua: gera&ccedil;&atilde;o de scripts para a Web usando Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org"><img alt="Logotipo do CGILua" src="cgi-128.gif"/></a></div>
+	<div id="product_name"><big><b>CGILua</b></big></div>
+	<div id="product_description">Gera&ccedil;&atilde;o de scripts para a Web usando Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><strong>In&iacute;cio</strong>
+			<ul>
+				<li><a href="index.html#overview">Vis&atilde;o geral</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">Hist&oacute;rico</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilidades</a></li>
+				<li><a href="index.html#credits">Cr&eacute;ditos</a></li>
+				<li><a href="index.html#contact">Fale conosco</a></li>
+			</ul>
+		</li>
+		<li><a href="manual.html">Manual</a>
+			<ul>
+				<li><a href="manual.html#intro">Introdu&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#installation">Instala&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#config">Configura&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Par&acirc;metros</a></li>
+			</ul>
+		</li>
+		<li><a href="reference.html">Refer&ecirc;ncia</a>
+			<ul>
+				<li><a href="reference.html#headers">Cabe&ccedil;alhos</a></li>
+				<li><a href="reference.html#contents">Gera&ccedil;&atilde;o de conte&uacute;do</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">Vari&aacute;veis do CGILua</a></li>
+				<li><a href="reference.html#error_handling">Tratamento de erros</a></li>
+				<li><a href="reference.html#behavior">Comportamento do CGILua</a></li>
+				<li><a href="reference.html#urlcode">Codifica&ccedil;&atilde;o de URL</a></li>
+				<li><a href="reference.html#auxiliar">Fun&ccedil;&otilde;es auxiliares</a></li>
+				<li><a href="reference.html#index">&Iacute;ndice alfab&eacute;tico</a></li>
+			</ul>
+		</li>
+		<li><a href="libraries.html">Bibliotecas</a>
+			<ul>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><a href="sapi.html">SAPI</a></li>
+		<li><a href="license.html">Licen&ccedil;as</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2><a name="overview"></a>Vis&atilde;o geral</h2>
+<p>O CGILua &eacute; uma ferramenta que permite criar p&aacute;ginas Web din&acirc;micas e manipular a inser&ccedil;&atilde;o de dados por meio de formul&aacute;rios Web. O CGILua permite separar o tratamento dos dados e a l&oacute;gica do processo de gera&ccedil;&atilde;o de p&aacute;ginas, facilitando o desenvolvimento de aplicativos Web em Lua.
+
+Uma das vantagens do CGILua &eacute; sua capacidade de abstrair o servidor Web utilizado. Voc&ecirc; pode desenvolver um aplicativo em CGILua para um servidor Web e execut&aacute;-lo em qualquer outro servidor Web compat&iacute;vel com CGILua. </p>
+
+<p>O CGILua &eacute; um software livre que usa a mesma <a href="license.html">licen&ccedil;a</a> da Lua 5.0.</p>
+
+<h2><a name="status"></a>Status</h2>
+<p>A vers&atilde;o atual &eacute; a 5.0.</p>
+
+<h2><a name="download"></a>Download</h2>
+
+<p>O download do CGILua pode ser feito em c&oacute;digo fonte na sua p&aacute;gina no <a href="http://luaforge.net/projects/cgilua/files">LuaForge</a>.</p>
+
+
+<h2><a name="history"></a>Hist&oacute;rico</h2>
+
+<dl>
+    <dt><strong>Vers&atilde;o 5.0</strong> [23 de julho de 2005]</dt>
+    <dd>
+    <ul>
+        <li>A distribui&ccedil;&atilde;o do CGILua passa a incluir apenas os arquivos Lua. Os disparadores foram movidos para o <a href="http://www.keplerproject.org/kepler/">Kepler</a>.</li>
+        <li>A biblioteca <a href="http://www.keplerproject.org/venv/manual.html#reference">Stable</a> passou a ser distribu&iacute;da com <a href="http://www.keplerproject.org/venv/">VEnv</a>.</li>
+        <li>Corre&ccedil;&atilde;o de um problema de upload de arquivo nos disparadores CGI e Xavante.</li>
+        <li><code>cgilua.lp.include()</code> passa a aceitar um ambiente com o qual executa o arquivo preprocessado.</li>
+    </ul>
+    </dd>
+    <dt><strong>Vers&atilde;o 5.0 beta 2</strong> [23 de dezembro de 2004]</dt>
+    <dd>
+    <ul>
+      <li>Corre&ccedil;&atilde;o de problema de distribui&ccedil;&atilde;o: stable.lua estava ausente</li>
+    </ul>
+    </dd>
+    <dt><strong>Vers&atilde;o 5.0 beta</strong> [15 de dezembro de 2004]</dt>
+    <dd>
+    <ul>
+        <li>Novos disparadores ISAPI e Servlet.</li>
+        <li>Novos recursos de tratamento de erros.</li>
+        <li>Novo recurso de dados persistentes (Stable).</li>
+        <li>Uso do <a href="http://www.keplerproject.org/compat/">modelo de pacote</a> de Lua 5.1.</li>
+        <li>API de usu&aacute;rio <a href="libraries.html#session">Session</a> mais simples.</li>
+        <li>Corre&ccedil;&otilde;es de pequenos problemas</li>
+    </ul>
+    </dd>
+  <dt><strong>Vers&atilde;o 5.0 alfa 3</strong> [8 de junho de 2004]</dt>
+  <dd></dd>
+  <dt><strong>Vers&atilde;o 5.0 alfa</strong> [21 de abril de 2004]</dt>
+  <dd></dd>
+</dl>
+
+<h2><a name="incompatibility"></a>Incompatibilidade com vers&otilde;es anteriores do CGILua (4.0 e 3.x)</h2>
+
+<ul>
+    <li>O CGILua 5.0 usa o <a href="http://www.lua.org">Lua 5.0</a>.</li>
+    <li>A tabela <code>cgi</code> passou a permitir valores do tipo tabela. Consulte <a href="manual.html#parameters">Recebimento de par&acirc;metros</a> para obter uma explica&ccedil;&atilde;o detalhada.</li>
+    <li>As tags de templates foram alteradas. Consulte <a href="manual.html#templates">Lua Pages</a> para obter uma explica&ccedil;&atilde;o detalhada.</li>
+    <li>O uso de chamadas <code>getenv</code> para obter vari&aacute;veis CGI deve ser substitu&iacute;do por chamadas <a href="reference.html#servervariable"><code>cgilua.servervariable</code></a>.</li>
+</ul>
+
+<h2><a name="credits"></a>Cr&eacute;ditos</h2>
+
+<dl>
+    <dt><strong>CGILua 5.0</strong></dt>
+    <dd>O CGILua 5.0 foi totalmente reelaborado por Roberto Ierusalimschy, Andr&eacute; Carregal e Tom&aacute;s Guisasola, como parte do <a href="http://www.keplerproject.org">Projeto Kepler</a>. A implementa&ccedil;&atilde;o &eacute; compat&iacute;vel com a Lua 5.0 e foi codificada por Tom&aacute;s Guisasola, com as valiosas contribui&ccedil;&otilde;es de Ana L&uacute;cia de Moura, F&aacute;bio Mascarenhas e Danilo Tuler. O desenvolvimento do CGILua 5.0 foi patrocinado pela <a href="http://www.fabricadigital.com.br">F&aacute;brica Digital</a>, pela <a href="http://www.finep.gov.br/">FINEP</a> e pelo <a href="http://www.cnpq.br/">CNPq</a>.</dd>
+    
+    <dt><strong>CGILua 4.0</strong></dt>
+    <dd>Ana L&uacute;cia de Moura adaptou o CGILua 3.2 para Lua 4.0, reimplementou alguns trechos do c&oacute;digo e acrescentou alguns aperfei&ccedil;oamentos, mas essa vers&atilde;o n&atilde;o foi distribu&iacute;da oficialmente.</dd>
+    
+    <dt><strong>CGILua 3.x</strong></dt>
+    <dd>O CGILua surgiu como a evolu&ccedil;&atilde;o de um sistema origin&aacute;rio desenvolvido por Renato Ferreira Borges e Andr&eacute; Cl&iacute;nio no <a href="http://www.tecgraf.puc-rio.br">TeCGraf</a>. Na &eacute;poca (circa 1995) n&atilde;o estavam dispon&iacute;veis ferramentas em CGI e tudo era feito com scripts de shell!<br /> Por&eacute;m, a principal contribui&ccedil;&atilde;o ao CGILua 3 foi dada por Anna Hester, que consolidou toda a ferramenta e desenvolveu uma distribui&ccedil;&atilde;o consistente com as vers&otilde;es 3.1 e 3.2 (o n&uacute;mero foi um esfor&ccedil;o para seguir os n&uacute;meros de vers&atilde;o da Lua). Essa vers&atilde;o foi amplamente utilizada em uma grande variedade de sistemas.</dd>
+</dl>
+
+
+<h2><a name="contact"></a>Fale conosco</h2>
+<p>Para obter mais informa&ccedil;&otilde;es, entre em <a href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contato</a>. Seus coment&aacute;rios s&atilde;o importantes!</p>
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="XHTML 1.0 v&aacute;lido!" height="31" width="88" /></a></p>
+	<p><small>$Id: index.html,v 1.3 2005/11/03 18:48:57 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

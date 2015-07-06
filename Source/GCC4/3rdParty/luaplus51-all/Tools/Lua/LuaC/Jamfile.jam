@@ -1,0 +1,29 @@
+SubDir LUAPLUS Tools Lua LuaC ;
+
+{
+
+local SRCS =
+		luac.c
+		print.c
+;
+
+rule LuaCApplication TARGET
+{
+	ActiveTarget $(TARGET) ;
+
+	SubInclude LUAPLUS Src LuaPlus StaticLib : LuaPlusStaticLib ;
+
+	C.IncludeDirectories $(TARGET) : $(LUAPLUS)/Src/LuaPlus/src ;
+	C.LinkLibraries $(TARGET) : LuaPlusStatic ;
+	LuaPlusFixUpTarget $(TARGET) ;
+	C.Application $(TARGET) : $(SRCS) ;
+	NoWorkspace $(TARGET) ;
+}
+
+LuaCApplication luaplusc ;
+LuaCApplication "luac" ;
+
+on luac LUAC_EXE = $(LINK_TARGET) ;
+
+}
+

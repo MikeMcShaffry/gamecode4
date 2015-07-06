@@ -1,0 +1,2018 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>P4Lua</title>
+    <link rel="stylesheet" href="doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_name"><big><strong>P4Lua</strong></big></div>
+	<div id="product_description">Lua interface to the Perforce API</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>P4Lua</h1>
+	<ul>
+
+		<li><strong>Home</strong>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="license.html">License</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Introduction</h2>
+
+<p>P4Lua, a Lua interface to the Perforce API, enables you to write Lua code that interacts with a Perforce server. P4Lua enables your Lua scripts to:</p>
+
+<ul>
+    <li>Get Perforce data and forms in Lua tables</li>
+    <li>Edit Perforce forms by modifying Lua tables</li>
+    <li>Provide optional exception-based error handling and optionally ignore warnings</li>
+    <li>Issue multiple commands on a single connection (performs better than spawning single commands and parsing the results)</li>
+</ul>
+
+
+
+
+
+<h2>System Requirements</h2>
+
+<p>P4Lua is supported on Windows.</p>
+
+<p>To build P4Lua from source, your development machine must also have:</p>
+
+<ul>
+    <li>Lua 5.1.4 development files</li>
+    <li>The 2008.2 Perforce C/C++ API for your target platform</li>
+    <li>The same C++ compiler used to build the Perforce C++ API on your target platform.  (If you get “unresolved symbol” errors when building or running P4Lua, you probably used the wrong compiler or the wrong Perforce API build. )</li>
+</ul>
+
+
+
+
+<h2>Credits</h2>
+
+<p>The primary contents of this document come from Perforce 2008.2 APIs for Scripting.</p>
+
+
+
+
+
+<h2>Programming with P4Lua</h2>
+
+<p>P4Lua provides an object-oriented interface to Perforce that is intended to be intuitive for Lua programmers. Data is loaded and returned in Lua tables. Each P4 object represents a connection to the Perforce Server.</p>
+
+<p>When instantiated, the P4 instance is set up with the default environment settings just as the command line client p4, that is, using environment variables, the registry on Windows and, if defined, the <code>P4CONFIG</code> file. The settings can be checked and changed before the
+connection to the server is established with the <code>connect()</code> method. After your script connects, it can send multiple commands to the Perforce Server with the same P4 instance. After the script is finished, it should disconnect from the Server by calling the
+<code>disconnect()</code> method.</p>
+
+<p>The following example illustrates the basic structure of a P4Lua script. The example establishes a connection, issues a command, and tests for errors resulting from the command.</p>
+
+
+<pre>
+    require 'p4'                              -- Import the module
+    p4 = P4.P4()                              -- Create the P4 instance
+    p4.port = "1666"
+    p4.user = "fred"
+    p4.client = "fred-ws"                     -- Set some environment variables
+    ret, err = pcall( function()              -- Catch exceptions
+        p4:connect()                          -- Connect to the Perforce Server
+        info = p4:run("info")                 -- Run "p4 info" (returns a table)
+        for key, value in pairs(info[1]) do   -- and display all key-value pairs
+            print(key .. '=' .. value)
+        end
+        p4:run("edit", "file.txt")            -- Run "p4 edit file.txt"
+    end)
+
+    for _, e in ipairs(p4.errors) do          -- Display errors
+        print(e)
+    end
+
+    p4:disconnect()                       -- Disconnect from the Server
+</pre>
+
+
+
+
+
+
+<p>This example creates a client workspace from a template and syncs it:.</p>
+
+
+<pre>
+    require 'p4'
+
+    template = "my-client-template"
+    client_root = "c:\\work\\my-root"
+
+    p4 = P4.P4()
+
+    pcall(function()
+        p4:connect()
+        -- Convert client spec into a Lua dictionary
+        client = p4:fetch_client("-t", template)
+        client._root = client_root
+        p4:save_client(client)
+        p4:run_sync()
+    end)
+</pre>
+
+
+
+
+
+<h3>Submitting a Changelist</h3>
+
+<p>This example creates a changelist, modifies it and then submits it:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    change = p4:fetch_change()
+
+    -- Files were opened elsewhere and we want to
+    -- submit a subset that we already know about.
+    myfiles = { '//depot/some/path/file1.c', '//depot/some/path/file1.h' }
+    change._description = "My changelist\nSubmitted from P4Lua\n"
+    change._files = myfiles -- This attribute takes a Lua list
+    p4:run_submit(change)
+</pre>
+
+
+
+
+
+<h3>Logging into Perforce using ticket-based authentication</h3>
+
+<p>On some servers, users might need to log in to Perforce before issuing commands. The
+following example illustrates login using Perforce tickets.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.user = "Sven"
+    p4.password = "my_password"
+    p4:connect()
+    p4:run_login()
+    opened = p4:run_opened()
+    [...]
+</pre>
+
+
+
+
+<h3>Changing your password</h3>
+
+<p>You can use P4Lua to change your password, as shown in the following example:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.user = "Joshua"
+    p4.password = "MyOldPassword"
+    p4:connect()
+    p4:run_password("MyOldPassword", "MyNewPassword")
+    -- p4.password is automatically updated with the encoded password
+</pre>
+
+
+
+<hr/>
+<h1>P4Lua Classes</h1>
+
+<p>The P4 module consists of several public classes:</p>
+
+<ul>
+    <li>P4</li>
+    <li>DepotFile</li>
+    <li>Revision</li>
+    <li>Integration</li>
+    <li>MergeData</li>
+    <li>Spec</li>
+</ul>
+
+<p>The following tables provide more details about each public class.</p>
+
+
+
+
+<h2>P4</h2>
+
+<p>Perforce client class. Handles connection and interaction with the Perforce server. There is one instance of each connection.</p>
+
+<p>The following table lists attributes of the class <code>P4</code> in P4Lua. The attributes are read- and writable unless indicated otherwise. The attributes can be strings, objects, or integers.</p>
+
+
+<table>
+  <tr><th>Attribute</th><th>Description</th></tr>
+  <tr><td><tt>api_level</tt></td><td>API compatibility level. (Lock server output to a specified server level.)</td></tr>
+  <tr><td><tt>charset</tt></td><td>Charset for Unicode servers.</td></tr>
+  <tr><td><tt>client</tt></td><td><tt>P4CLIENT</tt>, the name of the client workspace to use.</td></tr>
+  <tr><td><tt>cwd</tt></td><td>Current working directory</td></tr>
+  <tr><td><tt>errors</tt></td><td>An array containing the error messages received during execution of the last command</td></tr>
+  <tr><td><tt>exception_level</tt></td><td>The exception level of the P4 instance. Values can be
+    <ul>
+      <li>0 : no exceptions are raised</li>
+      <li>1 : only errors are raised as exceptions</li>
+      <li>2: warnings are also raised as exceptions</li>
+    </ul>
+    The default value is 2.
+  </td></tr>
+  <tr><td><tt>host</tt></td><td><tt>P4HOST</tt>, the name of the host used</td></tr>
+  <tr><td><tt>input</tt></td><td>Input for the next command. Can be a string or a table.</td></tr>
+  <tr><td><tt>keepalive</tt></td><td>Early abort running Perforce commands.</td></tr>
+  <tr><td><tt>maxlocktime</tt></td><td>MaxLockTime used for all following commands</td></tr>
+  <tr><td><tt>maxresults</tt></td><td>MaxResults used for all following commands</td></tr>
+  <tr><td><tt>maxscanrows</tt></td><td>MaxScanRows used for all following commands</td></tr>
+  <tr><td><tt>os</tt></td><td>Returns the OS (read-only)</td></tr>
+  <tr><td><tt>output</tt></td><td>An array containing the output messages received during execution of the last command</td></tr>
+  <tr><td><tt>p4config_file</tt></td><td>The location of the configuration file used (`P4CONFIG`). This attribute is read-only.</td></tr>
+  <tr><td><tt>password</tt></td><td><tt>P4PASSWD</tt>, the password used.</td></tr>
+  <tr><td><tt>port</tt></td><td><tt>P4PORT</tt>, the port used for the connection</td></tr>
+  <tr><td><tt>prog</tt></td><td>The name of the script</td></tr>
+  <tr><td><tt>server_level</tt></td><td>Returns the current Perforce server level</td></tr>
+  <tr><td><tt>tagged</tt></td><td>To disable tagged output for the following commands, set the value to 0 or false. By default, tagged output is enabled.</td></tr>
+  <tr><td><tt>ticket_file</tt></td><td><tt>P4TICKETS</tt>, the ticket file location used</td></tr>
+  <tr><td><tt>user</tt></td><td><tt>P4USER</tt>, the user under which the connection is run</td></tr>
+  <tr><td><tt>version</tt></td><td>The version of the script</td></tr>
+  <tr><td><tt>warnings</tt></td><td>An array containing the warning messages received during execution of the last command</td></tr>
+</table>
+
+
+
+
+<p>The following table lists all public methods of the class <code>P4</code>. Many methods are wrappers around <code>P4:run()</code>, which sends a command to the Perforce Server. Such methods are provided for your convenience.</p>
+
+
+<table>
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><tt>connect()</tt></td><td>Connects to the Perforce Server.</td></tr>
+  <tr><td><tt>connected()</tt></td><td>Returns <tt>true</tt> if connected and the connection is alive, otherwise <tt>false</tt>.</td></tr>
+  <tr><td><tt>delete_<em>spectype</em>()</tt></td><td>Deletes the spec <em>spectype</em>. Equivalent to the command <tt>P4:run("<em>spectype</em>", "-d")</tt>.</td></tr>
+  <tr><td><tt>disconnect()</tt></td><td>Disconnects from the Perforce Server.</td></tr>
+  <tr><td><tt>env()</tt></td><td>Get the value of a Perforce environment variable, taking into account <tt>P4CONFIG</tt> files and (on Windows) the registry.</td></tr>
+  <tr><td><tt>identify()</tt></td><td>Returns a string identifying the P4Lua module.</td></tr>
+  <tr><td><tt>fetch_<em>spectype</em>()</tt></td><td>Fetches the spec <em>spectype</em>. Equivalent to the command <tt>P4:run("spectype", "-o")</tt>.</td></tr>
+  <tr><td><tt>format_<em>spectype</em>()</tt></td><td>Converts the spec <em>spectype</em> into a string.</td></tr>
+  <tr><td><tt>parse_<em>spectype</em>()</tt></td><td>Parses a string representation of the spec <em>spectype</tt> and returns a table.</td></tr>
+  <tr><td><tt>run()</tt></td><td>Runs a command on the server. Needs to be connected, or an exception is raised.</td></tr>
+  <tr><td><tt>run_<em>command</em>()</tt></td><td>Runs the command <em>command</em>. Equivalent to <tt>P4:run("command")</tt>.</td></tr>
+  <tr><td><tt>run_filelog()</tt></td><td>This command returns a list of <tt>DepotFile</tt> objects.  Specialization for the <tt>run()</tt> command.</td></tr>
+  <tr><td><tt>run_login()</tt></td><td>Logs in using the specified password.</td></tr>
+  <tr><td><tt>run_password()</tt></td><td>Convenience method: updates the password. Takes two arguments: <em>oldpassword</em>, <em>newpassword</em></td></tr>
+  <tr><td><tt>run_resolve()</tt></td><td>Interface to <tt>p4 resolve</tt>.</td></tr>
+  <tr><td><tt>run_submit()</tt></td><td>Convenience method for submitting changelists. When invoked with a change spec, it submits the spec. Equivalent to :
+
+<pre>
+    p4.input = myspec
+    p4:run("submit", "-i")
+</pre>
+
+</td></tr>
+
+  <tr><td><tt>save_<em>spectype</em>()</tt></td><td>Saves the spec <em>spectype</em>. Equivalent to the command: <code>P4:run("spectype", "-i").</code>
+</td></tr>
+</table>
+
+
+
+
+
+<h2>P4.DepotFile</h2>
+
+<p>Container class returned by <code>P4:run_filelog()</code>. Contains the name of the depot file and a 
+list of <code>P4.Revision</code> objects.</p>
+
+
+<table>
+  <tr><th>Attribute</th><th>Description</th></tr>
+  <tr><td><tt>depotFile</tt></td><td>Name of the depot file</td></tr>
+  <tr><td><tt>revisions</tt></td><td>Table of Revision objects</td></tr>
+</table>
+
+
+
+
+
+
+<h2>P4.Revision</h2>
+
+<p>Container class containing one revision of a <code>DepotFile</code> object.</p>
+
+
+<table>
+  <tr><th>Attribute</th><th>Description</th></tr>
+  <tr><td><tt>action</tt></td><td>Action that created the revision</td></tr>
+  <tr><td><tt>change</tt></td><td>Changelist number</td></tr>
+  <tr><td><tt>client</tt></td><td>Client workspace used to create this revision</td></tr>
+  <tr><td><tt>desc</tt></td><td>Short change list description</td></tr>
+  <tr><td><tt>depotFile</tt></td><td>The name of the file in the depot</td></tr>
+  <tr><td><tt>digest</tt></td><td>MD5 checksum of the revision</td></tr>
+  <tr><td><tt>fileSize</tt></td><td>File size of this revision</td></tr>
+  <tr><td><tt>integrations</tt></td><td>List of `P4.Integration` objects</td></tr>
+  <tr><td><tt>rev</tt></td><td>Revision</td></tr>
+  <tr><td><tt>time</tt></td><td>Timestamp (as datetime.datetime object)</td></tr>
+  <tr><td><tt>type</tt></td><td>File type</td></tr>
+  <tr><td><tt>user</tt></td><td>User that created this revision</td></tr>
+</table>
+
+
+
+
+
+
+<h2>P4.Integration</h2>
+
+<p>Container class containing one integration for a Revision object</p>
+
+
+<table>
+  <tr><th>Attribute</th><th>Description</th></tr>
+  <tr><td><tt>how</tt></td><td>Integration method (merge/branch/copy/ignored)</td></tr>
+  <tr><td><tt>file</tt></td><td>Integrated file</td></tr>
+  <tr><td><tt>srev</tt></td><td>End revision</td></tr>
+  <tr><td><tt>erev</tt></td><td>Start revision</td></tr>
+</table>
+
+
+
+
+
+
+<h2>P4.Map</h2>
+
+<p>A class that allows users to create and work with Perforce mappings without requiring a 
+connection to the Perforce Server. </p>
+
+
+<table>
+  <tr><th>Method</th><th>Description</th></tr>
+  <tr><td><tt>P4.Map()</tt></td><td>Construct a new Map object (class method)</td></tr>
+  <tr><td><tt>P4.Map_join()</tt></td><td>Joins two maps to create a third (class method)</td></tr>
+  <tr><td><tt>clear()</tt></td><td>Empties a map</td></tr>
+  <tr><td><tt>count()</tt></td><td>Construct a new Map object (class method)</td></tr>
+  <tr><td><tt>is_empty()</tt></td><td>Tests whether or not a map object is empty</td></tr>
+  <tr><td><tt>insert()</tt></td><td>Inserts an entry into the map</td></tr>
+  <tr><td><tt>translate()</tt></td><td>Translate a string through a map</td></tr>
+  <tr><td><tt>includes()</tt></td><td>Tests whether a path is mapped</td></tr>
+  <tr><td><tt>reverse()</tt></td><td>Returns a new mapping with the left and right sides reversed</td></tr>
+  <tr><td><tt>lhs()</tt></td><td>Returns the left side as an array</td></tr>
+  <tr><td><tt>rhs()</tt></td><td>Returns the right side as an array</td></tr>
+  <tr><td><tt>as_array()</tt></td><td>Returns the map as an array</td></tr>
+</table>
+
+
+
+
+
+
+<h2>P4.Spec</h2>
+
+<p>Class allowing access to the fields in a Perforce specification form.</p>
+
+
+<table>
+  <tr><th>Attribute</th><th>Description</th></tr>
+  <tr><td><tt>spec.<em>_fieldname</em></tt></td><td>Value associated with the field named fieldname.</td></tr>
+  <tr><td><tt>spec.permitted_fields</tt></td><td>Array containing the names of the fields that are valid for this spec object</td></tr>
+</table>
+
+
+
+
+
+
+
+
+<hr/>
+<h1>Class P4</h1>
+<h2>Description</h2>
+
+<p>Main interface to the Lua client API.</p>
+
+<p>This module provides an object-oriented interface to the Perforce SCM system. Data is 
+returned in Lua tables and input can also be supplied in these formats.</p>
+
+<p>Each <code>P4</code> object represents a connection to the Perforce Server, and multiple commands 
+may be executed (serially) over a single connection (which of itself can result in 
+substantially improved performance if executing lots of perforce commands).</p>
+
+<ol>
+    <li>Instantiate your <code>P4</code> object </li>
+    <li>Specify your Perforce client environment: <code>client</code>, <code>host</code>, <code>password</code>, <code>port</code>, <code>user</code></li>
+    <li>Set any options to control output or error handling: <code>exception_level</code></li>
+    <li>Connect to the Perforce Server</li>
+    <li>Run your Perforce commands</li>
+    <li>Disconnect from the Perforce Server</li>
+</ol>
+
+
+
+<h2>Instance Attributes</h2>
+
+<h3>p4.api_level -> int</h3>
+
+<p>Contains the API compatibility level desired. This is useful when writing scripts using 
+Perforce commands that do not yet support tagged output. In these cases, upgrading to a 
+later server that supports tagged output for the commands in question can break your 
+script. Using this method allows you to lock your script to the output format of an older
+Perforce release and facilitate seamless upgrades. Must be called before calling 
+<code>P4:connect()</code>.</p>
+
+<p>For the API integer levels that correspond to each Perforce release, see:
+<a href="http://kb.perforce.com/?article=512">http://kb.perforce.com/?article=512</a>.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.api_level = 57
+    p4:connect()
+    ...
+    p4:disconnect()
+</pre>
+
+
+
+
+
+<h3>p4.charset -> string</h3>
+
+<p>Contains the character set to use when connect to a Unicode enabled server. Do not use 
+when working with non-Unicode-enabled servers. By default, the character set is the 
+value of the <code>P4CHARSET</code> environment variable. If the character set is invalid, this method 
+raises an exception.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.client = "www"
+    p4.charset = "iso8859-1"
+    p4:connect()
+    p4:run_sync()
+    p4:disconnect()
+</pre>
+
+
+
+
+
+<h3>p4.client -> string</h3>
+
+<p>Contains the name of your client workspace. By default, this is the value of the <code>P4CLIENT</code> 
+taken from any <code>P4CONFIG</code> file present, or from the environment according to the normal 
+Perforce conventions.</p>
+
+
+
+
+
+<h3>p4.cwd -> string</h3>
+
+<p>Contains the current working directly. Can be called prior to executing any Perforce 
+command. Sometimes necessary if your script executes a chdir() as part of its 
+processing.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.cwd = "/home/sven"
+</pre>
+
+
+
+
+
+
+<h3>p4.errors -> list (read-only)</h3>
+
+<p>Returns an array containing the error messages received during execution of the last 
+command.</p>
+
+
+<pre>
+    require 'p4'
+
+    p4 = P4.P4()
+    pcall(function()
+        p4:connect()
+        p4.exception_level = 1 -- ignore "File(s) up-to-date"
+        files = p4:run_sync()
+    end)
+
+    for _, e in ipairs(p4.errors) do
+        print(e)
+    end
+
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+<h3>p4.exception_level -> int</h3>
+
+<p>Configures the events which give rise to exceptions. The following three levels are 
+supported:</p>
+
+<ul>
+    <li>0 disables all exception handling and makes the interface completely procedural; you 
+    are responsible for checking the <code>p4.errors</code> and <code>p4.warnings</code> arrays.</li>
+    <li>1 causes exceptions to be raised only when errors are encountered.</li>
+    <li>2 causes exceptions to be raised for both errors and warnings. This is the default.</li>
+</ul>
+
+<p>For example</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.exception_level = 1
+    p4:connect() -- Exception on failure
+    p4:run_sync() -- File(s) up-to-date is a warning - no exception raised
+    p4:disconnect()
+</pre>
+
+
+
+
+
+<h3>p4.host -> string</h3>
+
+<p>Contains the name of the current host. It defaults to the value of <code>P4HOST</code> taken from any 
+<code>P4CONFIG</code> file present, or from the environment as per the usual Perforce convention. 
+Must be called before connecting to the Perforce server.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.host = "workstation123.perforce.com"
+    p4:connect()
+    ...
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+<h3>p4.input -> string | table</h3>
+
+<p>Contains input for the next command.</p>
+
+<p>Set this attribute prior to running a command that requires input from the user. When the 
+command requests input, the specified data is supplied to the command. Typically, 
+commands of the form <code>p4 cmd -i</code> are invoked using the <code>P4:save_spectype</code> methods, 
+which retrieve the value from <code>p4.input</code> internally; there is no need to set <code>p4.input</code> when 
+using the <code>P4:save_spectype</code> shortcuts.</p>
+
+<p>You may pass a string, a hash table, or (for commands that take multiple inputs from the user) 
+an array of strings or hash tables. If you pass an array, note that the first element of the array 
+will be popped each time Perforce asks the user for input.</p>
+
+<p>For example, the following code supplies a description for the default changelist and then 
+submits it to the depot:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    change = p4:run_change( "-o" )[1]
+    change.Description = "Autosubmitted changelist"
+    p4.input = change
+    p4:run_submit( "-i" )
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+<h3>p4.keepalive -> function</h3>
+
+<p>In order to early abort a Perforce command run, a keep alive function must be set.  Returning
+<code>true</code> from the keep alive function will allow the Perforce command to continue running.
+Returning <code>false</code> will abort the command.  The keep alive function is called every 0.5 second.</p>
+
+<p>This example will abort the sync command immediately.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    p4.keepalive = function(self)
+        -- abort immediately
+        return false
+    end
+    files = p4:run_sync('...')
+    p4.keepalive = nil  -- Remove the keep alive function for future commands
+    p4:disconnect()
+</pre>
+
+
+<p>This example uses two additional Lua modules, the multithreading Lanes and the GUI library
+wxWidgets, to allow an early abort of the user's sync by pressing a button on a dialog.</p>
+
+
+<pre>
+    require 'lanes'
+    require 'wx'
+
+    -- This is our communications pipeline with the thread.  It is inherited
+    -- as an upvalue for the runp4 lane.
+    local linda = lanes.linda()
+
+    -- Create the lane, giving it full access to all the standard libraries.
+    runp4 = lanes.gen('*', function()
+        require 'p4'
+        p4 = P4.P4()
+
+        pcall(function()
+            p4:connect()
+            p4.keepalive = function()
+                -- If the linda receives the finished message, then abort.
+                if linda:receive(0, "finished") then return false end
+                return true
+            end
+            files = p4:run{ 'sync', '...', OutputText = function(info) print(info.clientFile) end }
+            p4.keepalive = nil
+        end)
+
+        for _, w in ipairs(p4.warnings) do
+            print(w)
+        end
+
+        for _, e in ipairs(p4.errors) do
+            print(e)
+        end
+
+        p4:disconnect()
+    end)
+
+    -- Start the thread.
+    p4result = runp4()
+
+    -- Pop up the dialog.
+    wx.wxMessageBox("Press OK to cancel sync.")
+
+    -- After the dialog OK button has been pressed, send the finished message.
+    linda:send('finished', true)
+
+    -- Wait for the thread to exit.
+    p4result:join()
+</pre>
+
+
+
+
+
+
+<h3>p4.maxlocktime -> int</h3>
+
+<p>Limit the amount of time (in milliseconds) spent during data scans to prevent the server 
+from locking tables for too long. Commands that take longer than the limit will be 
+aborted. The limit remains in force until you disable it by setting it to zero. See `p4 help 
+maxlocktime` for information on the commands that support this limit.</p>
+
+
+
+
+
+<h3>p4.maxresults -> int</h3>
+
+<p>Limit the number of results Perforce permits for subsequent commands. Commands that 
+produce more than this number of results will be aborted. The limit remains in force until 
+you disable it by setting it to zero. See <code>p4 help maxresults</code> for information on the 
+commands that support this limit.</p>
+
+
+
+
+
+<h3>p4.maxscanrows -> int</h3>
+
+<p>Limit the number of database records Perforce scans for subsequent commands. 
+Commands that attempt to scan more than this number of records will be aborted. The 
+limit remains in force until you disable it by setting it to zero. See <code>p4 help maxscanrows</code> 
+for information on the commands that support this limit.</p>
+
+
+
+
+
+<h3>p4.os -> string</h3>
+
+<p>Returns one of <code>UNIX</code>, <code>vms</code>, <code>NT</code>, <code>Mac</code>, or <code>nil</code>.</p>
+
+
+
+
+
+<h3>p4.output -> list (read-only)</h3>
+
+<p>Contains the array of output messages (either string or tables) that arose during execution of
+the last command.</p>
+
+
+<pre>
+    require 'p4'
+
+    p4 = P4.P4()
+    pcall(function()
+        p4:connect()
+        files = p4:run_sync()
+    end)
+
+    for _, o in ipairs(p4.output) do
+        print(o.clientFile)
+    end
+
+    p4:disconnect()
+</pre>
+
+
+
+
+
+<h3>p4.p4config_file -> string (read-only)</h3>
+
+<p>Contains the name of the current <code>P4CONFIG</code> file, if any. This attribute cannot be set.</p>
+
+
+
+
+
+<h3>p4.password -> string</h3>
+
+<p>Contains your Perforce password or login ticket. If not used, takes the value of <code>P4PASSWD</code> 
+from any <code>P4CONFIG</code> file in effect, or from the environment according to the normal 
+Perforce conventions. </p>
+
+<p>This password is also used if you later call <code>p4:run_login()</code> to log in using the 2003.2 and 
+later ticket system. After running <code>p4:run_login()</code>, the attribute contains the ticket the 
+allocated by the server.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.password = "mypass"
+    p4:connect()
+    p4:run_login()
+</pre>
+
+
+
+
+
+
+
+<h3>p4.port -> string</h3>
+
+<p>Contains the host and port of the Perforce server to which you want to connect. It defaults 
+to the value of <code>P4PORT</code> in any <code>P4CONFIG</code> file in effect, and then to the value of <code>P4PORT</code> taken 
+from the environment.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.port = "localhost:1666"
+    p4:connect()
+    ...
+</pre>
+
+
+
+
+
+
+<h3>p4.prog -> string</h3>
+
+<p>Contains the name of the program, as reported to Perforce system administrators running 
+<code>p4 monitor show -e</code>. The default is <code>unnamed p4lua script</code>.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.prog = "sync-script"
+    print( p4.prog )
+    p4:connect()
+</pre>
+
+
+
+
+
+
+
+<h3>p4.server_level -> int (read-only)</h3>
+
+<p>Returns the current Perforce server level. Each iteration of the Perforce Server is given a 
+level number. As part of the initial communication this value is passed between the client 
+application and the Perforce Server. This value is used to determine the communication 
+that the Perforce Server will understand. All subsequent requests can therefore be tailored 
+to meet the requirements of this Server level. </p>
+
+<p>This attribute is 0 before the first command is run, and is set automatically after the first 
+communication with the server. </p>
+
+<p>For the API integer levels that correspond to each Perforce release, see:
+<a href="http://kb.perforce.com/?article=571">http://kb.perforce.com/?article=571</a></p>
+
+
+
+
+
+<h3>p4.tagged -> int</h3>
+
+<p>If <code>true</code>, <code>p4.tagged</code> enables tagged output. By default, tagged output is on.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.tagged = false
+    print(p4.tagged)
+</pre>
+
+
+
+
+
+<h3>p4.ticket_file -> string</h3>
+
+<p>Contains the location of the <code>P4TICKETS</code> file</p>
+
+
+
+
+
+<h3>p4.user -> string</h3>
+
+<p>Contains the Perforce username. It defaults to the value of <code>P4USER</code> taken from any 
+<code>P4CONFIG</code> file present, or from the environment as per the usual Perforce convention.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.user = "sven"
+    p4:connect()
+    ...
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+<h3>p4.version -> string</h3>
+
+<p>Contains the version of the program, as reported to Perforce system administrators in the 
+server log. </p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.version = "123"
+    print(p4.version)
+    p4:connect()
+</pre>
+
+
+
+
+
+
+
+<h3>p4.warnings -> list (read-only)</h3>
+
+<p>Contains the array of warnings that arose during execution of the last command </p>
+
+
+<pre>
+    require 'p4'
+
+    p4 = P4.P4()
+    pcall(function()
+        p4:connect()
+        p4.exception_level = 2 -- File(s) up-to-date warning
+        files = p4:run_sync()
+    end)
+
+    for _, w in ipairs(p4.warnings) do
+        print(w)
+    end
+
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+
+
+
+<h2>Class Methods</h2>
+
+<h3>P4.P4()</h3>
+
+<p>Construct a new P4 object. For example: </p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+</pre>
+
+
+
+
+
+
+<h3>P4.identify()</h3>
+
+<p>Return the version of P4 that you are using.</p>
+
+
+<pre>
+lua -e "require 'p4'; print(P4.identify())"
+</pre>
+
+
+
+
+
+
+<h2>Instance Methods</h2>
+
+<h3>p4:connect()</h3>
+
+<p>Initializes the Perforce client and connects to the server.</p>
+
+<p>If the connection is successfully established, returns <code>true</code>. If the connection fails and 
+<code>exception_level</code> is <code>0</code>, returns <code>nil</code> and an error message, otherwise raises an exception. If already 
+connected, returns <code>true</code> and a message.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+</pre>
+
+
+
+
+
+
+
+<h3>p4:connected() -> boolean</h3>
+
+<p>Returns <code>true</code> if connected to the Perforce Server and the connection is alive, otherwise 
+<code>false</code>.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    print(p4.connected())
+    p4:connect()
+    print p4:connected()
+</pre>
+
+
+
+
+
+
+
+<h3>p4:delete_<em>&lt;spectype&gt;</em>( [ options ], name ) -> list</h3>
+
+<p>The <tt>delete_<em>spectype</em></tt> methods are shortcut methods that allow you to delete the 
+definitions of clients, labels, branches, etc. These methods are equivalent to:</p>
+
+
+<pre>
+    p4:run( &lt;spectype&gt;, '-d', [options], &lt;spec name&gt; )
+</pre>
+
+
+<p>The following code uses <code>delete_client</code> to delete client workspaces that have not been 
+accessed in more than 365 days: </p>
+
+
+<pre>
+    require 'p4'
+
+    p4 = P4.P4()
+    now = os.time()
+
+    pcall(function()
+        p4:connect()
+        for i, client in ipairs(p4:run_clients()) do
+            -- If the client has not been accessed for a year, delete it
+            if client.Access + 365 * 24 * 60 * 60 < now then
+                print("Deleting client " .. client.client)
+                p4:delete_client( '-f', client[ "client" ] )
+            end
+        end
+    end)
+
+    for i, e in ipairs(p4.errors) do
+        print(e)
+    end
+
+    p4:disconnect()
+</pre>
+
+
+<p>This code deletes all labels:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    for i, label in ipairs(p4:run_labels()) do
+        print("Deleting label " .. label.label)
+        p4:delete_label( '-f', label.label )
+    end
+    p4:disconnect()
+</pre>
+
+
+
+
+<h3>p4:disconnect()</h3>
+
+<p>Disconnect from the Perforce Server. Call this method before exiting your script. </p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    ...
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+
+<h3>p4:env( var, [value] )</h3>
+
+<p>If <code>value</code> isn't specified, get the value of a Perforce environment variable, taking into account
+<code>P4CONFIG</code> files and (on Windows) the registry.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    print( p4:env( "P4PORT" ) )
+</pre>
+
+
+<p>If <code>value</code> is specified, sets the Perforce environment variable <code>var</code> with <code>value</code>.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:env( 'P4CONFIG', 'p4.ini' )
+</pre>
+
+
+
+
+
+
+<h3>p4:fetch_<em>&lt;spectype&gt;</em>() -> P4.Spec</h3>
+
+<p>The <tt>fetch_<em>spectype</em></tt> methods are shortcuts for running</p>
+
+
+<pre>
+    p4:run("spectype", "-o")[1].
+</pre>
+
+
+<p>For example: </p>
+
+
+<pre>
+    label = p4:fetch_label(labelname)
+    change = p4:fetch_change(changeno)
+    clientspec = p4:fetch_client(clientname)
+</pre>
+
+
+<p>are equivalent to</p>
+
+
+<pre>
+    label = p4:run("label", "-o", labelname)[1]
+    change = p4:run("change", "-o", changeno)[1]
+    clientspec = p4:run("client", "-o", clientname)[1]
+</pre>
+
+
+
+
+
+
+
+<h3>p4:format_spec( &lt;spectype&gt;, table ) -> string</h3>
+
+<p>Converts the fields in the table containing the elements of a Perforce form (spec) into the 
+string representation familiar to users. The first argument is the type of spec to format: for 
+example, <code>client</code>, <code>branch</code>, <code>label</code>, and so on. The second argument is the hash to parse.</p>
+
+<p>There are shortcuts available for this method. You can use <code>p4:format_spectype( table )</code> instead of
+<code>p4:format_spec( spectype, table )</code> where <code>spectype</code> is the name of a Perforce spec, such as
+<code>client</code>, <code>label</code>, etc.</p>
+
+
+
+
+
+<h3>p4:format_<em>&lt;spectype&gt;</em>( table ) -> string</h3>
+
+<p>The <tt>format_<em>spectype</em></tt> methods are shortcut methods that allow you to quickly fetch the 
+definitions of clients, labels, branches, etc. They're equivalent to:</p>
+
+
+<pre>
+    p4:format_spec( spectype, table )
+</pre>
+
+
+
+
+
+
+
+<h3>p4:parse_spec( &lt;spectype&gt;, string ) -> P4.Spec</h3>
+
+<p>Parses a Perforce form (spec) in text form into a Lua table using the spec definition 
+obtained from the server. The first argument is the type of spec to parse: <code>client</code>, <code>branch</code>, 
+<code>label</code>, and so on. The second argument is the string buffer to parse.</p>
+
+<p>There are shortcuts available for this method. You can use <code>p4:parse_spectype( buf )</code> instead of
+<code>p4:parse_spec( spectype, buf )</code> where spectype is one of <code>client</code>, <code>branch</code>, <code>label</code>, and so on.</p>
+
+
+
+
+
+
+<h3>p4:parse_<em>&lt;spectype&gt;</em>( string ) -> P4.Spec</h3>
+
+<p>This is equivalent to <code>parse_spec( spectype, string )</code>. </p>
+
+<p>For example, <code>parse_job(myJob)</code> converts the String representation of a job spec into a 
+Spec object.</p>
+
+<p>To parse a spec, P4 needs to have the spec available. When not connected to the Perforce 
+Server, P4 assumes the default format for the spec, which is hardcoded. This assumption 
+can fail for jobs if the Server’s jobspec has been modified. In this case, your script can load 
+a job from the Server first with the command <code>fetch_job(’somename’)</code>, and P4 will cache 
+and use the spec format in subsequent <code>parse_job()</code> calls.</p>
+
+
+
+
+
+
+<h3>p4:run(cmd, [arg, ...])</h3>
+
+<p>Base interface to all the run methods in this API. Runs the specified Perforce command 
+with the arguments supplied. Arguments may be in any form as long as they can be 
+converted to strings by <code>tostring()</code>.</p>
+
+<p>The <code>p4:run()</code> method returns a list of results whether the command succeeds or fails; the 
+list may, however, be empty. Whether the elements of the array are strings or 
+dictionaries depends on</p>
+
+<p>(a) server support for tagged output for the command, and</p>
+
+<p>(b) whether tagged output was disabled by calling <code>p4.tagged = false</code>.</p>
+
+<p>In the event of errors or warnings, and depending on the exception level in force at the 
+time, <code>run()</code> raises an exception. If the current exception level is below the threshold for 
+the error/warning, <code>run()</code> returns the output as normal and the caller must explicitly 
+review <code>p4.errors</code> and <code>p4.warnings</code> to check for errors or warnings.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    spec = p4:run( "client", "-o" )[1]
+    p4:disconnect()
+</pre>
+
+
+<p>Shortcuts are available for <code>p4:run</code>. For example, <code>p4:run_command( args )</code> is equivalent 
+to <code>p4:run( "command", args )</code>.</p>
+
+<p>There are also some shortcuts for common commands such as editing Perforce forms and 
+submitting. For example, this:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    clientspec = p4:run_client( "-o" )[1]
+    clientspec.Description = "Build client"
+    p4.input = clientspec
+    p4:run_client( "-i" )
+    p4:disconnect()
+</pre>
+
+
+<p>...may be shortened to</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    clientspec = p4:fetch_client()
+    clientspec.Description = "Build client"
+    p4:save_client( clientspec )
+    p4:disconnect()
+</pre>
+
+
+<p>The following are equivalent:</p>
+
+
+<table>
+    <tr><th>Shortcut</th><th>Equivalent to</th></tr>
+    <tr><td><tt>p4:delete_spectype</tt></td><td><tt>p4:run( "spectype", "-d ")</tt></td></tr>
+    <tr><td><tt>p4:fetch_spectype</tt></td><td><tt>p4:run( "spectype", "-o ")[1]</tt></td></tr>
+    <tr><td><tt>p4:save_spectype( spec )</tt></td><td><tt>p4.input = spec; p4:run( "spectype", "-i" )</tt></td></tr>
+</table>
+
+
+<p>As the commands associated with <code>fetch_spectype</code> typically return only one item, these 
+methods do not return an array, but instead return the first result element.</p>
+
+<p>For convenience in submitting changelists, changes returned by <code>fetch_change()</code> can be 
+passed to <code>run_submit()</code>. For example:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    spec = p4:fetch_change()
+    spec.Description = "Automated change"
+    p4:run_submit(spec)
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+<h3>p4:run{cmd, [arg, ...]}</h3>
+
+<p><code>p4:run()</code>, as described above, performs the Perforce operation, collecting all output, warnings, and errors, and then returns that information to the user.  It is suited for short-run commands or those where user interface is not an issue.  Additionally, for large operations, exorbitant amounts of memory may be used by the mass collection process.</p>
+
+<p>The table constructor form of <code>p4:run{}</code> allows for all the functionality above but with the ability to patch into and receive information from the output, warning, or error streams as it becomes available.</p>
+
+<p>P4 command arguments are specified as in <code>p4:run()</code>.  Additional table constructor function entries are as follows:</p>
+
+<ul>
+    <li><code>OutputText( info )</code> - Called whenever regular output is received, generally a string or table.</li>
+    <li><code>OutputWarning( info )</code> - Called whenever a warning is received.</li>
+    <li><code>OutputError( info )</code> - Called whenever an error is received.</li>
+</ul>
+
+<p>If a function is not specified, the related <code>p4.output</code>, <code>p4.warnings</code>, or <code>p4.errors</code> tables continue to fill.  If this is not desirable, specify the function and make it empty.</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    p4:run{ 'sync',
+        OutputText = function(info)
+            print( 'Synced: ' .. info.depotFile )
+        end,
+        OutputWarning = function(info)
+            print(info)
+            table.insert(p4.warnings, info)
+        end
+    }
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+
+
+<h3>p4:run_cmd([arg, ...])</h3>
+
+<p>Shorthand for <code>p4:run("cmd", arguments... )</code>.</p>
+
+
+
+
+
+
+<h3>p4:run_filelog(&lt;fileSpec&gt;) -> list</h3>
+
+<p>Runs a <code>p4 filelog</code> on the <code>fileSpec</code> provided and returns an array of <code>P4.DepotFile</code> 
+results (when executed in tagged mode), or an array of strings when executed in 
+nontagged mode. By default, the raw output of <code>p4 filelog</code> is tagged; this method 
+restructures the output into a more user-friendly (and object-oriented) form. </p>
+
+<p>For example:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+    files = p4:run_filelog('index.html')
+    print(files[1])
+    for _, r in ipairs(files[1].revisions) do
+        print(r)
+        for _, i in ipairs(r.integrations) do
+            print(i)
+        end
+    end
+</pre>
+
+
+
+
+
+
+
+<h3>p4:run_login( arg... ) -> list</h3>
+
+<p>Runs <code>p4_login</code> using a password (or other arguments) set by the user.</p>
+
+
+
+
+
+
+<h3>p4:run_password( oldpass, newpass ) -> list</h3>
+
+<p>A thin wrapper to make it easy to change your password. This method is (literally) 
+equivalent to the following: </p>
+
+
+<pre>
+    p4:input( [ oldpass, newpass, newpass ] )
+    p4:run( "password" )
+</pre>
+
+
+<p>For example</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4.password = "myoldpass"
+
+    pcall(function()
+        p4:connect()
+        p4:run_password( "myoldpass", "mynewpass" )
+    end)
+
+    for i, e in ipairs(p4.errors) do
+        print(e)
+    end
+
+    p4:disconnect()
+</pre>
+
+
+
+
+
+
+
+<h3>p4:run_resolve( [resolver], [arg...] ) -> list</h3>
+
+<p>Run a <code>p4 resolve</code> command. Interactive resolves require the resolver parameter to be 
+an object of a class derived from <code>P4.Resolver</code>. In these cases, the resolve method of this 
+class is called to handle the resolve. For example:</p>
+
+
+<pre>
+    p4:run_resolve()
+</pre>
+
+
+<p>To perform an automated merge that skips whenever conflicts are detected: </p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+    p4:connect()
+
+    MyResolver = {}
+    function MyResolver.resolve(self, mergeData)
+        print(mergeData.your_name, mergeData.their_name, mergeData.base_name,
+            mergeData.your_path, mergeData.their_path, mergeData.base_path,
+            mergeData.result_path, mergeData.merge_hint)
+        if not mergeData.merge_hint == "e" then
+            return mergeData.merge_hint
+        else
+            return "s" -- skip the resolve, there is a conflict
+        end
+    end
+
+    p4:run_resolve { resolver = MyResolver }
+
+    p4:disconnect()
+</pre>
+
+
+<p>In non-interactive resolves, no <code>P4.Resolver</code> object is required. For example: </p>
+
+
+<pre>
+    p4:run_resolve ( "-at" )
+</pre>
+
+
+
+
+
+
+<h3>p4:run_submit( [ hash ], [ arg... ] ) -> list</h3>
+
+<p>Submit a changelist to the server. To submit a changelist, set the fields of the changelist as 
+required and supply any flags:</p>
+
+<p>You can also submit a changelist by supplying the arguments as you would on the 
+command line:</p>
+
+
+<pre>
+    change = p4:fetch_change()
+    change._description = "Some description"
+    p4:run_submit( "-r", change )
+    p4:run_submit( "-d", "Some description", "somedir/..." )
+</pre>
+
+
+
+
+
+
+
+<h3>p4:save_&lt;spectype&gt;()</h3>
+
+<p>The <code>save_spectype</code> methods are shortcut methods that allow you to quickly update the 
+definitions of clients, labels, branches, etc. They are equivalent to: </p>
+
+
+<pre>
+    p4.input = dictOrString
+    p4:run( spectype, "-i" )
+</pre>
+
+
+<p>For example:</p>
+
+
+<pre>
+    require 'p4'
+    p4 = P4.P4()
+
+    pcall(function()
+        p4:connect()
+        client = p4:fetch_client()
+        client.Owner = p4.user
+        p4:save_client( client )
+    end)
+
+    for i, e in ipairs(p4.errors) do
+        print e
+    end
+
+    p4:disconnect()
+</pre>
+
+
+
+
+
+<hr/>
+<h1>Class P4.DepotFile</h1>
+<h2>Description</h2>
+
+<p>Utility class providing easy access to the attributes of a file in a Perforce depot. Each 
+<code>P4.DepotFile</code> object contains summary information about the file and a list of revisions 
+(<code>P4.Revision</code> objects) of that file. Currently, only the <code>P4:run_filelog</code> method returns a 
+list of <code>P4.DepotFile</code> objects.</p>
+
+
+
+
+<h2>Instance Attributes</h2>
+
+<h3>df.depotFile -> string</h3>
+
+<p>Returns the name of the depot file to which this object refers. </p>
+
+<h3>df.revisions -> list</h3>
+
+<p>Returns a list of P4.Revision objects, one for each revision of the depot file. </p>
+
+<h2>Class Methods</h2>
+
+<p>None.</p>
+
+<h2>Instance Methods</h2>
+
+<p>None.</p>
+
+
+
+<hr/>
+<h1>Class P4.Revision</h1>
+
+<h2>Description</h2>
+
+<p>Utility class providing easy access to the revisions of <code>P4.DepotFile</code> objects. Created by 
+<code>P4:run_filelog()</code>.</p>
+
+<h2>Instance Attributes</h2>
+
+<h3>rev.action -> string</h3>
+
+<p>Returns the name of the action which gave rise to this revision of the file. </p>
+
+<h3>rev.change -> int</h3>
+
+<p>Returns the change number that gave rise to this revision of the file. </p>
+
+<h3>rev.client -> string</h3>
+
+<p>Returns the name of the client from which this revision was submitted. </p>
+
+<h3>rev.depotFile -> string</h3>
+
+<p>Returns the name of the depot file to which this object refers.</p>
+
+<h3>rev.desc -> string</h3>
+
+<p>Returns the description of the change which created this revision. Note that only the first 
+31 characters are returned unless you use <code>p4 filelog -L</code> for the first 250 characters, or `p4 
+filelog -l` for the full text.</p>
+
+<h3>rev.digest -> string</h3>
+
+<p>Returns the MD5 checksum of this revision.</p>
+
+<h3>rev.fileSize -> string</h3>
+
+<p>Returns this revision’s size in bytes. </p>
+
+<h3>rev.integrations -> list</h3>
+
+<p>Returns the list of P4.Integration objects for this revision. </p>
+
+<h3>rev.rev -> int</h3>
+
+<p>Returns the number of this revision of the file.</p>
+
+<h3>rev.time -> datetime</h3>
+
+<p>Returns the date/time that this revision was created. </p>
+
+<h3>rev.type -> string</h3>
+
+<p>Returns this revision’s Perforce filetype. </p>
+
+<h3>rev.user -> string</h3>
+
+<p>Returns the name of the user who created this revision. </p>
+
+<h2>Class Methods</h2>
+
+<p>None.</p>
+
+<h2>Instance Methods</h2>
+
+<p>None.</p>
+
+
+
+
+<hr/>
+<h1>Class P4.Integration</h1>
+
+<h2>Description</h2>
+
+<p>Utility class providing easy access to the details of an integration record. Created by 
+<code>P4:run_filelog()</code>.</p>
+
+<h2>Instance Attributes</h2>
+
+<h3>integ.how -> string</h3>
+
+<p>Returns the type of the integration record - how that record was created. </p>
+
+<h3>integ.file -> string</h3>
+
+<p>Returns the path to the file being integrated to/from. </p>
+
+<h3>integ.erev -> int</h3>
+
+<p>Returns the end revision number used for this integration. </p>
+
+<h3>integ.srev -> int</h3>
+
+<p>Returns the start revision number used for this integration. </p>
+
+<h2>Class Methods</h2>
+
+<p>None.</p>
+
+<h2>Instance Methods</h2>
+
+<p>None.</p>
+
+
+
+<hr/>
+<h1>Class P4.Map</h1>
+
+<h2>Description</h2>
+
+<p>The <code>P4.Map</code> class allows users to create and work with Perforce mappings, without 
+requiring a connection to a Perforce server.</p>
+
+<h2>Instance Attributes</h2>
+
+<p>None</p>
+
+<h2>Class Methods</h2>
+
+<h3>P4.Map( [ table ] ) -> P4.Map</h3>
+
+<p>Constructs a new <code>P4.Map</code> object.</p>
+
+
+
+
+
+<h3>P4.Map_join ( map1, map2 ) -> P4.Map</h3>
+
+<p>Join two <code>P4.Map</code> objects and create a third. </p>
+
+<p>The new map is composed of the left-hand side of the first mapping, as joined to the right-
+hand side of the second mapping. For example:</p>
+
+
+<pre>
+    -- Map depot syntax to client syntax
+    client_map = P4.Map()
+    client_map:insert( "//depot/main/...", "//client/..." )
+    -- Map client syntax to local syntax
+    client_root = P4.Map()
+    client_root:insert( "//client/...", "/home/tony/workspace/..." )
+    -- Join the previous mappings to map depot syntax to local syntax
+    local_map = P4.Map_join( client_map, client_root )
+    local_path = local_map:translate( "//depot/main/www/index.html" )
+    # local_path is now /home/tony/workspace/www/index.html
+</pre>
+
+
+
+
+
+
+<h2>Instance Methods</h2>
+
+<h3>map:clear()</h3>
+
+<p>Empty a map.</p>
+
+
+
+
+
+<h3>map:count() -> int</h3>
+
+<p>Return the number of entries in a map.</p>
+
+
+
+
+<h3>map:is_empty() -> boolean</h3>
+
+<p>Test whether a map object is empty.</p>
+
+
+
+
+
+<h3>map:insert( string ... )</h3>
+
+<p>Inserts an entry into the map. </p>
+
+<p>May be called with one or two arguments. If called with one argument, the string is 
+assumed to be a string containing either a half-map, or a string containing both halves of 
+the mapping. In this form, mappings with embedded spaces must be quoted. If called 
+with two arguments, each argument is assumed to be half of the mapping, and quotes are 
+optional.</p>
+
+
+<pre>
+    -- called with two arguments:
+    map:insert( "//depot/main/...", "//client/..." )
+    -- called with one argument containing both halves of the mapping:
+    map:insert( "//depot/live/... //client/live/..." )
+    -- called with one argument containing a half-map:
+    -- This call produces the mapping "depot/... depot/..."
+    map:insert( "depot/..." )
+</pre>
+
+
+
+
+
+
+<h3>map:translate ( string, [ boolean ] )-> string</h3>
+
+<p>Translate a string through a map, and return the result. If the optional second argument is 
+1, translate forward, and if it is 0, translate in the reverse direction. By default, translation 
+is in the forward direction.</p>
+
+
+
+
+
+<h3>map:includes( string ) -> boolean</h3>
+
+<p>Tests whether a path is mapped or not. </p>
+
+
+<pre>
+    if map:includes( "//depot/main/..." ) then
+        ...
+</pre>
+
+
+
+
+
+<h3>map:reverse() -> P4.Map</h3>
+
+<p>Return a new <code>P4.Map</code> object with the left and right sides of the mapping swapped. The 
+original object is unchanged.</p>
+
+
+
+
+
+<h3>map:lhs() -> list</h3>
+
+<p>Returns the left side of a mapping as an array.</p>
+
+
+
+
+
+<h3>map:rhs() -> list</h3>
+
+<p>Returns the right side of a mapping as an array.</p>
+
+
+
+
+
+<h3>map:as_array() -> list</h3>
+
+<p>Returns the map as an array.</p>
+
+
+
+
+
+
+<hr/>
+<h1>Class P4.MergeData</h1>
+<h2>Description</h2>
+
+<p>Class containing the context for an individual merge during execution of a <code>p4 resolve</code>. </p>
+
+<h2>Instance Attributes</h2>
+
+<h3>md.your_name -> string</h3>
+
+<p>Returns the name of “your” file in the merge. This is typically a path to a file in the 
+workspace. </p>
+
+
+
+<h3>md.their_name -> string</h3>
+
+<p>Returns the name of “their” file in the merge. This is typically a path to a file in the depot. </p>
+
+<h3>md.base_name -> string</h3>
+
+<p>Returns the name of the “base” file in the merge. This is typically a path to a file in the 
+depot. </p>
+
+<h3>md.your_path -> string</h3>
+
+<p>Returns the path of “your” file in the merge. This is typically a path to a file in the 
+workspace. </p>
+
+<h3>md.their_path -> string</h3>
+
+<p>Returns the path of “their” file in the merge. This is typically a path to a temporary file on 
+your local machine in which the contents of their_name have been loaded. </p>
+
+<h3>md.base_path -> string</h3>
+
+<p>Returns the path of the base file in the merge. This is typically a path to a temporary file 
+on your local machine in which the contents of base_name have been loaded. </p>
+
+<h3>md.result_path -> string</h3>
+
+<p>Returns the path to the merge result. This is typically a path to a temporary file on your 
+local machine in which the contents of the automatic merge performed by the server have 
+been loaded. </p>
+
+<h3>md.merge_hint -> string</h3>
+
+<p>Returns the hint from the server as to how it thinks you might best resolve this merge. </p>
+
+
+
+<h2>Instance Methods</h2>
+
+<h3>md.run_merge() -> boolean</h3>
+
+<p>If the environment variable <code>P4MERGE</code> is defined, run_merge() invokes the specified 
+program and returns a boolean based on the return value of that program.</p>
+
+
+
+<hr/>
+<h1>Class P4.Resolver</h1>
+
+<h2>Description</h2>
+
+<p><code>P4.Resolver</code> is a class for handling resolves in Perforce. It is intended to be subclassed, 
+and for subclasses to override the <code>resolve()</code> method. When <code>P4:run_resolve()</code> is called 
+with a <code>P4.Resolver</code> object, it calls the <code>resolve()</code> method of the object once for each 
+scheduled resolve.</p>
+
+<h2>Instance Attributes</h2>
+
+<p>None</p>
+
+<h2>Class Methods</h2>
+
+<p>None</p>
+
+<h2>Instance Methods</h2>
+
+<h3>resolver.resolve(self, mergeData) -> string</h3>
+
+<p>Returns the resolve decision as a string. The standard Perforce resolve strings apply: </p>
+
+
+<table>
+  <tr><th>String</th><th>Meaning</th></tr>
+  <tr><td><tt>ay</tt></td><td>Accept Yours</td></tr>
+  <tr><td><tt>at</tt></td><td>Accept Theirs</td></tr>
+  <tr><td><tt>am</tt></td><td>Accept Merge result</td></tr>
+  <tr><td><tt>ae</tt></td><td>Accept Edited result</td></tr>
+  <tr><td><tt>s</tt></td><td>Skip the merge</td></tr>
+  <tr><td><tt>q</tt></td><td>Abort the merge</td></tr>
+</table>
+
+
+<p>By default, all automatic merges are accepted, and all merges with conflicts are skipped. 
+The <code>resolve</code> method is called with a single parameter, which is a reference to a 
+<code>P4.MergeData</code> object.</p>
+
+
+
+<hr/>
+<h1>Class P4.Spec</h1>
+
+<h2>Description</h2>
+
+<p>Utility class providing easy access to the attributes of the fields in a Perforce form. 
+Only valid field names may be set in a <code>P4.Spec</code> object. Only the field name is validated, 
+not the content. Attributes provide easy access to the fields. </p>
+
+<h2>Instance Attributes</h2>
+
+<h3>spec._&lt;fieldname&gt; -> string</h3>
+
+<p>Contains the value associated with the field named &lt;fieldname&gt;. </p>
+
+
+
+
+<h3>spec.permitted_fields -> dict</h3>
+
+<p>Contains an array containing the names of fields that are valid in this spec object. This 
+does not imply that values for all of these fields are actually set in this object, merely that 
+you may choose to set values for any of these fields if you want to. </p>
+
+
+
+
+<h2>Class Methods</h2>
+
+<h3>P4.Spec.new( dict ) -> P4.Spec</h3>
+
+<p>Constructs a new <code>P4.Spec</code> object given an array of valid fieldnames. </p>
+
+
+
+
+<h2>Instance Methods</h2>
+
+<p>None.</p>
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

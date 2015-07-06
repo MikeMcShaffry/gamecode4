@@ -1,0 +1,585 @@
+#!/bin/bash
+
+# Generic AIO installation script.
+
+# Platform
+
+pushd `dirname $0`
+
+WGET="wget -c -t0"
+
+if [ "`echo ${OSTYPE%%[0-9]*}`" = "darwin" ]
+then
+   WGET="curl -O --retry 10"
+fi
+
+SOURCE_DIR=`pwd`
+
+# Defaults
+
+PREFIX="/usr/local"
+TMP="/tmp"
+LUA_SUFFIX=""
+BUILD_LUA="yes"
+INSTALL_LUA="yes"
+USE_READLINE="yes"
+NCURSES_DIR="/usr"
+READLINE_DIR="/usr"
+LUA_DIR="/usr"
+LUA_INCDIR="/usr/include"
+LUA_LIBDIR="/usr/lib"
+LUA_BINDIR="/usr/bin"
+SKIP_PACKAGE=no
+SKIP_LR=no
+BOOTSTRAP=no
+
+UNAME="`uname`"
+
+if ! [ "$UNAME" = "Linux" -o "$UNAME" = "Darwin" -o "$UNAME" = "FreeBSD" ]
+then
+   USE_READLINE=no
+fi
+
+# Installer parameters
+
+LUA_VERSION=5.1.4
+PACKAGE=WSAPI
+PACKAGE_OPT=wsapi
+PACKAGE_ROCK=wsapi-xavante
+INSTALLER_VERSION=0.6
+PACKAGE_VERSION=1.3.4
+LUAROCKS_REPO=http://luarocks.org/repositories/rocks
+LUAROCKS_URL=http://www.luarocks.org/releases/luarocks-2.0.2.tar.gz
+LUAROCKS_VERSION=2.0.2
+
+# Help
+
+show_help() {
+cat <<EOF
+$PACKAGE Installer version $INSTALLER_VERSION.
+
+Installs Lua $LUA_VERSION, LuaRocks $LUAROCKS_VERSION and $PACKAGE $PACKAGE_VERSION.
+
+--help                      This help.
+--prefix=DIR                Prefix where Lua should be installed.
+                            Default is $PREFIX. Creates \$PREFIX/bin,
+                            \$PREFIX/include, \$PREFIX/lib, \$PREFIX/share,
+                            and \$PREFIX/man.
+--include-dir=DIR           Prefix where C header files should be installed.
+                            Default is \$(PREFIX)/include
+--lua-suffix=SUFFIX         Versioning suffix to use in Lua filenames.
+                            (lua vs. lua5.1, liblua.a vs. liblua5.1.a...)
+--with-readline=DIR         Prefix where Readline is installed.
+                            Used by Lua.
+                            Default is $READLINE_DIR
+--with-ncurses=DIR          Prefix where NCurses is installed.
+                            Used by Lua when Readline is enabled.
+                            Default is $NCURSES_DIR
+--without-readline          Disable Readline support when building Lua.
+--from=URL                  Install from LuaRocks repository URL
+--with-$PACKAGE_OPT=VERSION
+     Installs the provided $PACKAGE version instead
+     of $PACKAGE $PACKAGE_VERSION
+--without-$PACKAGE_OPT
+     Does not install $PACKAGE, just Lua and LuaRocks
+--without-rocks             Does not install LuaRocks and $PACKAGE, just Lua
+--bootstrap                 Also downloads Lua, LuaRocks, and the rocks for
+                            $PACKAGE in the current path
+
+EOF
+}
+
+# Parse options
+
+while [ "$1" ]
+do
+   value="`echo $1 | sed 's/.*=\(.*\)/\1/'`"
+   if echo "$value" | grep -q "~"
+   then
+      echo
+      echo '*WARNING*: the "~" sign is not expanded in flags.'
+      echo 'If you mean the home directory, use $HOME instead.'
+      echo
+      exit 1
+   fi
+   case "$1" in
+   --help)
+      show_help
+      exit 0
+      ;;
+   --prefix=*)
+      PREFIX="$value"
+      PREFIX_SET=yes
+      ;;
+   --include-dir=*)
+      INCLUDEDIR="$value"
+      INCLUDEDIR_SET=yes
+      ;;
+   --lua-suffix=*)
+      LUA_SUFFIX="$value"
+      LUA_SUFFIX_SET=yes
+      ;;
+   --with-readline=*)
+      READLINE_DIR="$value"
+      USE_READLINE=yes
+      ;;
+   --from=*)
+      LUAROCKS_REPO="$value"
+      ;;
+   --with-ncurses=*)
+      NCURSES_DIR="$value"
+      ;;
+   --with-$PACKAGE_OPT=*)
+      PACKAGE_VERSION="$value"
+      ;;
+   --without-$PACKAGE_OPT*)
+      SKIP_PACKAGE=yes
+      ;;
+   --without-rocks*)
+      SKIP_PACKAGE=yes
+      SKIP_LR=yes
+      ;;
+   --bootstrap*)
+      BOOTSTRAP=yes
+      ;;
+   --without-readline)
+      USE_READLINE=no
+      ;;
+   *)
+      echo "Error: Unknown flag: $1"
+      exit 1
+      ;;
+   esac
+   shift
+done
+
+echo "$PACKAGE Installer version $PACKAGE_VERSION."
+
+if ! [ "$INCLUDEDIR_SET" = "yes" ]
+then
+   INCLUDEDIR="$PREFIX/include"
+fi
+
+LUA_DIR="$PREFIX"
+LUA_INCDIR="$INCLUDEDIR"
+LUA_LIBDIR="$LUA_DIR/lib"
+LUA_BINDIR="$LUA_DIR/bin"
+
+echo
+echo "The name of the Lua executable is lua$LUA_SUFFIX"
+echo "Lua installation prefix: $PREFIX"
+echo "Include files:           $PREFIX/include"
+echo
+echo "Will create bin, etc, lib, share, and man"
+echo "directories in $PREFIX"
+echo
+echo "Proceed with setup? [Y/n] "
+read YESNO
+if [ "$YESNO" = "n" ]
+then
+  echo "Setup aborted"
+  exit 1
+fi
+if [ "$YESNO" = "N" ]
+then
+  echo "Setup aborted"
+  exit 1
+fi
+
+# External dependencies
+
+test_package() {
+   package_keyword="$1"
+   package_name="$2"
+   with_flag="$3"
+   shift 3
+   if echo "$OPTIONAL_PACKAGES" | grep -q "$package_keyword"
+   then
+      echo -n "Checking $package_name... "
+      tried=""
+      while [ "$1" ]
+      do
+         test_file="$1"
+         if [ -e "$test_file" ]
+         then
+            echo "found: $test_file"
+            return 0
+         fi
+         tried="$tried $1"
+         shift
+      done
+      echo "not found:$tried"
+      echo
+      echo "Error: Could not verify the presence of $package_name."
+      echo "You may need to install development packages for $package_name."
+      if [ "$with_flag" ]
+      then
+         echo "If you are sure they are installed,"
+         echo "you can supply their location with $with_flag."
+      fi
+      echo "See --help for details."
+      exit 1
+   fi
+}
+
+if [ "$USE_READLINE" = "yes" ]
+then
+   test_package "" "Readline" --with-readline $READLINE_DIR/include/readline/readline.h
+   if [ "$UNAME" = "Linux" ]
+   then 
+      test_package "" "NCurses" --with-ncurses $NCURSES_DIR/include/ncurses.h
+   fi
+fi
+
+if [[ -f lua-$LUA_VERSION.tar.gz && -f luarocks-$LUAROCKS_VERSION.tar.gz && -d rocks ]]; then
+  echo "Installing from current directory..."
+else
+  echo "Installing from the Net..."
+  mkdir -p /tmp/$PACKAGE_OPT-$PACKAGE_VERSION && pushd /tmp/$PACKAGE_OPT-$PACKAGE_VERSION
+fi
+
+cat <<EOF > Makefile
+# This file was automatically generated by the configure script.
+# Run "./configure --help" for details.
+BUILD_LUA=$BUILD_LUA
+INSTALL_LUA=$INSTALL_LUA
+USE_READLINE=$USE_READLINE
+
+PREFIX=$PREFIX
+INCLUDEDIR=$INCLUDEDIR
+LUA_SUFFIX=$LUA_SUFFIX
+
+READLINE_DIR=$READLINE_DIR
+NCURSES_DIR=$NCURSES_DIR
+
+LUA_DIR=$LUA_DIR
+LUA_INCDIR=$LUA_INCDIR
+LUA_LIBDIR=$LUA_LIBDIR
+LUA_BINDIR=$LUA_BINDIR
+
+LUA_URL=http://www.lua.org/ftp
+
+READLINE_LIBDIR=\$(READLINE_DIR)/lib
+READLINE_INCLUDEDIR=\$(READLINE_DIR)/include
+
+NCURSES_LIBDIR=\$(NCURSES_DIR)/lib
+NCURSES_INCLUDEDIR=\$(NCURSES_DIR)/include
+
+LUA_VERSION=$LUA_VERSION
+
+PLATFORM_CFLAGS=-Wl,-E
+PLATFORM_LDFLAGS=-lm -ldl
+LIB_FLAG=-shared
+
+ifeq (\$(shell uname -m | sed 's/i.86/i386/'),i386)
+   FPIC=
+else
+   FPIC=-fpic
+endif
+
+LUA_LIB=\$(LUA_LIBDIR)/liblua\$(LUA_SUFFIX).a
+LUA_DEFPATH=-DLUA_ROOT=\\\\\\"\$(LUA_DIR)\\\\\\"
+ifeq (\$(USE_READLINE), yes)
+   LUA_READLINE_CFLAGS=-DLUA_USE_READLINE -I\$(READLINE_INCLUDEDIR)
+   LUA_READLINE_LIBS=-lreadline -lhistory -lncurses -L\$(READLINE_LIBDIR) -L\$(NCURSES_LIBDIR)
+else
+   LUA_READLINE_CFLAGS=
+   LUA_READLINE_LIBS=
+endif
+LUA_MYCFLAGS=-DLUA_USE_POSIX -DLUA_USE_DLOPEN \$(LUA_READLINE_CFLAGS)
+LUA_MYLIBS=\$(PLATFORM_CFLAGS) -ldl \$(LUA_READLINE_LIBS)
+
+WGET=wget -c -t0
+
+PLATFORM_BUILD=build
+
+ifeq (\$(shell bash -c 'echo ${OSTYPE%%[0-9]*}'),darwin)
+   WGET=curl -O --retry 10
+   PLATFORM_BUILD=OSX-build
+   ifneq (\$(LUA_READLINE_LIBS),)
+      LUA_READLINE_LIBS=-lreadline -L\$(READLINE_LIBDIR)
+   endif
+endif
+ifeq (\$(shell uname -s),FreeBSD)
+   PLATFORM_BUILD=FreeBSD-build
+endif
+
+platform: \$(PLATFORM_BUILD)
+
+OSX-build:
+	MACOSX_DEPLOYMENT_TARGET=10.3 \$(MAKE) \\
+	   LUA_MYCFLAGS="-DLUA_USE_MACOSX \$(LUA_READLINE_CFLAGS)" \\
+	   LUA_MYLIBS="\$(LUA_READLINE_LIBS)" \\
+	   PLATFORM_CFLAGS="-dynamic" \\
+	   PLATFORM_LDFLAGS="-lm -ldl" \\
+	   LIB_FLAG="-bundle -undefined dynamic_lookup -all_load" \\
+	   build
+
+FreeBSD-build:
+	\$(MAKE) \\
+	   LUA_MYCFLAGS="-DLUA_USE_POSIX -DLUA_USE_DLOPEN" \\
+	   LUA_MYLIBS="-Wl,-E" \\
+	   PLATFORM_LDFLAGS="-lm" \\
+	   build
+
+LUA_TESTFILE=lua-\$(LUA_VERSION)/src/lua\$(LUA_SUFFIX)
+
+fetch: lua-\$(LUA_VERSION)
+
+lua-\$(LUA_VERSION).tar.gz:
+	\$(WGET) \$(LUA_URL)/\$@
+
+lua-\$(LUA_VERSION):
+	\$(MAKE) lua-\$(LUA_VERSION).tar.gz
+	test -d \$@ || tar zxvpf lua-\$(LUA_VERSION).tar.gz
+	cd lua-\$(LUA_VERSION) && patch -p1 < ../lua-\$(LUA_VERSION)-easylua.diff
+
+build: \$(LUA_TESTFILE)
+
+\$(LUA_TESTFILE): lua-\$(LUA_VERSION)
+	cd lua-\$(LUA_VERSION) && \$(MAKE) \\
+	   LUA_SUFFIX="\$(LUA_SUFFIX)" \\
+	   INSTALL_INC="\$(LUA_INCDIR)" \\
+	   MYCFLAGS="\$(LUA_DEFPATH) \$(LUA_MYCFLAGS)" \\
+	   MYLIBS="\$(LUA_MYLIBS)" \\
+	   CC="\$(CC)" \\
+	   generic
+
+install: build
+	cd lua-\$(LUA_VERSION) && \$(MAKE) \\
+	   LUA_SUFFIX="\$(LUA_SUFFIX)" \\
+	   INSTALL_INC="\$(LUA_INCDIR)" \\
+	   INSTALL_TOP="\$(LUA_DIR)" \\
+	   MYCFLAGS="\$(LUA_MYCFLAGS)" \\
+	   MYLIBS="\$(LUA_MYLIBS)" \\
+	   INSTALL_EXEC="install -p -m 0755" \\
+	   INSTALL_DATA="install -p -m 0644" \\
+	   STRIP="true" \\
+	   install
+
+clean:
+	if [ -d lua-\$(LUA_VERSION) ]; then \\
+	   cd lua-\$(LUA_VERSION) && \$(MAKE) \\
+	      LUA_SUFFIX="\$(LUA_SUFFIX)" \\
+	      clean; \\
+	fi
+
+klean:
+	rm -f lua-\$(LUA_VERSION).tar.gz
+	rm -rf lua-\$(LUA_VERSION)
+	rm -f Makefile
+	rm -f lua-\$(LUA_VERSION)-easylua.diff
+
+EOF
+
+cat <<EOF > lua-5.1.4-easylua.diff
+diff -Naur lua-5.1.4-orig/Makefile lua-5.1.4/Makefile
+--- lua-5.1.4-orig/Makefile	2007-03-25 11:44:39.000000000 -0300
++++ lua-5.1.4/Makefile	2007-05-11 16:08:02.000000000 -0300
+@@ -41,10 +41,10 @@
+ PLATS= aix ansi bsd freebsd generic linux macosx mingw posix solaris
+ 
+ # What to install.
+-TO_BIN= lua luac
++TO_BIN= lua\$(LUA_SUFFIX) luac\$(LUA_SUFFIX)
+ TO_INC= lua.h luaconf.h lualib.h lauxlib.h ../etc/lua.hpp
+-TO_LIB= liblua.a
+-TO_MAN= lua.1 luac.1
++TO_LIB= liblua\$(LUA_SUFFIX).a
++TO_MAN= lua\$(LUA_SUFFIX).1 luac\$(LUA_SUFFIX).1
+ 
+ # Lua version and release.
+ V= 5.1
+@@ -56,11 +56,15 @@
+ 	cd src && \$(MAKE) \$@
+ 
+ test:	dummy
+-	src/lua test/hello.lua
++	src/lua\$(LUA_SUFFIX) test/hello.lua
+ 
+ install: dummy
+-	cd src && \$(MKDIR) \$(INSTALL_BIN) \$(INSTALL_INC) \$(INSTALL_LIB) \$(INSTALL_MAN) \$(INSTALL_LMOD) \$(INSTALL_CMOD)
++	cd src && \$(MKDIR) -p \$(INSTALL_BIN) \$(INSTALL_INC) \$(INSTALL_LIB) \$(INSTALL_MAN) \$(INSTALL_LMOD) \$(INSTALL_CMOD)
+ 	cd src && \$(INSTALL_EXEC) \$(TO_BIN) \$(INSTALL_BIN)
+ 	cd src && \$(INSTALL_DATA) \$(TO_INC) \$(INSTALL_INC)
+ 	cd src && \$(INSTALL_DATA) \$(TO_LIB) \$(INSTALL_LIB)
++	cp doc/lua.1 doc/t_lua.1
++	cp doc/luac.1 doc/t_luac.1
++	mv doc/t_lua.1 doc/lua\$(LUA_SUFFIX).1
++	mv doc/t_luac.1 doc/luac\$(LUA_SUFFIX).1
+ 	cd doc && \$(INSTALL_DATA) \$(TO_MAN) \$(INSTALL_MAN)
+diff -Naur lua-5.1.4-orig/src/luaconf.h lua-5.1.4/src/luaconf.h
+--- lua-5.1.4-orig/src/luaconf.h	2007-03-24 00:01:55.000000000 -0300
++++ lua-5.1.4/src/luaconf.h	2007-05-11 16:12:55.000000000 -0300
+@@ -94,9 +94,11 @@
+ 	".\\\\?.dll;"  LUA_CDIR"?.dll;" LUA_CDIR"loadall.dll"
+ 
+ #else
+-#define LUA_ROOT	"/usr/local/"
+-#define LUA_LDIR	LUA_ROOT "share/lua/5.1/"
+-#define LUA_CDIR	LUA_ROOT "lib/lua/5.1/"
++#ifndef LUA_ROOT
++#define LUA_ROOT	"/usr/local"
++#endif
++#define LUA_LDIR	LUA_ROOT "/share/lua/5.1/"
++#define LUA_CDIR	LUA_ROOT "/lib/lua/5.1/"
+ #define LUA_PATH_DEFAULT  \\
+ 		"./?.lua;"  LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \\
+ 		            LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua"
+diff -Naur lua-5.1.4-orig/src/Makefile lua-5.1.4/src/Makefile
+--- lua-5.1.4-orig/src/Makefile	2007-03-25 11:49:23.000000000 -0300
++++ lua-5.1.4/src/Makefile	2007-05-11 16:08:02.000000000 -0300
+@@ -22,17 +22,17 @@
+ 
+ PLATS= aix ansi bsd freebsd generic linux macosx mingw posix solaris
+ 
+-LUA_A=	liblua.a
++LUA_A=	liblua\$(LUA_SUFFIX).a
+ CORE_O=	lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o \\
+ 	lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o  \\
+ 	lundump.o lvm.o lzio.o
+ LIB_O=	lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o loslib.o ltablib.o \\
+ 	lstrlib.o loadlib.o linit.o
+ 
+-LUA_T=	lua
++LUA_T=	lua\$(LUA_SUFFIX)
+ LUA_O=	lua.o
+ 
+-LUAC_T=	luac
++LUAC_T=	luac\$(LUA_SUFFIX)
+ LUAC_O=	luac.o print.o
+ 
+ ALL_O= \$(CORE_O) \$(LIB_O) \$(LUA_O) \$(LUAC_O)
+@@ -93,7 +93,7 @@
+ 	\$(MAKE) all MYCFLAGS="-DLUA_USE_LINUX" MYLIBS="-Wl,-E -lreadline"
+ 
+ generic:
+-	\$(MAKE) all MYCFLAGS=
++	\$(MAKE) all
+ 
+ linux:
+ 	\$(MAKE) all MYCFLAGS=-DLUA_USE_LINUX MYLIBS="-Wl,-E -ldl -lreadline -lhistory -lncurses"
+
+EOF
+
+echo
+echo
+echo "========================================================="
+echo "Installing Lua $LUA_VERSION on $PREFIX"
+echo "========================================================="
+echo
+echo
+
+if [ "`uname -s`" = "FreeBSD" ]
+then
+   MAKE=gmake
+else
+   MAKE=make
+fi
+
+cleanup() {
+  echo
+  echo "Cleaning up..."
+  echo
+
+  if [ -d /tmp/$PACKAGE_OPT-$PACKAGE_VERSION ]; then
+    popd && rm -rf /tmp/$PACKAGE_OPT-$PACKAGE_VERSION
+  fi
+}
+
+$MAKE clean > /dev/null 2> /dev/null
+
+$MAKE || (echo "Failed compiling Lua. Exiting..."; cleanup; exit 1)
+
+$MAKE install || (echo "Failed installing Lua. Exiting..."; cleanup; exit 1)
+
+echo
+echo "Done. Lua is installed on $PREFIX."
+echo
+
+if ! [ $SKIP_LR = "yes" ] 
+then
+
+echo
+echo
+echo "========================================================="
+echo "Now installing LuaRocks $LUAROCKS_VERSION in $PREFIX."
+echo "========================================================="
+echo
+echo
+
+if [ $LUAROCKS_URL != "" ]
+then
+
+if [ ! -f luarocks-$LUAROCKS_VERSION.tar.gz ]; then
+  $WGET $LUAROCKS_URL
+fi
+
+tar zxvf luarocks-$LUAROCKS_VERSION.tar.gz
+cd luarocks-$LUAROCKS_VERSION
+
+else
+
+cvs -d:pserver:anonymous@cvs.luaforge.net:/cvsroot/luarocks export -r HEAD luarocks
+cd luarocks
+
+fi
+
+sh configure --prefix=$PREFIX --with-lua=$PREFIX \
+  --with-lua-include=$LUA_INCDIR && make && make install || (echo "Failed installing LuaRocks. Exiting..."; cleanup; exit 1)
+
+cd ..
+
+fi
+
+if ! [ $SKIP_PACKAGE = "yes" ] 
+then
+
+echo
+echo
+echo "========================================================="
+echo "Now installing $PACKAGE in $PREFIX."
+echo "========================================================="
+echo
+
+if [ -d rocks ]; then
+  $PREFIX/bin/luarocks install $PACKAGE_ROCK --only-from=`pwd`/rocks $PACKAGE_VERSION
+else
+  $PREFIX/bin/luarocks install --from=$LUAROCKS_REPO $PACKAGE_ROCK $PACKAGE_VERSION
+fi
+
+fi
+
+if [ $BOOTSTRAP = "yes" ]
+then
+cat <<EOF > /tmp/$PACKAGE_OPT-$PACKAGE_VERSION/pack_tree.lua
+#!/usr/bin/env lua
+
+require "luarocks.require"
+require "lfs"
+
+local prefix, tree, target = ...
+
+rockspecs = io.popen('find "' .. tree .. '" -name "*.rockspec"')
+
+if lfs.attributes(target, "mode") ~= "d" then
+  lfs.mkdir(target)
+end
+
+lfs.chdir(target)
+
+for rockspec in rockspecs:lines() do
+   os.execute('"' .. prefix .. '/bin/luarocks" pack "' .. rockspec .. '"')
+end
+
+os.execute('"' .. prefix .. '/bin/luarocks-admin" make_manifest "' .. target .. '"')
+EOF
+
+cp /tmp/$PACKAGE_OPT-$PACKAGE_VERSION/lua-$LUA_VERSION.tar.gz "$SOURCE_DIR/"
+cp /tmp/$PACKAGE_OPT-$PACKAGE_VERSION/luarocks-$LUAROCKS_VERSION.tar.gz "$SOURCE_DIR/"
+
+"$PREFIX/bin/lua" /tmp/$PACKAGE_OPT-$PACKAGE_VERSION/pack_tree.lua "$PREFIX" "$PREFIX/lib/luarocks/rocks" "$SOURCE_DIR/rocks"
+
+fi
+
+cleanup

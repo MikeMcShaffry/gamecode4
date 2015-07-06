@@ -1,0 +1,8 @@
+*.[oa]
+*~
+*.so.*
+*.so
+ChangeLog
+*.zip
+release-notes
+pcre-*/

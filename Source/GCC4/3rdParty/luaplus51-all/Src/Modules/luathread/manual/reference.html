@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta name="description" content="LuaThread: Reference Manual">
+<meta name="keywords" content="Lua, Library, Manual, Multi-Threading, Threads, Support">
+<title>LuaThread: Multi-(platform|threading) support for the Lua language
+</title>
+<link rel="stylesheet" href="reference.css" type="text/css">
+</head>
+
+<body>
+
+<!-- header +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=header>
+<hr>
+<center>
+<table summary="LuaThread logo">
+<tr><td align=center><a href="http://www.lua.org">
+<img width=128 height=128 border=0 alt="LuaThread" src="luathread.png">
+</a></td></tr>
+<tr><td align=center valign=top>Multi-(platform|threading) support for the
+Lua language
+</td></tr>
+</table>
+<p class=bar>
+<a href="home.html">home</a> &middot;
+<a href="installation.html">installation</a>  &middot;
+<a href="examples.html">examples</a>  &middot;
+<a href="reference.html">reference</a> 
+</p>
+</center>
+<hr>
+</div>
+
+<!-- Reference ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<h2>Reference</h2>
+
+<!-- newthread ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<p class=name id=newthread>
+thread.<b>newthread(</b>func<b>, </b>arg<b>)</b>
+</p>
+
+<p class=description>
+Creates a new thread of execution.
+</p>
+
+<p class=arguments>
+<tt>Func</tt> is the function that will be executed in the new thread.
+<tt>Arg</tt> is a table with the arguments to be passed to <tt>func</tt> 
+as in <tt>func(unpack(arg))</tt>.
+</p>
+
+<p class=description>
+The new execution thread lasts until <tt>func</tt> returns. 
+</p>
+
+<!-- newmutex +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<p class=name id=newmutex>
+thread.<b>newmutex()</b>
+</p>
+
+<p class=description>
+Creates new <em>mutex</em>, a  mutual  exclusion
+synchronization object.  A mutex can  be in locked  or unlocked
+state (initially  unlocked). The thread has locked a mutex is
+said to <em>own</em>  the mutex. A mutex can be  owned by only
+one thread at any given time. If a thread attempts to lock a mutex owned by
+another thread, it will be blocked until the owner thread unlocks the
+mutex. 
+</p>
+
+<p class=return>
+The function returns the newly created unlocked mutex.
+</p>
+
+<p class=note>
+Note: LuaThread mutexes are recursive in the sense that successive calls
+to  <tt>mutex:lock()</tt> nest.  If the  mutex  owner  locks  a  mutex
+<tt>n</tt> times, it  has to unlock the mutex the same <tt>n</tt> times
+before the mutex switches to unlocked state. 
+</p>
+
+<!-- mutex:lock +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<p class=name id="mutex:lock">
+mutex:<b>lock()</b>
+</p>
+
+<p class=description>
+Locks a mutex. If  the  mutex is  owned  by
+another thread, the  function blocks the caller thread until  
+the owner unlocks the mutex. 
+</p>
+
+<!-- mutex:unlock +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<p class=name id="mutex:unlock">
+mutex:<b>unlock()</b>
+</p>
+
+<p class=description>
+Unlocks the given mutex. Calling <tt>mutex:unlock()</tt> without
+owning the mutex is an error. </p> 
+
+<!-- newcond ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<p class=name id=newcond>
+thread.<b>newcond()</b>
+</p>
+
+<p class=description>
+Creates and a new <tt>cond</tt>, a condition variable. Condition
+variables allow threads to wait for a predicate to  be satisfied, and to
+signal to waiting threads that the predicate status has been changed.
+
+<p class=description>
+The condition variable is used in association with a mutex that 
+protects the predicate from race conditions. Before waiting or signaling
+a condition variable, the mutex associated with the predicate has to be
+locked.
+</p>
+
+<p class=return>
+The function returns the newly created condition variable.
+</p>
+
+<!-- cond:wait ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<p class=name id="cond:wait">
+cond:<b>wait(</b>mutex<b>)</b>
+</p>
+
+<p class=description>
+Waits on a condition variable.  
+</p>
+
+<p class=parameters>
+<tt>Mutex</tt> is the mutex associated with the predicate. In order to
+use this function, the calling thread has to own the mutex.
+Before the thread  is  put  to  wait (if need be), however, 
+the mutex  is  unlocked  (see  <a href=#safe>comments</a>).  
+Upon return, the  thread owns the mutex again. 
+</p>
+
+<p class=note> To wait on a condition variable,
+proceed as follows: 
+</p>
+
+<pre class=example>
+-- make sure we are the only currently accessing the predicate
+predicate.mutex:lock()                   
+-- while the predicate is not what we want
+while unsatisfactory(predicate) do
+    -- wait until someone changes the predicate
+    predicate.cond:wait(predicate.mutex)
+end
+-- at this point, the predicate is valid AND we own it 
+use(predicate)
+-- unlock the mutex, so that other threads can access the predicate
+predicate.mutex:unlock()
+</pre>
+
+<p class=note id=safe>Note: LuaThread  conditions are safe in  the 
+sense that even  if  a  thread  has  more than  one  lock  over  a  
+<tt>mutex</tt>,
+<tt>cond:wait(mutex)</tt>  manages to  unlock the  <tt>mutex</tt> before
+blocking the  caller thread. Upon  return, the  same number of  locks is
+restored into the <tt>mutex</tt>. 
+</p>
+
+<!-- cond:signal ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<p class=name id="cond:signal">cond:<b>signal()</b>
+</p>
+
+<p>
+Releases  one of  the  threads blocked  on  the condition variable.
+Before  signaling,  the  caller  thread should  own  the  mutex
+associated to the predicate. 
+</p>
+
+<p>To signal a condition variable, proceed as follows: </p>
+
+<pre class=example>
+-- make sure we are the only currently accessing the predicate
+predicate.mutex:lock()                   
+-- change the predicate
+update(predicate)
+-- release one of the threads blocked on cond
+predicate.cond:signal()
+-- unlock the mutex, so that other threads can access the predicate
+predicate.mutex:unlock()
+</pre>
+
+<p class=name id="cond:broadcast">cond:<b>broadcast()</b>
+</p>
+
+<p class=description>
+Similar to <tt>cond:signal()</tt>, but releases all threads blocked 
+on the condition variable.
+</p>
+
+<!-- footer +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<div class=footer>
+<hr>
+<center>
+<p class=bar>
+<a href="home.html">home</a> &middot;
+<a href="installation.html">installation</a>  &middot;
+<a href="examples.html">examples</a>  &middot;
+<a href="reference.html">reference</a> 
+</p>
+<p>
+<small>
+Last modified by Diego Nehab on <br>
+Thu Jun 17 02:47:14 EDT 2004
+</small>
+</p>
+</center>
+</div>
+
+</body>
+</html>

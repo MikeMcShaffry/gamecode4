@@ -1,0 +1,11 @@
+#!/usr/bin/tcsh
+
+cd ..
+
+tar -cvzf lc`date +%y%m%d`.tgz luacom/bkp_lc luacom/gera_distr luacom/{Makefile,INSTALL,README,announce.txt} luacom/doc/*.{tex,pdf,gif} luacom/{include,src,mak,demo,www}
+
+cd luacom
+
+echo Arquivo Pronto --- COPIAR PARA O ZIP
+
+

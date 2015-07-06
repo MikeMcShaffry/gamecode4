@@ -1,0 +1,105 @@
+luajson v0.10 Release Notes
+===========================
+
+User Visible Changes
+--------------------
+This release changes the system quite a bit from previous versions in
+that there is more configurability.  There still is quite a bit of strong
+defaulting to make it accept more data formats and encode such that the
+most strict decoder *should* decode it.
+
+It is now possible to obtain wrapped-up encoders and decoders with options
+"compiled" in.  With decoders this is particularly bound-up (LPEG patterns),
+encoders take advantage of this with less closure-count.
+
+Extended features of newer LPEG versions can also be used as they are
+available, either via function detection or version # parsing.
+
+New decoder features:
+
+ * Single-quoted strings
+ * Function-call decoding
+ * Generic string management
+   * String post-processing option
+   * UTF-16 -> UTF-8 code decoding for "\uXXXX" from Emil Renner Berthing by default (not req)
+ * Handle extended UTF-8 spacing characters and BOF for inter-element spacing
+
+New encoder features:
+
+ * Function-call encoding
+ * String pre-processing option
+ * Fully modular encoding system
+ * Encoding with similar option system as decoding
+
+
+Plans for next release
+----------------------
+
+0.11
+
+ * UTF-8 encoding/decoding validation (currently decoding only supported)
+ * Optional \xXX encoding
+ * JSON encoding with fully 'strict' options
+ * Generic output mechanism (ropes, IO, etc)
+
+1.0 beta
+
+ * Full API documentation
+ * Stable encoder/decoder option-apis.  Final 1.0 release will maintain
+   that all options used in code will be future-proof, at least until 2.0
+
+Updates since 0.9.1
+===================
+
+Emil Renner Berthing (1):
+	decoder:
+		Added proper utf8 decoding of strings
+Thomas Harning Jr (38):
+	-ungrouped-
+		Merge branch '0.9-rockspec'
+	base:
+		Setup 0.9.1 rockspec with md5 of luaforge release
+		added luarocks module to check out luajson from git (requires git patch)
+		Preparing for next release pre-emptively
+	decode-util:
+		during a table merge, if a nil is located, skip it
+	decoder/test:
+		Added preliminary function-call handling
+		Require name is string and func is function
+		Support both patterns and strings as function name specifiers
+		function calls receive as first argument the name used
+		added support for multiple arguments to functions
+		Moved function-call decoder to separate module
+		added string post-processing utility
+	decoder/tests:
+		adds support for single-quoted strings w/ expected escape-handling
+		support unicode whitespaces as whitespace around values
+	decoder:
+		Fully modularized strings/number/calls data-types
+		Refactored boolean/null/undefined out into the 'others' module
+		Provide workaround for missing lpeg.type in lpeg 0.6, 0.7, ...
+		More stabilization of string decoder configuration as well as hooking unicode-handling in
+		optimized 'number' option-defaulting
+		unified configuration system into a fast-cached Tokend which only permits card-readng ops (writing in seprate referece...)
+		Fixed return assertion to prevent 'Invalid JSON data' from being returned as second result
+		Added simple LPEG version parser "x.y.z.." => x.y
+		Added support for LPEG 0.9 accumulator replacement (fold) which may be faster
+		string.char => string_char for optimization in utf8 decoder
+	encoder/decoder:
+		added support for 'undefined' value
+	encoder/test:
+		exposed and test string preprocessing option
+	encoder:
+		add string preprocessor handler (for encoding->utf8 mgmt)
+		Break apart the encoder into distinct modules + add call encoding
+		split out number encoder into own file to mirror decoder
+		added applicable configuration options from the decoder to the number encoder
+		enhanced configuration support to match the decoder's optionset where appropriate
+		added 'initialObject' check to assert that the root object is in fact an object/array
+		mirrored decoder's getDecoder => getEncoder setup
+		performed full modularization of the encoder + added function-encode tests
+	tests:
+		Removed package.path alteration since 'make check' handles that as well as luarocks
+		applied configuration optimizations take advantage of the encoder optimizations and simplifications from the decoders
+		added UTF-16 => UTF-8 encoder test
+		extends UTF tests with boundary tests and test # for break detect

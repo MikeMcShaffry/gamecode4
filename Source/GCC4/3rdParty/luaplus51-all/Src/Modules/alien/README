@@ -1,0 +1,42 @@
+Alien - Pure Lua extensions
+===========================
+  
+Status
+------ 
+  
+This is Alien version 0.5.1. For more information check
+http://alien.luaforge.net.
+
+What is Alien
+-------------
+
+*Alien* is a Foreign Function Interface (FFI) for Lua. An FFI lets you
+call functions in dynamic libraries (.so, .dylib, .dll, etc.) from Lua
+code without having to write, compile and link a C binding from the
+library to Lua. In other words, it lets you write extensions that call
+out to native code using just Lua.
+
+Alien works on Unix-based systems and Windows. It has been tested on Linux x86,
+Linux x64, Linux ARM, FreeBSD x86, Windows x86, OSX x86, and OSX PPC. The Windo$
+binary uses MSVCR80.DLL for compatibility with LuaBinaries.
+
+Installing Alien
+----------------
+
+The best way to install Alien is through
+[LuaRocks](http://luarocks.org). Just do `luarocks install alien`. You may need
+root permissions to do this, depending on your LuaRocks configuration.
+
+Credits
+-------
+
+Alien is designed and implemented by Fabio Mascarenhas. It uses the
+great [libffi](http://sources.redhat.com/libffi)
+library by Anthony Green (and others) to do the heavy lifting of calling to and$
+name is stolen from Common Lisp FFIs.
+
+License
+-------
+
+Alien's uses the MIT license.
+

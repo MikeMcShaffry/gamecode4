@@ -1,0 +1,64 @@
+if $(NOT_BROKEN)
+{
+
+SubDir LUAPLUS Tools LuaPlusDebuggerAddin LuaPlusDebuggerControls ;
+
+local HEADER_FILES_SRCS =
+		LayoutMgr.h
+		LuaPlusTypes.h
+		Resource.h
+		stdafx.h
+		WatchCtl.h
+;
+
+local RESOURCE_FILES_SRCS =
+		LuaPlusDebuggerControls.rc
+		LuaPlusDebuggerControls.rgs
+		WatchCtl.bmp
+;
+
+local SOURCE_FILES_SRCS =
+		LayoutMgr.cpp
+		LuaPlusDebuggerControls.cpp
+		stdafx.cpp
+		WatchCtl.cpp
+;
+
+local SRCS =
+		ReadMe.txt
+		WatchCtl.htm
+		$(HEADER_FILES_SRCS)
+		$(RESOURCE_FILES_SRCS)
+		$(SOURCE_FILES_SRCS)
+;
+
+SourceGroup LuaPlusDebuggerControls : "Header Files" : $(HEADER_FILES_SRCS) ;
+SourceGroup LuaPlusDebuggerControls : "Resource Files" : $(RESOURCE_FILES_SRCS) ;
+SourceGroup LuaPlusDebuggerControls : "Source Files" : $(SOURCE_FILES_SRCS) ;
+
+C.UseMFC LuaPlusDebuggerControls : link ;
+
+C.Defines LuaPlusDebuggerControls : _ATL_ATTRIBUTES UNICODE _USRDLL _WINDLL ATL_STATIC_REGISTRY ;
+C.IncludeDirectories LuaPlusDebuggerControls : ../../WTL/include ;
+C.PrecompiledHeader LuaPlusDebuggerControls : stdafx : $(SOURCE_FILES_SRCS) ;
+
+local RES_SRCS = [ C.ResourceCompiler LuaPlusDebuggerControls : LuaPlusDebuggerControls.rc ] ;
+
+local midltargets = [ C.MidlFlags LuaPlusDebuggerControls : _LuaPlusDebuggerControls : postmidl proxy ] ;
+#local midlflags ;
+#on $(targets) midlflags = $(FLAGS) ;
+C.LinkFlags LuaPlusDebuggerControls : /IDLOUT:"$(LOCATE_SOURCE)/_LuaPlusDebuggerControls.idl" ;
+#local at = @ ;
+#LinkFlags LuaPlusDebuggerControls : /MIDL:$(at)($(midlflags:J=$(SPACE))) ;
+
+#LinkFlags LuaPlusDebuggerControls : /IGNOREIDL ;
+
+C.OutputPostfix LuaPlusDebuggerControls : .debug : debug ;
+C.OutputPostfix LuaPlusDebuggerControls : : release ;
+C.OutputPath LuaPlusDebuggerControls : $(LUAPLUS_OUTPUT_DIRECTORY)/LuaPlusDebuggerAddin ;
+
+C.Library LuaPlusDebuggerControls : $(SRCS) $(RES_SRCS) : shared midl regserver ;
+
+#RmTemps [ on LuaPlusDebuggerControls Var LINK_TARGET ] : $(midltargets) ;
+
+}

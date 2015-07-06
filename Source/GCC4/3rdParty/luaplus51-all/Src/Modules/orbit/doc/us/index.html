@@ -1,0 +1,274 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Orbit</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://www.keplerproject.org">
+		<img alt="Orbit" src="orbit.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>Orbit</strong></big></div>
+	<div id="product_description">MVC for Lua Web Development</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>Orbit</h1>
+	<ul>
+
+		<li><strong>Home</strong>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="pages.html">Pages</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="reference.html">Reference</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="example.html">Tutorial</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+		<li><a href="license.html">License</a>
+			<ul> 
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Overview</h2>
+
+<p>Orbit is an MVC web framework for Lua. The design is inspired by lightweight Ruby
+frameworks such as <a href="http://code.whytheluckystiff.net/camping/">Camping</a>. It completely
+abandons the CGILua model of "scripts" in favor of applications, where each Orbit
+application can fit in a single file, but you can split it into multiple files if you want.
+All Orbit applications follow the <a href="http://keplerproject.github.com/wsapi">WSAPI</a> protocol, so they currently
+work with Xavante, CGI and Fastcgi. It includes a launcher that makes it easy to launch
+a Xavante instance for development.</p>
+
+<h2>History</h2>
+
+<ul>
+    <li><p>Version 2.2.0 (31/Mar/2010)</p>
+    <ul>
+        <li>Reparse response to resume the dispatcher</li>
+        <li>better parser for orbit.model conditions, fixes parsing bugs</li>
+        <li><code>orbit</code> launcher has parameters to control logging and port</li>
+        <li><code>op.cgi</code>/<code>op.fcgi</code> launchers have the same parameters as <code>wsapi.cgi</code>/<code>wsapi.fcgi</code></li>
+        <li>Optional <a href="http://www.sinatrarb.com/">Sinatra</a>-like route parser, using LPEG</li>
+        <li>Pluggable route parsers (route patterns can be strings or objects that answer to :match)</li>
+    </ul></li>
+    <li><p>Version 2.1.0 (29/Oct/2009)</p>
+    <ul>
+        <li>better decoupling of orbit and orbit.model</li>
+        <li>support for anything with a match method as patterns</li>
+        <li>new options for orbit.model finders: distinct, fields</li>
+        <li>count option for orbit.model now limits number of rows in the SQL</li>
+        <li>logging of queries in orbit.model</li>
+        <li>overhaul of the "orbit" script: better options, --help, sets application paht</li>
+        <li>content_type method in the web object to set content type</li>
+        <li>support for PUT and DELETE (methods <code>dispatch_put</code> and <code>dispatch_delete</code>)</li>
+        <li>orbit.model.recycle(*conn_builder<em>, *timeout</em>) function, to make a connection that
+        automatically reopens after a certain time</li>
+        <li>more samples in the samples folder</li>
+        <li>added a "higher-order" $if to Orbit Pages</li>
+    </ul></li>
+    <li><p>Version 2.0.2 (10/Mar/2009)</p>
+    <ul>
+        <li>url-decodes path captures (suggested by Ignacio Burgueño on a Jul 24 email to the Kepler list)</li>
+        <li>added tutorial and new examples</li>
+        <li>fixed escape.string</li>
+        <li>web:delete_cookie receives a path parameter in order to correctly remove the cookie. Bug report and patch by Ignacio Burgueño</li>
+        <li>stripping UTF-8 BOM from templates read from disk</li>
+        <li>removing SoLazer files in order to make the Orbit package smaller</li>
+        <li>added alternate name for integer (int)</li>
+        <li>better error reporting for missing escape and convert functions</li>
+        <li>removed toboolean</li>
+        <li>fixed bugs 13451 and 25418: setting status 500 on application errors not throwing an error if file not exists when invalidating cache</li>
+    </ul></li>
+    <li><p>Version 2.0.1 (10/Jun/2008): bug-fix release, fixed bug in Orbit pages' redirect function (thanks for
+    Ignacio Burgueno for finding the bug)</p></li>
+    <li><p>Version 2.0 (06/Jun/2008): Complete rewrite of Orbit</p></li>
+    <li><p>Version 1.0: Initial release, obsolete</p></li>
+</ul>
+
+<h2>Download and Installation</h2>
+
+<p>The easiest way to download and install Orbit is via <a href="http://luarocks.org">LuaRocks</a>. You 
+can install Orbit with a simple <code>luarocks install orbit</code>. Go to the path where LuaRocks
+put Orbit to see the sample apps and this documentation. LuaRocks will automatically fetch
+and install any dependencies you don't already have.</p>
+
+<p>Do not be alarmed by the size of the Orbit package (~1MB), Orbit itself is a approximately 1%
+of that; most of the package are samples, and a single one is responsible for 50% of the total
+size because it embeds the Sproutcore JavaScript framework.</p>
+
+<h2>Hello World</h2>
+
+<p>Below is a very simple Orbit application:</p>
+
+
+<pre>
+    #!/usr/bin/env wsapi.cgi
+
+    require"orbit"
+
+    -- Orbit applications are usually modules,
+    -- orbit.new does the necessary initialization
+
+    module("hello", package.seeall, orbit.new)
+
+    -- These are the controllers, each receives a web object
+    -- that is the request/response, plus any extra captures from the
+    -- dispatch pattern. The controller sets any extra headers and/or
+    -- the status if it's not 200, then return the response. It's
+    -- good form to delegate the generation of the response to a view
+    -- function
+
+    function index(web)
+      return render_index()
+    end
+
+    function say(web, name)
+      return render_say(web, name)
+    end
+
+    -- Builds the application's dispatch table, you can
+    -- pass multiple patterns, and any captures get passed to
+    -- the controller
+
+    hello:dispatch_get(index, "/", "/index")
+    hello:dispatch_get(say, "/say/(%a+)")
+
+    -- These are the view functions referenced by the controllers.
+    -- orbit.htmlify does through the functions in the table passed
+    -- as the first argument and tries to match their name against
+    -- the provided patterns (with an implicit ^ and $ surrounding
+    -- the pattern. Each function that matches gets an environment
+    -- where HTML functions are created on demand. They either take
+    -- nil (empty tags), a string (text between opening and
+    -- closing tags), or a table with attributes and a list
+    -- of strings that will be the text. The indexing the
+    -- functions adds a class attribute to the tag. Functions
+    -- are cached.
+    --
+
+    -- This is a convenience function for the common parts of a page
+
+    function render_layout(inner_html)
+       return html{
+         head{ title"Hello" },
+         body{ inner_html }
+       }
+    end
+
+    function render_hello()
+       return p.hello"Hello World!"
+    end
+
+    function render_index()
+       return render_layout(render_hello())
+    end
+
+    function render_say(web, name)
+       return render_layout(render_hello() .. 
+         p.hello((web.input.greeting or "Hello ") .. name .. "!"))
+    end
+
+    orbit.htmlify(hello, "render_.+")
+
+    return _M
+</pre>
+
+
+<p>Save this to <code>hello.lua</code>, install <code>wsapi-xavante</code> with LuaRocks, and now you can run this application in two ways:
+the first is to run <code>wsapi</code> in the same directory that you saved the file and point your browser to <code>http://localhost:8080/hello.lua</code>,
+or run <code>orbit hello.lua</code> in the same directory that you saved the file and point your browser to <code>http://localhost:8080/</code>. Now try
+appending <code>index</code>, <code>say/foo</code>, and <code>say/foo?message=bar</code> to the URL.</p>
+
+<p>The example uses Orbit's built-in html generation, but you are free to use any method of generating HTML. 
+One of Orbit's sample applications uses the <a href="http://cosmo.luaforge.net">Cosmo</a> template library, for instance.</p>
+
+<h2>OR Mapping</h2>
+
+<p>Orbit also includes a basic OR mapper that currently only works with 
+<a href="http://github.com/keplerproject/luasql">LuaSQL's</a> SQLite3 and MySQL drivers. The mapper provides
+dynamic find methods, a la Rails' ActiveRecord (find_by_field1_and_field2{val1, val2}),
+as well as templates for conditions (find_by("field1 = ? or field1 = ?", { val1, val2 })). 
+The sample applications use this mapper.</p>
+
+<p>A nice side-effect of the Orbit application model is that we get an "application console" 
+for free. For example, with the blog example we can add a new post like this:</p>
+
+
+<pre>
+    $ lua -l luarocks.require -i blog.lua
+    > p = blog.posts:new()
+    > p.title = "New Post"
+    > p.body = "This is a new blog post. Include *Markdown* markup freely."
+    > p.published_at = os.time()
+    > p:save()
+</pre>
+
+
+<p>You can also update or delete any of the model items right from your console, just fetch 
+them from the database, change what you want and call <code>save()</code> 
+(or <code>delete()</code> if you want to remove it).</p>
+
+<h2>Credits</h2>
+
+<p>Orbit was designed and developed by Fabio Mascarenhas and André Carregal,
+and is maintained by Fabio Mascarenhas.</p>
+
+<h2>Contact Us</h2>
+
+<p>For more information please <a href="mailto:info-NO-SPAM-THANKS@keplerproject.org">contact us</a>.
+Comments are welcome!</p>
+
+<p>You can also reach us and other developers and users on the Kepler Project 
+<a href="http://luaforge.net/mail/?group_id=104">mailing list</a>. </p>
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

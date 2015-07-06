@@ -1,0 +1,14 @@
+Cosmo is a "safe templates" engine.  It allows you to fill nested
+templates, providing many of the advantages of Turing-complete
+template engines, without without the downside of allowing arbitrary
+code in the templates.
+
+The current version of Cosmo is 10.03.31. This version adds
+expressions to selectors $(<exp>), allows nested [[ ]] in templates,
+makes commas between subtemplates optional, and adds a second parameter
+to cosmo.yield that tells Cosmo the first parameter is a literal to be
+included in the expansion instead of an environment.
+ 
+Cosmo is installed as a rock. To install the most recent release
+do `luarocks install cosmo`. The Cosmo rock is in the standard
+repository. Installation on UNIX-based systems need the gcc toolchain.

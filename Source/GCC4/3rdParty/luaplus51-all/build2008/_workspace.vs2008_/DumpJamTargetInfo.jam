@@ -1,0 +1,5 @@
+ALL_LOCATE_TARGET = "C:/Users/Mr.Mike/Projects_SVN/GameCode4/Dev/Source/GCC4/3rdParty/luaplus51-all/build2008/$(PLATFORM)-$(CONFIG)" ;
+
+__JAM_SCRIPTS_PATH = "c:/program files/jamplus/bin/scripts/" ;
+include "c:/program files/jamplus/bin/scripts/ide/vs2008.jam" ;
+include "c:/program files/jamplus/bin/scripts/DumpJamTargetInfo.jam" ;

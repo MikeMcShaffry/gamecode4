@@ -1,0 +1,28 @@
+These are the Visual Studio 6 projects provided by the Kepler Project
+
+Files:
+
+	luaexpat.dsw
+	luaexpat_dll.dsp
+	luaexpat_static.dsp
+	README
+
+Generated files:
+
+	luaexpat.ncb
+	luaexpat.opt
+
+	../lib/liblxp.lib
+	../lib/liblxpd.lib
+	../lib/lxp.exp
+	../lib/lxp.lib
+	../lib/lxpd.exp
+	../lib/lxpd.lib
+	../lib/lxpd.pdb
+
+	../bin/lxp.dll
+	../bin/lxpd.dll
+	../bin/lxpd.ilk
+
+Download source from:
+	http://www.keplerproject.org/luaexpat/

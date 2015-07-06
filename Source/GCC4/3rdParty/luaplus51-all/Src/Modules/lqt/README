@@ -1,0 +1,43 @@
+
+lqt is an in-development Qt binding for Lua.
+
+You can find information about Qt at Trolltech
+(http://trolltech.org) and about Lua on its site
+http://lua.org
+
+This software is still in very early development
+and must not be used in production environment.
+In any case you use it at your own risk.
+
+The latest version can be found at the main Git
+repository http://repo.or.cz/w/lqt.git
+
+A Wiki and Bugtracker is here:
+http://code.google.com/p/lqt/
+
+The version on the KDE repository is less likely
+to be up to date with the Git one unless/until
+I find a clean way to push changes directly to
+svn. Pointers to tutorials and manuals are
+welcome.
+
+The BUILD file gives some information on how to
+build the bindings.
+
+lqt builds the bindings using the information
+found in the Qt headers. The generator itself
+does not link ti Qt at all and is under the
+MIT/BSD license included in the file named
+LICENSE. The generated files most likely fall
+under the same license as your Qt copy:
+http://trolltech.com/developer/knowledgebase/236
+http://trolltech.com/developer/task-tracker/index_html?id=213857&method=entry
+I am no lawyer, however, so contact Trolltech
+for more details on their license:
+
+
+You can contact the authors at
+ * Mauro Iazzi <mauro.iazzi@gmail.com>
+ * Peter Kümmel <syntheticpp@gmx.net>
+
+

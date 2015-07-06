@@ -1,0 +1,109 @@
+{
+
+SubDir LUAPLUS Src LuaPlus StaticLib ;
+
+local LUAPLUS_SRCS =
+		../LuaAutoBlock.h
+		../LuaCall.h
+		../LuaFunction.h
+		../LuaHelper.h
+		../LuaHelper_Object.h
+		../LuaHelper_StackObject.h
+		../LuaLink.h
+		../LuaObject.cpp
+		../LuaObject.h
+		../LuaObject.inl
+		../LuaPlus.cpp
+		../LuaPlus.h
+		../LuaPlusAddons.c
+		../LuaPlusCD.h
+		../LuaPlusFunctions.cpp
+		../LuaPlusFunctions.h
+		../LuaPlusInternal.h
+		../LuaPlus_Libs.cpp
+		../LuaStackObject.h
+		../LuaStackObject.inl
+		../LuaStackTableIterator.h
+		../LuaState.cpp
+		../LuaState.h
+		../LuaState.inl
+		../LuaStateOutFile.cpp
+		../LuaStateOutFile.h
+		../LuaState_DumpObject.cpp
+		../LuaTableIterator.cpp
+		../LuaTableIterator.h
+		../luathread.c
+		../luathread.h
+		../lwstrlib.c
+		../pt.c
+		../pt.h
+		../srm.c
+		../srm.h
+		../src/lapi.c
+		../src/lapi.h
+		../src/lauxlib.c
+		../src/lauxlib.h
+		../src/lbaselib.c
+		../src/lcode.c
+		../src/lcode.h
+		../src/ldblib.c
+		../src/ldebug.c
+		../src/ldebug.h
+		../src/ldo.c
+		../src/ldo.h
+		../src/ldump.c
+		../src/lfunc.c
+		../src/lfunc.h
+		../src/lgc.c
+		../src/lgc.h
+		../src/linit.c
+		../src/liolib.c
+		../src/llex.c
+		../src/llex.h
+		../src/llimits.h
+		../src/lmathlib.c
+		../src/lmem.c
+		../src/lmem.h
+		../src/loadlib.c
+		../src/lobject.c
+		../src/lobject.h
+		../src/lopcodes.c
+		../src/lopcodes.h
+		../src/loslib.c
+		../src/lparser.c
+		../src/lparser.h
+		../src/lstate.c
+		../src/lstate.h
+		../src/lstring.c
+		../src/lstring.h
+		../src/lstrlib.c
+		../src/ltable.c
+		../src/ltable.h
+		../src/ltablib.c
+		../src/ltm.c
+		../src/ltm.h
+		../src/lua.h
+		../src/luaconf.h
+		../src/lualib.h
+		../src/lundump.c
+		../src/lundump.h
+		../src/lvm.c
+		../src/lvm.h
+		../src/lzio.c
+		../src/lzio.h
+		../src/print.c
+;
+
+LUAPLUS_SRCS += ../popen.c ;
+
+C.IncludeDirectories LuaPlusStatic : ../src ;
+
+C.Defines LuaPlusShared : LUA_OPNAMES ;
+
+LuaPlusDefines LuaPlusStatic ;
+
+C.OutputName LuaPlusStatic : luaplusstatic51_1201 ;
+
+C.Library LuaPlusStatic : $(LUAPLUS_SRCS) ;
+
+}

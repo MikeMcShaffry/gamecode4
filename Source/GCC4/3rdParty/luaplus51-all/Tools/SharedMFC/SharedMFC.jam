@@ -1,0 +1,133 @@
+{
+
+SubDir LUAPLUS Tools SharedMFC ;
+
+local CODEX_SRCS =
+		Codex/cdxCDynamicBar.cpp
+		Codex/cdxCDynamicBar.h
+		Codex/cdxCDynamicControlsManager.cpp
+		Codex/cdxCDynamicControlsManager.h
+		Codex/cdxCDynamicDialog.cpp
+		Codex/cdxCDynamicDialog.h
+		Codex/cdxCDynamicFormView.cpp
+		Codex/cdxCDynamicFormView.h
+		Codex/cdxCDynamicPropSheet.cpp
+		Codex/cdxCDynamicPropSheet.h
+		Codex/cdxCDynamicWnd.cpp
+		Codex/cdxCDynamicWnd.h
+		Codex/cdxCDynamicWndEx.cpp
+		Codex/cdxCDynamicWndEx.h
+		Codex/cdxCSizeIconCtrl.cpp
+		Codex/cdxCSizeIconCtrl.h
+		Codex/scbarcf.cpp
+		Codex/scbarcf.h
+		Codex/scbarg.cpp
+		Codex/scbarg.h
+		Codex/SizeCBar.cpp
+		Codex/SizeCBar.h
+;
+
+local GRIDBTNCELL_SRC_SRCS =
+		GridBtnCell_src/BtnDataBase.cpp
+		GridBtnCell_src/BtnDataBase.h
+		GridBtnCell_src/GridBtnCell.cpp
+		GridBtnCell_src/GridBtnCell.h
+		GridBtnCell_src/GridBtnCellBase.cpp
+		GridBtnCell_src/GridBtnCellBase.h
+		GridBtnCell_src/GridBtnCellCombo.cpp
+		GridBtnCell_src/GridBtnCellCombo.h
+		GridBtnCell_src/InPlaceList.cpp
+		GridBtnCell_src/InPlaceList.h
+;
+
+local GRIDCTRL_SRC_SRCS =
+		GridCtrl_src/CellRange.h
+		GridCtrl_src/GridCell.cpp
+		GridCtrl_src/GridCell.h
+		GridCtrl_src/GridCellBase.cpp
+		GridCtrl_src/GridCellBase.h
+		GridCtrl_src/GridCtrl.cpp
+		GridCtrl_src/GridCtrl.h
+		GridCtrl_src/GridDropTarget.cpp
+		GridCtrl_src/GridDropTarget.h
+		GridCtrl_src/InPlaceEdit.cpp
+		GridCtrl_src/InPlaceEdit.h
+		GridCtrl_src/MemDC.h
+		GridCtrl_src/TitleTip.cpp
+		GridCtrl_src/TitleTip.h
+;
+
+local GRIDTREEBTNCELL_SRC_SRCS =
+		GridTreeBtnCell_src/GridTreeBtnCell.cpp
+		GridTreeBtnCell_src/GridTreeBtnCell.h
+;
+
+local HEADER_FILES_SRCS =
+		ACEditCtrl.h
+		ChoiceWindow.h
+		ChoiceWindowBtn.h
+		MainWndPlacement.h
+		PropertyView.h
+		QTabbedDialog.h
+		ResizableDialog.h
+		ResizablePage.h
+		ResizableSheet.h
+		StdAfx.h
+		Subclass.h
+;
+
+local SOURCE_FILES_SRCS =
+		ACEditCtrl.cpp
+		ChoiceWindow.cpp
+		ChoiceWindowBtn.cpp
+		PropertyView.cpp
+		QTabbedDialog.cpp
+		ResizableDialog.cpp
+		ResizablePage.cpp
+		ResizableSheet.cpp
+		StdAfx.cpp
+		Subclass.cpp
+;
+
+local TREECOLUMN_SRC_SRCS =
+		TreeColumn_src/GridTreeCell.cpp
+		TreeColumn_src/GridTreeCell.h
+		TreeColumn_src/GridTreeCellBase.cpp
+		TreeColumn_src/GridTreeCellBase.h
+		TreeColumn_src/TreeColumn.cpp
+		TreeColumn_src/TreeColumn.h
+;
+
+local SRCS =
+		Readme.txt
+		$(CODEX_SRCS)
+		$(GRIDBTNCELL_SRC_SRCS)
+		$(GRIDCTRL_SRC_SRCS)
+		$(GRIDTREEBTNCELL_SRC_SRCS)
+		$(HEADER_FILES_SRCS)
+		$(SOURCE_FILES_SRCS)
+		$(TREECOLUMN_SRC_SRCS)
+;
+
+SourceGroup SharedMFC : Codex : $(CODEX_SRCS) ;
+SourceGroup SharedMFC : GridBtnCell_src : $(GRIDBTNCELL_SRC_SRCS) ;
+SourceGroup SharedMFC : GridCtrl_src : $(GRIDCTRL_SRC_SRCS) ;
+SourceGroup SharedMFC : GridTreeBtnCell_src : $(GRIDTREEBTNCELL_SRC_SRCS) ;
+SourceGroup SharedMFC : "Header Files" : $(HEADER_FILES_SRCS) ;
+SourceGroup SharedMFC : "Source Files" : $(SOURCE_FILES_SRCS) ;
+SourceGroup SharedMFC : TreeColumn_src : $(TREECOLUMN_SRC_SRCS) ;
+
+C.Defines SharedMFC : _UNICODE UNICODE ;
+
+if $(COMPILER.$(PLATFORM)) = vs2010 {
+	C.Defines SharedMFC : WINVER=0x0501 _WIN32_WINNT=0x0501 ;
+}
+
+IncludeModule c/mfc ;
+C.UseMFC SharedMFC : shared ;
+
+C.PrecompiledHeader SharedMFC : StdAfx : $(SRCS) ;
+
+C.Library SharedMFC : $(SRCS) ;
+
+}

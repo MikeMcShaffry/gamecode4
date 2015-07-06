@@ -1,0 +1,10 @@
+{
+
+local SRCS =
+		src/lfs.c
+		src/lfs.h
+;
+
+Lua.CModule luafilesystem : lfs : $(SRCS) ;
+
+}

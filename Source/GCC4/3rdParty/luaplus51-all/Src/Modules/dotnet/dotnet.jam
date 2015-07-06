@@ -1,0 +1,15 @@
+if $(OS) = NT  &&  $(COMPILER.$(PLATFORM)) != vc6 {
+
+local SRCS =
+		dotnet.cpp
+		luastdcall.cpp
+		luastdcall.h
+;
+
+IncludeModule c/dotnet ;
+C.UseDotNet luanet ;
+
+C.LinkPrebuiltLibraries luanet : mscoree ;
+Lua.CModule luanet : : $(SRCS) ;
+
+}

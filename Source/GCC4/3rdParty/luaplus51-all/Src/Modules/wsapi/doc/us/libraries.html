@@ -1,0 +1,190 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>WSAPI</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_logo">
+        <a href="http://wsapi.luaforge.net">
+		<img alt="WSAPI" src="wsapi.png"/>
+	    </a>
+    </div>
+	<div id="product_name"><big><strong>WSAPI</strong></big></div>
+	<div id="product_description">Lua Web Server API</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>WSAPI</h1>
+	<ul>
+
+		<li><a href="index.html">Home</a></li>
+
+		<li><a href="manual.html">Manual</a></li>
+
+		<li><strong>Libraries</strong></li>
+
+		<li><a href="license.html">License</a></li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Overview</h2>
+
+<p>WSAPI includes a set of helper libraries to make writing applications and web frameworks easier.
+To use these libraries just <code>require</code> them in your application or framework.</p>
+
+<h2>Request</h2>
+
+<p><strong>wsapi.request.new(<em>wsapi_env</em>, [<em>options</em>])</strong> - creates a new request object wrapping <em>wsapi_env</em>; <em>options</em> is an (optional) table of extra options for the request; the <em>delay_post</em> option tells wsapi.request to not process POST data on creation, the <em>overwrite</em>
+option tells WSAPI to overwrite input parameters with the same name instead of collecting them in a list, and the <em>mk_app</em> option
+passes the <a href="http://github.com/keplerproject/mk">mk</a> application that created the request object, used in some of the methods</p>
+
+<p><strong>req:parse_post()</strong> - processed the POST data in case the processing
+was delayed by passing <em>delay_post = true</em> on creation of the request</p>
+
+<p><strong>req:qd_encode(<em>tab</em>)</strong> - encodes <em>tab</em> as a query string</p>
+
+<p><strong>req:route_link(<em>route</em>, <em>tab</em>, ...)</strong> - creates a link to mk route <em>route</em>, encoding <em>tab</em> as the query string and passing
+extra arguments to the link builder of the route</p>
+
+<p><strong>req:link_&lt;route&gt;(<em>tab</em>, ...)</strong> - same as <strong>req:route_link(<em>route</em>, <em>tab</em>, ...)</strong></p>
+
+<p><strong>req:link(<em>uri</em>, <em>tab</em>)</strong> - makes an internal application link to the specified resource <em>uri</em>, with <em>tab</em> encoded as
+a query string. For example, if the app is addressed by /foo/bar.lua then <strong>req:link("/baz", { id = 2 })</strong> returns
+"/foo/bar.lua/baz?id=2"</p>
+
+<p><strong>req:static_link(<em>uri</em>, <em>tab</em>)</strong> - as <strong>req:link</strong>, but builds a link external to the application. In the previous
+example it would return "/foo/baz?id=2"</p>
+
+<p><strong>req:absolute_link(<em>url</em>, <em>tab</em>)</strong> - just encodes <em>tab</em> as a query string and appends it to <em>url</em>. Use it to make non-decorated
+links</p>
+
+<p><strong>req:empty(<em>s</em>)</strong> - returns <code>true</code> if <em>s</em> is <code>nil</code> or a blank string, <code>false</code> otherwise</p>
+
+<p><strong>req:empty_param(<em>name</em>)</strong> - same as <strong>req:empty(req.params[<em>name</em>])</strong></p>
+
+<p><strong>req.GET</strong> - table with GET parameters of request</p>
+
+<p><strong>req.POST</strong> - table with POST parameters of request</p>
+
+<p><strong>req.method</strong> - request method (usually "GET" or "POST")</p>
+
+<p><strong>req.path_info</strong> - PATH_INFO metavariable</p>
+
+<p><strong>req.script_name</strong> - SCRIPT_NAME metavariable</p>
+
+<p><strong>req.doc_root</strong> - DOCUMENT_ROOT metavariable</p>
+
+<p><strong>req.env</strong> - the original WSAPI environment</p>
+
+<p><strong>req.app_path</strong> - the path of the WSAPI application currently running</p>
+
+<p><strong>req.query_string</strong> - unparsed query string</p>
+
+<p><strong>req.params</strong> - union of <strong>req.GET</strong> and <strong>req.POST</strong>, built on demand</p>
+
+<p><strong>req.cookies[<em>name</em>]</strong> - gets value of a cookie from browser</p>
+
+<h2>Response</h2>
+
+<p><strong>wsapi.response.new([<em>status</em>, <em>headers</em>])</strong> - creates a new response
+object, optionally setting an initial status code and header table. If a Content-Type was
+not passed in the initial header table then sets it as "text/html". The default status code
+is 200</p>
+
+<p><strong>res.status</strong> - status code to be returned to server</p>
+
+<p><strong>res.headers</strong> - table with headers to be returned to server</p>
+
+<p><strong>res:content_type(<em>mime</em>)</strong> - sets the Content-Type header to <em>mime</em></p>
+
+<p><strong>res:write(...)</strong> - adds the arguments to the body, flattening an argument if it is a table</p>
+
+<p><strong>res:set_cookie(<em>name</em>, <em>value</em>)</strong> - sets the value of a cookie, <em>value</em> can be either a string
+or a table with fields <em>value</em>, <em>expires</em> (expiration date), <em>domain</em>, <em>path</em>, and <em>secure</em>. All fields
+except <em>value</em> are optional</p>
+
+<p><strong>res:delete_cookie(<em>name</em>, <em>path</em>)</strong> - tells the browser to erase a cookie, with an optional <em>path</em></p>
+
+<p><strong>res:redirect(<em>url</em>)</strong> - sets status and headers for a redirect response to <em>url</em>, and returns a WSAPI response
+that does the redirect</p>
+
+<p><strong>res:forward(<em>uri</em>)</strong> - sets the PATH_INFO metavariable to <em>uri</em> (if not nil) and returns a mk FORWARD response to
+tell <a href="http://github.com/keplerproject/mk">mk</a> to keep trying to find a request handler</p>
+
+<p><strong>res:finish()</strong> - finishes response, returning status, headers and an iterator for the body</p>
+
+<h2>Util</h2>
+
+<p><strong>wsapi.util.url_encode(<em>s</em>)</strong> - encodes <em>s</em> according to RFC2396</p>
+
+<p><strong>wsapi.util.url_decode(<em>s</em>)</strong> - decodes <em>s</em> according to RFC2396</p>
+
+<p><strong>wsapi.util.sanitize(<em>text</em>)</strong> - sanitizes all HTML tags in <em>text</em>, replacing &lt; and &gt; with the
+corresponding entity codes</p>
+
+<p><strong>wsapi.util.not_empty(<em>s</em>)</strong> - returns <code>true</code> if <em>s</em> is not <code>nil</code> or the empty string</p>
+
+<p><strong>wsapi.util.getopt(<em>arg</em>, <em>options</em>)</strong> - POSIX style command line argument parser, <em>arg</em> contains the command line arguments
+in a standard table, <em>options</em> is a string with the letters that expect string values. Returns a table with the options that
+have been passed and their values</p>
+
+<p><strong>wsapi.util.make_env_get(<em>qs</em>)</strong> - makes a mock WSAPI environment with GET method and <em>qs</em> as the query string</p>
+
+<p><strong>wsapi.util.make_env_post(<em>pd</em>, <em>type</em>, <em>qs</em>)</strong> - makes a mock WSAPI environment with POST method and <em>pd</em> as the postdata,
+<em>type</em> as the encoding (x-www-form-urlenconded default), and <em>qs</em> as the query string</p>
+
+<p><strong>wsapi.util.make_rewindable(<em>wsapi_env</em>)</strong> - wraps <em>wsapi_env</em> in a new
+environment that lets you process the POST data more than once. This new
+environment's input object has a <em>rewind</em> method that you can call to allow you to read
+the POST data again.</p>
+
+<h2>Mock</h2>
+
+<p><strong>make_handler(<em>wsapi_app</em>)</strong> - Creates a mock handler for testing the WSAPI application you pass in.</p>
+
+<p>The resulting handler will be a table with three fields:</p>
+
+<p><strong>app</strong> - The app itself.</p>
+
+<p><strong>get</strong> - A function to perform GET requests.</p>
+
+<p><strong>post</strong> - A function to perform POST requests.</p>
+
+<p>The <code>get</code> and <code>post</code> functions both accept the following arguments:</p>
+
+<p><strong>path</strong> (required) - The path to request. Do not include the query string, this is specified in <code>params</code>.</p>
+
+<p><strong>params</strong> (optional) - A table of query or form data parameters.</p>
+
+<p><strong>headers</strong> (optional) - Any request headers you wish to specify.</p>
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

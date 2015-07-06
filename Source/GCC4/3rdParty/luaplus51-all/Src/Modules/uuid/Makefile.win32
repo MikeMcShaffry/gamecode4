@@ -1,0 +1,85 @@
+# makefile for uuid library for Lua
+
+# change these to reflect your Lua installation
+LUA= e:/programs/tecgraf/lua5.1
+LUAINC= $(LUA)/include
+LUALIB= $(LUA)/lib/dll
+LUABIN= $(LUA)/bin/Win32
+#LUA= /tmp/lhf/lua-5.1.2
+#LUAINC= $(LUA)/src
+#LUALIB= $(LUA)/src
+#LUABIN= $(LUA)/src
+
+# these will probably work if Lua has been installed globally
+#LUA= /usr/local
+#LUAINC= $(LUA)/include
+#LUALIB= $(LUA)/lib
+#LUABIN= $(LUA)/bin
+
+# change these to reflect your platform.
+LUAEXE= lua5.1.exe
+SO=dll
+LIBS= -lrpcrt4 $(LUALIB)/lua5.1.dll
+XTRAOBJS= wuuid.o
+#LUAEXE= lua
+#SO=so
+#LIBS= -luuid
+#XTRAOBJS=
+
+# probably no need to change anything below here
+CC= gcc
+CFLAGS= $(INCS) $(WARN) -O2 $G
+WARN= -ansi -pedantic -Wall
+INCS= -I$(LUAINC)
+
+MYNAME= uuid
+MYLIB= l$(MYNAME)
+T= $(MYNAME).$(SO)
+OBJS= $(MYLIB).o $(XTRAOBJS)
+TEST= test.lua
+
+all:	test
+
+test:	$T
+	$(LUABIN)/$(LUAEXE) $(TEST)
+
+o:	$(OBJS)
+
+so:	$T
+
+$T:	$(OBJS)
+	$(CC) -o $@ -shared $(OBJS) $(LIBS)
+
+clean:
+	-rm -f $(OBJS) $T core core.*
+
+doc:
+	@echo "$(MYNAME) library:"
+	@fgrep '/**' $(MYLIB).c | cut -f2 -d/ | tr -d '*' | sort | column
+
+# distribution
+
+FTP= $(HOME)/public/ftp/lua/5.1
+D= $(MYNAME)
+A= $(MYLIB).tar.gz
+Z= $(MYLIB).zip
+TOTAR= Makefile,README,README.win32,$(MYLIB).c,test.lua
+
+zip:	clean
+	cd .. & zip $Z -r $D -x *.bak
+
+zipdll:	all
+	cd .. & zip $Z -r $D -x *.bak -x *.o
+
+tar:	clean
+	tar zcvf $A -C .. $D/{$(TOTAR)}
+
+distr:	tar
+	touch -r $A .stamp
+	mv $A $(FTP)
+
+diff:	clean
+	tar zxf $(FTP)/$A
+	diff $D .
+
+# eof

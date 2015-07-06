@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>CGILua: gera&ccedil;&atilde;o de scripts para a Web usando Lua</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div id="container">
+	
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org"><img alt="Logotipo do CGILua" src="cgi-128.gif"/></a></div>
+	<div id="product_name"><big><strong>CGILua</strong></big></div>
+	<div id="product_description">Gera&ccedil;&atilde;o de scripts para a Web usando Lua</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+	
+<div id="navigation">
+<h1>CGILua</h1>
+	<ul>
+		<li><a href="index.html">In&iacute;cio</a>
+			<ul>
+				<li><a href="index.html#overview">Vis&atilde;o geral</a></li>
+				<li><a href="index.html#status">Status</a></li>
+				<li><a href="index.html#download">Download</a></li>
+				<li><a href="index.html#history">Hist&oacute;rico</a></li>
+				<li><a href="index.html#incompatibility">Incompatibilidades</a></li>
+				<li><a href="index.html#credits">Cr&eacute;ditos</a></li>
+				<li><a href="index.html#contact">Fale conosco</a></li>
+			</ul>
+		</li>
+		<li><strong>Manual</strong>
+			<ul>
+				<li><a href="manual.html#intro">Introdu&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#installation">Instala&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#config">Configura&ccedil;&atilde;o</a></li>
+				<li><a href="manual.html#scripts">Lua Scripts</a></li>
+				<li><a href="manual.html#templates">Lua Pages</a></li>
+				<li><a href="manual.html#parameters">Par&acirc;metros</a></li>
+			</ul>
+		</li>
+		<li><a href="reference.html">Refer&ecirc;ncia</a>
+			<ul>
+				<li><a href="reference.html#headers">Cabe&ccedil;alhos</a></li>
+				<li><a href="reference.html#contents">Gera&ccedil;&atilde;o de conte&uacute;do</a></li>
+				<li><a href="reference.html#prep">Lua Pages</a></li>
+				<li><a href="reference.html#variables">Vari&aacute;veis do CGILua</a></li>
+				<li><a href="reference.html#error_handling">Tratamento de erros</a></li>
+				<li><a href="reference.html#behavior">Comportamento do CGILua</a></li>
+				<li><a href="reference.html#urlcode">Codifica&ccedil;&atilde;o de URL</a></li>
+				<li><a href="reference.html#auxiliar">Fun&ccedil;&otilde;es auxiliares</a></li>
+				<li><a href="reference.html#index">&Iacute;ndice alfab&eacute;tico</a></li>
+			</ul>
+		</li>
+		<li><a href="libraries.html">Bibliotecas</a>
+			<ul>
+				<li><a href="libraries.html#cookies">Cookies</a></li>
+				<li><a href="libraries.html#serialize">Serialize</a></li>
+				<li><a href="libraries.html#session">Session</a></li>
+			</ul>
+		</li>
+		<li><a href="sapi.html">SAPI</a></li>
+		<li><a href="license.html">Licen&ccedil;as</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h2><a name="intro"></a>Introdu&ccedil;&atilde;o</h2>
+
+<p>O CGILua usa <a href="http://www.lua.org">Lua</a> como a linguagem de scripts do servidor para criar p&aacute;ginas Web din&acirc;micas. O CGILua oferece suporte a <a href="manual.html#scripts">Lua Scripts</a> puros e a <a href="manual.html#templates">Lua Pages</a> (.lp). Um Lua Script &eacute;, basicamente, um programa em Lua que cria todo o conte&uacute;do de uma p&aacute;gina Web e o retorna para o cliente. Uma Lua Page &eacute; um arquivo de texto com marca&ccedil;&otilde;es (HTML, XML etc.) que incorpora c&oacute;digo Lua usando algumas tags especiais. Essas tags s&atilde;o processadas pelo CGILua e a p&aacute;gina resultante &eacute; retornada para o cliente.</p>
+
+<p>Os Lua Scripts e as Lua Pages s&atilde;o igualmente f&aacute;ceis de usar e a op&ccedil;&atilde;o por um deles depende, primariamente, das caracter&iacute;sticas da p&aacute;gina resultante. Enquanto as Lua Pages s&atilde;o mais convenientes para separar a l&oacute;gica e o formato, os Lua Scripts s&atilde;o mais adequados para criar p&aacute;ginas de estrutura mais simples, mas que requeiram uma quantidade significativamente maior de processamento interno.</p>
+
+<p>Ao permitir a combina&ccedil;&atilde;o desses dois m&eacute;todos, o CGILua d&aacute; aos desenvolvedores de aplicativos Web uma maior flexibilidade quando os dois requisitos est&atilde;o presentes. Para obter uma descri&ccedil;&atilde;o detalhada de ambos os m&eacute;todos de cria&ccedil;&atilde;o de scripts e alguns exemplos pr&aacute;ticos, consulte <a href="#scripts">Lua Scripts</a> e <a href="#templates">Lua Pages</a>.</p>
+
+<p>A arquitetura do CGILua &eacute; dividida em duas camadas. O n&iacute;vel inferior &eacute; representado pela API do servidor (<a href="sapi.html">SAPI</a>) e o mais alto, pela API do pr&oacute;prio CGILua. SAPI &eacute; a interface entre o servidor Web e a API do CGILua, precisando portanto ser implementada em cada servidor Web e m&eacute;todo de disparo empregado.</p>
+
+<p>O CGILua e a API do CGILua s&atilde;o implementados usando-se apenas a SAPI e s&atilde;o totalmente transport&aacute;veis entre disparadores e os servidores Web compat&iacute;veis. Dessa maneira, qualquer Lua Script ou Lua Page pode ser usada por qualquer disparador.</p>
+
+<h2><a name="installation"></a>Instala&ccedil;&atilde;o</h2>
+
+<p>O CGILua segue o <a href="http://www.keplerproject.org/compat/">modelo de pacotes</a> de Lua 5.1 e, conseq&uuml;entemente, precisa ser &quot;instalado&quot;. Consulte a se&ccedil;&atilde;o <a href="http://www.keplerproject.org/compat/manual.html#configuration">Configura&ccedil;&atilde;o do Compat-5.1</a> para obter informa&ccedil;&otilde;es sobre como instalar corretamente o m&oacute;dulo.</p>
+
+
+<h2><a name="config"></a>Configura&ccedil;&atilde;o</h2>
+
+<p>O CGILua 5.0 oferece um &uacute;nico arquivo de configura&ccedil;&atilde;o, chamado <code>config.lua</code>, e um conjunto de fun&ccedil;&otilde;es para alterar a configura&ccedil;&atilde;o padr&atilde;o do CGILua. Esse arquivo pode ser colocado em qualquer lugar em <code>LUA_PATH</code> para facilitar a atualiza&ccedil;&atilde;o do CGILua sem a substitui&ccedil;&atilde;o do <code>config.lua</code> existente.</p>
+
+<p>Alguns usos do <code>config.lua</code> s&atilde;o:</p>
+
+<dl>
+    <dt><strong>Tratadores de scripts</strong></dt>
+    <dd>Voc&ecirc; pode adicionar novos tratadores de CGILua usando <a href="reference.html#addscripthandler"><code>cgilua.addscripthandler</code></a> (consulte tamb&eacute;m <a href="reference.html#buildplainhandler"><code>cgilua.buildplainhandler</code></a> e <a href="reference.html#buildprocesshandler"><code>cgilua.buildprocesshandler</code></a> para obter as fun&ccedil;&otilde;es que criam tratadores simples).
+    </dd>
+    <dt><strong>Tamanhos de dados POST</strong></dt>
+    <dd>Altere os limites de tamanho dos dados POST usando <a href="reference.html#setmaxinput"><code>cgilua.setmaxinput</code></a> e <a href="reference.html#setmaxfilesize"><code>cgilua.setmaxfilesize</code></a>.
+    </dd>
+    <dt><strong>Abertura e fechamento de fun&ccedil;&otilde;es</strong></dt>
+    <dd>Voc&ecirc; pode adicionar suas fun&ccedil;&otilde;es ao ciclo de vida &uacute;til do CGILua usando <a href="reference.html#addopenfunction"><code>cgilua.addopenfunction</code></a> e <a href="reference.html#addclosefunction"><code>cgilua.addclosefunction</code></a>. Essas fun&ccedil;&otilde;es s&atilde;o executadas imediatamente antes e depois da execu&ccedil;&atilde;o do script, mesmo quando ocorrer um erro no processamento do script.</dd>
+</dl>
+
+<h2><a name="error_handling"></a>Tratamento de erros</h2>
+
+<p>H&aacute; tr&ecirc;s fun&ccedil;&otilde;es para tratamento de erros no CGILua:</p>
+
+<p>A fun&ccedil;&atilde;o <a href="reference.html#seterrorhandler"><code>cgilua.seterrorhandler</code></a> define o <em>tratador de erro</em>, uma fun&ccedil;&atilde;o chamada pela Lua logo ap&oacute;s ocorrer um erro. O tratador de erro tem acesso &agrave; pilha de execu&ccedil;&atilde;o antes da ocorr&ecirc;ncia do erro, assim, ele pode gerar uma mensagem de erro usando as informa&ccedil;&otilde;es da pilha. Lua tamb&eacute;m possui uma fun&ccedil;&atilde;o para fazer isso: <code>debug.traceback</code>.</p>
+
+<p>A fun&ccedil;&atilde;o <a href="reference.html#seterroroutput"><code>cgilua.seterroroutput</code></a> define a fun&ccedil;&atilde;o que decide o que deve ser feito com a mensagem de erro. Ele pode ser enviado para o cliente, gravado em um arquivo de log ou enviado para um endere&ccedil;o de email (com a ajuda do <a href="http://luasocket.luaforge.net/">LuaSocket</a> ou do <a href="http://www.keplerproject.org/lualogging/">LuaLogging</a>, por exemplo).</p>
+
+<p>A fun&ccedil;&atilde;o <a href="reference.html#errorlog"><code>cgilua.errorlog</code></a> &eacute; fornecida para gravar diretamente no arquivo de log de erros do servidor HTTP.</p>
+
+<h2><a name="scripts"></a>Lua Scripts</h2>
+
+<p>Os Lua Scripts s&atilde;o arquivos de texto que cont&ecirc;m c&oacute;digo Lua v&aacute;lido. Esse estilo de uso adota uma forma de programa&ccedil;&atilde;o para Web mais &quot;r&uacute;stica&quot;, na qual um programa &eacute; respons&aacute;vel pela gera&ccedil;&atilde;o da p&aacute;gina resultante. Os Lua Scripts t&ecirc;m a extens&atilde;o padr&atilde;o <code>.lua</code>.</p>
+
+<p>Para gerar um documento Web (HTML, XML, WML, CSS etc.) v&aacute;lido, o Lua Script deve obedecer a uma ordem esperada pelo HTTP para produzir a sa&iacute;da, primeiro enviando os <a href="reference.html#headers">cabe&ccedil;alhos</a> corretos e, depois, enviando o <a href="reference.html#contents">conte&uacute;do</a> real do documento.</p>
+
+<p>O CGILua tem algumas fun&ccedil;&otilde;es que facilitam essas tarefas, por exemplo, <a href="reference.html#htmlheader"><code>cgilua.htmlheader</code></a> para produzir o cabe&ccedil;alho de um documento HTML e <a href="reference.html#put"><code>cgilua.put</code></a> para enviar o conte&uacute;do do documento (ou parte dele).</p>
+
+<p>Por exemplo, um documento HTML que exiba a frase &quot;Ol&aacute; mundo!&quot; pode ser gerado com este Lua Script:</p>
+
+<pre class="example">
+cgilua.htmlheader()
+cgilua.put([[
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Ol&aacute; mundo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;strong&gt;Ol&aacute; mundo!&lt;/strong&gt;
+&lt;/body&gt;
+&lt;/html&gt;]])
+</pre>
+
+<p>Observe que o exemplo acima gera uma p&aacute;gina &quot;fixa&quot;: embora ela seja gerada no momento da execu&ccedil;&atilde;o, a p&aacute;gina n&atilde;o cont&eacute;m informa&ccedil;&otilde;es &quot;vari&aacute;veis&quot;. Isso significa que o mesmo documento poderia ser gerado diretamente com um simples arquivo HTML est&aacute;tico. No entanto, os Lua Scripts s&atilde;o especialmente &uacute;teis quando o documento cont&eacute;m informa&ccedil;&otilde;es que n&atilde;o sejam conhecidas de antem&atilde;o ou que mudem de acordo com os par&acirc;metros passados. Nesse caso, &eacute; necess&aacute;rio gerar uma p&aacute;gina &quot;din&acirc;mica&quot;.</p>
+
+<p>Outro exemplo f&aacute;cil pode ser mostrado, desta vez, usando uma estrutura de controle Lua, vari&aacute;veis e o operador de concatena&ccedil;&atilde;o:</p>
+
+<pre class="example">
+cgilua.htmlheader()
+
+if cgi.language == 'english' then
+  greeting = 'Hello World!'
+elseif cgi.language == 'portuguese' then
+  greeting = 'Ol&aacute; Mundo!'
+else
+  greeting = '[unknown language]'
+end
+
+cgilua.put('&lt;html&gt;')  
+cgilua.put('&lt;head&gt;')
+cgilua.put('  &lt;title&gt;'..greeting..'&lt;/title&gt;')
+cgilua.put('&lt;/head&gt;')
+cgilua.put('&lt;body&gt;')
+cgilua.put('  &lt;strong&gt;'..greeting..'&lt;/strong&gt;')
+cgilua.put('&lt;/body&gt;')
+cgilua.put('&lt;/html&gt;')
+</pre>
+
+<p>No exemplo acima, o uso de <code><em>cgi.language</em></code> indica que <em>language</em> foi passado para o Lua Script como um <a href="manual.html#parameters">par&acirc;metro do CGILua</a>, oriundo de um campo de formul&aacute;rio HTML (via POST) ou da URL usada para ativ&aacute;-lo (via GET). O CGILua decodifica automaticamente esses par&acirc;metros para que voc&ecirc; possa us&aacute;-los &agrave; vontade em Lua Scripts e Lua Pages.</p>
+
+<h2><a name="templates"></a>Lua Pages</h2>
+
+<p>Uma Lua Page &eacute; um arquivo de modelo (template) com texto que ser&aacute; processado pelo CGILua antes de o servidor HTTP envi&aacute;-lo para o cliente. O CGILua n&atilde;o processa o texto, ele procura algumas marca&ccedil;&otilde;es especiais que inserem o c&oacute;digo Lua no arquivo. Depois que essas marca&ccedil;&otilde;es s&atilde;o processadas e mescladas no arquivo de template, os resultados s&atilde;o enviados para o cliente.</p>
+
+<p>As Lua Pages t&ecirc;m a extens&atilde;o padr&atilde;o <code>.lp</code>. Elas s&atilde;o uma maneira mais simples de criar uma p&aacute;gina din&acirc;mica porque eliminam a necessidade de enviar os cabe&ccedil;alhos HTTP. Em geral, Lua Pages s&atilde;o p&aacute;ginas HTML, portanto, o CGILua envia automaticamente o cabe&ccedil;alho HTML.</p>
+
+<p>Como h&aacute; algumas restri&ccedil;&otilde;es quanto aos usos de cabe&ccedil;alhos HTTP, ocasionalmente, ser&aacute; preciso usar um Lua Script em vez de uma Lua Page.</p>
+
+<p>As marca&ccedil;&otilde;es fundamentais de uma Lua Page s&atilde;o:</p>
+
+<dl>
+    <dt><strong><code>&lt;?lua <em>chunk</em> ?&gt;</code></strong></dt>
+    <dd>Processa e mescla os resultados da execu&ccedil;&atilde;o do <em>chunk</em> Lua, no qual a marca&ccedil;&atilde;o est&aacute; localizada no template. A forma alternativa <code>&lt;% <em>chunk</em> %&gt;</code> tamb&eacute;m pode ser usada.</dd>
+    
+    <dt><strong><code>&lt;?lua= <em>expression</em> ?&gt;</code></strong></dt>
+    <dd>Processa e mescla a avalia&ccedil;&atilde;o de uma <em>expression</em> em Lua, na qual a marca&ccedil;&atilde;o est&aacute; localizada no template. A forma alternativa <code>&lt;%= <em>expression</em> %&gt;</code> tamb&eacute;m pode ser usada.</dd>
+</dl>
+
+<p>Observe que a marca&ccedil;&atilde;o de t&eacute;rmino n&atilde;o pode estar dentro de um chunk de c&oacute;digo ou uma express&atilde;o Lua, mesmo que esteja entre aspas. O pr&eacute;-processador de Lua Pages apenas faz substitui&ccedil;&otilde;es globais no template, procurando um par correspondente de marca&ccedil;&otilde;es e gerando o c&oacute;digo Lua correspondente para obter o mesmo resultado que o Lua Script equivalente.</p> 
+
+<p>O segundo exemplo da se&ccedil;&atilde;o anterior pode ser escrito usando uma Lua Page como esta:</p>
+
+<pre class="example">
+&lt;html&gt;
+&lt;?lua
+if cgi.language == 'english' then
+  greeting = 'Hello World!'
+elseif cgi.language == 'portuguese' then
+  greeting = 'Ol&aacute; Mundo!'
+else
+  greeting = '[unknown language]'
+end
+?&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= greeting %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;&gt;strong&lt;%= greeting %&gt;&lt;/strong&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>As tags HTML e as tags de Lua Page podem ser livremente intercambiadas. Por&eacute;m, como ocorre em outras linguagens de template, considera-se uma boa pr&aacute;tica n&atilde;o usar l&oacute;gica Lua expl&iacute;cita em templates. A abordagem recomendada &eacute; usar apenas chamadas de fun&ccedil;&otilde;es que retornam chunks de conte&uacute;do, dessa forma, nesse exemplo, pressupondo-se que a fun&ccedil;&atilde;o <code>getGreeting</code> tenha sido definida em outro ponto como</p>
+
+<pre class="example">
+function getGreeting()
+  local greeting
+  if cgi.language == 'english' then
+    greeting = 'Hello World!'
+  elseif cgi.language == 'portuguese' then
+    greeting = 'Ol&aacute; Mundo!'
+  else
+    greeting = '[unknown language]'
+  end
+  return greeting
+end
+</pre>
+
+<p>a Lua Page poderia ser reescrita desta maneira:</p>
+
+<pre class="example">
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= getGreeting() %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;strong&gt;&lt;%= getGreeting() %&gt;&lt;/strong&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h2><a name="parameters"></a>Recebimento de par&acirc;metros: a tabela <code>cgi</code></h2>
+
+<p>O CGILua oferece uma maneira unificada de acessar dados passados para os scripts no m&eacute;todo HTTP usado (GET ou POST). Independentemente do m&eacute;todo usado no cliente, todos os par&acirc;metros ser&atilde;o fornecidos dentro da tabela <code>cgi</code>.</p>
+
+<p>Normalmente, todos os tipos de par&acirc;metros estar&atilde;o dispon&iacute;veis como strings. Se o valor de um par&acirc;metro for um n&uacute;mero, ele ser&aacute; convertido na representa&ccedil;&atilde;o de string correspondente.</p>
+
+<p>H&aacute; apenas duas exce&ccedil;&otilde;es nas quais o valor ser&aacute; uma tabela Lua. O primeiro caso ocorre em uploads de arquivos, no qual a tabela correspondente ter&aacute; estes campos:</p>
+
+<dl>
+    <dt><strong>filename</strong></dt>
+    <dd>o nome do arquivo como fornecido pelo cliente.</dd>
+    
+    <dt><strong>filesize</strong></dt>
+    <dd>o tamanho do arquivo em bytes.</dd>
+    
+    <dt><strong>file</strong></dt>
+    <dd>o <em>handler</em> do arquivo tempor&aacute;rio. O arquivo deve ser copiado porque o CGILua o remover&aacute; ap&oacute;s a conclus&atilde;o do script.</dd>
+</dl>
+
+<p>O outro caso que usa tabelas Lua ocorre quando h&aacute; mais de um valor associado ao mesmo nome de par&acirc;metro. Isso acontece no caso de uma lista de sele&ccedil;&atilde;o com v&aacute;rios valores; mas tamb&eacute;m ocorre quando o formul&aacute;rio tiver dois ou mais elementos com o mesmo atributo <code>name</code> (possivelmente porque um estava em um formul&aacute;rio e o outro, na <em>query string</em>). Todos os valores ser&atilde;o inseridos em uma tabela indexada, na ordem em que foram tratados.</p>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="XHTML 1.0 v&aacute;lido!" height="31" width="88" /></a></p>
+	<p><small>$Id: manual.html,v 1.3 2005/11/03 18:48:57 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html> 

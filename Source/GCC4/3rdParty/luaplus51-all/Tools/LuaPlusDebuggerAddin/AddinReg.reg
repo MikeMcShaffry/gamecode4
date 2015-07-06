@@ -1,0 +1,6 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\7.0\AddIns\LuaPlusDebuggerAddin.Connect]
+"FriendlyName"="LuaPlus Debugger Add-in"
+"Description"=""
+

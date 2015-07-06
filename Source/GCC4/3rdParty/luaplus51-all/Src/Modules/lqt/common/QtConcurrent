@@ -1,0 +1,7 @@
+
+#include <QFuture>
+#include <QFutureInterface>
+#include <QtConcurrentRun>
+
+using namespace QtConcurrent;
+

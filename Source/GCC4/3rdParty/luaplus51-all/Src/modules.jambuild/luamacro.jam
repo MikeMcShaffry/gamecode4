@@ -1,0 +1,47 @@
+{
+
+local MACRO_SRCS =
+		macro/all.lua
+		macro/assert.lua
+		macro/builtin.lua
+		macro/clexer.lua
+		macro/do.lua
+		macro/forall.lua
+		macro/Getter.lua
+		macro/lambda.lua
+		macro/lc.lua
+		macro/lexer.lua
+		macro/module.lua
+		macro/TokenList.lua
+		macro/try.lua
+		macro/with.lua
+;
+
+local MACRO_LIB_SRCS =
+		macro/lib/class.lua
+		macro/lib/test.lua
+;
+
+local SRCS =
+		luam.lua
+		macro.lua
+;
+
+Lua.Module luamacro : : $(SRCS) $(MACRO_SRCS) $(MACRO_LIB_SRCS) ;
+
+CopyFiles luamacro : $(LUA_LDIR) : $(SUBDIR)/$(SRCS) ;
+CopyFiles luamacro : $(LUA_LDIR)/macro : $(SUBDIR)/$(MACRO_SRCS) ;
+CopyFiles luamacro : $(LUA_LDIR)/macro/lib : $(SUBDIR)/$(MACRO_LIB_SRCS) ;
+
+if $(NT) {
+	local luam.bat = @(luam.bat:G=luamacro) ;
+	MakeLocate $(luam.bat) : $(LUAPLUS_OUTPUT_DIRECTORY) ;
+	local contents = "@\"%~dp0lua.exe\" \"$(LUA_LDIR)/luam.lua\" %*" ;
+	CONTENTS on $(luam.bat) = $(contents) ;
+	WriteFile $(luam.bat) ;
+	UseCommandLine $(luam.bat) : $(contents) ;
+	Depends luamacro : $(luam.bat) ;
+	Clean clean:luamacro : $(luam.bat) ;
+}
+
+}

@@ -1,0 +1,171 @@
+#!/usr/bin/env lua
+
+pcall(require, "luarocks.require")
+
+require "lfs"
+require "wsapi.util"
+require "wsapi.xavante"
+require "xavante"
+require "xavante.filehandler"
+require "xavante.redirecthandler"
+
+local usage = [[
+Usage: wsapi [options] [document root]
+
+Starts a Xavante instance to serve static files and WSAPI applications.
+Treats .lua and .ws files as WSAPI applications, and everything else as
+static (but see the --cgilua and --op options, below).
+
+The default document root is the current path.
+
+Options:
+
+-c<file>, --config=<file>   Runs the specified file for additional
+                            configuration before starting the server
+-l<file>, --log=<file>      Logs all output to the file (default stdout
+                            and stderr)
+-p<port>, --port=<port>     Binds to the specified port (default 8080)
+--cgilua                    Adds .lp and .cgi rules for CGILua pages and 
+                            scripts
+--op                        Adds an .op rule that for Orbit pages
+-r, --reload                Reloads applications on every request
+-h, --help                  Shows this help screen
+
+]]
+
+local config = {}
+
+local opts, args = wsapi.util.getopt({ ... }, "clp")
+
+if opts.h or opts.help then
+  print(usage)
+  os.exit()
+end
+
+local config = {
+  docroot = args[1] or lfs.currentdir(),
+  logfile = opts.l or opts.log,
+  port = tonumber(opts.p or opts.port) or 8080,
+  start_message = function (ports)
+		     local date = os.date("[%Y-%m-%d %H:%M:%S]")
+		     print(string.format("%s Xavante started on port(s) %s",
+					 date, table.concat(ports, ", ")))
+		  end,
+  rules = {},
+  is_finished = function() return false end,
+  reload = opts.r or opts.reload,
+  isolated = true
+}
+
+local config_file = opts.c or opts.config
+
+if config_file then
+  local f, err = loadfile(config_file)
+  if not f then
+    io.stderr:write("Cannot load config file " .. config_file .. ":\n\n" .. err .. "\n")
+    os.exit()
+  end
+  setfenv(f, setmetatable(config, { __index = _G }))
+  local res, err = pcall(f)
+  if not res then
+    io.stderr:write("Error in config file:\n\n" .. err .. "\n")
+    os.exit()
+  end
+  setmetatable(config, nil)
+end
+
+if config.logfile then
+  local tostring = tostring
+  local log = io.open(config.logfile, "a+")
+  if not log then
+    error("Could not open log file. Please check the write permissions for: " .. config.logfile)
+  end
+  io.stdout = log
+  io.stderr = log
+  print = function (...)
+    local nargs = select('#', ...)
+    for i = 1, nargs-1 do
+      log:write(tostring((select(i, ...))))
+      log:write("\t")
+    end
+    log:write(tostring(select(nargs, ...)))
+    log:write("\n")
+  end
+end
+
+local ONE_HOUR = 60 * 60
+local ONE_DAY = 24 * ONE_HOUR
+
+local launcher_params = {
+  isolated = config.isolated,
+  reload = config.reload,
+  period = config.period or ONE_HOUR,
+  ttl = config.ttl or ONE_DAY
+}
+
+config.rules = config.rules or {}
+
+local function addrule(rule)
+  config.rules[#config.rules+1] = rule
+end
+
+addrule{ -- URI remapping example
+  match = "^/$",
+  with = xavante.redirecthandler,
+  params = {"index.html"}
+}
+
+addrule{ -- wsapihandler example
+  match = {"%.lua$", "%.lua/" },
+  with = wsapi.xavante.makeGenericHandler (config.docroot, launcher_params)
+}
+
+addrule{ -- wsapihandler example
+  match = {"%.ws$", "%.ws/" },
+  with = wsapi.xavante.makeGenericHandler (config.docroot, launcher_params)
+}
+
+if opts.cgilua then
+  require "xavante.cgiluahandler"
+  addrule{
+    match = {"%.lp$", "%.lp/.*$", "%.cgi$", "%.cgi/.*$" },
+    with = xavante.cgiluahandler.makeHandler (config.docroot, launcher_params)
+  }
+end
+if opts.op then
+  require "orbit.ophandler"
+  addrule{
+    match = {"%.op$", "%.op/.*$" },
+    with = orbit.ophandler.makeHandler (config.docroot, launcher_params)
+  }
+end
+
+addrule{ -- filehandler example
+  match = ".",
+  with = xavante.filehandler,
+  params = { baseDir = config.docroot }
+}
+
+-- Displays a message in the console with the used ports
+xavante.start_message(config.start_message)
+
+io.stdout:write("[Xavante launcher] Starting Xavante...\n")
+
+xavante.HTTP{
+    server = {host = "*", port = config.port},
+    
+    defaultHost = {
+    	rules = config.rules
+    },
+}
+
+res, err = pcall(xavante.start, function (...)
+				   io.stdout:flush()
+				   io.stderr:flush()
+				   return config.is_finished(...)
+				end, config.timeout)
+if not res then
+   io.stderr:write(err .. "\n")
+else
+   io.stderr:write("[Xavante launcher] Xavante stopped\n")
+end

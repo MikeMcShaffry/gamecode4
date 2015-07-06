@@ -1,0 +1,27 @@
+	body,
+	html {
+		margin:0;
+		padding:0;
+	}
+	#wrap {
+		width:750px;
+		margin:0 auto;
+	}
+	#header {
+		background:#5555ff;
+	}
+	#nav {
+		background:#c99;
+	}
+	#main {
+		float:left;
+		width:500px;
+	}
+	#sidebar {
+		float:right;
+		width:250px;
+	}
+	#footer {
+		clear:both;
+		background:#5555ff;
+	}

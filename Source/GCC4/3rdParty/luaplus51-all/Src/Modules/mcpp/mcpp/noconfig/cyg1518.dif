@@ -1,0 +1,44 @@
+*** noconfig.H	Sat Sep 20 12:00:10 2008
+--- noconfig.H.cyg1518	Sat Sep 20 14:44:41 2008
+***************
+*** 15,21 ****
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_FREEBSD
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+--- 15,21 ----
+   */
+  
+  /* Define target operating-system.  */
+! #define SYSTEM              SYS_CYGWIN
+  
+  /* Define target compiler.          */
+  #ifndef COMPILER
+***************
+*** 294,304 ****
+  #define TARGET_HAVE_LONG_LONG       TRUE
+  #endif
+  #define STDC_VERSION        0L  /* 199409L for V.2.9, 0L for V.3.*,V.4.*    */
+! #define CPLUS_INCLUDE_DIR1  "/usr/include/c++/3.4"  /* "/usr/include/c++/3.3.6" */  /* "/usr/include/c++/4.1.2" */
+! #define CPLUS_INCLUDE_DIR2  "/usr/include/c++/3.4/backward"     /* "/usr/include/c++/3.3.6/i386-vine-linux" */  /* "/usr/include/c++/4.1.2/i486-linux-gnu" */
+! /* #define CPLUS_INCLUDE_DIR3   */  /* "/usr/include/c++/3.3.6/backward"    */  /* "/usr/include/c++/4.1.2/backward"    */
+! /* #define C_INCLUDE_DIR1 */    /* "/usr/lib/gcc-lib/i386-vine-linux/3.3.6/include" */  /* "/usr/lib/gcc/i486-linux-gnu/4.1.2/include" */
+! /* #define C_INCLUDE_DIR2   */
+  #ifndef INC_DIR
+  #ifdef  C_INCLUDE_DIR1
+  #define INC_DIR             C_INCLUDE_DIR1  /* GNUC version specific dir    */
+--- 294,304 ----
+  #define TARGET_HAVE_LONG_LONG       TRUE
+  #endif
+  #define STDC_VERSION        0L  /* 199409L for V.2.9, 0L for V.3.*,V.4.*    */
+! #define CPLUS_INCLUDE_DIR1  "/usr/lib/gcc/i686-pc-cygwin/3.4.4/include/c++" /* "/usr/include/c++/3.4" */ /* "/usr/include/c++/3.3.6" */  /* "/usr/include/c++/4.1.2" */
+! #define CPLUS_INCLUDE_DIR2  "/usr/lib/gcc/i686-pc-cygwin/3.4.4/include/c++/i686-pc-cygwin"  /* "/usr/include/c++/3.4/backward" */    /* "/usr/include/c++/3.3.6/i386-vine-linux" */  /* "/usr/include/c++/4.1.2/i486-linux-gnu" */
+! #define CPLUS_INCLUDE_DIR3  "/usr/lib/gcc/i686-pc-cygwin/3.4.4/include/c++/backward" /* "/usr/include/c++/3.3.6/backward"    */  /* "/usr/include/c++/4.1.2/backward"    */
+! #define C_INCLUDE_DIR1      "/usr/lib/gcc/i686-pc-cygwin/3.4.4/include" /* "/usr/lib/gcc-lib/i386-vine-linux/3.3.6/include" */  /* "/usr/lib/gcc/i486-linux-gnu/4.1.2/include" */
+! #define C_INCLUDE_DIR2      "/usr/include/w32api"
+  #ifndef INC_DIR
+  #ifdef  C_INCLUDE_DIR1
+  #define INC_DIR             C_INCLUDE_DIR1  /* GNUC version specific dir    */

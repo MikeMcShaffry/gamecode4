@@ -1,0 +1,25 @@
+#!/usr/bin/tcsh
+
+cd ..
+
+echo Gerando distribuição dos binários...
+
+tar -czf luacom_bin_`date +%y-%m-%d`.tgz luacom/README luacom/bin/*.* luacom/include/*.h luacom/lib/*.lib luacom/demo/ado/{README,*.{mdb,lua}} luacom/demo/server/{README,*.{vbs,lua,tlb,odl}} luacom/demo/odl/{README,*.lua} luacom/demo/wmi/{README,*.lua}
+
+echo Distribuição dos binários concluída.
+
+echo Gerando distribuição dos fontes...
+
+tar -czf luacom_src_`date +%y-%m-%d`.tgz luacom/{Makefile,INSTALL,README} luacom/mak/*.mak luacom/include/*.h luacom/src/library/*.{cpp,c,h,def,lua,loh} luacom/src/bin/*.cpp luacom/src/dll/*.{cpp,def,h} luacom/demo/ado/{README,*.{mdb,lua}} luacom/demo/server/{README,*.{vbs,lua,tlb,odl}} luacom/demo/odl/{README,*.lua} luacom/demo/wmi/{README,*.lua}
+
+cd luacom
+
+echo Distribuição dos fontes concluída.
+
+echo Distribuição completa.
+
+
+REM tar -czf luacom-1.3-iup-bin.tgz luacom/README luacom/bin/*.* luacom/include/*.h luacom/lib/*.lib luacom/demo/ado/README luacom/demo/ado/*.mdb luacom/demo/ado/*.lua luacom/demo/server/README luacom/demo/server/*.vbs luacom/demo/server/*.lua luacom/demo/server/*.tlb luacom/demo/server/*.odl luacom/demo/control/*.* luacom/demo/odl/README luacom/demo/odl/*.lua luacom/demo/wmi/README luacom/demo/wmi/*.lua luacom/demo/date/*.tlb luacom/demo/date/*.lua luacom/demo/enums/*.lua
+
+REM tar -czf luacom-1.3-src.tgz luacom/README luacom/Makefile luacom/INSTALL luacom/mak/*.mak luacom/include/*.h luacom/src/library/*.cpp luacom/src/library/*.c luacom/src/library/*.h luacom/src/library/*.lua luacom/src/library/*.loh luacom/src/library/*.def luacom/src/bin/*.cpp luacom/src/dll/*.cpp luacom/src/dll/*.h luacom/src/dll/*.def luacom/src/dll/*.lua luacom/demo/ado/README luacom/demo/ado/*.mdb luacom/demo/ado/*.lua luacom/demo/server/README luacom/demo/server/*.vbs luacom/demo/server/*.lua luacom/demo/server/*.tlb luacom/demo/server/*.odl luacom/demo/control/*.* luacom/demo/odl/README luacom/demo/odl/*.lua luacom/demo/wmi/README luacom/demo/wmi/*.lua luacom/demo/date/*.tlb luacom/demo/date/*.lua luacom/demo/enums/*.lua
+

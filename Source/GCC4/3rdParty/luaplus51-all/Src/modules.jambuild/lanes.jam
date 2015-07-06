@@ -1,0 +1,66 @@
+{
+
+local SRCS =
+		src/keeper.lua
+		src/threading.c
+		src/threading.h
+		src/lanes.c
+		src/lanes.lua
+		src/tools.c
+		src/tools.h
+;
+
+CopyFiles lanes : $(LUA_LDIR) : $(SUBDIR)/src/lanes.lua ;
+
+if ! $(TARGETINFO_LOCATE)
+{
+
+rule LanesBin2C PARENTS : TARGETS : SOURCES
+{
+	Depends $(TARGETS) : $(SOURCES) ;
+	Depends $(TARGETS) : $(LUA_EXE) ;
+
+	Clean clean:$(PARENTS) : $(TARGETS) ;
+
+	BIN2C on $(TARGETS) = $(SUBDIR)/tools/bin2c.lua ;
+	_LanesBin2C $(TARGETS) : $(SOURCES) ;
+}
+
+actions _LanesBin2C
+{
+	"$(LUA_EXE:T)" "$(BIN2C)" -o $(1) $(2)
+}
+
+}
+else
+{
+
+rule LanesBin2C
+{
+}
+
+}
+
+local keeper.lua = <lanes>keeper.lua ;
+SEARCH on $(keeper.lua) = $(SEARCH_SOURCE)/src ;
+
+local keeper.lc = <lanes>keeper.lc ;
+MakeLocate $(keeper.lc) : $(LOCATE_TARGET) ;
+
+local keeper.lch = <lanes>keeper.lch ;
+MakeLocate $(keeper.lch) : $(LOCATE_TARGET) ;
+ForceCare $(keeper.lch) ;
+
+Lua.ToBinary lanes : $(keeper.lc) : $(keeper.lua) ;
+LanesBin2C lanes : $(keeper.lch) : $(keeper.lc) ;
+
+C.IncludeDirectories lanes : $(LOCATE_TARGET) ;
+
+if $(PLATFORM) = linux32
+{
+	C.LinkPrebuiltLibraries lanes : pthread ;
+}
+
+Lua.CModule lanes : lua51-lanes lanes : $(SRCS) ;
+
+}

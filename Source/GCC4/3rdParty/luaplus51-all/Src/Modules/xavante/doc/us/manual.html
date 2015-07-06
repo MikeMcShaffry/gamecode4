@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>The Xavante Lua Web Server Manual</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"><a href="http://www.keplerproject.org">
+		<img alt="Xavante logo" src="xavante.gif" width="128" height="128"/></a>
+	</div>
+	<div id="product_name"><big><strong>Xavante</strong></big></div>
+	<div id="product_description">A Lua Web Server with WSAPI support</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+<h1>Xavante</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+            <ul>
+              <li><a href="index.html#over">Overview</a></li>
+              <li><a href="index.html#status">Status</a></li>
+              <li><a href="index.html#download">Download</a></li>
+              <li><a href="index.html#dependencies">Dependencies</a></li>              
+              <li><a href="index.html#history">History</a></li>
+              <li><a href="index.html#credits">Credits</a></li>
+              <li><a href="index.html#contact">Contact us</a></li>
+            </ul>
+        </li>
+		<li><strong>Manual</strong>
+            <ul>
+              <li><a href="manual.html#install">Installing</a></li>
+              <li><a href="manual.html#config">Configuring</a></li>
+              <li><a href="manual.html#running">Running</a></li>
+            </ul>
+        </li>
+        <li><a href="sajax.html">Sajax</a></li>
+	    <li><a href="http://luaforge.net/projects/xavante/">Project</a>
+	        <ul>
+	            <li><a href="http://luaforge.net/tracker/?group_id=6">Bug Tracker</a></li>
+	            <li><a href="http://luaforge.net/scm/?group_id=6">CVS</a></li>
+	        </ul>
+	    </li>
+        <li><a href="license.html">License</a></li>
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h2><a name="install"></a>Installing</h2>
+
+<p>You can install Xavante using <a href="http://www.luarocks.org">LuaRocks</a>:</p>
+
+<pre class="example">
+luarocks install xavante
+</pre>
+
+<p>The "xavante" package installs Xavante as a library. To run Xavante as an application please install <a href="http://wsapi.luaforge.net">WSAPI</a>:</p>
+
+<pre class="example">
+luarocks install wsapi-xavante
+</pre>
+
+<h2><a name="config"></a>Configuring</h2>
+
+<p>
+After the Xavante module is loaded, it needs to be configured before
+  being able to serve requests. You need to register the handlers
+  using the <code>xavante.HTTP</code> constructor.
+</p>
+
+<p>
+<code>xavante.HTTP</code> defines <em>virtualhosts</em> for each site
+that will be served. Each virtualhost can define a set of <em>rules</em>
+for it.
+Each rule matches a <em>URL Lua pattern</em> with a handler.
+Xavante currently offers a <strong>file handler</strong>,
+a <strong>redirect handler</strong> and
+a <strong>CGILua handler</strong> for general files, URL
+remapping and CGILua scripts respectively.
+</p>
+
+<p>A typical use would be (assuming the Xavante module is already loaded):</p>
+
+<pre class="example">
+require "xavante.filehandler"
+require "xavante.cgiluahandler"
+require "xavante.redirecthandler"
+
+-- Define here where Xavante HTTP documents scripts are located
+local webDir = XAVANTE_WEB
+
+local simplerules = {
+
+    { -- URI remapping example
+      match = "^[^%./]*/$",
+      with = xavante.redirecthandler,
+      params = {"index.lp"}
+    }, 
+
+    { -- cgiluahandler example
+      match = {"%.lp$", "%.lp/.*$", "%.lua$", "%.lua/.*$" },
+      with = xavante.cgiluahandler.makeHandler (webDir)
+    },
+    
+    { -- filehandler example
+      match = ".",
+      with = xavante.filehandler,
+      params = {baseDir = webDir}
+    },
+} 
+
+xavante.HTTP{
+    server = {host = "*", port = 8080},
+    
+    defaultHost = {
+    	rules = simplerules
+    },
+}
+</pre>
+
+<p>Note the use of <code>webDir</code> both to set the base directory
+for the file handler and for the CGILua scripts. These paths should contain the
+desired directories in your structure.</p>
+
+<p>To use virtual hosts with Xavante, the call to <code>xavante.HTTP</code>
+would be changed to something like</p>
+
+<pre class="example">
+xavante.HTTP{
+    server = {host = "*", port = 8080},
+    
+    defaultHost = {},
+    
+    virtualhosts = {
+        ["www.sitename.com"] = simplerules
+    }
+}
+</pre>
+
+
+<h2><a name="running"></a>Running</h2>
+
+<p>
+If you are using Xavante as a module, then to start it you need to call
+<code>xavante.start([checkfunction[, timeout]])</code> passing an optional
+checking function and connection timeout value. The checking function, if
+present, will be called periodically to check if Xavante should continue to
+run. This function can be also used for maintenance tasks or as a callback to
+your application.
+</p>
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+	<p><small>$Id: manual.html,v 1.46 2008/05/23 20:18:58 carregal Exp $</small></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>

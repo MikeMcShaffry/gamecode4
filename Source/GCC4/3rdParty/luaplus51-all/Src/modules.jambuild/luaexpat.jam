@@ -1,0 +1,34 @@
+{
+
+local SRCS =
+		src/lxplib.c
+		src/lxplib.h
+		../expat/lib/xmlparse.c
+		../expat/lib/xmlrole.c
+		../expat/lib/xmltok.c
+		../expat/lib/ascii.h
+		../expat/lib/asciitab.h
+		../expat/lib/expat.h
+		../expat/lib/expat_external.h
+		../expat/lib/iasciitab.h
+		../expat/lib/internal.h
+		../expat/lib/latin1tab.h
+		../expat/lib/nametab.h
+		../expat/lib/utf8tab.h
+		../expat/lib/xmlrole.h
+		../expat/lib/xmltok.h
+		../expat/lib/xmltok_impl.h
+;
+
+CopyFile luaexpat : $(LUA_LDIR)/lxp/lom.lua : $(SUBDIR)/src/lxp/lom.lua ;
+
+C.IncludeDirectories luaexpat : ../expat/lib ;
+C.Defines luaexpat : XML_STATIC HAVE_MEMMOVE ;
+if $(MSVCNT)
+{
+	C.Defines luaexpat : COMPILED_FROM_DSP ;
+}
+
+Lua.CModule luaexpat : lxp : $(SRCS) ;
+
+}

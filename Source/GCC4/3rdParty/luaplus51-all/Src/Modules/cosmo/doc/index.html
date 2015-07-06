@@ -1,0 +1,495 @@
+<p><html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="description" content="Cosmo: Safe Templates in Lua">
+  <meta name="keywords" content="Lua, Cosmo, safe templates">
+  <title>Cosmo</title>
+  <style type="text/css"></p>
+
+<pre><code>body { color:#000; background:#fff; }
+#header { width:100%;
+   text-align:center;  
+   border-top:solid #aaa 1px;
+   border-bottom:solid #aaa 1px;
+}
+#header p { margin-left:0; }
+p { margin-left:3px; }
+pre { background-color:#ffe; white-space:pre; padding-left:3ex; border-left: 1px solid gray; margin-left: 10px}
+</code></pre>
+
+<p>  </style>
+</head>
+<body>
+ <div id="header">
+  <img border=0 alt="Cosmo Logo" src="cosmo.png"/>
+  <p>Safe Templates in Lua</p>
+  <p>
+   <a href="#Overview">Overview</a> &middot;
+   <a href="#Installation">Installation</a> &middot;
+   <a href="#Using">Using Cosmo</a> &middot;
+   <a href="#Reference">API Reference</a> &middot;
+   <a href="#Contact">Contact Us</a> &middot;
+   <a href="#License">License</a></p>
+
+<p>  </p>
+ </div></p>
+
+<h1><a name="Overview"></a> Overview</h1>
+
+<p>Cosmo is a &ldquo;safe templates&rdquo; engine.  It allows you to fill nested
+templates, providing many of the advantages of Turing-complete
+template engines, without without the downside of allowing arbitrary
+code in the templates.</p>
+
+<h1><a name="Overview"></a>Installation</h1>
+
+<p>The current version of Cosmo is 10.03.31. This version adds
+expressions to selectors $(&lt;exp>), allows nested [[ ]] in templates,
+makes commas between subtemplates optional, and adds a second parameter
+to cosmo.yield that tells Cosmo the first parameter is a literal to be
+included in the expansion instead of an environment.</p>
+
+<p>Cosmo is installed as a rock. To install the most recent release
+do <code>luarocks install cosmo</code>. The Cosmo rock is in the standard
+repository. Installation on UNIX-based systems need the gcc toolchain.</p>
+
+<h1><a name="Using"></a>Using Cosmo</h1>
+
+<h2>Simple Form Filling</h2>
+
+<p>Let&rsquo;s start with a simple example of filling a set of scalar values
+into a template: Here are a few examples of Cosmo in use:</p>
+
+<pre><code>&gt; values = { rank="Ace", suit="Spades" } 
+&gt; template = "$rank of $suit"
+&gt; require("cosmo")
+&gt; = cosmo.fill(template, values)
+Ace of Spades
+</code></pre>
+
+<p>Note that the template is a string that marks where values should
+go. We call a template variable like <code>$rank</code> a <em>selector</em>, and <code>rank</code>
+is the selector&rsquo;s name. The table passed to <code>cosmo.fill</code> is the
+ <em>environment</em>, and it provides the
+values. <code>$rank</code> will get replaced by <code>value.rank</code> (&ldquo;Ace&rdquo;) and <code>$suit</code>
+will get replaced by <code>value.suit</code> (&ldquo;Spades&rdquo;).</p>
+
+<p><code>cosmo.fill</code> takes two parameters at once.  Cosmo also provides a
+&ldquo;shortcut&rdquo; method <code>f()</code> which takes only one parameter &ndash; the template
+&ndash; and returns a function that then takes the second parameter.  This
+allows for a more compact notation:</p>
+
+<pre><code>&gt; = cosmo.f(template){ rank="Ace", suit="Spades" } 
+Ace of Spades
+</code></pre>
+
+<p>A selector can be either a string or a Lua expression in parenthesis,
+like <code>$("foo" .. "bar")</code> is replaced by <code>foobar</code> in the template. Any
+variables in the expression are looked-up in the current template
+environment, so <code>$(foo)</code> is the same as <code>$foo</code>, and <code>$(rank .. suit)</code>
+would be replaced by <code>AceSpades</code> in the previous example.</p>
+
+<h2>Nested Values</h2>
+
+<p>You aren&rsquo;t restricted to scalar values; your values can be Lua tables that
+you can destructure using a <em>$val|key1|key2|&hellip;|keyn</em> syntax. For example:</p>
+
+<pre><code>&gt; values = { cards = { { rank = "Ace" , suit = "Spades" } } }
+&gt; template = "$cards|1|rank of $cards|1|suit"
+&gt; = cosmo.fill(template, values)
+Ace of Spades
+</code></pre>
+
+<p>As you can see above, you can either use numbers or strings as keys.</p>
+
+<h2>Arguments</h2>
+
+<p>You can also pass arguments to a selector using the syntax <em>$selector{ args }</em>. The syntax
+for the argument list is the same as a Lua table constructor, but function definitions are
+not allowed, and you can use template selectors, which are looked up in the template environment.</p>
+
+<p>If you pass an argument list and the selector maps to a function then Cosmo calls
+this function with the argument list as a table, and the selector expands to what
+the function returns. For example:</p>
+
+<pre><code>&gt; values = { message = function (arg) return arg.rank .. " of "
+     .. arg.suit end }
+&gt; template = "$message{ rank = 'Ace', suit = 'Spades' }"
+&gt; = cosmo.fill(template, values)
+Ace of Spades
+</code></pre>
+
+<h2>Subtemplates</h2>
+
+<p>Now, suppose we have not just one card, but several.  Cosmo allows us
+to handle this case with &ldquo;subtemplates&rdquo;</p>
+
+<pre><code>&gt; mycards = { {rank="Ace", suit="Spades"}, {rank="Queen", suit="Diamonds"}, {rank="10", suit="Hearts"} } 
+&gt; template = "$do_cards[[$rank of $suit, ]]"
+&gt; = cosmo.fill(template, {do_cards = mycards})  
+Ace of Spades, Queen of Diamonds, 10 of Hearts,
+</code></pre>
+
+<p>The subtemplate &ldquo;$rank or $suit&rdquo; could be enclosed in <code>[[...]]</code>,
+<code>[=[...]=]</code>, <code>[==[...]==]</code>, etc. &ndash; just like Lua&rsquo;s long-quoted
+strings.  Again, we can use the shortcut <code>f()</code>:</p>
+
+<pre><code>&gt; = cosmo.f(template){do_cards = mycards}  
+Ace of Spades, Queen of Diamonds, 10 of Hearts,
+</code></pre>
+
+<h2>Subtemplates with Functions</h2>
+
+<p>If we don&rsquo;t have a ready table that would match the template, we can
+set the value of <code>do_cards</code> to a function, which will yield a set of
+values for the subtemplate each time it&rsquo;s called:</p>
+
+<pre><code>&gt; mycards = { {"Ace", "Spades"}, {"Queen", "Diamonds"}, {"10", "Hearts"} }
+&gt; = cosmo.f(template){
+       do_cards = function()
+          for i,v in ipairs(mycards) do
+             cosmo.yield{rank=v[1], suit=v[2]}
+          end
+       end
+    }
+Ace of Spades, Queen of Diamonds, 10 of Hearts,
+</code></pre>
+
+<p>You can also pass a list of arguments to this function:</p>
+
+<pre><code>&gt; template = "$do_cards{ true, false, true }[[$rank of $suit, ]]"
+&gt; mycards = { {"Ace", "Spades"}, {"Queen", "Diamonds"}, {"10", "Hearts"} }
+&gt; = cosmo.f(template){
+       do_cards = function(arg)
+          for i,v in ipairs(mycards) do
+             if arg[i] then cosmo.yield{rank=v[1], suit=v[2]} end
+          end
+       end
+    }
+Ace of Spades, 10 of Hearts,
+</code></pre>
+
+<p>Finally, you can pass a literal to be included in the expansion
+instead of an environment. An example:</p>
+
+<pre><code>&gt; template = "$do_cards{ true, false, true }[[$rank of $suit]]"
+&gt; mycards = { {"Ace", "Spades"}, {"Queen", "Diamonds"}, {"10", "Hearts"} }
+&gt; = cosmo.f(template){
+       do_cards = function(arg)
+          local n = #mycards
+          for i,v in ipairs(mycards) do
+             cosmo.yield{rank=v[1], suit=v[2]}
+             if i &lt; n then cosmo.yield(", ", true) end
+          end
+       end
+    }
+Ace of Spades, Queen of Diamonds, 10 of Hearts
+</code></pre>
+
+<h2>Alternative Subtemplates</h2>
+
+<p>In some cases we may want to use differente templates for different
+items in the list.  For example, we might want to use a different
+template for the first and/or last item, or to use different templates
+for odd and even numbers. We can do this by specifying several
+templates, separated by a comma.  In that case, cosmo will use the
+first template in the sequence, unless the table of values for the
+item contains a special field <code>_template</code>, in which case this field
+will be used as an index into the list of alternative templates.  For
+instance, setting <code>_template</code> to 2 would tell cosmo to use the 2nd
+template for this item.</p>
+
+<pre><code>&gt; table.insert(mycards, {"2", "Clubs"})
+&gt; template = "You have: $do_cards[[$rank of $suit]],[[, $rank of $suit]],[[, and $rank of $suit]]"
+&gt; = cosmo.f(template){
+       do_cards = function()
+          for i,v in ipairs(mycards) do
+             local t
+             if i == #mycards then -- for the last item use the third template
+                t = 3
+             elseif i~=1 then -- use the second template for items 2...n-1
+                t = 2
+             end
+             cosmo.yield{rank=v[1], suit=v[2], _template=t}
+          end
+       end
+    }
+
+You have: Ace of Spades, Queen of Diamonds, 10 of Heards, and 2 of Clubs
+</code></pre>
+
+<p>Note that the first item is formatted without preceeding &ldquo;, &rdquo;, while
+the last item is preceeded by an extra &ldquo;and&rdquo;.</p>
+
+<h2>Deeper Nesting</h2>
+
+<p>Templates and subtemplates can be nested to arbitrary depth.  For
+instance, instead of formatting a set of cards, we can format a list
+of sets of cards:</p>
+
+<pre><code>&gt; players = {"John", "João"}
+&gt; cards = {}
+&gt; cards["John"] = mycards
+&gt; cards["João"] = { {"Ace", "Diamonds"} }
+&gt; template = "$do_players[[$player has $do_cards[[$rank of $suit]],
+    [[, $rank of $suit]],[[, and $rank of $suit]]\n]]"
+&gt; = cosmo.f(template){
+       do_players = function()
+          for i,p in ipairs(players) do
+             cosmo.yield {
+                player = p,
+                do_cards = function()
+                   for i,v in ipairs(cards[p]) do
+                      local t
+                      if i == #mycards then
+                         t = 3
+                      elseif i~=1 then -- use the second template for items 2...n-1
+                         t = 2
+                      end
+                      cosmo.yield{rank=v[1], suit=v[2], _template=t}
+                   end
+                end
+             }         
+         end
+      end
+    }
+
+John has Ace of Spades, Queen of Diamonds, 10 of Hearts, and 2 of Clubs
+João has Ace of Diamonds
+</code></pre>
+
+<h2>Scope</h2>
+
+<p>Subtemplates can see values that were set in the higher scope:</p>
+
+<pre><code>&gt; template = "$do_players[[$do_cards[[$rank of $suit ($player), ]]]]"
+&gt; = cosmo.f(template){
+       do_players = function()
+          for i,p in ipairs(players) do
+             cosmo.yield {
+                player = p,
+                do_cards = function()
+                   for i,v in ipairs(cards[p]) do
+                      cosmo.yield{rank=v[1], suit=v[2]}
+                   end
+                end,
+             }         
+          end
+       end
+    }
+
+Ace of Spades (John), Queen of Diamonds (John), 10 of Hearts (John), 2 of Clubs (John), Ace of Diamonds (João), 
+</code></pre>
+
+<p>Note that in this case the field &ldquo;player&rdquo; is set in the table of
+values that is passed to <code>do_players</code>, but is used one level deeper &ndash;
+in <code>do_cards</code>.</p>
+
+<p>The scoping behavior can be overriden by setting a metatable on the environment you
+pass to the subtemplates.</p>
+
+<h2>If</h2>
+
+<p>Subtemplates and arguments let you implement a more generic conditional:</p>
+
+<pre><code>&gt; template = "$do_players[=[$player: $n card$if{ $plural }[[s]]
+                   $if{ $more, $n_more }[[(needs $2 more)]],[[(no more needed)]]\n]=]"
+&gt; = cosmo.f(template){
+       do_players = function()
+          for i,p in ipairs(players) do
+             cosmo.yield {
+                player = p,
+                n = #cards[p],
+                ["if"] = function (arg)
+                   if arg[1] then arg._template = 1 else arg._template = 2 end
+                   cosmo.yield(arg)
+                         end,
+                plural = #cards[p] &gt; 1,
+                more = #cards[p] &lt; 3,
+                n_more = 3 - #cards[p]
+             }         
+          end
+       end
+    }
+
+John: 4 cards (no more needed)
+João: 1 card (needs 2 more)   
+</code></pre>
+
+<p>The conditional above is already present in Cosmo as <code>cosmo.cif</code>. Expressions in arguments
+make it more useful:</p>
+
+<pre><code>&gt; template = "$if{ math.fmod(x, 4) == 0, target = 'World' }[[ Hello $target! ]],
+   [[ Hi $target! ]]"
+&gt; result = cosmo.fill(template, { math = math, x = 2, ["if"] = cosmo.cif })
+&gt; assert(result == " Hi World! ")
+</code></pre>
+
+<h2>Other conditionals</h2>
+
+<p>In some cases we want to format an set of values if some condition
+applies, and <code>cosmo.if</code> is not enough.
+This can be done with a function and a subtemplate by just
+replacing a for-loop with an if-block.  However, since this is a
+common case, cosmo provides a function for it:</p>
+
+<pre><code>&gt; template = "$do_players[[$player: $n card$if_plural[[s]] $if_needs_more[[(needs $n more)]]\n]]"
+&gt; = cosmo.f(template){
+       do_players = function()
+          for i,p in ipairs(players) do
+             cosmo.yield {
+                player = p,
+                n = #cards[p],
+                if_plural = cosmo.cond(#cards[p] &gt; 1, {}),
+                if_needs_more = cosmo.cond(#cards[p] &lt; 3, { n = 3 - #cards[p] })
+             }         
+          end
+       end
+    }
+
+John: 4 cards
+João: 1 card (needs 2 more)
+</code></pre>
+
+<p>Like <code>fill()</code>, <code>cond()</code> has a &ldquo;shortcut&rdquo; equivalent which takes only
+one parameter (the template) and returns a function:</p>
+
+<pre><code>&gt; = cosmo.f(template){
+       do_players = function()
+          for i,p in ipairs(players) do
+             cosmo.yield {
+                player = p,
+                n = #cards[p],
+                if_plural = cosmo.c(#cards[p] &gt; 1){},
+                if_needs_more = cosmo.c(#cards[p] &lt; 3){ n = 3-#cards[p] }
+             }         
+          end
+       end
+    }
+
+John: 4 cards
+João: 1 card (needs 2 more)
+</code></pre>
+
+<h2>Map and Inject</h2>
+
+<p>Cosmo provides two convenience functions for writing simple templates, <code>cosmo.map</code>
+and <code>cosmo.inject</code>. Both functions have to be passed in a template&rsquo;s environment.
+The <code>cosmo.map</code> function yields each of its arguments in sequence, and inject yields
+its whole argument table. A simple example:</p>
+
+<pre><code>&gt; template = "&lt;ol&gt;\n$map{ 'Spades', 'Hearts', 'Clubs', 'Diamonds'}[[&lt;li&gt;$it&lt;/li&gt;\n]]&lt;/ol&gt;"
+&gt; = cosmo.fill(template, { map = cosmo.map })
+&lt;ol&gt;
+&lt;li&gt;Spades&lt;/li&gt;
+&lt;li&gt;Hearts&lt;/li&gt;
+&lt;li&gt;Clubs&lt;/li&gt;
+&lt;li&gt;Diamonds&lt;/li&gt;
+&lt;/ol&gt;
+&gt; template = "$inject{ suit = 'Spades' }[[Ace of &lt;b&gt;$suit&lt;/b&gt;]]"
+&gt; = cosmo.fill(template, { inject = cosmo.inject })
+Ace of &lt;b&gt;Spades&lt;/b&gt;
+</code></pre>
+
+<h2>Concat</h2>
+
+<p>Putting a delimiter between each expansion of a subtemplate is so
+common that Cosmo provides also provides a convenience function for
+it, <code>cosmo.concat</code>. This is an example:</p>
+
+<pre><code>&gt; template = "$concat{ cards, ', ' }[[$1 of $2]]"
+&gt; mycards = { {"Ace", "Spades"}, {"Queen", "Diamonds"}, {"10", "Hearts"} }
+&gt; = cosmo.f(template){
+       cards = mycards,
+       concat = cosmo.concat
+   }
+Ace of Spades, Queen of Diamonds, 10 of Hearts
+</code></pre>
+
+<h1><a name="Reference"></a> API Reference</h1>
+
+<p><strong>cosmo.compile(<em>template</em>, <em>chunkname</em>)</strong> &ndash; compiles <em>template</em> into
+a function that takes an environment and returns the filled
+template. Assigns <em>chunkname</em> as the name of this function</p>
+
+<p><strong>cosmo.fill(<em>template</em>, <em>env</em>)</strong> &ndash; same as  <strong>cosmo.compile(<em>template</em>)(<em>env</em>)</strong></p>
+
+<p><strong>cosmo.yield(<em>env</em>, <em>is_literal</em>)</strong> &ndash; fills the current subtemplate
+with <em>env</em> if <em>is_literal</em> is <code>nil</code> or <code>false</code> and adds it to the
+output stream; otherwise adds the the string <em>env</em> to the output
+stream</p>
+
+<p><strong>cosmo.cond(<em>bool</em>, <em>tab</em>)</strong> &ndash; returns a function that yields an
+empty environment if <em>bool</em> is <code>nil</code> or <code>false</code> and  <em>tab</em> otherwise</p>
+
+<p><strong>cosmo.c(<em>bool</em>)</strong> &ndash; returns a function that takes a table <em>tab</em> and does the same thing as
+<strong>cosmo.cond(<em>bool</em>, <em>tab</em>)</strong></p>
+
+<p><strong>cosmo.map{ &hellip; }</strong> &ndash; has to be used inside a template; yields each
+element of its argument in turn</p>
+
+<p><strong>cosmo.inject(env)</strong> &ndash; has to be used inside a template; yields its
+argument</p>
+
+<p><strong>cosmo.cif{ <em>exp</em>, &hellip; }</strong> &ndash; has to be used inside a template; yields
+its argument to subtemplate 2 is <em>exp</em> is <code>nil</code> or <code>false</code> and to
+subtemplate 1 otherwise</p>
+
+<p><strong>cosmo.concat{ <em>list</em>, [<em>delim</em>] }</strong> &ndash; has to be used inside a
+template; for each element of <em>list</em> yields it and, if it is not the
+last, yields the literal <em>delim</em> or &ldquo;, &rdquo; is <em>delim</em> is <code>nil</code></p>
+
+<h1><a name="Contact"></a> Contact Us</h1>
+
+<p>For more information please contact one of the authors,
+<a href="mailto:mascarenhas_no_spam@acm.org">Fabio Mascarenhas</a> and <a href="http://takhteyev.org/contact/">Yuri
+Takhteyev</a>, or write to the
+<a href="http://sputnik.freewisdom.org/en/Mailing_List">Sputnik Mailing List</a>.</p>
+
+<p>Comments are welcome!</p>
+
+<h1><a name="License"></a> License</h1>
+
+<p>Cosmo is free software: it can be used for both academic and
+commercial purposes at absolutely no cost.  There are no royalties or
+GNU-like &ldquo;copyleft&rdquo; restrictions. Cosmo qualifies as Open Source
+software.  Its licenses are compatible with GPL. The legal details are
+below.</p>
+
+<p>The spirit of the license is that you are free to use Cosmo for any
+purpose at no cost without having to ask us. The only requirement is
+that if you do use Cosmo, then you should give us credit by including
+the appropriate copyright notice somewhere in your product or its
+documentation.</p>
+
+<p>The original Cosmo library is designed and implemented by Yuri Takhteyev, with
+much feedback and inspiration by André Carregal. This version is a reimplementation
+by Fabio Mascarenhas, with aditional features. The implementations
+are not derived from licensed software.</p>
+
+<p>Copyright © 2008-2010 Fabio Mascarenhas.
+Copyright © 2007-2008 Yuri Takhteyev.</p>
+
+<hr />
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+&ldquo;Software&rdquo;), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+<p></body>
+</html></p>

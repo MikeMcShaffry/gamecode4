@@ -1,0 +1,56 @@
+if $(PLATFORM) in win32 win64  # For now
+{
+
+local SRCS =
+		call.c
+		ctype.c
+		ffi.c
+		ffi.h
+		parser.c
+;
+
+ActiveProject luaffi ;
+
+#CopyFile luaffi : $(LUA_LDIR)/alien.lua : $(SUBDIR)/src/alien.lua ;
+
+#if $(PLATFORM) = win64 {
+#	C.Defines luaffi : X86_64 ;
+#}
+
+if $(MSVCNT) {
+	C.IncludeDirectories : msvc ;
+}
+
+actions _DynAsm {
+	$(LUA_EXE:CT) $(DYNASM.LUA:C) -D $(ARCHITECTURE_DEFINE) -LN -o $(1) $(2)
+}
+
+rule DynAsm TARGET : ARCHITECTURE_DEFINE : OUTPUT_HEADER : DASC_FILE {
+	DASC_FILE = [ C.TargetGrist $(TARGET) : $(DASC_FILE) ] ;
+	SEARCH on $(DASC_FILE) = $(SEARCH_SOURCE) ;
+
+	OUTPUT_HEADER = [ C.TargetGrist $(TARGET) : $(OUTPUT_HEADER) ] ;
+
+	Depends $(OUTPUT_HEADER) : $(DASC_FILE) ;
+	MakeLocate $(OUTPUT_HEADER) : $(LOCATE_TARGET) ;
+	UseCommandLine $(OUTPUT_HEADER) : $(ARCHITECTURE_DEFINE) v2 ;
+	ForceCare $(OUTPUT_HEADER) ;
+
+	ARCHITECTURE_DEFINE on $(OUTPUT_HEADER) = $(ARCHITECTURE_DEFINE) ;
+	DYNASM.LUA on $(OUTPUT_HEADER) = $(SUBDIR)/dynasm/dynasm.lua ;
+	_DynAsm $(OUTPUT_HEADER) : $(DASC_FILE) ;
+}
+
+C.Defines : LUA_FFI_BUILD_AS_DLL ;
+
+C.IncludeDirectories : $(LOCATE_TARGET) ;
+
+if $(PLATFORM) = win32 {
+	C.LinkPrebuiltLibraries : kernel32 user32 gdi32 ;
+}
+
+Lua.CModule : ffi : $(SRCS) ;
+
+DynAsm luaffi : X32WIN : call_x86.h : call_x86.dasc ;
+
+}

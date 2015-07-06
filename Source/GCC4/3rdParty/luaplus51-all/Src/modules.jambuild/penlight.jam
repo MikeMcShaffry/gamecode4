@@ -1,0 +1,39 @@
+{
+
+local SRCS =
+		app.lua
+		array2d.lua
+		class.lua
+		classx.lua
+		comprehension.lua
+		config.lua
+		data.lua
+		dir.lua
+		file.lua
+		func.lua
+		init.lua
+		input.lua
+		lapp.lua
+		lexer.lua
+		list.lua
+		luabalanced.lua
+		operator.lua
+		path.lua
+		permute.lua
+		pretty.lua
+		seq.lua
+		sip.lua
+		strict.lua
+		stringio.lua
+		stringx.lua
+		tablex.lua
+		test.lua
+		text.lua
+		utils.lua
+;
+
+Lua.Module penlight : : lua/pl/$(SRCS) ;
+
+CopyFiles penlight : $(LUA_LDIR)/pl : $(SUBDIR)/lua/pl/$(SRCS) ;
+
+}

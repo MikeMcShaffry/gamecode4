@@ -1,0 +1,67 @@
+luajson v1.2 Release Notes
+==========================
+
+Tested LPeg versions:
+
+ * 0.9 - pass
+ * 0.8 - pass
+ * 0.7 - pass
+ * 0.6 - fail : cannot handle 'nil' returns -> tranforms into booleans
+
+Note that 0.6 passes strict mode tests and behaviors.  It just breaks
+down when decoding the plain return value `null` or `undefined` that
+would result in a `nil` return value.
+
+User Visible Changes
+--------------------
+
+setObjectKey
+~~~~~~~~~~~~
+Thanks to Alexander Gladysh, we now have the "setObjectKey"
+hook to permit more customizable behavior during object construction.
+
+There is a new 'object' option that you can set to handle custom
+key-value setting.  If you set in the configuration table
+.object.setObjectKey to a function with the signature
+`(tab, key, value)`, you will override the `rawset` style behavior.
+
+Example:
+    json.decode("{'1':true, x:true}")
+	--> { ["1"] = true, x = true }
+	function newSetObjectKey(tab, key, value)
+		local numkey = tonumber(key)
+		key = numkey or key
+		rawset(tab, key, value)
+	end
+	json.decode("{'1':true, x:true}", { object = { setObjectKey = newSetObjectKey } })
+	--> { [1] = true, x = true }
+
+require builtins update
+~~~~~~~~~~~~~~~~~~~~~~~
+Also changed is the major change to `require` as many of the default
+packages as possible to better help custom embedding scenarios where
+'default' tables such as `io` and `os` may require on-demand loading
+via `require`.
+
+Plans for next release
+----------------------
+For the next feature release, I plan on better fleshing out the enhanced
+error handling and possibly adding in the more customizable output
+system.  For previews of the features that might make it into the
+next release, please see the "next" branch.  Note that this branch
+is volatile and features may vanish rather than be reverted for cleanliness.
+
+Updates since 1.1.1
+===================
+
+Thomas Harning Jr (4):
+	all:
+		pulls in all but base/package modules via require (io,os,string,table,math)
+	decoder:
+		implements setObjectKey for LPeg < 0.9
+		Moves 'setObjectKey' from root of `options` to `options.object`
+	docs:
+		adds reference for where bug reporting should go
+Alexander Gladysh (1):
+	decoder:
+		configurable object key filter

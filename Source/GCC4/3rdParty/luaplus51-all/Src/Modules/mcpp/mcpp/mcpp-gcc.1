@@ -1,0 +1,158 @@
+.TH MCPP "1" "Mar 2008" "alternative CPP" "Commands for GCC"
+.SH NAME
+mcpp \- Matsui CPP, an alternative C preprocessor
+.SH SYNOPSIS
+mcpp [\fIoptions\fP] [\fI<infile>\fP [\fI<outfile>\fP]]
+.SH DESCRIPTION
+\fBmcpp\fR is a C/C++ preprocessor with the highest conformance which implements C90, C99 and C++98. 
+\fBmcpp\fR has plentiful diagnostics and many #pragmas. 
+It is useful to check portability of your program, and also useful to debug complicated macro.
+This is a man-page for \fBmcpp\fR of GCC-specific-build.
+.SH OPTIONS
+\fBmcpp\fR expects two file names as arguments, \fI<infile>\fR and
+\&\fI<outfile>\fR.  If not specified, \fI<infile>\fR defaults to standard input
+and \fI<outfile>\fR defaults to standard output.
+.PP
+It takes the following options.
+.PP
+Commonly used options:
+.IP \fB-@MODE
+Specify preprocessing mode. MODE should be one of these 4:
+.IP "    \fB-@std"
+Standard conforming mode. (default)
+.IP "    \fB-@poststd, -@post"
+special 'post-Standard' mode.
+.IP "    \fB-@kr"
+K&R 1st mode.
+.IP "    \fB-@oldprep, -@old"
+"old_preprocessor" mode (i.e. "Reiser model" cpp).
+.IP \fB-b
+Output #line lines in C source style (default: GCC style).
+.IP \fB-C
+Output also comments.
+.IP "\fB-D <macro>[=<value>]"
+Define <macro> as <value> (default:1).
+.IP "\fB-D <macro(args)>[=<replace>]"
+Define <macro(args)> as <replace>.
+.IP "\fB-e <encoding>"
+Change the default multi-byte character encoding to one of:
+euc_jp, gb2312, ksc5601, big5, sjis, iso2022_jp, utf8.
+.IP \fB-finput-charset=<encoding>
+Same as -e <encoding>.  (Do not insert spaces around '=').
+.IP "\fB-I <directory>"
+Add <directory> to the #include search list.
+.IP \fB-I-
+Unset system or site specific include directories.
+.IP "\fB-include <file>"
+Include the <file> prior to the main input file.
+.IP \fB-j
+Do not output the source line in diagnostics.
+.IP "\fB-M, -MM, -MD, -MMD, -MP, -MQ target, -MT target, -MF file"
+Output source file dependency line for makefile.
+.IP \fB-N
+Don't predefine any non-standard macros.
+.IP \fB-nostdinc
+Unset system or site specific include directories.
+.IP "\fB-o <file>"
+Output to <file>.
+.IP \fB-P
+Don't output #line lines.
+.IP \fB-Q
+Output diagnostics to "mcpp.err" (default:stderr).
+.IP "\fB-U <macro>"
+Undefine <macro>.
+.IP \fB-undef
+Same as -N.
+.IP \fB-v
+Show version of \fBmcpp\fR.
+.IP "\fB-W <level>"
+Set warning level to <level> (OR of {0,1,2,4,8,16}, default:1).
+.IP \fB-w
+Same as -W0.
+.IP \fB-z
+Don't output the included file, only defining macros.
+.PP
+Options available with -@std (default) or -@poststd options:
+.IP \fB-+
+Process C++ source.
+.IP \fB-2
+Enable digraphs.
+.IP \fB-digraphs
+Enable digraphs.
+.IP "\fB-h <n>"
+Re-define the pre-defined macro __STDC_HOSTED__ as <n>.
+.IP \fB-lang-c89
+Same as -S1.
+.IP \fB-lang-c++
+Same as -+.
+.IP "\fB-pedantic, -pedantic-errors"
+Same as -W7.
+.IP "\fB-S <n>"
+Redefine __STDC__ to <n>, undefine old style macros.
+.IP \fB-std=<STANDARD>
+Specify the standard to which the code should conform.
+<STANDARD> may be one of: c90, c99, iso9899:1990, iso14882, etc.
+.br
+iso9899:<n>, iso14882:<n> : Same as -V <n> (long in decimals).
+.IP "\fB-V <n>"
+Redefine __STDC_VERSION__ or __cplusplus to <n>.
+.br
+C with -V199901L specifies C99 mode.
+.br
+C++ with -V199901L specifies C99 compatible mode.
+.IP "\fB-x c++"
+Same as -+.
+.PP
+Options available with only -@std (default) option:
+.IP \fB-@compat
+Expand recursive macro more than Standard.
+.IP \fB-3
+Enable trigraphs.
+.IP \fB-trigraphs
+Enable trigraphs.
+.IP \fB-K
+Embed macro annotations into comments.
+.PP
+Options available with -@std (default), -@kr or -@oldprep options:
+.IP \fB-lang-asm
+Same as -x assembler-with-cpp.
+.IP "\fB-x assembler-with-cpp"
+Process "assembler" source.
+.PP
+Option available on Mac OS X / Apple-GCC:
+.IP "\fB-arch <arch>"
+Change the target to <arch> (one of i386, x86_64, ppc and ppc64).
+.PP
+Option available on CygWIN:
+.IP \fB-mno-cygwin
+Change include directory and predefined macros for msvcrt.dll rather than cygwin1.dll.
+.SH PRAGMA
+\fBmcpp\fR has the following #pragma directives.
+.IP "#pragma once"
+Read the header file only once even if multiply #included.
+.IP "#pragma __setlocale( ""encoding"")"
+Specify the multibyte character encoding to "encoding".
+See -e option for the encodings.
+.IP "#pragma MCPP put_defines"
+Putout all the macro definitions currently valid.
+.IP "#pragma MCPP debug <args>"
+Start to putout debugging informations.
+    <args> should be one or more of:
+    token expand macro_call path if expression memory getc
+.IP "#pragma MCPP end_debug <args>"
+Stop to putout debugging informations.
+    <args> are the same with 'debug'.
+    No argument specifies all arguments.
+.IP "#pragma MCPP push_macro( ""MACRO"")"
+Save the macro definition to the stack.
+.IP "#pragma MCPP pop_macro( ""MACRO"")"
+Retrieve the macro definition from the stack.
+.IP "#pragma MCPP preprocess"
+"Pre-preprocess" the following header files for \fBmcpp\fR.
+.IP "#pragma MCPP warning    any message"
+Putout warning "any message".
+.SH "VERSION"
+MCPP V.2.7 (2008/03) for GCC
+.SH "SEE ALSO"
+The full documentation for \fBmcpp\fR are maintained as html files.
+Please see mcpp-manual.html.

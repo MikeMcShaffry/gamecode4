@@ -1,0 +1,20 @@
+{
+
+local SRCS =
+		logging/console.lua
+		logging/email.lua
+		logging/file.lua
+		logging/logging.lua
+		logging/socket.lua
+		logging/sql.lua
+;
+
+Lua.Module lualogging : : src/$(SRCS) ;
+
+local filename ;
+for filename in $(SRCS)
+{
+	CopyFile lualogging : $(LUA_LDIR)/$(filename) : $(SUBDIR)/src/$(filename) ;
+}
+
+}

@@ -1,0 +1,52 @@
+{
+
+local SRCS =
+		precompiler.lua
+		preloader.lua
+		loop/base.lua
+		loop/cached.lua
+		loop/multiple.lua
+		loop/scoped.lua
+		loop/simple.lua
+		loop/table.lua
+		loop/collection/MapWithArrayOfKeys.lua
+		loop/collection/ObjectCache.lua
+		loop/collection/OrderedSet.lua
+		loop/collection/PriorityQueue.lua
+		loop/collection/UnorderedArray.lua
+		loop/collection/UnorderedArraySet.lua
+		loop/compiler/Arguments.lua
+		loop/compiler/Conditional.lua
+		loop/compiler/Expression.lua
+		loop/component/base.lua
+		loop/component/contained.lua
+		loop/component/dynamic.lua
+		loop/component/intercepted.lua
+		loop/component/wrapped.lua
+		loop/debug/Inspector.lua
+		loop/debug/Matcher.lua
+		loop/debug/Verbose.lua
+		loop/debug/Viewer.lua
+		loop/object/Exception.lua
+		loop/object/Publisher.lua
+		loop/object/Wrapper.lua
+		loop/serial/FileStream.lua
+		loop/serial/Serializer.lua
+		loop/serial/SocketStream.lua
+		loop/serial/StringStream.lua
+		loop/thread/CoSocket.lua
+		loop/thread/IOScheduler.lua
+		loop/thread/Scheduler.lua
+		loop/thread/SocketScheduler.lua
+		loop/thread/Timer.lua
+;
+
+Lua.Module loop : lua/$(SRCS) ;
+
+local filename ;
+for filename in $(SRCS)
+{
+	CopyFile loop : $(LUA_LDIR)/$(filename) : $(SUBDIR)/lua/$(filename) ;
+}
+
+}

@@ -1,0 +1,41 @@
+ex-20070110T1431-0700
+
+* new API for os.sleep
+
+ex-20070109T1403-0700
+
+* fixed build scripts
+
+* include Copyright notice
+
+ex-20070109
+
+API changes
+
+* os.unsetenv is now folded into os.setenv
+
+* os.rmdir is now folded into os.remove
+
+* os.dir now elides . and .. entries from the listing
+
+* lock and unlock now appear in the io table
+
+* io.lock and io.unlock return the file object in case of success
+
+POSIX implementation changes
+
+* ENVIRON_DECL should be defined to expand to extern char **environ; on systems which neglect to declare environ when including <unistd.h>
+
+* prepare for dirent metatable
+
+* ex_pipe() refactored
+
+Windows implementation changes
+
+* os.remove must be overridden
+
+* prepare for dirent metatable
+
+* simplify directory iteration by adding POSIX-like abstraction
+
+* ex_pipe() refactored

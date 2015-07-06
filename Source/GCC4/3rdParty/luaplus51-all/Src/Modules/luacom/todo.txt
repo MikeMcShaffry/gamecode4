@@ -1,0 +1,109 @@
+Projeto LuaCOM
+--------------
+
+1. BUGS urgentes
+2. TODO
+
+--------------------------------------
+1. Bugs Urgentes
+--------------------------------------
+
+
+--------------------------------------
+2. TODO
+--------------------------------------
+
+### Lista 1
+
+- Curso de LuaCOM (incluindo como descobrir as interfaces dos componentes)
+
+* Procurar implementar em Lua as novas funcionalidades do LuaCOM
+	- Fazer funcao para exportar em html a documentacao de uma type library
+	  já mostrando como aquelas coisas podem ser usadas a partir do Luacom
+	  (por exemplo, mostrando que os propputs e propgets parametrizados devem
+	  ser usados como funcoes)
+
+* Implementar geração automática de IDL a partir de uma descrição de
+  interfaces estruturada em Lua
+
+- Permitir customizar a conversão de tipos Lua -> COM, seja 
+  via "type casts", seja via tag method de type conversion
+  - Incluindo conversão automática de objetos Lua em objetos
+    COM via tabela tag-typeinfo
+  - Permitir para que tipo o luacom deve converter um objeto Lua
+    (override do FUNCDESC)
+
+- Permitir acessar documentacao a partir de www.tecgraf.puc-rio.br/luacom
+
+- Implementar conversão de um objeto COM em uma tabela Lua, caso
+  o objeto COM resida no mesmo processo, thread e estado Lua
+
+* Permitir a criação de type libraries usando o LuaCOM
+
+* Permitir a implementação de servidores in process
+
+- BUG: talvez o vbscript nao aceite SAFEARRAYS in-out por causa do LuaCOM criar
+  sempre zero-based arrays
+
+
+#### Lista 2
+
+- Testar LuaCOM com free-threaded
+
+- Resolver problema da ordem com que lua_close e OleUninitialize são chamados
+  - Liberar tudo no luacom_close
+
+- Melhorar performance 
+  - diminuir alocação dinâmica de memória - FUNCDESC's, strings etc
+  - Fazer cache de FUNCDESCs, resolvendo o problema dos objetos criados e destruídos implicitamente
+  - Melhorar tratamento de SAFEARRAYs (trocar Get e Put element, são muito lentos)
+
+- Implementar o UnRegister, para facilitar testes sem deixar
+  lixo no Registry
+
+- Fazer teste de cobertura (cuidado especial com os objetos sem typeinfo)  
+
+- Testar string2safearray, omissão de argumentos, funções com parâmetros de
+  saída mas sem return value, testar com parâmetros com valor default, testar
+  passar array com tipo errado para VB (número de um tipo ao invés de outro),
+
+- Colocar um meio de especificar/retornar DATE/TIME com tabelas
+
+- Permitir que eventos gerados no LuaCOM possam utilizar parâmetros
+  de saída quando houver apenas um connection point
+
+- Tirar arquivos intermediarios do CVS
+
+- Colocar todos os exemplos da documentacao na arvore, para
+  evitar furos (compilá-los)
+
+
+##### Lista 3
+
+- Permitir uso de objetos implementados em LuaCOM através de
+  páginas HTML com VBScript (tem que permitir algum tipo de
+  persistência -- talvez permitir mais de um getObject de
+  cada vez)
+
+- proput parametrizado: não é suportado fazer um propput parametrizado via
+  tLuaDispatch em um campo que não seja tabela (por exemplo, um userdata).
+
+- Implementar um controle OLE genérico baseado em NativeCanvas
+
+- Testar implementacao de objeto COM usando userdatas
+  * Acho que já funciona (tolua)
+
+- Permitir mais de um connection point
+
+- Implementação de passagem/recebimento de parâmetros vararg
+  * Parece pouco importante
+ 
+- Testar uso do LuaCOM com múltiplos estados Lua
+
+- Permitir que aplicação cliente obtenha o ponteiro IDispatch de um objeto
+  LuaCOM
+
+- Acertar property get e put em tLuaDispatch, especialmente no caso dos
+  indexados        
+
+- remover lua_ref

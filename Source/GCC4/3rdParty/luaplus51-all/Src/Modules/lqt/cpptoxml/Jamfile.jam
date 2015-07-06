@@ -1,0 +1,33 @@
+IncludeModule c/qt ;
+
+SubDir LUAPLUS Src Modules lqt cpptoxml ;
+
+C.IncludeDirectories cpptoxml : parser parser/rpp ;
+C.Defines cpptoxml : RXX_ALLOCATOR_INIT_0 QT_STL ;
+
+local SRCS =
+		main.cpp
+		parser/ast.cpp
+		parser/binder.cpp
+		parser/class_compiler.cpp
+		parser/codemodel.cpp
+		parser/codemodel_finder.cpp
+		parser/compiler_utils.cpp
+		parser/control.cpp
+		parser/declarator_compiler.cpp
+		parser/default_visitor.cpp
+		parser/dumptree.cpp
+		parser/lexer.cpp
+		parser/list.cpp
+		parser/name_compiler.cpp
+		parser/parser.cpp
+		parser/smallobject.cpp
+		parser/tokens.cpp
+		parser/type_compiler.cpp
+		parser/visitor.cpp
+		parser/rpp/preprocessor.cpp
+;
+
+C.UseQt cpptoxml : core : link ;
+CPPTOXML_EXE = [ C.Application cpptoxml : $(SRCS) ] ;
+

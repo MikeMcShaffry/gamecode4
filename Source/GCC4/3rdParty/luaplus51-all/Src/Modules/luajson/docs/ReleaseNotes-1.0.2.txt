@@ -1,0 +1,46 @@
+luajson v1.0.2 Release Notes
+============================
+
+User Visible Changes
+--------------------
+In Windows, Lua's tostring and tonumber handling occur differently for
+the boundary cases of NaN, Infinity, and -Infinity values.  This broke
+Windows encoding/decoding of JSON for which these values are present.
+
+Example input/outputs:
+
+Windows:
+
+ * tonumber("Infinity") == nil
+ * tostring(1/0) == "1.#INF"
+ * tostring(0/0) == "-1.#IND"
+
+Linux:
+
+ * tonumber("Infinity") == inf
+ * tostring(1/0) == "inf"
+ * tostring(0/0) == "nan"
+
+The code that decoded was changed to report the output manually on decode
+rather than decode 'generically' using 'tonumber'.
+
+The code that encoded was changed to use numerical equivalence checking
+before returning what 'tostring' would have, which should catch nearly
+all cases.
+
+Checks were updated to do:
+
+ * nan  =>  value ~= value
+ * inf  =>  value == math.huge
+ * -inf =>  value == -math.huge
+
+Plans for next release
+----------------------
+Bugfixes only in the 1.0.x series.
+
+Updates since 1.0.1
+===================
+
+Thomas Harning Jr (2):
+	decoder/encoder:
+		better handles number encoding/decoding for cases where tonumber/tostring don't work as expected

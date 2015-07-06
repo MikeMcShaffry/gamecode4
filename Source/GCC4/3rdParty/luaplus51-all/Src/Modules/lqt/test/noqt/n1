@@ -1,0 +1,18 @@
+#ifndef N1_H
+#define N1_H
+
+namespace n1
+{
+	class F {
+	public: 
+		F() {};
+		int foo() { return 1; }
+	};
+}
+
+
+
+
+#endif
+
+

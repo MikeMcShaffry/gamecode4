@@ -1,0 +1,11 @@
+bcc*
+vc*
+gcc*
+wat*
+*.vcproj
+*.user
+*.ncb
+*.suo
+*.opt
+*.obj
+*.plg

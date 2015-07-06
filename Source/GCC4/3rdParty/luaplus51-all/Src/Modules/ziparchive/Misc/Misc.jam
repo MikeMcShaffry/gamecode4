@@ -1,0 +1,104 @@
+SubDir LUAPLUS Src Modules vdrive Misc ;
+
+{
+
+local PCH_SRCS =
+		AnsiString.cpp
+		AnsiString.h
+		Array.h
+		DiskFile.cpp
+		DiskFile.h
+		File.h
+		FixedSizeAllocator.h
+		HeapAllocator.h
+		HeapString.cpp
+		HeapString.h
+		List.h
+		Map.h
+		MemFile.cpp
+		MemFile.h
+		Misc.cpp
+		Misc.h
+		Misc_InternalPch.h
+		OwnedPtr.h
+		TypeTraits.h
+;
+
+local AES_SRCS =
+		aes/aes.h
+		aes/aescrypt.c
+		aes/aeskey.c
+		aes/aesopt.h
+		aes/aestab.c
+		aes/fileenc.c
+		aes/fileenc.h
+		aes/hmac.c
+		aes/hmac.h
+		aes/prng.c
+		aes/prng.h
+		aes/pwd2key.c
+		aes/pwd2key.h
+		aes/sha1.c
+		aes/sha1.h
+		aes/sha2.c
+		aes/sha2.h
+;
+
+local MD5_SRCS =
+		md5/md5.h
+		md5/md5c.c
+		md5/md5global.h
+;
+
+local TRIO_SRCS =
+		trio/trio.c
+		trio/trio.h
+		trio/triodef.h
+		trio/trionan.c
+		trio/trionan.h
+		trio/triop.h
+		trio/triostr.c
+		trio/triostr.h
+;
+
+local ZLIB_SRCS =
+		../../zlib/adler32.c
+		../../zlib/compress.c
+		../../zlib/crc32.c
+		../../zlib/crc32.h
+		../../zlib/deflate.c
+		../../zlib/deflate.h
+		../../zlib/infback.c
+		../../zlib/inffast.c
+		../../zlib/inffast.h
+		../../zlib/inffixed.h
+		../../zlib/inflate.c
+		../../zlib/inflate.h
+		../../zlib/inftrees.c
+		../../zlib/inftrees.h
+		../../zlib/trees.c
+		../../zlib/trees.h
+		../../zlib/uncompr.c
+		../../zlib/zconf.h
+		../../zlib/zlib.h
+		../../zlib/zutil.c
+		../../zlib/zutil.h
+;
+
+local SRCS =
+		$(PCH_SRCS)
+		$(AES_SRCS)
+		$(MD5_SRCS)
+		$(TRIO_SRCS)
+		$(ZLIB_SRCS)
+;
+
+SourceGroup Misc : aes : $(AES_SRCS) ;
+SourceGroup Misc : md5 : $(MD5_SRCS) ;
+SourceGroup Misc : trio : $(TRIO_SRCS) ;
+SourceGroup Misc : zlib : $(ZLIB_SRCS) ;
+
+C.IncludeDirectories Misc : . ../../zlib ;
+C.Library Misc : Misc_InternalPch.cpp $(SRCS) ;
+
+}

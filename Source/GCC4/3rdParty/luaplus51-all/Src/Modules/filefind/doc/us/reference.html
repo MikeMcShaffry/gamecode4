@@ -1,0 +1,95 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>filefind</title>
+    <link rel="stylesheet" href="doc.css" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div id="container">
+
+<div id="product">
+
+	<div id="product_name"><big><strong>filefind</strong></big></div>
+	<div id="product_description">Directory iteration and file globs</div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+<h1>filefind</h1>
+	<ul>
+		<li><a href="index.html">Home</a>
+			<ul>
+                            
+			</ul>
+		</li>
+		<li><strong>Reference</strong>
+			<ul>
+                            
+			</ul>
+		</li>
+		<li><a href="license.html">License</a>
+			<ul>
+                            
+			</ul>
+		</li>
+
+	</ul>
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+
+<h2>Reference Manual</h2>
+
+<p>This is a reference of all of the filefind module's methods.</p>
+
+<h2>Module <code>filefind</code></h2>
+
+<p><strong>for entry in filefind.match(<em>pattern</em>) do</strong> - Begins a new iteration of files and directories using <em>pattern</em> as the wildcard.  Simple access to the file system is used.  The more powerful file globbing facilities are not available.</p>
+
+<p><strong>for entry in filefind.glob(<em>pattern</em>) do</strong> - Begins a new iteration of files and/or directories using <em>pattern</em> as the glob wildcard.  All glob syntax, described elsewhere, is available.</p>
+
+<h3>File entry information</h3>
+
+<p><strong>entry.filename</strong> - string - The relative path from the <em>filefind.match()</em> starting directory.</p>
+
+<p><strong>entry.creation_time</strong> - number - The creation time of the file/directory in seconds starting from midnight (00:00:00), January 1, 1970.</p>
+
+<p><strong>entry.access_time</strong> - number - The last access time of the file/directory in seconds starting from midnight (00:00:00), January 1, 1970.</p>
+
+<p><strong>entry.write_time</strong> - number - The last write time of the file/directory in seconds starting from midnight (00:00:00), January 1, 1970.</p>
+
+<p><strong>entry.creation_FILETIME</strong> - table - The creation time of the file/directory in FILETIME format starting from midnight (00:00:00), January 1, 1970.  Element 1 of the table is the low file time.  Element 2 is the high file time.</p>
+
+<p><strong>entry.access_FILETIME</strong> - table - The last access time of the file/directory in FILETIME format starting from midnight (00:00:00), January 1, 1970.  Element 1 of the table is the low file time.  Element 2 is the high file time.</p>
+
+<p><strong>entry.write_FILETIME</strong> - table - The last write time of the file/directory in FILETIME format starting from midnight (00:00:00), January 1, 1970.  Element 1 of the table is the low file time.  Element 2 is the high file time.</p>
+
+<p><strong>entry.size</strong> - number - The size of the file.</p>
+
+<p><strong>entry.is_directory</strong> - boolean - <tt>true</tt> if the glob entry is a directory, <tt>false</tt> otherwise.</p>
+
+<p><strong>entry.is_readonly</strong> - boolean - <tt>true</tt> if the glob entry is read only, <tt>false</tt> otherwise.</p>
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML 1.0!</a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+
+</body>
+</html>
+

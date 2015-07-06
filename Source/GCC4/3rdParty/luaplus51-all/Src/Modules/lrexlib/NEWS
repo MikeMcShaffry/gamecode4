@@ -1,0 +1,146 @@
+2010-12-15  Release 2.5.3
+
+  * Bug fix to rex.split.
+  * Support for new flags in PCRE 8.11.
+
+2010-11-10  Release 2.5.2
+
+  * Important bug fix (thanks to Enrico Tassi for the report)
+    affecting platforms with certain alignment requirements.
+  * Improved build system for Windows.
+  * Minor improvements to the manual.
+
+2010-10-04  Release 2.5.1
+
+  * Minor improvements and fixes, no changes to library code.
+
+
+2010-10-03  Release 2.5.0
+
+  * Added bindings of the TRE and GNU regex APIs.
+
+  * Improved and simplified the build system.
+
+
+2008-08-04  Release 2.4.0
+
+  * All functions receiving string-type regex accept a compiled regex too.
+
+  * Added binding of the Oniguruma library.
+
+
+2008-05-31  Release 2.3.0
+
+  * Added methods: find and match.
+
+
+2007-12-29  Release 2.2.2
+
+  * Makefiles fixed.
+
+
+2007-10-25  Release 2.2.1
+
+  * Added new PCRE constants up to version 7.4.
+
+  * 1 bugfix.
+
+
+2007-06-19  Release 2.2.0
+
+  * gsub API extension: allow the 4-th argument to be a function.
+
+  * Added functions: maketables (PCRE).
+
+  * Improved algorithm for global searches (PCRE; retry after empty match).
+
+  * cflags may be specified by a string (PCRE).
+
+  * Bugfixes.
+
+
+2007-02-13  Release 2.1.0
+
+  * Improved error handling.
+
+  * A minor change in API.
+
+
+2007-01-30  Release 2.0.2
+
+  * 3 bugfixes.
+
+  * Corrections in the Reference Manual.
+
+
+2007-01-12  Release 2.0.1
+
+  * Bugfix in memory deallocation.
+
+
+2007-01-05  Release 2.0
+
+  * Added functions: match, find, gmatch, gsub, split, config, plainfind.
+
+  * Added methods: dfa_exec.
+
+  * Removed methods: gmatch.
+
+  * Renamed functions:
+      newPCRE, newPOSIX     --> new.
+      flagsPCRE, flagsPOSIX --> flags.
+      versionPCRE           --> version.
+
+  * Renamed methods: match --> tfind.
+
+  * Added test suite.
+
+  * Added reference manual.
+
+
+2004-12-19  Release 1.19
+
+  * Added support for PCRE "named subpatterns" (thanks to Nick Gammon).
+
+  * Several minor improvements.
+
+
+2004-08-25  Release 1.18
+
+  * New lua function 'r:exec'.
+
+  * New lua function 'r:__tostring'.
+
+  * A table returned by r:match() as its 3rd result has no "n" index
+    set anymore. Use table.getn instead.
+
+  * Fixed the bug preventing compilation with the "basic" POSIX
+    regexp library.
+
+  * Makefile improved.
+
+  * Added file gsub.lua containing function 'generic_gsub'.
+
+
+2004-07-16  Release 17
+  
+  * New lua functions 'flagsPOSIX', 'flagsPCRE', 'versionPCRE'.
+  
+  * Lua functions 'newPCRE' and 'newPOSIX' accept an optional
+    2nd argument ("compilation flags").
+  
+  * Lua function 'newPCRE' accepts an optional 3rd argument
+    ("locale").
+  
+  * Lua function 'r:match' accepts optional 2nd and 3rd
+    arguments ("startoffset" and "execution flags").
+  
+  * Lua function 'r:gmatch' accepts an optional 2nd argument
+    ("execution flags").
+  
+  * If a user-defined function passed to r:gmatch() as its
+    2nd parameter returns true value, then r:gmatch() returns.
+  
+  * The table of substring matches contains false in the positions
+    correspondent to non-matched subpatterns.
+

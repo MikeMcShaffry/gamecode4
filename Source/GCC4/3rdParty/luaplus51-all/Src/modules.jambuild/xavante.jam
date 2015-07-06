@@ -1,0 +1,30 @@
+{
+
+local SAJAX_LUAS =
+		src/sajax/sajax.lua
+;
+
+local ROOT_LUAS =
+		src/xavante/xavante.lua
+;
+
+local XAVANTE_LUAS =
+		src/xavante/cgiluahandler.lua
+		src/xavante/encoding.lua
+		src/xavante/filehandler.lua
+		src/xavante/httpd.lua
+		src/xavante/mime.lua
+		src/xavante/patternhandler.lua
+		src/xavante/redirecthandler.lua
+		src/xavante/vhostshandler.lua
+		src/xavante/indexhandler.lua
+		src/xavante/urlhandler.lua
+		src/xavante/ruleshandler.lua
+;
+
+Lua.Module xavante : : $(SAJAX_LUAS) $(ROOT_LUAS) $(XAVANTE_LUAS) ;
+
+CopyFiles xavante : $(LUA_LDIR) : $(SUBDIR)/$(ROOT_LUAS) $(SUBDIR)/$(SAJAX_LUAS) ;
+CopyFiles xavante : $(LUA_LDIR)/xavante : $(SUBDIR)/$(XAVANTE_LUAS) ;
+
+}

@@ -1,0 +1,18 @@
+package nested2.test;
+
+message Outer2 {
+	optional int32 outer2_val = 1;
+	message Mid3 {
+		optional int32 outer2_mid3_val = 1;
+		message Inner3 {
+			optional int32 outer2_mid3_inner3_val = 1;
+		}
+	}
+	message Mid4 {
+		optional int32 outer2_mid4_val = 1;
+		message Inner4 {
+			optional int32 outer2_mid4_inner4_val = 1;
+		}
+	}
+}
+
