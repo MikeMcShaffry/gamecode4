@@ -1,0 +1,13 @@
+# Generated file
+ALL_LOCATE_TARGET = "C:/Users/Mr.Mike/Projects_SVN/GameCode4/Dev/Source/GCC4/3rdParty/luaplus51-all/build2008/$(PLATFORM)-$(CONFIG)" ;
+
+DEPCACHE.standard = "$(ALL_LOCATE_TARGET)/.depcache" ;
+DEPCACHE = standard ;
+
+NoCare "C:/Users/Mr.Mike/Projects_SVN/GameCode4/Dev/Source/GCC4/3rdParty/luaplus51-all/build2008/customsettings.jam" ;
+include "C:/Users/Mr.Mike/Projects_SVN/GameCode4/Dev/Source/GCC4/3rdParty/luaplus51-all/build2008/customsettings.jam" ;
+
+LUAPLUS_OUTPUT_DIRECTORY = "C:/Users/Mr.Mike/Projects_SVN/GameCode4/Dev/Source/GCC4/3rdParty/luaplus51-all/build2008//bin.$(COMPILER.$(PLATFORM)).$(PLATFORM)" ;
+
+AppRoot = "C:/Users/Mr.Mike/Projects_SVN/GameCode4/Dev/Source/GCC4/3rdParty/luaplus51-all/" ;
+SubInclude AppRoot : Jamfile.jam ;

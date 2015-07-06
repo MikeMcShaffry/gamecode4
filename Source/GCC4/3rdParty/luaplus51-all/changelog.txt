@@ -1,0 +1,44 @@
+* 3/16/07: New Binaries.
+* 3/16/07: ManagedLuaPlus works again, and there is an example of a .config file in the Samples/ManagedLuaPlusTest/bin/debug/ directory.  I swear I used to be able to use .. relative paths, but I can't seem to get them working anymore.
+* 3/16/07: Updated to LuaInterface 1.5.3.  I still need to copy in the docs and other goodies.
+* 3/7/07: Update UnitTest++ to the latest.
+* 3/7/07: Fix a LuaState creation bug now that luai_userstateopen() is in use.
+* 3/7/07: Make LuaPlusLib VS2003 project work.
+* 3/7/07: Bug fixes in lwstrlib.c.
+* 3/5/07: Test Suite works.
+* 3/5/07: Make TestScript samples work.
+* 3/5/07: Namespacing macros and break down of code.
+* 3/5/07: TestLuaPlusLib works.
+* 11/24/06: First attempt to get Remote Lua Debugger going again.
+* 11/24/06: vdrive fixes.
+* 11/06/06: Latest LuaPlus stuff.
+* 10/13/06: Latest sqlite3.
+* 10/13/06: vdrive update.
+* 9/26/06: Initial upgrade to luasocket 2.0.1.
+* 9/23/06: Wide string fix.
+* 9/22/06: Add all patches for Lua 5.1.1.
+* 9/22/06: New binaries.
+* 9/22/06: Hooked up endian generator to lua_dump.  Not fully tested but based on the same code as LuaPlus for Lua 5.0.
+* 9/22/06: print() and tostring() handle wide character strings.
+* 9/22/06: towstring() added.
+* 9/22/06: Can dump wide strings in a binary chunk.
+* 9/22/06: Can read wide strings from a binary chunk.
+* 7/21/06: Coroutine fixes.
+* 6/29/06: Attempt to add lundump swapping code, but untested at the moment and the wide string read is not filled in.
+* 6/29/06: FileFind module had some handle closing bugs.
+* 6/29/06: vdrive module's Pack() had some bugs.
+* 6/13/06: Give support for loading .dlld modules.
+* 6/13/06: Fix memory leaks in FileFind, vdrive, and sqlite3.
+* 6/8/06: More Xcode projects for UnitTest++ and Lua.  Xcode project for the TestSuite.
+* 6/8/06: Upgrade to Lua 5.1.1rc4
+* 6/8/06: Bring the sqlite module online.
+* 6/8/06: Fix the filefind, glob, and vdrive modules.
+* 6/8/06: Userdata environment was not being applied through LuaObjects.
+* 6/8/06: Xcode projects added.
+* 4/6/06: wxLua fixes.
+* 4/6/06: Fix LuaObject::GetCount().
+* 4/5/06: More tests.
+* 4/5/06: Wide string concatenation works.
+* 3/30/06: Got rid of the old unit test harness and replaced with UnitTest++.
+* 3/30/06: Started adding more tests to the TestSuite to determine where the problems are in LuaPlus for Lua 5.1.
+* 3/30/06: Delete old 1084 libs.

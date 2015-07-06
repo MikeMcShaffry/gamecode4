@@ -1,0 +1,85 @@
+SubDir LUAPLUS ;
+
+C.Defines * : LUA_WIDESTRING=1 LUA_WIDESTRING_FILE=1 ;
+
+Workspace LuaPlus :
+		lua
+		luac
+		LuaPlusStatic
+;
+
+SubIncludeRelative Src LuaPlus SharedLib : LuaPlusSharedLib ;
+SubIncludeRelative Src LuaPlus StaticLib : LuaPlusStaticLib ;
+SubIncludeRelative Tools Lua Lua ;
+SubIncludeRelative Tools Lua LuaC ;
+
+if $(OS) = NT
+{
+	SubInclude LUAPLUS Src ManagedLuaPlus : ManagedLuaPlus ;
+#	SubInclude LUAPLUS Src ManagedLuaPlus : LuaPlusClrPure ;
+	SubInclude LUAPLUS Src Lua51Proxy : Lua51Proxy ;
+	SubInclude LUAPLUS Tools LuaPlusDebuggerAddin ;
+
+# Do not do this anymore.
+#	if $(COMPILER.$(PLATFORM)) != vc6 {
+#		SubInclude LUAPLUS Tools RemoteLuaDebugger : RemoteLuaDebugger ;
+#	}
+
+	Workspace LuaPlus :
+#			LuaPlusClrPure
+			LuaPlusDebuggerAddin
+			LuaPlusDebuggerControls
+			ManagedLuaPlus
+			RemoteLuaDebugger
+	;
+}
+
+{
+	local modules ;
+	local modulefiles ;
+	local dir ;
+	for dir in [ Glob $(LUAPLUS)/Src/Modules : * : 0 ] {
+		local module = [ Match (.+)/ : $(dir) ] ;
+		if $(module) {
+			local file = [ Glob $(LUAPLUS)/Src/Modules/$(module) : $(module).jam : 0 ] ;
+			if $(file) {
+				modules += $(module:L) ;
+				modulefiles += $(module)=$(module).jam ;
+			} else {
+				file = [ Glob $(LUAPLUS)/Src/Modules/$(module) : Jamfile.jam : 0 ] ;
+				if $(file) {
+					modules += $(module:L) ;
+					modulefiles += $(module)=Jamfile.jam ;
+				}
+			}
+		}
+	}
+
+	local file ;
+	for file in [ Glob $(LUAPLUS)/Src/modules.jambuild : *.jam : 0 ] {
+		local isDownload = [ Match \!(download)\.jam : $(file) ] ;
+		if $(isDownload) = download {
+			local module = [ Match (.+)\!download\.jam : $(file) ] ;
+			SUBDIR = $(LUAPLUS)/Src/Modules/$(module) ;
+			include $(LUAPLUS)/Src/modules.jambuild/$(file) ;
+			continue ;
+		}
+		local module = [ Match (.+)\.jam : $(file) ] ;
+		if ! ( $(module) in $(modules) ) {
+			modules += $(module:L) ;
+			modulefiles += $(module)=../../modules.jambuild/$(module).jam ;
+		}
+	}
+
+	local moduleinfo ;
+	for moduleinfo in $(modulefiles) {
+		local parts = [ Split $(moduleinfo) : \= ] ;
+		if [ Glob $(LUAPLUS)/Src/Modules : $(parts[1])/ : 1 ] {
+			SubInclude LUAPLUS Src Modules $(parts[1]) : $(parts[2]) ;
+		} else {
+			Echo * Not building $(parts[1]), because its source files do not exist. ;
+		}
+	}
+}
+
+

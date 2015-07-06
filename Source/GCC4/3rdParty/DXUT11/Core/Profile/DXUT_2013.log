@@ -1,0 +1,25 @@
+﻿Build started 7/5/2015 2:05:44 PM.
+     1>Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\DXUT11\Core\DXUT_2013.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\..\\Core /I..\..\\Optional /Zi /nologo /W4 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D PROFILE /D _WINDOWS /D _LIB /D D3DXFX_LARGEADDRESS_HANDLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /openmp- /Fo"Profile\\" /Fd"D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\DXUT11\Core\Profile\DXUT.pdb" /Gd /TP /analyze- /errorReport:prompt  DXUT.cpp DXUTDevice11.cpp DXUTDevice9.cpp DXUTmisc.cpp
+         DXUT.cpp
+     1>DXUT.cpp(1872): warning C4996: 'GetVersionExW': was declared deprecated
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(442) : see declaration of 'GetVersionExW'
+     1>DXUT.cpp(4247): warning C4996: 'GetVersionExW': was declared deprecated
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(442) : see declaration of 'GetVersionExW'
+         DXUTDevice11.cpp
+         DXUTDevice9.cpp
+         DXUTmisc.cpp
+     1>DXUTmisc.cpp(1117): warning C4996: 'GetVersionExA': was declared deprecated
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\sysinfoapi.h(433) : see declaration of 'GetVersionExA'
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\DXUT11\Core\Profile\DXUT.lib" /NOLOGO /LTCG Profile\DXUT.obj
+         Profile\DXUTDevice11.obj
+         Profile\DXUTDevice9.obj
+         Profile\DXUTmisc.obj
+         DXUT_2013.vcxproj -> D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\DXUT11\Core\Profile\DXUT.lib
+     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\GCC4\3rdParty\DXUT11\Core\DXUT_2013.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.41

@@ -1,0 +1,656 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Changes in LuaState 5</title>
+<style>
+<!--
+h2           { font-style: italic }
+h4           { code }
+pre          { margin-left: 16 }
+-->
+</style>
+</head>
+
+<body>
+
+<h2 align="center">LuaPlus for Lua 5.02 Distribution</h2>
+
+<h3 align="center">C++ Enhancements to Core Lua Functionality</h3>
+<p align="center">
+<a href="http://workspacewhiz.com/Other/LuaState/LuaState.html">
+http://wwhiz.com/LuaPlus/index.html</a></p>
+<p align="center">Author: Joshua Jensen (<a href="mailto:jjensen@workspacewhiz.com">jjensen@workspacewhiz.com</a>)</p>
+
+<h2>Build 1082 (3/16/04)</h2>
+<ul>
+	<li>LuaPlus Global:<ul>
+		<li>Core Lua upgraded to Lua 5.0.2 .</li>
+	</ul>
+	</li>
+	<li>LuaPlus Call Dispatcher:<ul>
+	<li>A bug in GetObjectUserData() could cause issues when a metatable __index 
+	is specified.&nbsp; Instead of calling lua_gettable(), it now calls 
+	lua_rawget().</li>
+	<li>Support for automatic properties (by overriding the metatable's __index 
+	and __newindex functions) added.&nbsp; That is, by calling:<br>
+	<br>
+	LPCD::PropertyCreate(metaTableObj, &quot;var2&quot;, &amp;MyPropertyTest::m_var2);<br>
+	<br>
+	you can access m_var2 directly like:<br>
+	<br>
+	table1.var2 = 20<br>
+	print(table1.var2)<br>
+	<br>
+	See Samples/TestScript/TestScript.cpp's PropertyTest() for more information.</li>
+	<li>lpcd_pushmemberpropertygetclosure(), lpcd_pushmemberpropertysetclosure(), 
+	lpcd_pushglobalpropertygetclosure(), and lpcd_pushglobalpropertysetclosure() 
+	added.</li>
+	<li>LPCD::PropertyCreate() added.</li>
+	<li>LPCD::MetaTable_IntegratePropertySupport() added.</li>
+	<li>LPCD::Register_MemberPropertyGetFunction() and 
+	LPCD::Register_MemberPropertySetFunction() added.</li>
+	<li>LPCD::Register_GlobalPropertyGetFunction() and 
+	LPCD::Register_GlobalPropertySetFunction() added.</li>
+</ul>
+	</li>
+</ul>
+
+<h2>Build 1081 (3/4/04)</h2>
+<ul>
+	<li>LuaPlus Global:<ul>
+		<li>Corrects another couple bugs due to adding support for bitwise 
+		operators in the last build.</li>
+		<li>If a lookup is attempted on a value that is not a table (or for 
+		other failing operators), a LuaPlus::LuaException is thrown.</li>
+		<li>When LUA_REFCOUNT is on, building the default meta tables at state 
+		startup would fail.&nbsp; Fixed.</li>
+		<li>When LUA_REFCOUNT is in use, wide character strings would cause 
+		crashes.&nbsp; Fixed.</li>
+	</ul>
+	</li>
+	<li>LuaObject:<ul>
+		<li>IsConvertibleToNumber() and IsConvertibleToInteger() were broken.&nbsp; 
+		Fixed.</li>
+	</ul>
+	</li>
+	<li>ManagedLuaPlus:<ul>
+		<li>Iterator support for tables through LuaTableIterator.<br>
+		<br>
+		for (LuaTableIterator it = new LuaTableIterator(theObject); it.IsValid(); 
+		++it)<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; // Reference through it.GetKey() and it.GetValue().<br>
+		}</li>
+		<li>foreach support for tables using LuaNode (see ManagedLuaPlusTest/Class1.cs 
+		for an example).<br>
+		<br>
+		foreach (LuaNode node in theObject)<br>
+		{<br>
+&nbsp;&nbsp;&nbsp; // Reference through node.Key and node.Value.<br>
+		}<br>
+&nbsp;</li>
+		<li>If a lookup is attempted on a value that is not a table (or for 
+		other failing operators), a ManagedLuaPlus::LuaException is thrown.</li>
+	</ul>
+	</li>
+</ul>
+<h2>Build 1080a (3/1/04)</h2>
+<ul>
+  <li>Build 1080a was released 3/1/04 with some bugs and missing files.</li>
+	<li>Build 1080 was released 2/28/04 with some bugs and missing files.</li>
+	<li><i><b>Please note: This build of LuaPlus contains significant changes from 
+	previous builds in order to support some powerful new features.&nbsp; Move 
+	forward with caution.</b></i></li>
+	<li>LuaPlus Global:<ul>
+  <li>All wide character strings represented as lua_WChar instead of wchar_t.</li>
+	<li>Upgraded to Lua 5.0.1.</li>
+	<li>All LCD functionality moved to standalone LuaPlusLCD.h.</li>
+	<li>LuaFunctorList removed since functor types are better fits now.</li>
+	<li>Support for Pocket PC.&nbsp; In particular ARMV4 and the emulator has 
+	been tested.</li>
+	<li>The lexer understands both single byte and double byte streams.</li>
+	<li>Better cross platform support thanks to Brian Sharon and Philip Jones.</li>
+	<li>DLL and library binaries renamed to include an _1080 (the build number) 
+	at the end of the file name.</li>
+	<li>The garbage collection was broken for LUA_TTHREAD.&nbsp; Fixed.</li>
+	<li>Lots of code cleanups for better portability.</li>
+</ul>
+
+	</li>
+	<li>LuaObject:<ul>
+		<li>Compile time assertions in place to ensure LuaObject's size matches 
+	lua_TObject.</li>
+		<li>IsInteger() function added.&nbsp; Tests whether the type of the 
+	LuaObject is an integer.</li>
+		<li>IsConvertibleToInteger() function added.</li>
+		<li>ToInteger() function added.</li>
+		<li>Clone() function copies metatables now.</li>
+		<li>Due to vararg functions not accepting POD data types, PCall() has been 
+	removed.&nbsp; It has numerous issues that are not fixable, especially on 
+	conforming C++ compilers.</li>
+		<li>SetInteger() functions added, mirroring the other Set*() functions.</li>
+		<li>AssignInteger() function added, mirroring the other Assign*() functions.</li>
+		<li>All Register() functions accept upvalues now.</li>
+		<li>The Register() functions for LuaFunctorLists have been removed.</li>
+		<li>RegisterEx() renamed to RegisterObjectDirect() to accommodate the 
+		addition of other Register*() functions.</li>
+		<li>RegisterDirect() functions added.</li>
+		<li>RegisterObjectFunctor() function added.</li>
+		<li>LuaFunction&lt;&gt; (using the default void parameter) has been changed to 
+		LuaFunctionVoid.&nbsp; Certain older compilers can't accept template 
+		arguments of void.&nbsp; All other return argument types for LuaFunction&lt;T&gt; 
+		work fine.</li>
+		<li>The operator() has been removed due to compiler incompatibilities.&nbsp; 
+		Instead, get access to the same functionality like this:<br>
+		<br>
+		LuaCall call = theLuaObject;<br>
+		call &lt;&lt; 5 &lt;&lt; LuaRun();</li>
+		<li>Additional types to LuaCall can be added through global functions in 
+		the form:<br>
+		<br>
+		LuaCall&amp; operator&lt;&lt;(LuaCall&amp; call, float value);</li>
+		<li>SetInteger() functions added.</li>
+		<li>AssignInteger() function added.</li>
+		<li>DoWString(), LoadWBuffer(), and DoWBuffer() added for the wide 
+		string equivalents of the non 'W' functions.</li>
+	</ul></li>
+	<li>LuaStackObject:<ul>
+		<li>Added IsInteger(), GetInteger(), and SetInteger().</li>
+		<li>Added another overload of SetLightUserData().</li>
+		<li>Register() functions removed.&nbsp; Use the PushCClosure variants.</li>
+		<li>Due to vararg functions not accepting POD data types, PCall() has been 
+	removed.&nbsp; It has numerous issues that are not fixable, especially on 
+	conforming C++ compilers.</li>
+	</ul></li>
+	<li>LuaState:<ul>
+		<li>PushInteger() added.</li>
+		<li>DoWString(), LoadWBuffer(), and DoWBuffer() added.&nbsp; Works with 
+		a wide character input buffer.</li>
+	</ul>
+	<p></li>
+	<li>Remote Lua Debugger:<ul>
+		<li>The remote debugger has an Output bar for output strings.&nbsp; 
+		Thanks to Evan Wies.</li>
+		<li>The remote debugger also has a Command bar to execute code in.&nbsp; 
+		Thanks go to Evan Wies.</li>
+		<li>Crash bug fixed.</li>
+		<li>Wide character string support implemented.</li>
+		<li>Preliminary support for multiple Lua states, although not working.</li>
+		<li>Upgraded to latest Scintilla viewer/editor.</li>
+	</ul></li>
+	<li>LuaNetworkServer:<ul>
+  <li>Standalone and portable.</li>
+</ul></li>
+	<li>Modules:<ul>
+		<li>dotnetinterface added.</li>
+	</ul></li>
+	<li>Lua:<ul>
+		<li>Hex numbers understood in the form of 0x12345678.</li>
+		<li>Integers:<ul>
+			<li>Operators for bitwise and (&amp;), bitwise or (|), bitwise xor (^), bit shift 
+	left (&lt;&lt;), and bit shift right (&gt;&gt;) added.</li>
+		</ul></li>
+	</ul></li>
+	<li>LuaRemoteDebuggingServer:<ul>
+		<li>In preparation for the debugger being able to handle multiple Lua 
+		states, a new RegisterState() function is available and the Initialize() 
+		signature has changed so the LuaState* is not passed in.&nbsp; Use it 
+		like:<br>
+		<br>
+		LuaRemoteDebuggingServer::RegisterState(&quot;State&quot;, g_luaScript);<br>
+		LuaRemoteDebuggingServer::Initialize();</li>
+	</ul></li>
+	<li>LuaPlus Debugger add-in for Visual Studio .NET:<ul>
+		<li>Tree expansion works properly for nested tables.</li>
+		<li>Works with Visual Studio .NET 2002 and 2003.</li>
+	</ul></li>
+	<li>LuaWatchAddin:<ul>
+		<li>Supports wide character strings.</li>
+	</ul></li>
+	<li>Samples:<ul>
+		<li>TestScript:<ul>
+			<li>MultiObjectTest() added to demonstrate the various Register*() 
+			functions.</li>
+			<li>TestANSIFile() and TestUnicodeFile() added to test the ANSI and 
+			Unicode file reading capabilities.</li>
+			<li>Windows CE support.</li>
+		</ul></li>
+	</ul></li>
+</ul>
+
+<h3>Known Issues</h3>
+<ul>
+  <li>If a Lua function calls a C callback and the C callback calls a Lua 
+  function that errors (or somebody calls lua_error()), LuaObject objects aren't 
+  cleaned up, because setjmp() is not compatible with C++ exception handling.&nbsp; 
+  This will be fixed in an upcoming build.</li>
+  <li>Remote Lua Debugger:<ul>
+  <li>Some of the formatting in the Locals or Watch grid windows can be a little 
+  large.&nbsp; This deals with tabbed spacing for expanded trees.</li>
+</ul>
+
+  </li>
+  <li>During serialization, tables can't 
+currently be cyclic and metatables aren't currently written.</li>
+  <li>LuaStackObject's API no longer matches LuaObject's API.</li>
+</ul>
+
+<h2>Build 1078 (11/7/03)</h2>
+<ul>
+  <li>LuaPlus Global:<ul>
+  <li>All LCD callback functionality now runs <code>luaL_argcheck</code> instead of an assert 
+	for argument checking.</li>
+	<li>The calling signature for LuaPlus callbacks has changed.&nbsp; I don't 
+	like to make changes like this, and it affected a great deal of my code.&nbsp; 
+	However, the reasons leading up to it were thought long and hard about.<br>
+	<br>
+	The old signature was of the form:<br>
+	<br>
+	<code>&nbsp;&nbsp;&nbsp; int Callback(LuaState* state, LuaStackObject* args);</code><br>
+	<br>
+	When in this form, it was very easy to access arguments on the Lua stack.&nbsp; 
+	There were also limitations to this method.&nbsp; In fact, no more than 20 
+	arguments could be accessed through the <code>args</code> array.&nbsp; This was 
+	sufficient for every case I ever heard of, but there was a memory cost, too.&nbsp; 
+	As I've dived into coroutines, I realized I had bloated the LuaState class 
+	by a significant amount.&nbsp; Most of the bloat has been removed.&nbsp; 
+	Part of the bloat was the internal storage of the LuaStackObjects for the 
+	arguments.<br>
+	<br>
+	The new signature is of the form:<br>
+	<br>
+	<code>&nbsp;&nbsp;&nbsp; int Callback(LuaState* state);</code><br>
+	<br>
+	The args parameter is missing.&nbsp; However, it is easily replaced in the 
+	first line of the callback as:<br>
+	<br>
+	<code>&nbsp;&nbsp;&nbsp; LuaStack args(state);</code><br>
+	<br>
+	Unless a reference was taken to one of the past args array indices, all code 
+	will compile fine with the addition of the LuaStack line.&nbsp; It can still 
+	be referenced as if it was an array.</li>
+	<li>All projects have been upgraded to VS.NET 2003 form.&nbsp; If you don't 
+	already have VS.NET 2003, get it.&nbsp; It's worth the upgrade for the 
+	stability and the improved C++ compiler.&nbsp; If you or your company simply 
+	can't migrate, consider moving the projects back to VS.NET 2002 form via the 
+	tool:<br>
+	<br>
+	<a href="http://jsp.mobikom.com/stoyan/vspc/vspc.html">
+	http://jsp.mobikom.com/stoyan/vspc/vspc.html</a></li>
+</ul>
+
+	<p>
+
+	</li>
+	<li>LuaObject:<ul>
+		<li>RegisterEx() now registers the callback in the LuaObject it is being 
+		called through instead of as a global.</li>
+		<li>operator[](const char*) is now much more memory efficient.&nbsp; 
+		Whereas Lua, when looking up a table entry by key, requires insertion of 
+		the lookup string into the string table, only to possibly be garbage 
+		collected later, LuaObject's operator[] doesn't insert anything into the 
+		Lua string table.</li>
+	</ul></li>
+	<li>LuaState:<ul>
+		<li>In an effort to save LuaState space, particularly when creating coroutines, 
+	an array of LUA_MINSTACK LuaStackObjects is no longer kept around.&nbsp; 
+	Instead, it is allocated on the fly on the stack before calling the callback 
+	function.</li>
+		<li>m_tweakMeToSeeStuff has been removed.</li>
+		<li>The Stack() function now has an implementation.</li>
+		<li>New helper functions:<ul>
+			<li>TypeError - Mirrors luaL_typerror.</li>
+			<li>ArgError - Mirrors luaL_argerror.</li>
+			<li>CheckLString - Mirrors luaL_checklstring.</li>
+			<li>OptLString - Mirrors luaL_optlstring.</li>
+			<li>CheckNumber - Mirrors luaL_checknumber.</li>
+			<li>OptNumber - Mirrors luaL_optnumber.</li>
+			<li>ArgCheck - Mirrors luaL_argcheck.</li>
+			<li>CheckString - Mirrors luaL_checkstring.</li>
+			<li>OptString - Mirrors luaL_optstring.</li>
+			<li>CheckInt - Mirrors luaL_checkint.</li>
+			<li>CheckLong - Mirrors luaL_checklong.</li>
+			<li>OptInt - Mirrors luaL_optint.</li>
+			<li>OptLong - Mirrors luaL_optlong.</li>
+			<li>CheckStack - Mirrors luaL_checkstack.</li>
+			<li>CheckType - Mirrors luaL_checktype.</li>
+			<li>CheckAny - Mirrors luaL_checkany.</li>
+			<li>CheckUData - Mirrors luaL_checkudata.</li>
+		</ul></li>
+		<li>Integration of Leszek Buczowski's break/continue code.</li>
+	</ul></li>
+	<li>LuaPlus Modules<ul>
+		<li>bit<ul>
+			<li>Added Bitwise Operations Library from Reuben Thomas.</li>
+		</ul></li>
+		<li>iox<ul>
+			<li>New library adds lots of Windows specific I/O functions.</li>
+		</ul></li>
+		<li>pipe<ul>
+			<li>Didn't work properly after the Lua 5.0 upgrade.&nbsp; Fixed.</li>
+		</ul></li>
+	</ul></li>
+	<li>ManagedLuaPlus<ul>
+		<li>Operational but not as complete as the C++ LuaObject yet.&nbsp; In 
+		particular, complete support for calling arbitrary .NET functions is 
+		missing.</li>
+		<li>.NET callbacks implemented.</li>
+	</ul></li>
+	<li>LuaWatchAddin:<ul>
+  <li>Upgraded the display of TStrings to include the LUA_TWSTRING format.</li>
+</ul></li>
+	<li>A bunch of other stuff.</li>
+</ul>
+
+<h2>Build 1076 (5/17/03)</h2>
+<ul>
+  <li>Upgraded to Lua 5.0 Final.</li>
+  <li>LuaPlus Global:<ul>
+  <li>Removed Rich Hickey's CALLBACK.HPP in favor of LuaPlus/LuaFunctor.h, which 
+  is a LuaPlus specific functor dispatcher.</li>
+  <li>Added new LuaFunctorList class to allow building of lists of functors, 
+  similar to the Lua C mechanism.</li>
+  <li>Namespace LuaPlus::LCD added for all related Lua Call Dispatcher 
+  functionality.</li>
+</ul>
+
+  </li>
+  <li>LuaFunction:<ul>
+  <li>Added this new class that enables Lua functions to be called as if they 
+  were regular C++ functions.</li>
+</ul>
+
+  </li>
+  <li>LuaObject:<ul>
+  <li>Added short documentation snippets above each function describing which 
+  Lua C function is mirrored.</li>
+  <li>GetTypeName() has been renamed to TypeName().</li>
+  <li>GetType() has been renamed to Type().</li>
+  <li>IsNumber()'s inline documentation update describes it doesn't behave the 
+  same as lua_isnumber().</li>
+  <li>IsString()'s inline documentation update describes it doesn't behave the 
+  same as lua_isstring().</li>
+  <li>Added IsConvertibleToNumber(), which mirrors lua_isnumber() behavior.</li>
+  <li>Added IsConvertibleToString(), which mirrors lua_isstring() behavior.</li>
+  <li>Added IsConvertibleToWString().</li>
+  <li>Added ToNumber(), mirroring lua_tonumber().</li>
+  <li>Added ToString(), mirroring lua_tostring().</li>
+  <li>Added ToWString(), which converts a number or ANSI string to a wide 
+  character string.</li>
+  <li>Added ToStrLen(), mirroring lua_strlen() (which gives the string length of 
+  the converted form).</li>
+  <li>All Set*() functions return a reference to themselves, allowing simpler 
+  specification of table manipulation.&nbsp; Example:<br>
+  <br>
+  myTableObj.SetString(&quot;Key1&quot;, &quot;Value&quot;).SetString(&quot;Key2&quot;, &quot;Value2&quot;);</li>
+  <li>All Assign*() functions take a LuaState* parameter now.&nbsp; This 
+  complicates their usage, but it was awkward to, say, assign a table to a 
+  LuaObject that wasn't assigned a state.</li>
+  <li>The Register() function can take a LuaFunctorList pointer.</li>
+  <li>The Register() function for functors no longer needs a call to the old 
+  style makeFunctor().&nbsp; It is capable of interpreting the parameters into a 
+  functor without any further effort than to simply hand off the function 
+  pointer and optionally, the this pointer.</li>
+  <li>Added RegisterEx() function for handling the new-style LuaPlus Callback 
+  Dispatcher mechanism, which can directly call C/C++ functions without writing 
+  Lua callbacks.</li>
+</ul>
+
+  </li>
+  <li>LuaState:<ul>
+  <li>The new loadlib library is registered as part of the standard library 
+  initialization process when creating a state.</li>
+  <li>Equal_Stack() renamed to Equal().</li>
+  <li>Added RawEqual().</li>
+  <li>LessThan_Stack() renamed to LessThan().</li>
+</ul>
+
+  </li>
+</ul>
+
+<h2>Builds 1071-1075</h2>
+<ul>
+  <li>Internal.</li>
+</ul>
+
+<h2>Build 1070 (2/17/03)</h2>
+<ul>
+  <li>Internal.</li>
+</ul>
+
+<h2>Build 1069 (2/12/03)</h2>
+<ul>
+  <li>LuaState:<ul>
+  <li>DumpObject() has been upgraded to handle key values that aren't perfectly 
+  printable to a file.&nbsp; Instead, the same mechanism used to format the 
+  values from the key/value pair to the file is used for the keys, too.</li>
+  <li>DumpFile() has been renamed into DumpObject() for consistency.</li>
+  <li>DumpObject() has overloads for LuaObject keys, in addition to the old 
+  const char* name.</li>
+  <li>DumpGlobals() can take either a const char* filename or a LuaStateOutFile&amp;.</li>
+  <li>All Dump*() calls can take any of the following flags:<ul>
+  <li><code style="color: #B00000; font-family: 'Courier New', Courier, mono">
+  DUMP_ALPHABETICAL</code> - Alphabetize the keys when writing to the file.</li>
+  <li><code style="color: #B00000; font-family: 'Courier New', Courier, mono">
+  DUMP_WRITEALL</code> - Write all Lua objects out, including function and user 
+  data information.</li>
+  <li><code style="color: #B00000; font-family: 'Courier New', Courier, mono">
+  DUMP_WRITETABLEPOINTERS</code> - If
+  <code style="color: #B00000; font-family: 'Courier New', Courier, mono">
+  DUMP_WRITEALL</code> is specified, the actual memory addresses of tables are 
+  written in comment form.</li>
+</ul>
+
+  </li>
+  <li>For the filename versions of the Dump*() functions, passing an &quot;@&quot; as the 
+  filename will log the serialization to OutputDebugString.</li>
+  <li>Some code reorganization (moved LuaState functions from LuaPlus.cpp to 
+  LuaState.cpp).</li>
+</ul>
+
+  </li>
+  <li>New module, FileFind, added.&nbsp; It was made from some code previously 
+  in LuaPlusFunctions.cpp.</li>
+  <li>ManagedLuaPlus:<ul>
+  <li>Support for LuaState::DumpGlobals() has  been added to the ManagedLuaPlus wrapper.</li>
+</ul>
+
+  </li>
+</ul>
+
+<h2>Build 1068 (1/29/03)</h2>
+<ul>
+  <li>If Lua thread states are created, LuaObjects from threads other than the 
+  calling garbage collection thread won't be marked and will be cleaned up, even 
+  though they are still in existence.&nbsp; This  problem, stemming from the 
+  upgrade for Lua 5.0, has now been fixed.</li>
+  <li>Added a new multiple thread test case in the TestScript sample.&nbsp; See 
+  function TestThreeThreads().</li>
+  <li>Removed the auto linking of the LuaPlus library.&nbsp; The LuaPlus DLL 
+  export library is still auto linked.</li>
+  <li>In order to turn on LuaPlus namespace support, uncomment the line reading
+  <code>#define LUAPLUS_USE_NAMESPACE </code>in LuaLink.h.</li>
+  <li>#ifdef WIN32 segments added to a whole bunch of Windows specific parts of 
+  the code.&nbsp; In theory, LuaPlus's core should compile on another OS.</li>
+  <li>Non-wide character &quot;\xff&quot; strings were incorrectly read.</li>
+  <li>LuaState:<ul>
+  <li>CreateThread() no longer asks for a parameter indicating whether the 
+  standard libraries should be initialized.</li>
+  <li>Fixed a bug when dumping a quoted binary string in ANSI form.</li>
+  <li>Readded DumpGlobals().</li>
+  <li>LuaState has no more virtual functions.&nbsp; This caused the DLL class 
+  signature to change, so modules will have to be rebuilt.</li>
+</ul>
+
+  </li>
+  <li>ManagedLuaPlus:<ul>
+  <li>Watch window support added.&nbsp; See the main LuaPlus documentation for 
+  setup.</li>
+  <li>LuaObject::AssignString() works now.</li>
+  <li>LuaObject::AssignWString() works now.</li>
+</ul>
+
+  </li>
+  <li>Visual Studio .NET LuaPlus Debugger add-in:<ul>
+  <li>Updated so the tools command is always available and never gets lost by 
+  Visual Studio .NET.</li>
+  <li>Tools menu command is grayed out if the debugger is not active.</li>
+</ul>
+
+  </li>
+  <li>LuaRemoteDebuggingServer project:<ul>
+  <li>Reliance on ATL's CString has been removed.&nbsp; CStdString, compatible 
+  with CString but built on std::string, is used in its stead.</li>
+</ul>
+
+  </li>
+</ul>
+
+<hr>
+
+<h2>Build 1067 (1/16/03)</h2>
+<ul>
+  <li>Fixed some parts of the Unicode text file support in liolib.c.&nbsp; In 
+  particular, reading lines was broken.</li>
+  <li>Fixed wide character string concatenation.&nbsp; It must have become 
+  broken in the 5.0 Alpha upgrade, because it worked in LuaState 4.1 Alpha.</li>
+  <li>Fixed quoted binary string formatting in both the single and wide 
+  character libs.</li>
+  <li>Forgot to initialize the wide string library.</li>
+</ul>
+
+<hr>
+
+<h2>Build 1066 (1/11/03)</h2>
+<ul>
+  <li>Fixed LuaObject::StrLen() to return the right string length for wide 
+  character strings.</li>
+  <li>Brought the LuaPlus Debugger VS .NET add-in back online.</li>
+  <li>Added the capability to the specialized LuaObject function calling 
+  convention to specify the number of return arguments through an argument to 
+  LuaRun:<br>
+  <br>
+  addFunction() &lt;&lt; 5 &lt;&lt; 10 &lt;&lt; LuaRun(1);</li>
+  <li>Also added the ability to the LuaObject &lt;&lt; calling convention to handle 
+  LuaStackObjects and LuaObjects.</li>
+  <li>Changed LuaObject::GetN() so it mirrors Lua's table.getn().</li>
+  <li>Added LuaObject::SetN(), mirroring Lua's table.setn().</li>
+  <li>Added LuaObject::Insert(), mirroring Lua's table.insert().</li>
+  <li>Added LuaObject::Remove(), mirroring Lua's table.remove().</li>
+  <li>Added LuaObject::Sort(), mirroring Lua's table.sort().</li>
+  <li>A bunch of documentation updates, particularly concerning LuaObjects.</li>
+</ul>
+
+<hr>
+
+<h2>Build 1065</h2>
+<ul>
+  <li>Upgraded to Lua 5.0 Beta.</li>
+  <li>The LuaState object entirely creates itself under the memory allocation 
+  routines set by lua_setdefaultmemoryfunctions().</li>
+  <li>Although not mentioned previously, LuaPlus can exist side-by-side with 
+  another Lua version.&nbsp; This works really well if the project you're 
+  working on has lots of legacy Lua 3 or Lua 4 code.&nbsp; You can get the 
+  benefits of LuaPlus and slowly migrate the other code as appropriate.&nbsp; 
+  See LuaLink.h.</li>
+  <li>lua_getdefaultreallocfunction() renamed to lua_getdefaultmemoryfunctions(), 
+  because Lua 5.0 Beta expects a free() function in addition to realloc().</li>
+  <li>lua_setdefaultreallocfunction() renamed to lua_setdefaultmemoryfunctions(), 
+  because Lua 5.0 Beta expects a free() function in addition to realloc().</li>
+  <li>New LuaState functions mirroring their lua_* counterparts: CPCall(), 
+  Dump().</li>
+  <li>The LuaPlus VS .NET &quot;debugger&quot; add-in (the one that just views tables 
+  right now) has not been ported over to the new Lua build.&nbsp; That will 
+  happen next time.&nbsp; The LuaWatchAddin, however, does work.</li>
+</ul>
+
+<hr>
+
+<h2>Build 1062</h2>
+<ul>
+  <li>Renamed LuaC.exe to LuaPlusC.exe.</li>
+  <li>Renamed Lua.exe to LuaPlus.exe.</li>
+  <li>Namespaced so Lua.h can be kept out of the include chain, if the client 
+  desires.&nbsp; See LuaLink.h.</li>
+  <li>Added the LuaObject versions of the LuaHelper functions.</li>
+  <li>Began merging in the updated LuaCOM library from the original authors.</li>
+  <li>Brought the Managed C++ wrapper back online.&nbsp; Classes exist for 
+  LuaState, LuaObject, LuaStackObject, and LuaAutoBlock.</li>
+  <li>Added the optional comma support back into the parser for tables.<br>
+  <br>
+  MyTable = { 1 2 3 4 }</li>
+  <li>An experimental new typesafe calling convention.&nbsp; This has not been 
+  tested thoroughly yet and works something like:<br>
+  <br>
+  state-&gt;DoString(&quot;function Add(x, y) return x + y end&quot;);<br>
+  LuaObject funcObj = state-&gt;GetGlobal(&quot;Add&quot;);<br>
+  LuaStackObject retObj = funcObj() &lt;&lt; 2 &lt;&lt; 5 &lt;&lt; LuaRun();</li>
+  <li>HelperLuaFunctions.lua CopyTable() and GetN() functions have been removed.</li>
+  <li>Scintilla source directory removed.&nbsp; It shouldn't have been there in 
+  the first place.</li>
+</ul>
+
+<hr>
+
+<h2>Build 1061</h2>
+<ul>
+  <li>LuaObject::Clone() function added.&nbsp; Clones any LuaObject, including 
+  tables.&nbsp; This results in a deep copy.</li>
+  <li>LuaObject::GetCount() is synonymous to LuaObject::GetN().</li>
+  <li>Added LuaObject::GetTableCount() which counts the total elements in the 
+  table.</li>
+  <li>Added LuaObject::operator&lt; which will compare two LuaObjects and determine 
+  if one is less than the other.</li>
+  <li>Removed outputting of the semicolon in LuaState::DumpObject().</li>
+  <li>Fixed LuaState::DumpObject() to dump the correct table value in a 
+  non-alphabetical list.</li>
+  <li>Renamed LuaState::Object() to LuaState::Stack().</li>
+  <li>Added LuaState::LessThan_Stack.</li>
+</ul>
+
+<hr>
+
+<h2>Build 1060</h2>
+<ul>
+  <li>Major documentation updates.</li>
+  <li>Split out LuaPlus.cpp and LuaPlus.h into:<ul>
+    <li>LuaPlus.cpp and LuaPlus.h</li>
+    <li>LuaState.h</li>
+    <li>LuaObject.cpp, LuaObject.h, and LuaObject.inl</li>
+    <li>LuaTableIterator.h</li>
+    <li>LuaStackObject.h and LuaStackObject.inl</li>
+    <li>LuaStackTableIterator.h</li>
+    <li>LuaAutoBlock.h</li>
+    <li>LuaStateOutFile.h</li>
+  </ul>
+
+<p>Just #including &quot;LuaPlus.h&quot; will include all the above header files.</li>
+<li>Performance optimizations, including the removal of the extra lua_StateEx.</li>
+<li>Stack entries can be accessed with the class LuaStackObject.</li>
+<li>Includes the very efficient LuaObject, which gives the full functionality of 
+LuaStackObject, but without worries of stack management.&nbsp; Hooray!</li>
+<li>lua_getdefaultreallocfunction() and lua_setdefaultreallocfunction() now are 
+DLL exported.</li>
+<li>Properly identifies the correct LuaPlusD.dll or LuaPlus.dll depending on 
+Debug or Release builds and loads the appropriate modules in the import() 
+function.</li>
+<li>GetWriteTime() and SetWriteTime() moved to io library.</li>
+<li>GCState made public so the now patchable garbage collector can use it.</li>
+<li>Fixed the bug where the default metatables were being garbage collected.&nbsp; 
+Now, they'll never be collected.</li>
+<li>All allocations (I think) have names associated with them.</li>
+<li>Updated the LuaWatchAddin to handle all the current LuaPlus types: LuaObject, 
+LuaTableIterator, LuaStackObject, LuaStackTableIterator, and TString.</li>
+<li>Added a TestSuite application in Samples/TestSuite.</li>
+<li>Added the LuaPlusDebuggerAddin.&nbsp; It's still flaky, but it can expand 
+Lua tables in VS .NET while the application is being debugged.&nbsp; Very 
+useful.</li>
+</ul>
+
+</body>
+
+</html>

@@ -1,0 +1,693 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>LuaPlus Callback Dispatcher</title>
+<style type="text/css">
+<!--
+h2           {
+	font-style: italic;
+	border: thin solid;
+}
+h4           { code }
+PRE { margin-left: 40; margin-right: 40; BACKGROUND-COLOR: #FFE560; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #B00000; FONT-FAMILY: "Courier New", Courier, mono; }
+</style>
+</head>
+
+<body>
+
+<h1 align="center">LuaPlus Callback Dispatcher 1.10</h1>
+<p align="center">Written by Joshua Jensen (<a href="mailto:jjensen@workspacewhiz.com">jjensen@workspacewhiz.com</a>)</p>
+<p align="center"><a href="http://wwhiz.com/LuaPlus/index.html">
+http://wwhiz.com/LuaPlus/index.html</a></p>
+<hr>
+
+<p>LuaPlus contains many useful Lua enhancements.&nbsp; In the past, the 
+advanced callback dispatching to C++ functions provided by LuaPlus was only 
+available as part of the LuaPlus distribution.&nbsp; This release marks the 
+first version of the LuaPlus Callback Dispatcher that works directly with the 
+original Lua 5 code base.</p>
+<h2>Features</h2>
+<h3>Callback Dispatching</h3>
+<p>Typical C-style Lua callbacks come in the form:</p>
+<pre>int Callback(lua_State* state)</pre>
+<p>Callbacks must be static or global.&nbsp; They can not be C++ class member 
+functions.&nbsp; For C++ users, this approach is limiting as the programmer has 
+to write the non-member callback and then dispatch through to the C++ member 
+function that actually does the work:</p>
+<pre>int TheGlobalCallback(lua_State* L)
+{
+    // Retrieve the class's 'this' pointer, usually through an upvalue, but possibly as the calling userdata or table.
+    MyClass* myClass = // The retrieved pointer
+    return myClass-&gt;TheMemberCallback(L);
+}
+
+int MyClass::TheMemberCallback(lua_State* L)
+{
+    const char* str = lua_tostring(L, 1);
+    printf(&quot;%s\n&quot;, str);
+    return 0;
+}</pre>
+<p>The <i>LuaPlus Callback Dispatcher</i> provides a means whereby C++ member 
+functions, either virtual or non-virtual, may be called directly.&nbsp; These &quot;functor&quot; 
+objects are even capable of calling global and static functions, just as before.&nbsp; 
+In the example above, <code>TheMemberCallback()</code> can be registered and 
+called directly, without the need for <code>TheGlobalCallback</code> to exist.</p>
+<p>Additionally, the <i>LuaPlus Callback Dispatcher</i> allows direct calling of C or 
+C++ functions, without knowing anything about a <code>lua_State</code>.&nbsp; 
+<code>TheMemberCallback()</code> function above could be represented more naturally:</p>
+<pre>void MyClass::TheDirectMemberCallback(const char* str)
+{
+    printf(&quot;%s\n&quot;, str);
+}</pre>
+<p>In an ideal environment, the callback shim would automatically be generated 
+for us.&nbsp; With some C++ template metaprogramming, we are able to accomplish 
+this with ease.&nbsp; Best of all, the performance of the call to the either 
+style of callback function is as high or higher than if C-style methodologies 
+had been employed to accomplish the same feat.</p>
+<p>Finally, the <i>LuaPlus Callback Dispatcher</i> can call the same member functions 
+with differing 'this' pointers.</p>
+<h3>Property Access</h3>
+<p>The <i>LuaPlus Call Dispatcher</i> also supports direct registration of both 
+global and member variables.&nbsp; It can expose the variables either through 
+function calls or through an approach most resembling properties.&nbsp; Both 
+approaches are easily available to the application to use, although they can 
+serve different purposes.</p>
+<pre>myTable.someVar = 10</pre>
+<p>will directly access the C++ member variable <code>someVar</code>.</p>
+<h2>Basic Callbacks</h2>
+<p>There are few differences between pushing a standard Lua C-closure to the 
+stack and pushing a functor to the Lua stack.&nbsp; The overloaded function 
+lua_pushfunctorclosure() is used to push functor closures for global/static 
+functions, non-virtual member functions, and virtual member functions.&nbsp; </p>
+<p>An example follows:</p>
+<pre>static int LS_LOG(lua_State* L)
+{
+    printf(&quot;In static function\n&quot;);
+    return 0;
+}
+
+
+class Logger
+{
+public:
+    int LS_LOGMEMBER(lua_State* L)
+    {
+        printf(&quot;In member function.  Message: %s\n&quot;, lua_tostring(L, 1));
+        return 0;
+    }
+
+    virtual int LS_LOGVIRTUAL(lua_State* L)
+    {
+        printf(&quot;In virtual member function\n&quot;);
+        return 0;
+    }
+};
+
+lua_pushstring(L, &quot;LOG&quot;);
+lua_pushfunctorclosure(L, LS_LOG, 0);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_dostring(L, &quot;LOG()&quot;);
+
+Logger logger;
+lua_pushstring(L, &quot;LOGMEMBER&quot;);
+lua_pushfunctorclosure(L, logger, &amp;Logger::LS_LOGMEMBER, 0);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_dostring(L, &quot;LOGMEMBER('The message')&quot;);
+
+lua_pushstring(L, &quot;LOGVIRTUAL&quot;);
+lua_pushfunctorclosure(L, logger, &amp;Logger::LS_LOGVIRTUAL, 0);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_dostring(L, &quot;LOGVIRTUAL()&quot;);</pre>
+<h2>Object Dispatch Functors</h2>
+<p>Even though lua_pushfunctorclosure() can dispatch to C++ member functions, it 
+uses a 'this' pointer as provided by the second argument passed to the function.&nbsp; 
+The 'this' pointer is constant, and lua_pushfunctorclosure() is not suited for 
+mirroring class hierarchies in Lua.</p>
+<p>The solution to the 'this' pointer issue is through 
+lua_pushobjectfunctorclosure().&nbsp; It is a specialized form of 
+lua_pushfunctorclosure() where a 'this' pointer isn't provided during the 
+closure registration.&nbsp; Instead, it is retrieved from either the calling 
+userdata or the calling table's __object member, which must be a full or light 
+userdata.</p>
+<p>As an example, we want to mirror a class called MultiObject:</p>
+<pre>class MultiObject
+{
+public:
+    MultiObject(int num) :
+        m_num(num)
+    {
+    }
+
+    int Print(lua_State* state)
+    {
+        printf(&quot;%d\n&quot;, m_num);
+        return 0;
+    }
+
+    void Print2(int num)
+    {
+        printf(&quot;%d %d\n&quot;, m_num, num);
+    }
+
+protected:
+    int m_num;
+};</pre>
+<p>The best way to implement C++ objects mirrored in Lua is through metatables.&nbsp; 
+We'll start by creating a metatable and adding the MultiObject::Print() function 
+to it.</p>
+<pre>// Create the metatable.
+lua_newtable(L);
+lua_pushstring(L, &quot;__index&quot;);
+lua_pushvalue(L, -2);
+lua_settable(L, -3);
+
+// Add the Print function.
+lua_pushstring(L, &quot;Print&quot;);
+lua_pushobjectfunctorclosure(L, &amp;MultiObject::Print, 0);
+lua_settable(L, -3);</pre>
+<p>Now, we'll give two C++ objects implementations in Lua called <code>obj1</code> and 
+<code>obj2</code>.&nbsp; 
+We set each Lua table's metatable to be the metatable we created above:</p>
+<pre>MultiObject obj1(10);
+lua_pushstring(L, &quot;obj1&quot;);
+lua_boxpointer(L, &amp;obj1);
+lua_pushvalue(L, -3);
+lua_setmetatable(L, -2);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+MultiObject obj2(20);
+lua_pushstring(L, &quot;obj2&quot;);
+lua_boxpointer(L, &amp;obj2);
+lua_pushvalue(L, -3);
+lua_setmetatable(L, -2);
+lua_settable(L, LUA_GLOBALSINDEX);</pre>
+<p>Everything is set up in Lua to handle proper dispatching now.&nbsp; To 
+illustrate, a few <code>lua_dostring()</code> calls will dispatch to the correct objects:</p>
+<pre>lua_dostring(L, &quot;obj1:Print()&quot;);
+lua_dostring(L, &quot;obj2:Print()&quot;);</pre>
+<p><code>obj1</code> and <code>obj2</code> were both created as userdata objects 
+with metatables.&nbsp; The other approach involves assigning a full or light 
+userdata representing the C++ object to a table's <code>__object</code> member.</p>
+<pre>lua_pushstring(L, &quot;table1&quot;);
+lua_newtable(L);
+lua_pushstring(L, &quot;__object&quot;);
+lua_pushlightuserdata(L, &amp;obj1);
+lua_settable(L, -3);
+lua_pushvalue(L, -3);
+lua_setmetatable(L, -2);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_pushstring(L, &quot;table2&quot;);
+lua_newtable(L);
+lua_pushstring(L, &quot;__object&quot;);
+lua_pushlightuserdata(L, &amp;obj2);
+lua_settable(L, -3);
+lua_pushvalue(L, -3);
+lua_setmetatable(L, -2);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_dostring(L, &quot;table1:Print()&quot;);
+lua_dostring(L, &quot;table2:Print()&quot;);</pre>
+<p>Above, two Lua tables called <code>table1</code> and <code>table2</code> are 
+created and their <code>__object</code> members are assigned to the C++ <code>
+obj1</code> and <code>obj2</code> objects respectively.&nbsp; After the 
+assignments are done, two <code>lua_dostring()</code> calls are run to 
+illustrate the correct callback dispatching.</p>
+<h2>Direct Calling of C++ Functions</h2>
+<p>The <i>LuaPlus Callback Dispatcher</i> supports direct registration of C++ 
+functions through the overloaded function lua_pushdirectclosure.&nbsp; 
+lua_pushdirectclosure() is capable of registering global/static functions, 
+non-virtual member functions, and virtual member functions.</p>
+<p>A simple example follows: </p>
+<pre>float Add(float num1, float num2)
+{
+    return num1 + num2;
+}
+
+lua_pushstring(L, &quot;Add&quot;);
+lua_pushdirectclosure(L, Add, 0);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_dostring(L, &quot;print(Add(10, 5))&quot;);</pre>
+<p>Any functions registered in this fashion automatically receive built-in type 
+checking for the incoming arguments.&nbsp; If an argument is not valid, 
+luaL_argassert is called.&nbsp; For instance, in the above example, if Add was 
+called with a non-numeric string, there would be a failure.</p>
+<pre>lua_dostring(L, &quot;print(Add(10, 'Hello'))&quot;);  // Error!</pre>
+<p>Just as global functions can be registered, member functions can be 
+registered, also.</p>
+<pre>void LOG(const char* message)
+{
+    printf(&quot;In global function: %s\n&quot;, message);
+}
+
+
+class Logger
+{
+public:
+    void LOGMEMBER(const char* message)
+    {
+        printf(&quot;In member function: %s\n&quot;, message);
+    }
+
+    virtual void LOGVIRTUAL(const char* message)
+    {
+        printf(&quot;In virtual member function: %s\n&quot;, message);
+    }
+};
+
+
+lua_pushstring(L, &quot;LOG&quot;);
+lua_pushdirectclosure(L, LOG, 0);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+Logger logger;
+lua_pushstring(L, &quot;LOGMEMBER&quot;);
+lua_pushdirectclosure(L, logger, &amp;Logger::LOGMEMBER, 0);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_pushstring(L, &quot;LOGVIRTUAL&quot;);
+lua_pushdirectclosure(L, logger, &amp;Logger::LOGVIRTUAL, 0);
+lua_settable(L, LUA_GLOBALSINDEX);
+
+lua_dostring(L, &quot;LOG('Hello')&quot;);
+lua_dostring(L, &quot;LOGMEMBER('Hello')&quot;);
+lua_dostring(L, &quot;LOGVIRTUAL('Hello')&quot;);</pre>
+<p>The implementation built into the LuaPlus Call Dispatcher supports up to 7 
+parameters in the registered function.</p>
+<p>Note: This direct registration of C++ functions is based around techniques 
+presented in <i>LuaBind</i> (<a href="http://luabind.sourceforge.net/">http://luabind.sourceforge.net/</a>).&nbsp;
+<i>LuaBind</i> provides a much more powerful function dispatching mechanism, 
+including inheritance for classes.&nbsp; It also inherits the baggage of both 
+STL and Boost and runs slower than the LuaPlus Callback Dispatcher due to its 
+ability to handle class hierarchies and function overloading.&nbsp; Depending on 
+your needs, you may find LuaBind a much more suitable library to use.</p>
+<h2>Object Dispatch to Directly Called C++ Member Functions</h2>
+<p>Even though <code>lua_pushdirectclosure()</code> can dispatch to C++ member functions, it 
+uses a <code>this</code> pointer as provided by the second argument passed to the function.&nbsp; 
+The <code>this</code> pointer is constant, and <code>lua_pushdirectclosure()</code> is not suited for 
+mirroring class hierarchies in Lua.</p>
+<p>The solution to the <code>this</code> pointer issue is through <code>lua_pushobjectdirectclosure()</code>.&nbsp; It is a specialized form of
+<code>lua_pushdirectclosure()</code> where a <code>this</code> pointer isn't provided during the closure 
+registration.&nbsp; Instead, it is retrieved from either the calling userdata or 
+the calling table's <code>__object</code> member, which must be a full or light userdata.&nbsp; 
+The techniques presented in this section mirror closely the 
+<code>lua_pushobjectfunctorclosure()</code> description above.</p>
+<p>Using the above MultiObject sample, we'll add support for a directly called 
+C++ member function to the metatable.</p>
+<pre>// Add the Print2 direct function.
+lua_pushstring(L, &quot;Print2&quot;);
+lua_pushobjectdirectclosure(L, (MultiObject*)0, MultiObject::Print2, 0);
+lua_settable(L, -3);</pre>
+<p><code>lua_pushobjectdirectclosure()</code> has a slightly strange syntax in 
+the second argument.&nbsp; The reason this is the case is for the template 
+expansion of the <code>Callee</code> object type to be correct.&nbsp; It is 
+possible to retrieve the <code>Callee</code> type from the third argument, but 
+the current version of the <i>LuaPlus Callback Dispatcher</i> does not do so.&nbsp; 
+A future version may.</p>
+<p>All that needs be done at this point are some calls to <code>lua_dostring()</code>:</p>
+<pre>lua_dostring(L, &quot;obj1:Print2(5)&quot;);
+lua_dostring(L, &quot;obj2:Print2(15)&quot;);
+lua_dostring(L, &quot;table1:Print2(5)&quot;);
+lua_dostring(L, &quot;table2:Print2(15)&quot;);</pre>
+<h2>Global Variable Accessed Via Functions</h2>
+<p>Given the following global variable:</p>
+<pre>int aGlobalVariable = 10;</pre>
+<p>We want to expose access to the variable through two global Lua functions, 
+which we will call GetAGlobalVariable() and SetAGlobalVariable(num).&nbsp; We 
+want to be able to access those functions as follows:</p>
+<pre>print(GetAGlobalVariable())  -- prints 10
+SetAGlobalVariable(50)
+print(GetAGlobalVariable())  -- prints 50</pre>
+<p>The <i>LuaPlus Call Dispatcher</i> provides two closure functions, <code>
+lpcd_pushglobalpropertygetclosure()</code> and <code>
+lpcd_pushglobalpropertysetclosure()</code>.&nbsp; Use of these functions allows 
+the <code>GetAGlobalVariable()</code> and <code>SetAGlobalVariable()</code> 
+closures to be created:</p>
+<pre>lua_pushstring(L, &quot;GetAGlobalVariable&quot;);
+lpcd_pushglobalpropertygetclosure(L, &amp;aGlobalVariable);
+lua_rawset(L, LUA_GLOBALSINDEX);
+
+lua_pushstring(L, &quot;SetAGlobalVariable&quot;);
+lpcd_pushglobalpropertysetclosure(L, &amp;aGlobalVariable);
+lua_rawset(L, LUA_GLOBALSINDEX);</pre>
+<h3>Technical Details</h3>
+<p>Both <code>lpcd_pushglobalpropertygetclosure()</code> and <code>
+lpcd_pushglobalpropertysetclosure()</code> work by creating a closure (<code>LPCD::PropertyGlobalHelper&lt;VarType&gt;::PropertyGet</code> 
+or <code>LPCD::PropertyGlobalHelper&lt;VarType&gt;::PropertySet</code>, respectively) 
+with a light user data upvalue which represents the address of <code>
+aGlobalVariable</code>.</p>
+<h2>Member Variables Accessed Via Functions</h2>
+<p>&nbsp;</p>
+<h2>Functor Technical Design</h2>
+<p>Before we can go much further into this technique, it is important to 
+understand how an arbitrary function pointer to a C global or static function or 
+a C++ member function (either virtual or non-virtual) is stored.&nbsp; Past 
+experience with C function pointers tells us the address of a function is of the 
+same size as a pointer (4 bytes on 32-bit hardware).&nbsp; Member function 
+pointers consume anywhere from 8 to 16 bytes on the same hardware, depending on 
+the virtual-ness of the base class.&nbsp; Under C++'s strict type system, these 
+function pointers can't easily be mixed and matched, so a simple <code>typedef</code> won't 
+do.&nbsp; Some C++ compilers have support for delegates built in, but this 
+support is based around compiler extensions operating outside the realm of the 
+C++ standard.&nbsp; We can solve this problem generically and in a cross 
+platform way by employing templates to handle the varying types of function 
+pointers the user may request.</p>
+<p>For simplicity of the number of cases we need to examine a, we're simply 
+going to assume we're registering a member function.&nbsp; The global/static 
+function case is even simpler, and if the member function registration is 
+understood, the simpler case will be easily understood.</p>
+<p>First, we need the storage space for the callback.&nbsp; This storage space 
+is retrieved via <code>lua_newuserdata()</code>.&nbsp; The size of the storage space is 
+calculated by calculating the size of a pointer to the <code>Callee</code> (typically a <code>
+this</code> pointer for a class), if calling a member function, and the size of 
+the passed in function pointer.&nbsp; Both the <code>Callee</code> pointer (<code>callee</code>) 
+and the function pointer (<code>func</code>) are passed into <code>
+lua_pushfunctorclosure()</code>.</p>
+<pre>template &lt;typename Callee&gt;
+inline void lua_pushfunctorclosure(lua_State* L, Callee&amp; callee, int (Callee::*func)(lua_State*), unsigned int nupvalues)
+{
+    unsigned char* buffer = (unsigned char*)lua_newuserdata(L, sizeof(Callee) + sizeof(func));</pre>
+<p>Now that there is space to store the function pointer, we need a way to 
+generically insert the function calling data into <code>buffer</code>. </p>
+<pre>    memcpy(buffer, &amp;callee, sizeof(Callee));
+    memcpy(buffer + sizeof(Callee), &amp;func, sizeof(func));</pre>
+<p>Finally, after storing down the function calling information, a standard Lua 
+C closure is created, with the buffer userdata as an upvalue.</p>
+<pre>    lua_pushcclosure(L, LPCD::lua_StateMemberDispatcher&lt;Callee&gt;, nupvalues + 1);
+}</pre>
+<p>When <code>lua_pushfunctorclosure()</code> is called, it creates a standard C closure 
+pointing at a global templatized C function <code>LPCD::lua_StateMemberDispatcher&lt;Callee&gt;</code>.&nbsp; 
+An userdata upvalue comprised of <code>sizeof(Callee) + sizeof(func)</code> bytes is stored with 
+the closure.&nbsp; The userdata buffer contains the <code>Callee</code> pointer and the 
+function callback information itself.</p>
+<p><code>LPCD::lua_StateMemberDispatcher&lt;&gt;</code> is declared as follows:</p>
+<pre>template &lt;typename Callee&gt;
+inline int lua_StateMemberDispatcher(lua_State* L)</pre>
+<p>It is perfectly acceptable to register global C template functions in Lua.&nbsp; 
+As can be seen above, the function signature for <code>lua_StateMemberDispatcher</code> 
+matches with Lua's expectation of an <code>int (*)(lua_State*)</code> signature.&nbsp; </p>
+<p>For simplicity, a helper <code>typedef</code> called <code>Functor</code> is created:</p>
+<pre>{
+    typedef int (Callee::*Functor)(lua_State*);    // Helper typedef.
+    unsigned char* buffer = GetFirstUpValueAsUserData(L);
+    Callee&amp; callee = *(Callee*)buffer;
+    Functor&amp; f = *(Functor*)(buffer + sizeof(Callee));
+    return (callee.*f)(L);
+}</pre>
+<p><i>Removed from this version: <code>GetFirstUpValueAsUserData()</code> is a helper function coming in two 
+implementations.&nbsp; The first uses standard Lua functionality and is slower 
+than the <code>LPCD_FAST_DISPATCH</code> version.&nbsp; The <code>
+LPCD_FAST_DISPATCH</code> version requires an additional <code>.cpp</code> file 
+that specifically returns a userdata as the upvalue.&nbsp; No checking is 
+performed, and it is very fast.&nbsp; The default version does not use <code>
+LPCD_FAST_DISPATCH</code> and calls <code>lua_touserdata(L, -1)</code> directly.&nbsp; 
+The returned value is the functor buffer created from <code>
+lua_pushfunctorclosure()</code>.</i></p>
+<p>Both the <code>callee</code> and <code>func</code> local variables are just 
+aliases inside the buffer to make the function calling more manageable (it is 
+very difficult to get right and understand without it).&nbsp; In the case of the 
+object functor dispatch, <code>callee</code> isn't a reference to the buffer, 
+but a retrieval of the self pointer.</p>
+<h2>Template Trickery</h2>
+<p><code>lua_pushdirectclosure()</code> is identical to the <code>
+lua_pushfunctorclosure()</code> description above, with the exception of the 
+registered C function.&nbsp; Instead of <code>lua_StateMemberDispatcher</code> 
+being the called C function, <code>LPCD::DirectCallMemberDispatcher&lt;Callee, F&gt;::DirectCallMemberDispatcher</code> 
+is used instead.</p>
+<p>Let's study <code>DirectCallMemberDispatcher</code> in detail:</p>
+<pre>template &lt;typename Callee, typename F&gt;
+class DirectCallMemberDispatcherHelper
+{
+public:
+    static inline int DirectCallMemberDispatcher(lua_State* L)
+    {
+        unsigned char* buffer = GetFirstUpValueAsUserData(L);
+        return Call(*(Callee*)buffer, *(F*)(buffer + sizeof(Callee)), L, 1);
+    }
+};</pre>
+<p>A simpler implementation of the above combination class and member function 
+would be a template function.&nbsp; Unfortunately, many C++ compiler 
+implementations do not support template functions well (such as Visual C++ 6).&nbsp; 
+Therefore, the more verbose implementation is used.</p>
+<p>Just as in the <code>lua_StateMemberDispatcher</code> above, <code>
+DirectCallMemberDispatcher</code> retrieves the first upvalue as userdata.&nbsp; 
+The functor information, both callee and function data, is passed to a function 
+called <code>Call()</code>.</p>
+<p>For our purposes, let's examine <code>LOGMEMBER()</code> above.&nbsp; If
+<code>LOGMEMBER()</code> is expanded:</p>
+<pre>int DirectCallMemberDispatcherHelper&lt;Logger, void (*)(const char*)&gt;::DirectCallMemberDispatcher(lua_State* L)
+{
+    unsigned char* buffer = GetFirstUpValueAsUserData(L);
+    return Call(*(Logger*)buffer, *( void(*)(const char*) )(buffer + sizeof(Logger)), L, 1);
+}</pre>
+<p>We can see the function calling information data in buffer is cast out to the 
+same function signature describing <code>Logger::LOGMEMBER()</code>.&nbsp; This 
+same behavior is performed for any other function signature.</p>
+<p>Even though <code>DirectCallMemberDispatcher&lt;&gt;</code> 
+is a template function, it is still possible to take the address of it as we 
+would any other C function.</p>
+<p>You're probably wondering why we need both a pointer to the <code>
+DirectCallMemberDispatcher&lt;&gt;</code> <i>and</i> a functor.&nbsp; This will become 
+clear below.</p>
+<h2>What is Call()?</h2>
+<p><code>Call()</code> is a templated overloaded function.&nbsp; To keep the 
+discussion simple, we'll only discuss the 0 and 1 parameter versions of the
+<code>Call()</code> template function.</p>
+<pre>template &lt;typename Callee, typename RT&gt;
+int Call(Callee&amp; callee, RT (Callee::*func)(), lua_State* L, int index)
+{
+    return ReturnSpecialization&lt;RT&gt;::Call(callee, func, L, index);
+}
+
+
+template &lt;typename Callee, typename RT, typename P1&gt;
+int Call(Callee&amp; callee, RT (Callee::*func)(P1), lua_State* L, int index)
+{
+    return ReturnSpecialization&lt;RT&gt;::Call(f, L, index);
+}</pre>
+<p>Notice the first argument of the <code>Call()</code> function, <code>f</code>.&nbsp;
+<code>f</code> looks very much like a pointer to a function, and in fact, it is.&nbsp; 
+The return value of <code>f</code> is determined by the compiler and given the 
+template <code>typename RT</code>.&nbsp; Using the <code>LOGMEMBER()</code> 
+example above which has a return type of <code>void</code>, the type of <code>RT</code> 
+would be <code>void</code> also.</p>
+<p>In the second <code>Call()</code> function above, an additional parameter is 
+handled by the function pointer <code>f</code>.&nbsp; Using <code>LOGMEMBER()</code> 
+again as our example, <code>typename P1</code> would be
+<code>const char*</code>.</p>
+<p>So, it still feels like we haven't got anywhere.&nbsp; Why do we need this
+<code>Call()</code> function at all?&nbsp; And what is this secondary dispatch 
+to <code>ReturnSpecialization&lt;RT&gt;::Call()</code>?</p>
+<p>Let's start with <code>ReturnSpecialization&lt;RT&gt;::Call()</code>.</p>
+<pre>template&lt;class RT&gt;
+struct ReturnSpecialization
+{
+    template &lt;typename Callee&gt;
+    static int Call(Callee&amp; callee, RT (Callee::*func)(), lua_State* L, int index)
+    {
+        RT ret = (callee.*func)();
+        Push(L, ret);
+        return 1;
+    }
+
+    template &lt;typename Callee, typename P1&gt;
+    static int Call(Callee&amp; callee, RT (Callee::*func)(P1), lua_State* L, int index)
+    {
+        luaL_argassert(1, index + 0);
+
+        RT ret = (callee.*func)(
+            Get(TypeWrapper&lt;P1&gt;(), L, index)
+        );
+        Push(L, ret);
+        return 1;
+    }
+};</pre>
+<p>Now we're getting somewhere.&nbsp; The previously mentioned <code>Call()</code> 
+function calls one of the <code>ReturnSpecialization&lt;&gt;::Call()</code> functions 
+above.&nbsp; In the case of the <code>LOGMEMBER()</code> function, it calls the
+<code>Call()</code> function taking 1 parameter.&nbsp; We'll get into the 
+specifics of the argument checking and retrieval in the next section.</p>
+<p>Actually, the compiler can't generate code to call the second <code>Call()</code> 
+function above.&nbsp; The reason for this is that <code>RT</code> would be <code>
+void</code>.&nbsp; If <code>RT</code> is <code>void</code>, then the function 
+call line reads:</p>
+<pre>void ret = f( ... );</pre>
+<p>It isn't valid C++ to assign a return value from a function to a <code>void</code> 
+variable.&nbsp; The compiler will choke.</p>
+<p>The way to get around this is to specialize the <code>Call</code> function to 
+handle <code>void</code> return values:</p>
+<pre>template&lt;&gt;
+struct ReturnSpecialization&lt;void&gt;
+{
+    template &lt;typename Callee&gt;
+    static int Call(Callee&amp; callee, void (Callee::*func)(), lua_State* L, int index)
+    {
+        (callee.*func)();
+        return 0;
+    }
+
+    template &lt;typename Callee, typename P1&gt;
+    static int Call(Callee&amp; callee, void (Callee::*func)(P1), lua_State* L, int index)
+    {
+        luaL_argassert(1, index + 0);
+
+        (callee.*func)(
+             Get(TypeWrapper&lt;P1&gt;(), L, index + 0)
+        );
+        return 0;
+    }
+};</pre>
+<p>The <code>ReturnSpecialization&lt;void&gt;::Call()</code> function taking one 
+parameter in the function callback is the one <code>
+LOGMEMBER()</code> will dispatch through.</p>
+<p>Back to the question we asked above.&nbsp; Why do we need the <code>Call&lt;RT, 
+P1&gt;</code> function at all?&nbsp; The answer, if it isn't apparent by now, is we 
+need a template to break apart our function pointer into its components, the 
+return value (<code>RT</code>) and the parameters (<code>P1</code>).&nbsp; The
+<code>ReturnSpecialization&lt;&gt;::Call()</code> functions don't actually use the 
+return type
+<code>RT</code>, but in order to choose the appropriate <code>
+ReturnSpecialization&lt;RT&gt;::Call()</code> 
+function, we require the type <code>RT</code>.&nbsp; <code>RT</code> will either 
+get sent to <code>ReturnSpecialization&lt;void&gt;</code> or the more generic <code>
+ReturnSpecialization&lt;RT&gt;</code>.</p>
+<h2>luaL_argassert, Match, and Get</h2>
+<p><code>luaL_argassert()</code> is used for type checking each parameter before 
+dispatching to the callback function itself.&nbsp; If the type check fails,
+<code>luaL_argerror()</code> is called and the Lua virtual machine fires a <code>
+lua_error()</code>, allowing the last <code>lua_pcall()</code> to trap the 
+error.</p>
+<p><code>luaL_argassert()</code> is defined thus:</p>
+<pre>#define luaL_argassert(arg, _index_) if (!Match(TypeWrapper&lt;P##arg&gt;(), L, _index_)) \
+            luaL_argerror(L, _index_, &quot;bad argument&quot;)</pre>
+<p>The final part of the function dispatcher is encompassed in the type 
+retrieval functions, <code>Match()</code> and <code>Get()</code>.&nbsp; These 
+functions are heavily overloaded, providing both basic type retrieval and more 
+advanced type retrieval as specified by the user.</p>
+<p><code>luaL_argassert</code> calls the <code>Match()</code> function to 
+determine if the C++ argument is a match with some value.&nbsp; That value can 
+be anything handled by the overloads of <code>Match()</code>.&nbsp; The function 
+signature passes in a <code>TypeWrapper&lt;&gt;</code> structure based on the template
+<code>typename P#</code> (where <code>#</code> is the argument number being 
+checked), the <code>lua_State</code> pointer, and the index of the argument to 
+be looked up.&nbsp; Any of the <code>Match()</code> arguments may be ignored by 
+the overloaded function.</p>
+<p>The <code>Get()</code> function retrieves the Lua value and translates it 
+into a C++ argument.&nbsp; It will perform the proper casts on the value.</p>
+<p>Both <code>Match()</code> and <code>Get()</code> functions take a <code>
+TypeWrapper&lt;&gt;</code> parameter.&nbsp;
+<code>TypeWrapper&lt;&gt;</code> is a templated structure that allows any type to be 
+overloaded in the <code>Match()</code>/<code>Get()</code> functions without 
+taking a performance hit.&nbsp; Its only purpose is for function overload 
+matching.&nbsp; <code>TypeWrapper&lt;&gt;</code> is defined as:</p>
+<pre>template&lt;class T&gt; struct TypeWrapper {};</pre>
+<p>The function definition of a <code>Match()</code> function for an integer 
+would be:</p>
+<pre>inline bool Match(TypeWrapper&lt;int&gt;, lua_State* L, int idx);</pre>
+<p>Note that there isn't actually an integer passed for the first argument.&nbsp; 
+It is a <code>TypeWrapper&lt;int&gt;</code> empty structure.&nbsp; Passing an integer 
+directly wouldn't be harmful for the overload performance, but TypeWrapper&lt;&gt; 
+guards against heavier-weight objects being passed by value.</p>
+<p>So why not pass by reference?&nbsp; After all, this Match() function 
+declaration would be sufficient for the compiler to do the proper overloading:</p>
+<pre>inline bool Match(HeavyWeightObject&amp;, lua_State* L, int idx);</pre>
+<p>The reason this won't work is we don't have an actual instance of <code>
+HeavyWeightObject</code> to pass in.&nbsp; In order to pass a reference to an 
+object, the object has to exist (although technically this could be faked by the 
+illegal <code>*(HeavyWeightObject*)0</code> cast).&nbsp; Note the second <code>
+Call()</code> 
+function above, the one taking one parameter, <code>P1</code>.&nbsp; It first 
+calls <code>Match()</code> to make sure the argument is the one we want and then 
+it calls <code>Get()</code>.&nbsp; The object isn't available to us until <code>
+Get()</code> is called.</p>
+<p>Adding <code>Match</code> and <code>Get</code> functions for your own types 
+is easy.&nbsp; Assume you have the following function declaration:</p>
+<pre>bool DoSomething(MyObject* obj)</pre>
+<p>A translation is needed from a Lua light user data to the <code>MyObject*</code>.&nbsp; 
+Both the <code>Match</code> and <code>Get</code> functions must reside in the
+<code>LPCD</code> namespace:</p>
+<pre>namespace LPCD
+{
+    inline bool Match(TypeWrapper&lt;MyObject*&gt;, lua_State* L, int idx)
+    {
+         return lua_isuserdata(L, idx);  // Might want a dynamic_cast&lt;&gt; here, too, on lua_touserdata(L, idx);
+    }</pre>
+<p>Finally, we need to overload the <code>Get()</code> function so it can 
+translate a userdata to a <code>MyObject*</code>:</p>
+<pre>    inline bool Get(TypeWrapper&lt;MyObject*&gt;, lua_State* L, int idx)
+    {
+        return reinterpret_cast&lt;MyObject*&gt;(lua_touserdata(L, idx));
+    }
+} // namespace LPCD</pre>
+<p>Now, we register <code>DoSomething()</code> as a direct closure:</p>
+<pre>lua_pushstring(L, &quot;DoSomething&quot;);
+lua_pushdirectclosure(L, DoSomething, 0);
+lua_settable(L, LUA_GLOBALSINDEX);</pre>
+<p>And finally, we call it:</p>
+<pre>MyObject o;
+lua_getglobal(L, &quot;DoSomething&quot;);
+lua_pushlightuserdata(L, &amp;o);
+lua_pcall(1, 1);</pre>
+<p>And voila!&nbsp; A direct call to <code>DoSomething()</code> using a light 
+user data of <code>MyObject</code> has been accomplished with minimal effort.</p>
+<h2>In Brief</h2>
+<p>Even though all this sounded complicated, it really isn't.&nbsp; In a 
+nutshell, for the member function declaration:</p>
+<pre>void LOGMEMBER(const char* str)</pre>
+<p>the following things happen:</p>
+<ol>
+	<li>The function <code>DirectCallMemberDispatcherHelper&lt;Logger, void 
+	(*)(const char*)&gt;::DirectCallMemberDispatcher(L) </code>is called.</li>
+	<li>The first upvalue of the stack is retrieved as userdata.</li>
+	<li>The userdata is translated into function call <code>Call&lt;Logger, void, 
+	const char*&gt;(loggerReference, void (*)(const char*), L, 1)</code>.</li>
+	<li>From there, <code>ReturnSpecialization&lt;void&gt;::Call&lt;Logger, const char*&gt;(callee, 
+	func, L, 1)</code> is called.</li>
+	<li>Next, <code>Match(TypeWrapper&lt;const char*&gt;(), L, 1)</code> is called.&nbsp; 
+	Internally, it checks <code>lua_type(L, 1) == LUA_TSTRING</code> and returns 
+	the value.&nbsp; If the passed in argument is not a string, <code>
+	luaL_argerror</code> is called.</li>
+	<li>If <code>Match()</code> succeeds, <code>Get(TypeWrapper&lt;const char*&gt;(), 
+	L, 1)</code> is called.&nbsp; Internally, it calls <code>lua_tostring(L, 1)</code> 
+	and returns the <code>const char*</code>.</li>
+	<li>This argument is passed to <code>(callee.*func)(const char*)</code>.&nbsp;
+	<code>callee</code> is the <code>Logger</code> reference.&nbsp; <code>func</code> 
+	is <code>LOGMEMBER()</code>.</li>
+</ol>
+
+<h2>Performance</h2>
+<p>This all sounds heavyweight.&nbsp; Amazingly enough, the Visual C++ 7 
+compiler, in an optimized build, optimizes it by completely removing step 3 
+(described above) from the equation.&nbsp; Further, step 4 is translated into a 
+simple assembly jmp instruction.</p>
+<p>All said, the use of the functor techniques is slightly more expensive than a 
+simple C function 
+pointer, both in performance and memory.&nbsp; The final cost, though, is probably not of consequence, since the 
+straight C function being called will more than likely do an operation that is 
+heavier weight than the function call.&nbsp; The end result will likely not show 
+up in a profiler (and if it does, you are doing a whole lot of Lua-&gt;C function 
+calls).</p>
+
+<h2>Updates</h2>
+<p>Version 1.10</p>
+<ul>
+	<li>Fixed some Visual C++ 6 issues.</li>
+	<li>Added properties.</li>
+</ul>
+<p>Version 1.00</p>
+<ul>
+	<li>Initial version.</li>
+</ul>
+
+</body>
+
+</html>

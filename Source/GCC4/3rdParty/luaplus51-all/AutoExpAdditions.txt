@@ -1,0 +1,366 @@
+; -- LuaPlus and Lua begin --
+;------------------------------------------------------------------------------
+;------------------------------------------------------------------------------
+; public domain by Glenn Maynard, with help from http://www.virtualdub.org/blog/pivot/entry.php?id=120
+; LuaPlus portion by Joshua Jensen
+
+LuaPlus::LuaState {
+	preview (
+		#(
+			"thread top=", [((lua_State *)&$e)->top-((lua_State *)&$e)->base, i]
+		)
+	)
+
+	children (
+		#(
+			[raw members]: [(lua_State *)&$c,!],
+			stack size: [((lua_State *)&$c)->top-((lua_State *)&$c)->base, i],
+			globals: [((lua_State *)&$c)->l_gt],
+			registry: [((lua_State *)&$c)->l_G->l_registry],
+
+			#array (
+				expr: $e.ci->func,
+				size: $e.ci->func->tt != 0,
+			): #( call: $e ),
+
+			#array (
+				expr: ((lua_State*)&$c)->base[$i],
+				size: ((lua_State*)&$c)->top - ((lua_State*)&$c)->base,
+				base: 1
+			)
+		)
+	)
+
+}
+
+LuaPlus::LuaStateOwner {
+	preview (
+		#(
+			"thread top=", [((lua_State *)$e.m_state)->top-((lua_State *)$e.m_state)->base, i]
+		)
+	)
+
+	children (
+		#(
+			[raw members]: [$c,!],
+			stack size: [((lua_State *)$c.m_state)->top-((lua_State *)$c.m_state)->base, i],
+			globals: [((lua_State *)$c.m_state)->l_gt],
+			registry: [((lua_State *)$c.m_state)->l_G->l_registry],
+
+			#array (
+				expr: $e.ci->func,
+				size: $e.ci->func->tt != 0,
+			): #( call: $e ),
+
+			#array (
+				expr: ((lua_State*)$c.m_state)->base[$i],
+				size: ((lua_State*)$c.m_state)->top - ((lua_State*)$c.m_state)->base,
+				base: 1
+			)
+		)
+	)
+
+}
+
+LuaPlus::LuaTableIterator {
+	preview (
+		#(
+			$e.m_keyObj, " = ", $e.m_valueObj
+		)
+	)
+}
+
+lua_State {
+	preview (
+		#(
+			"thread top=", [$e.top-$e.base, i]
+		)
+	)
+
+	children (
+		#(
+			[raw members]: [$c,!],
+			stack size: [$c.top-$c.base, i],
+			globals: [$c.l_gt],
+			registry: [$c.l_G->l_registry],
+
+			#array (
+				expr: $e.ci->func,
+				size: $e.ci->func->tt != 0,
+			): #( call: $e ),
+
+			#array (
+				expr: $c.base[$i],
+				size: $c.top - $c.base,
+				base: 1
+			)
+		)
+	)
+
+}
+
+Node {
+	preview (
+		#( $e.i_key.tvk, " = ", $e.i_val )
+	)
+	children (
+		#(
+			key: $c.i_key.tvk,
+			val: $c.i_val,
+			#if( $c.i_key.nk.next != 0 ) (
+				#( next: $c.i_key.nk.next )
+			)
+		)
+	)
+}
+
+LuaPlus::LuaObject {
+	children (
+		#switch(((lua_TValue*)&$c.m_object)->tt)
+		#case 2 (							; LUA_TLIGHTUSERDATA
+			#(
+				[raw members]: [$c,!],
+				ptr: #((const char*)(((lua_TValue*)&$c.m_object)->value.p))
+			)
+		)
+		#case 5 ( 							; LUA_TTABLE
+			#(
+				[raw members]: [$c,!],
+				array size: ((lua_TValue*)&$c.m_object)->value.gc->h.sizearray,
+				#array (
+					expr: $e.value.gc->h.metatable,
+					size: $e.value.gc->h.metatable != 0,
+				): #( metatable: $e ),
+
+				#array (
+					expr: ((lua_TValue*)&$c.m_object)->value.gc->h.array[$i],
+					size: ((lua_TValue*)&$c.m_object)->value.gc->h.sizearray,
+					base: 1
+				),
+				#array (
+					expr: #( ((lua_TValue*)&$c.m_object)->value.gc->h.node[$i], 2 ),
+					size: (1<<((lua_TValue*)&$c.m_object)->value.gc->h.lsizenode),
+					base: 1
+				): #( hash: $e )
+			)
+		)
+		#case 6 (							; LUA_TFUNCTION
+			#if (((lua_TValue*)&$c.m_object)->value.gc->cl.c.isC) (
+				#(
+					[raw members]: [$c,!],
+					env: ((lua_TValue*)&$c.m_object)->value.gc->cl.c.env,
+					#array (
+						expr: $e.value.gc->cl.c.upvalue[$i],
+						size: $e.value.gc->cl.c.nupvalues,
+					): #( upvalues: $e )
+				)
+			) #else (
+				#(
+					[raw members]: [$c,!],
+					((lua_TValue*)&$c.m_object)->value.gc->cl.l
+				)
+			)
+
+		)
+		#case 7 (							; LUA_TUSERDATA
+			#(
+				[raw members]: [$c,!],
+				#array (
+					expr: $e.value.gc->u.uv.metatable,
+					size: $e.value.gc->u.uv.metatable != 0,
+				): #( metatable: $e ),
+				env: ((lua_TValue*)&$c.m_object)->value.gc->u.uv.env,
+				ptr: #((const char*)(&(((lua_TValue*)&$c.m_object)->value.gc->u)+1)),
+				size: ((lua_TValue*)&$c.m_object)->value.gc->u.uv.len
+			)
+		)
+		#case 8 ( #(
+			[raw members]: [$c,!],
+			((lua_TValue*)&$c.m_object)->value.gc->th)
+			)		; LUA_TTHREAD
+
+	)
+
+	preview (
+		#switch(((lua_TValue*)&$e.m_object)->tt)
+		#case 0 ( "nil" )					; LUA_TNIL
+		#case 1 (
+			#if (((lua_TValue*)&$e.m_object)->value.b == 0) (
+				"false"
+			) #else (
+				"true"
+			)
+		)
+		#case 2 (							; LUA_TLIGHTUSERDATA
+		  #(((lua_TValue*)&$e.m_object)->value.p, " lightuserdata") )
+		#case 3 (							; LUA_TNUMBER
+		  #("number=", ((lua_TValue*)&$e.m_object)->value.n) )
+		#case 4 (							; LUA_TSTRING
+		  #( ((lua_TValue*)&$e.m_object)->value.gc->ts) )
+		#case 5 ( 	; LUA_TTABLE
+			#( ((lua_TValue*)&$e.m_object)->value.gc->h )
+		)
+
+		#case 6 ( #(((lua_TValue*)&$e.m_object)->value.gc->cl) )		; LUA_TFUNCTION
+		#case 7 ( #(((lua_TValue*)&$e.m_object)->value.gc->u) )		; LUA_TUSERDATA
+		#case 8 ( #(((lua_TValue*)&$e.m_object)->value.gc->th) )		; LUA_TTHREAD
+		#case 9 (							; LUA_TWSTRING
+		  #( ((lua_TValue*)&$e.m_object)->value.gc->ts) )
+		#default ( "empty" )
+		)
+	)
+}
+
+LuaPlus::LuaStackObject {
+	preview (
+		#( ((lua_State*)$e.m_state)->base[$e.m_stackIndex] )
+	)
+}
+
+lua_TValue {
+	children (
+		#switch($c.tt)
+		#case 2 (							; LUA_TLIGHTUSERDATA
+			ptr: #((const char*)($c.value.p))
+		)
+		#case 5 ( 							; LUA_TTABLE
+			#(
+				[raw members]: [$c,!],
+				array size: $c.value.gc->h.sizearray,
+				#array (
+					expr: $e.value.gc->h.metatable,
+					size: $e.value.gc->h.metatable != 0,
+				): #( metatable: $e ),
+
+				#array (
+					expr: $c.value.gc->h.array[$i],
+					size: $c.value.gc->h.sizearray,
+					base: 1
+				),
+				#array (
+					expr: #( $c.value.gc->h.node[$i], 2 ),
+					size: (1<<$c.value.gc->h.lsizenode),
+					base: 1
+				): #( hash: $e )
+			)
+		)
+		#case 6 (							; LUA_TFUNCTION
+			#if ($c.value.gc->cl.c.isC) (
+				#(
+					env: $c.value.gc->cl.c.env,
+					#array (
+						expr: $e.value.gc->cl.c.upvalue[$i],
+						size: $e.value.gc->cl.c.nupvalues,
+					): #( upvalues: $e )
+				)
+			) #else (
+				#($c.value.gc->cl.l)
+			)
+
+		)
+		#case 7 (							; LUA_TUSERDATA
+			#(
+				#array (
+					expr: $e.value.gc->u.uv.metatable,
+					size: $e.value.gc->u.uv.metatable != 0,
+				): #( metatable: $e ),
+				env: $c.value.gc->u.uv.env,
+				ptr: #((const char*)((&$c.value.gc->u)+1)),
+				size: $c.value.gc->u.uv.len
+			)
+		)
+		#case 8 ( #($c.value.gc->th) )		; LUA_TTHREAD
+
+	)
+
+	preview (
+		#switch($e.tt)
+		#case 0 ( "nil" )					; LUA_TNIL
+		#case 1 (
+			#if ($e.value.b == 0) (
+				"false"
+			) #else (
+				"true"
+			)
+		)
+		#case 2 (							; LUA_TLIGHTUSERDATA
+		  #($e.value.p, " lightuserdata") )
+		#case 3 (							; LUA_TNUMBER
+		  #("number=", $e.value.n) )
+		#case 4 (							; LUA_TSTRING
+		  #( $e.value.gc->ts) )
+		#case 5 ( 	; LUA_TTABLE
+			#( $e.value.gc->h )
+		)
+
+		#case 6 ( #($e.value.gc->cl) )		; LUA_TFUNCTION
+		#case 7 ( #($e.value.gc->u) )		; LUA_TUSERDATA
+		#case 8 ( #($e.value.gc->th) )		; LUA_TTHREAD
+		#case 9 (							; LUA_TWSTRING
+		  #( $e.value.gc->ts) )
+		#default ( "empty" )
+		)
+	)
+}
+
+Udata {
+	preview (
+		#( "userdata size=", $e.uv.len, " ptr=", #((void*)((&$e)+1)) )
+	)
+}
+
+CClosure {
+	preview (
+		$e.f
+	)
+}
+LClosure {
+	preview (
+		"Lua function"
+	)
+}
+
+Closure {
+	preview (
+		#if ($e.c.isC) ( #($e.c) )
+		#else ( #($e.l) )
+	)
+}
+
+Table {
+	children (
+			#(
+				[raw members]: [$c,!],
+				[array size]: $c.sizearray,
+				#array (
+					expr: $e.metatable,
+					size: $e.metatable != 0,
+				): #( metatable: $e ),
+
+				#array (
+					expr: $c.array[$i],
+					size: $c.sizearray,
+					base: 1
+				),
+				#array (
+					expr: #( $c.node[$i], 2 ),
+					size: (1<<$c.lsizenode),
+					base: 1
+				): #( key: $e )
+			)
+	)
+
+	preview (
+		#( "table (array size: ", $e.sizearray, ") (hash size: ", (1<<$e.lsizenode), ")" )
+	)
+}
+
+TString {
+	preview (
+		#if ($e.tsv.tt == 4) ( #( (const char *) (&($e.tsv)+1) ) )
+		#else ( #( (const wchar_t *) (&($e.tsv)+1) ) )
+	)
+}
+;------------------------------------------------------------------------------
+;------------------------------------------------------------------------------
+; -- LuaPlus and Lua end --

@@ -1,0 +1,189 @@
+﻿Build started 7/5/2015 1:46:49 PM.
+     1>Project "D:\ProjectsGit\gamecode4\Source\GCC4\Msvc\GameCode4_2013.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"GameCodeStd.h" /Fp"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\GameCode4_2013.pch" /Fo"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\\" /Fd"D:\ProjectsGit\gamecode4\Source\GCC4\Msvc\..\..\Lib\Win32Debug\GameCode4_2013.pdb" /Gd /TP /analyze- /errorReport:prompt GameCodeStd.cpp
+         GameCodeStd.cpp
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition
+                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"GameCodeStd.h" /Fp"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\GameCode4_2013.pch" /Fo"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\\" /Fd"D:\ProjectsGit\gamecode4\Source\GCC4\Msvc\..\..\Lib\Win32Debug\GameCode4_2013.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Actors\Actor.cpp ..\Actors\ActorFactory.cpp ..\Actors\AmmoPickup.cpp ..\Actors\AudioComponent.cpp ..\Actors\BaseScriptComponent.cpp ..\Actors\HealthPickup.cpp ..\Actors\PhysicsComponent.cpp ..\Actors\RenderComponent.cpp ..\Actors\TransformComponent.cpp ..\AI\Pathing.cpp ..\Audio\Audio.cpp ..\Audio\DirectSoundAudio.cpp ..\Audio\SoundProcess.cpp ..\Audio\SoundResource.cpp ..\Debugging\Debugging.cpp ..\Debugging\Logger.cpp ..\Debugging\MiniDump.cpp ..\EventManager\EventManager.cpp ..\EventManager\EventManagerImpl.cpp ..\EventManager\Events.cpp ..\GameCode4\BaseGameLogic.cpp ..\GameCode4\GameCode.cpp ..\GameCode4\GameCode4.cpp ..\Graphics3D\D3DRenderer.cpp ..\Graphics3D\Geometry.cpp ..\Graphics3D\Lights.cpp ..\Graphics3D\Material.cpp ..\Graphics3D\Mesh.cpp ..\Graphics3D\MovementController.cpp ..\Graphics3D\Raycast.cpp ..\Graphics3D\Scene.cpp ..\Graphics3D\SceneNodes.cpp ..\Graphics3D\Shaders.cpp ..\Graphics3D\Sky.cpp ..\LUAScripting\LuaStateManager.cpp ..\LUAScripting\ScriptEvent.cpp ..\LUAScripting\ScriptExports.cpp ..\LUAScripting\ScriptProcess.cpp ..\LUAScripting\ScriptResource.cpp ..\Mainloop\Initialization.cpp ..\Mainloop\Process.cpp ..\Mainloop\ProcessManager.cpp ..\Memory\MemoryPool.cpp ..\Multicore\RealtimeProcess.cpp ..\Network\Network.cpp ..\Physics\Physics.cpp ..\Physics\PhysicsDebugDrawer.cpp ..\Physics\PhysicsEventListener.cpp ..\ResourceCache\ResCache.cpp ..\ResourceCache\XmlResource.cpp ..\ResourceCache\ZipFile.cpp ..\UserInterface\HumanView.cpp ..\UserInterface\MessageBox.cpp ..\Utilities\Math.cpp ..\Utilities\Math_Random.cpp ..\Utilities\PrimeSearch.cpp ..\Utilities\String.cpp
+         String.cpp
+         PrimeSearch.cpp
+         Math_Random.cpp
+         Math.cpp
+         MessageBox.cpp
+         HumanView.cpp
+         ZipFile.cpp
+         XmlResource.cpp
+         ResCache.cpp
+         PhysicsEventListener.cpp
+         PhysicsDebugDrawer.cpp
+         Physics.cpp
+         Network.cpp
+         RealtimeProcess.cpp
+         MemoryPool.cpp
+         ProcessManager.cpp
+         Process.cpp
+         Initialization.cpp
+         ScriptResource.cpp
+         ScriptProcess.cpp
+         Generating Code...
+         Compiling...
+         ScriptExports.cpp
+         ScriptEvent.cpp
+         LuaStateManager.cpp
+         Sky.cpp
+         Shaders.cpp
+         SceneNodes.cpp
+         Scene.cpp
+         Raycast.cpp
+         MovementController.cpp
+         Mesh.cpp
+         Material.cpp
+         Lights.cpp
+         Geometry.cpp
+         D3DRenderer.cpp
+         GameCode4.cpp
+         GameCode.cpp
+         BaseGameLogic.cpp
+         Events.cpp
+         EventManagerImpl.cpp
+         EventManager.cpp
+         Generating Code...
+         Compiling...
+         MiniDump.cpp
+         Logger.cpp
+         Debugging.cpp
+         SoundResource.cpp
+         SoundProcess.cpp
+         DirectSoundAudio.cpp
+         Audio.cpp
+         Pathing.cpp
+         TransformComponent.cpp
+         RenderComponent.cpp
+         PhysicsComponent.cpp
+         HealthPickup.cpp
+         BaseScriptComponent.cpp
+         AudioComponent.cpp
+         AmmoPickup.cpp
+         ActorFactory.cpp
+         Actor.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\ProjectsGit\gamecode4\Source\GCC4\Msvc\..\..\Lib\Win32Debug\GameCode4_2013.lib" /LIBPATH:D:\ProjectsGit\gamecode4\Source\GCC4\Msvc\..\..\Lib\Win32Debug\ /NOLOGO /NODEFAULTLIB D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Actor.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ActorFactory.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\AmmoPickup.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\AudioComponent.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\BaseScriptComponent.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\HealthPickup.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\PhysicsComponent.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\RenderComponent.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\TransformComponent.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Pathing.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Audio.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\DirectSoundAudio.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\SoundProcess.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\SoundResource.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Debugging.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Logger.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\MiniDump.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\EventManager.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\EventManagerImpl.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Events.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\BaseGameLogic.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\GameCode.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\GameCode4.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\D3DRenderer.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Geometry.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Lights.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Material.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Mesh.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\MovementController.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Raycast.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Scene.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\SceneNodes.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Shaders.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Sky.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\LuaStateManager.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ScriptEvent.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ScriptExports.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ScriptProcess.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ScriptResource.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Initialization.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Process.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ProcessManager.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\MemoryPool.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\RealtimeProcess.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Network.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Physics.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\PhysicsDebugDrawer.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\PhysicsEventListener.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ResCache.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\XmlResource.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\ZipFile.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\HumanView.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\MessageBox.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Math.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\Math_Random.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\PrimeSearch.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\String.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GameCode4_2013Win32Debug\GameCodeStd.obj
+         GameCode4_2013.vcxproj -> D:\ProjectsGit\gamecode4\Source\GCC4\Msvc\..\..\Lib\Win32Debug\GameCode4_2013.lib
+     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\GCC4\Msvc\GameCode4_2013.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:18.19

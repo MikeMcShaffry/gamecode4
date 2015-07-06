@@ -1,0 +1,60 @@
+﻿Build started 7/5/2015 1:51:37 PM.
+     1>Project "D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\TeapotWars_2013.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\TeapotWars_2013Win32Debug.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\ kernel32.lib user32.lib gdi32.lib gamecode4_2013.lib /NODEFAULTLIB:libcmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\TeapotWars_2013Win32Debug.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\TeapotWars_2013Win32Debug.lib" /MACHINE:X86 D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\TeapotWars_2013Win32Debug\TeapotWars.res
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\TeapotWars_2013Win32Debug\TeapotController.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\TeapotWars_2013Win32Debug\TeapotEvents.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\TeapotWars_2013Win32Debug\TeapotWars.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\TeapotWars_2013Win32Debug\TeapotWarsView.obj
+         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\TeapotWars_2013Win32Debug\TeapotWarsStd.obj
+     1>bulletcollision_debug.lib(btCollisionObject.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btCollisionDispatcher.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btCollisionShape.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btConvexShape.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btConvexHullShape.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btDefaultCollisionConfiguration.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btDbvtBroadphase.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btManifoldResult.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btPolyhedralConvexShape.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btConvexConvexAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btConvexPlaneCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btConvexConcaveCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btCompoundCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btEmptyCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btSphereSphereCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btSphereTriangleCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btBoxBoxCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btOverlappingPairCache.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btDbvt.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btConvexPolyhedron.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btActivatingCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btPolyhedralContactClipping.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btCollisionAlgorithm.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletdynamics_debug.lib(btDiscreteDynamicsWorld.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletdynamics_debug.lib(btRigidBody.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletdynamics_debug.lib(btSequentialImpulseConstraintSolver.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletdynamics_debug.lib(btContactConstraint.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletdynamics_debug.lib(btGeneric6DofConstraint.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletdynamics_debug.lib(btConeTwistConstraint.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletdynamics_debug.lib(btTypedConstraint.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>linearmath_debug.lib(btConvexHullComputer.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>linearmath_debug.lib(btQuickprof.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>effects11.lib(EffectAPI.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>effects11.lib(EffectNonRuntime.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>effects11.lib(EffectLoad.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>effects11.lib(EffectReflection.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>effects11.lib(d3dx11dbg.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>effects11.lib(d3dxGlobal.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>effects11.lib(EffectRuntime.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btSimulationIslandManager.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btCollisionWorld.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btUnionFind.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btBvhTriangleMeshShape.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btOptimizedBvh.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>bulletcollision_debug.lib(btQuantizedBvh.obj) : error LNK2038: mismatch detected for '_MSC_VER': value '1600' doesn't match value '1800' in TeapotController.obj
+     1>D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\TeapotWars_2013Win32Debug.exe : fatal error LNK1319: 45 mismatches detected
+     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\TeapotWars_2013.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.26

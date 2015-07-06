@@ -1,0 +1,1712 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>LuaPlus 5.1</title>
+<style>
+<!--
+h2           {
+	font-style: italic;
+	border: thin solid;
+}
+h4           { code }
+PRE { margin-left: 40; margin-right: 40; BACKGROUND-COLOR: #FFE560; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #B00000; FONT-FAMILY: "Courier New", Courier, mono; }
+-->
+</style>
+</head>
+
+<body>
+
+<h2 align="center">LuaPlus for Lua 5.1  Distribution<br>
+Build 1100+ (May 24, 2008)</h2>
+
+<h3 align="center">Enhancements to Core Lua Functionality</h3>
+
+<p align="center">
+<a href="http://luaplus.org/">http://luaplus.org/</a></p>
+<p align="center">
+Author: Joshua Jensen (<a href="mailto:jjensen@workspacewhiz.com">jjensen@workspacewhiz.com</a>)</p>
+
+<h2>Overview</h2>
+<p><b><i>The LuaPlus distribution contains some modifications to the core Lua code
+base.&nbsp;
+As such, it is not an official distribution of Lua 5.1 (which may be found at
+<a href="http://www.lua.org/">http://www.lua.org/</a>), nor does it intend to
+represent itself as one.&nbsp; Most modifications are superficial, but some,
+such as the wide character string type, end up touching a great deal of source
+files.&nbsp; Any
+references to Lua in this document refer specifically to the modified Lua code
+contained herein, unless otherwise stated.</i></b></p>
+<p>The LuaPlus distribution provides the following functionality.</p>
+<ul>
+  <li>All the power of the core Lua 5.1 work distribution.</li>
+  <li>An easy to use C++ interface:<ul>
+  <li>The C++ interface, described below,
+  masks many of the intricacies of core Lua's underlying low-level C API.&nbsp;
+  In particular, stack management is mostly ignored.&nbsp; Other useful helper
+  classes, such as management of ref'ed objects or the stack, table traversal,
+  and table lookups are provided, dramatically simplifying the application code.</li>
+  <li>Simplified function calling convention.&nbsp; Inspired by, to a limited
+  degree, Python's use of tuples in its C API, the new function calling
+  convention masks the stack pushing and popping associated with the low-level
+  calling convention.</li>
+	<li>A newly added function calling convention enables C++ to call Lua functions
+  as if they were regular C++ functions.&nbsp; This goes a long way to
+  simplifying Lua for C++ users.</li>
+  <li>A transparent C++ functor implementation is in place, allowing function
+  callbacks to be global or static (as they are now), class member functions, or
+  class member virtual functions.</li>
+  <li>Direct registering of C++ functions with LuaPlus.&nbsp; The registered C++
+  functions do not need to conform to a standard callback declaration.</li>
+  <li>.NET wrapper.&nbsp; The .NET version of LuaPlus opens up
+  LuaPlus's features to any .NET based language.&nbsp; This includes C#, Visual
+  Basic, Python, Perl, and others.&nbsp; The Managed C++ version of LuaPlus is
+  nearly identical to its regular C++ counterpart, so transitioning is easy.</li>
+  <li>Serialization of Lua tables.&nbsp; Lua is a boon for data management.&nbsp;
+  With a much simpler syntax than XML, while providing equivalent and better
+  data description facilities, a way is needed to write table data in text form.&nbsp;
+  LuaPlus offers this facility, and it does it in such a way that no Lua
+  internal state is changed.</li>
+  <li>Win32 DLL and LIB formats.&nbsp; Through the DLL version, a module plug-in
+  system is in place.</li>
+</ul>
+  </li>
+  <li>Extra Tools:<ul>
+  <li>Debugger.&nbsp; The Remote Lua Debugger all but eliminates the need to 
+	litter print() statements throughout script code.&nbsp; It offers a view of the call stack, local variables, watch variables, syntax
+  highlighting, has Visual C++ debugger style keystrokes, and much more.</li>
+  <li><a href="#Visual Studio Watch Add-in">Visual C++ watch add-in</a> to monitor data types.&nbsp; When manipulating
+  a LuaObject (one of the classes provided by the C++ interface), Visual C++ 6
+  and Visual Studio .NET show the contents of the LuaObject in the watch window.&nbsp;
+  The LuaWatchAddin makes no distinction between stack objects, ref'ed objects,
+  up-values, or other indices.&nbsp; In addition, if the index being shown is
+  out of range, the LuaWatchAddin represents that.</li>
+  <li><span class="795340101-13112002">The
+  <a href="#LuaPlus Visual Studio .NET Debugger Add-in">Visual Studio .NET LuaPlus Debugger
+  plug-in</a> allows display of the&nbsp;Lua tables in tree form, local Lua variables,
+  and the current Lua callstack.&nbsp; Stepping through Lua code in the VS .NET
+  environment is not possible at this time, but the Remote Lua Debugger may
+  still be used.</span></li>
+</ul>
+  </li>
+  <li>Lua Core Enhancements:<ul>
+  <li>16-bit wide character string support.<ul>
+  <li>Tight integration of the extra string
+  type was necessarily built into the code base.&nbsp; Any reference
+  to <code>LUA_TSTRING</code> in the Lua core code base was supplemented with an
+  equivalent wide character <code>LUA_TWSTRING</code>.</li>
+	<li>Direct support for opening Unicode files available.</li>
+</ul>
+  </li>
+</ul>
+  </li>
+	<ul>
+		<li>Ref'ed objects are treated no differently than a stack object.&nbsp;
+  Rather than dealing with low-level lua_getref() calls everywhere to load the
+  ref'ed object onto the stack, the user can just &quot;use&quot; the object.&nbsp; No
+  special management is needed.</li>
+	</ul>
+</ul>
+<h2><a name="Visual Studio Watch Add-in">Visual Studio Watch Add-in</a></h2>
+<p>The LuaPlus Visual Studio LuaWatchAddin provides facilities whereby the Watch window
+will show the contents of a <code>LuaObject</code>, <code>LuaTableIterator</code>,
+<code>LuaStackObject</code>, <code>LuaStackTableIterator</code>, or
+<code>TString</code> (when
+stepping inside Lua internals).&nbsp; The LuaWatchAddin does not expand Lua
+tables, but an additional add-in does.</p>
+<ol>
+  <li>Copy <samp>LuaPlus/Bin/LuaWatchAddin.dll</samp> to <code>Program Files/Microsoft Visual
+  Studio .NET/Common7/IDE</code>.</li>
+  <li>Add the following lines to the bottom of <code>Program Files/Microsoft
+  Visual Studio .NET/Common7/Packages/Debugger/autoexp.dat</code>:<br>
+  <pre>; LuaPlus
+LuaPlus::LuaObject=$ADDIN(LuaWatchAddin.dll,AddIn_LuaObject)
+LuaPlus::LuaStackObject=$ADDIN(LuaWatchAddin.dll,AddIn_LuaStackObject)
+LuaPlus::LuaStackTableIterator=$ADDIN(LuaWatchAddin.dll,AddIn_LuaStackTableIterator)
+LuaPlus::LuaTableIterator=$ADDIN(LuaWatchAddin.dll,AddIn_LuaTableIterator)
+TString=$ADDIN(LuaWatchAddin.dll,AddIn_TString)</pre></li>
+  <li>Start debugging.</li>
+</ol>
+<p><code>LuaPlus::LuaObjects</code>, <code>LuaPlus::StackObjects, LuaPlus::LuaTableIterators</code>,
+<code>LuaPlus::StackTableIterators</code> and
+<code>TStrings</code> will expand in the watch
+window.</p>
+<p>The LuaWatchAddin does not provide expansion for Lua tables,
+although the LuaPlus Debugger Add-in does.</p>
+<h2>Visual Studio .NET ManagedLuaPlus Watch Support</h2>
+<p>The ManagedLuaPlus Watch window support currently only works for <code>
+LuaObject</code>.</p>
+<ol>
+  <li>Add the following lines to the bottom of <code>Program Files/Microsoft
+  Visual Studio .NET/Common7/Packages/Debugger/mcee_cs.dat</code>:<br>
+  <pre>; LuaPlus
+&lt;ManagedLuaPlus.LuaObject&gt;=&lt;WatchType&gt;</pre></li>
+  <li>Start debugging.</li>
+</ol>
+<h2><a name="LuaPlus Visual Studio .NET Debugger Add-in">LuaPlus Visual Studio .NET Debugger Add-in</a></h2>
+<p>The LuaPlus Visual Studio .NET Debugger add-in allows viewing of Lua tables
+in a tree fashion.&nbsp; Currently, there is no installer for this.</p>
+<p>To manually install:</p>
+<ol>
+  <li>Run:<br>
+  <br>
+  <code>regsvr32
+  c:\LuaPlus\Bin\LuaPlusDebuggerAddin\LuaPlusDebuggerControls.dll<br>
+  regsvr32
+  c:\LuaPlus\Bin\LuaPlusDebuggerAddin\LuaPlusDebuggerAddin.dll</code></li>
+  <li>Launch Visual Studio .NET.</li>
+  <li>Start a debug session.</li>
+  <li>Go to Tools-&gt;LuaPlus Watch Window.</li>
+  <li>Dock the newly created window.</li>
+</ol>
+<hr>
+<h1>Technical Reference for the non-.NET library</h1>
+<h2>Namespace: LuaPlus</h2>
+<p>All LuaPlus functionality is encapsulated in the <code>LuaPlus</code> namespace.&nbsp; Any
+references to LuaPlus classes and types in this documentation assume the <code>LuaPlus::</code> qualifier.</p>
+<p>LuaPlus is an experimental C++ wrapper, and as such, there are sometimes
+multiple techniques for accomplishing the same result.&nbsp; Usually, the
+multiple techniques need to stay around, as some of the more advanced ones
+employ C++ templates and are not conducive to implementation in Managed C++.</p>
+<h2>Namespace: ManagedLuaPlus</h2>
+<p>All LuaPlus.NET functionality is encapsulated in the <code>ManagedLuaPlus</code> namespace.&nbsp; Any
+references to LuaPlus classes and types in this documentation assume the <code>
+ManagedLuaPlus.</code> qualifier.&nbsp; For the sake of this document, C# will
+be used as the language accessing <code>ManagedLuaPlus</code> functionality.</p>
+<h2>Class: LuaState</h2>
+<p><code>LuaState</code> is the C++ form of a <code>lua_State</code>.&nbsp; Most C functions that accessed
+a <code>lua_State</code> are inlined functions in <code>LuaState</code>.&nbsp; As far as efficiency goes,
+<code>LuaState</code> is equally as fast as the C
+low-level counterparts for most operations.</p>
+<p>LuaPlus is set up to work in DLL or LIB form, therefore, special
+functions are provided for creating and destroying <code>LuaState</code> objects.&nbsp; It is
+<i>not</i> possible to <code>new</code> a <code>LuaState</code> object, because it is
+necessary to ensure all allocation and deallocation is done within the same
+memory management system.&nbsp; It is also not possible to call the core Lua
+<code>lua_open()</code> function and use a <code>lua_State</code> pointer from
+it.</p>
+<h3>Creating a LuaState Instance</h3>
+<table border="0" width="100%" id="table1">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>
+<p>The static function <code>LuaState::Create()</code> is used to create a <code>
+LuaState</code> instance.&nbsp; The <code>Create()</code> function provides the
+ability to initialize the Lua standard library, which consists of the auxiliary,
+base, debugging, I/O, math, ANSI string, wide string, and table libraries.&nbsp;
+If the application is using LuaPlus strictly for data purposes, the standard
+library should probably not be initialized.</p>
+<p><i>An alternate approach to creating and destroying a <code>LuaState</code>
+object is shown below, in the <code>LuaStateAuto/Owner</code> class.</i></p>
+<pre>LuaState* state = LuaState::Create();</pre>
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" valign="top"><i>Managed</i></td>
+		<td>
+<p>A LuaState object is created no differently than any other .NET object.</p>
+<pre>LuaState state = new LuaState();</pre>
+<p>Currently, the majority of the Lua standard library is initialized per
+LuaState, too, which consists of the auxiliary, base, debugging, I/O, math, ANSI
+string, wide string, and table libraries.</p>
+		</td>
+	</tr>
+</table>
+<h3>Creating a <code>LuaState</code> Thread Instance</h3>
+<table border="0" width="100%" id="table2">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>To add another state, typically for coroutine purposes, to an existing <code>LuaState</code>
+instance, use the <code>LuaState::CreateThread()</code> static function.<pre>LuaObject threadObj = LuaState::CreateThread(state);</pre>
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" valign="top"><i>Managed</i></td>
+		<td>Not possible at this time.</td>
+	</tr>
+</table>
+<h3>Destroying a <code>LuaState</code> Instance</h3>
+<table border="0" width="100%" id="table3">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>Calling the <code>LuaState::Destroy()</code> function runs all final garbage collection
+processes and frees any memory associated with the <code>LuaState</code> object.<pre>LuaState::Destroy(state);</pre>
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" valign="top"><i>Managed</i></td>
+		<td>No explicit destruction of a LuaState object is needed.&nbsp; The .NET
+garbage collector will kick in and take care of clean up.</td>
+	</tr>
+</table>
+<h3>Changing a <code>lua_State</code> Pointer to a <code>LuaState</code> Instance
+(Unmanaged Only)</h3>
+<p>A special function called <code>LuaState::CastState()</code> exists for purposes of
+changing an underlying <code>lua_State*</code> to a <code>LuaState*</code>.&nbsp; Note that
+<code>CastState()</code>
+can only be used if the <code>lua_State</code> pointer was originally from a
+<code>LuaState::Create()</code> call.&nbsp; This separation may occur with certain Lua
+callbacks.</p>
+<pre>LuaState* castedState = LuaState::CastState(regular_lua_State);</pre>
+<h3>Loading and Executing Lua Script Code from Disk</h3>
+<p><code>DoFile(const char* fileName)</code> is used to load and execute scripts
+from disk.&nbsp; It mirrors <code>lua_dofile()</code> in functionality.&nbsp;
+UCS-2 files are handled automatically as are standard 8-bit files.</p>
+<p>There is an alternate version of <code>DoFile()</code> taking a second
+parameter, a <code>LuaObject</code> describing the function environment for the
+block being loaded.</p>
+<p><code>LoadFile()</code> is used to load a <code>.lua</code> script file from
+disk and store the compiled byte code as the top stack element.&nbsp; It does
+not execute the chunk.&nbsp; That must be performed via a call to <code>Call()</code>
+or <code>PCall()</code>.&nbsp; Code loaded in this matter can be dumped to disk
+via the <code>LuaState::Dump()</code> command.</p>
+<h3>Loading and Executing Lua Script Code from Memory</h3>
+<p><code>DoString()</code> and <code>DoBuffer()</code> are used to load and
+execute scripts from memory.&nbsp; They mirror <code>lua_dostring()</code> and
+<code>lua_dobuffer()</code> in functionality.</p>
+<p>There are alternate version of <code>DoString()</code> and <code>DoBuffer()</code>
+taking a second parameter, a <code>LuaObject</code> describing the function
+environment for the block being loaded.</p>
+<p><code>LoadString()</code> and <code>LoadBuffer()</code> are used to load Lua
+scripts from memory and store the compiled byte code as the top stack element.&nbsp;
+It does not execute the chunk.&nbsp; That must be performed via a call to <code>
+Call()</code> or <code>PCall()</code>.&nbsp; Code loaded in this matter can be
+dumped to disk via the <code>LuaState::Dump()</code> command.</p>
+<p>Finally, there are lua_WChar wide character equivalents of the above
+functions: <code>DoWString()</code>, <code>LoadWString()</code>, <code>DoWBuffer()</code>,
+and <code>LoadWBuffer()</code>.</p>
+<h3>Retrieving a Global Variable</h3>
+<p>Global variables in a <code>LuaState</code> instance may be retrieved by one of a couple
+methods.</p>
+<pre>LuaObject obj = state-&gt;GetGlobal(&quot;MyGlobalVariable&quot;);</pre>
+<p>Alternatively, the basic <code>LuaObject::operator[]</code> referencing or
+the <code>LuaObject::GetByName()</code> functions may be used in conjunction
+with <code>LuaState::GetGlobals()</code>.&nbsp; (Both functions are described in
+greater detail below, in the <code>LuaObject</code> section.)</p>
+<pre>LuaObject globalsObj = state-&gt;GetGlobals();
+LuaObject obj = globalsObj[&quot;MyGlobalVariable&quot;];</pre>
+<p>You can also use a shortened form:</p>
+<pre>LuaObject obj = state-&gt;GetGlobals()[&quot;MyGlobalVariable&quot;];</pre>
+<p>Note that some functions are for retrieval of <code>LuaStackObjects</code>.&nbsp; These
+function names are usually followed with <code>_Stack</code>.</p>
+<pre>LuaStackObject obj1 = state-&gt;GetGlobals_Stack();
+LuaStackObject obj2 = state-&gt;GetGlobal_Stack(&quot;MyGlobalVariable&quot;);</pre>
+<h3>Retrieving the Registry</h3>
+<pre>LuaObject obj = state-&gt;GetRegistry();
+LuaStackObject obj2 = state-&gt;GetRegistry_Stack();</pre>
+<h3>Retrieve a Stack Object</h3>
+<p>Any stack object can be retrieved via the <code>Stack()</code> function.</p>
+<pre>LuaStackObject obj = state-&gt;Stack(1);</pre>
+<p>The <code>StackTop()</code> function will return a <code>LuaStackObject</code>
+representing the current top of the stack.</p>
+<pre>LuaStackObject obj = state-&gt;StackTop();</pre>
+<h3>Stack Functions</h3>
+<ul>
+	<li><code>GetTop()</code> - Mirrors <code>lua_gettop()</code>.</li>
+	<li><code>SetTop(int index)</code> - Mirrors <code>lua_settop()</code>.</li>
+	<li><code>PushValue(int index)</code> - Mirrors <code>lua_pushvalue()</code>.</li>
+	<li><code>PushValue(LuaStackObject&amp; object)</code> - Mirrors <code>
+	lua_pushvalue()</code>.</li>
+	<li><code>Remove(int index)</code> - Mirrors <code>lua_remove()</code>.</li>
+	<li><code>Insert(int index)</code> - Mirrors <code>lua_insert()</code>.</li>
+	<li><code>Replace(int index)</code> - Mirrors <code>lua_remove()</code>.</li>
+	<li><code>CheckStack(int size)</code> - Mirrors <code>lua_checkstack()</code>.</li>
+	<li><code>XMove(LuaState* to, int n)</code> - Mirrors <code>lua_xmove()</code>.</li>
+	<li><code>Equal(int index1, int index2)</code> - Mirrors <code>lua_equal()</code>.</li>
+	<li><code>RawEqual(int index1, int index2)</code> - Mirrors <code>
+	lua_rawequal()</code>.</li>
+	<li><code>LessThan(int index1, int index2)</code> - Mirrors <code>
+	lua_lessthan()</code>.</li>
+</ul>
+<p>Pushing values to the stack is accomplished via the following functions.</p>
+<ul>
+	<li><code>PushNil()</code> - Mirrors <code>lua_pushnil()</code>.</li>
+	<li><code>PushInteger(int n)</code> - Mirrors <code>lua_pushinteger()</code>.</li>
+	<li><code>PushNumber(lua_Number n)</code> - Mirrors <code>lua_pushnumber()</code>.</li>
+	<li><code>PushLString(const char* s, size_t len)</code> - Mirrors <code>
+	lua_pushlstring()</code>.</li>
+	<li><code>PushLWString(const lua_WChar* s, size_t len)</code> - Mirrors <code>
+	lua_pushlwstring()</code>.</li>
+	<li><code>PushString(const char* s)</code> - Mirrors <code>lua_pushstring()</code>.</li>
+	<li><code>PushWString(const lua_WChar* s)</code> - Mirrors <code>lua_pushwstring()</code>.</li>
+	<li><code>PushBoolean(bool value)</code> - Mirrors <code>lua_pushboolean()</code>.</li>
+	<li><code>PushLightUserData(void* p)</code> - Mirrors <code>
+	lua_pushlightuserdata()</code>.</li>
+</ul>
+<p>Pushing a closure to the stack has several overloads:</p>
+<ul>
+	<li><code>PushCClosure(lua_CFunction fn, int n)</code> - Mirrors <code>
+	lua_pushcclosure()</code>.</li>
+	<li><code>PushCClosure(function, n)</code> - Pushes a C callback function
+	taking a <code>LuaState*</code> argument.&nbsp; It can be either a global
+	function, static function, or member function.</li>
+	<li><code>PushCFunction(lua_CFunction fn)</code> - Pushes a C function to
+	the stack.&nbsp; No upvalues.</li>
+</ul>
+<h3>Retrieving Arguments</h3>
+<ul>
+	<li><code>TypeError(narg, tname)</code> - Mirrors <code>luaL_typerror()</code>.</li>
+	<li><code>ArgError(narg, extramsg)</code> - Mirrors <code>luaL_argerror()</code>.</li>
+	<li><code>CheckLString(numArg, len)</code> - Mirrors <code>luaL_checklstring()</code>.</li>
+	<li><code>OptLString(numArg, def, len)</code> - Mirrors <code>
+	luaL_optlstring()</code>.</li>
+	<li><code>CheckNumber(numArg)</code> - Mirrors <code>luaL_checknumber()</code>.</li>
+	<li><code>OptNumber(nArg, def)</code> - Mirrors <code>luaL_optnumber()</code>.</li>
+	<li><code>ArgCheck(condition, numarg, extramsg)</code> - Mirrors <code>
+	luaL_argcheck()</code>.</li>
+	<li><code>CheckString(numArg)</code> - Mirrors <code>luaL_checkstring()</code>.</li>
+	<li><code>OptString(numArg, def)</code> - Mirrors <code>luaL_optstring()</code>.</li>
+	<li><code>CheckInt(numArg)</code> - Mirrors <code>luaL_checkint()</code>.</li>
+	<li><code>CheckLong(numArg)</code> -&nbsp; Mirrors <code>luaL_checklong()</code>.</li>
+	<li><code>OptInt(numArg, def)</code> - Mirrors <code>luaL_optint()</code>.</li>
+	<li><code>OptLong(numArg, def)</code> - Mirrors <code>luaL_optlong()</code>.</li>
+	<li><code>CheckStack(int sz, const char* msg)</code> - Mirrors <code>
+	luaL_checkstack()</code>.</li>
+	<li><code>CheckType(narg, t)</code> - Mirrors <code>luaL_checktype()</code>.</li>
+	<li><code>CheckAny(int narg)</code> - Mirrors <code>luaL_checkany()</code>.</li>
+	<li><code>CheckUData(int ud, const char* tname)</code> - Mirrors <code>
+	luaL_checkudata()</code>.</li>
+</ul>
+<h3>Set Stack Table Values</h3>
+<p>The following mirror the standard C Lua APIs for stack table manipulation.&nbsp;
+It is highly recommended <code>LuaObject</code> is used instead, as it provides
+a much better C++ alternative than the Lua stack.</p>
+<ul>
+	<li><code>SetTable(int index)</code> - Mirrors <code>lua_settable()</code>.</li>
+	<li><code>RawSet(int index)</code> - Mirrors <code>lua_rawset()</code>.</li>
+	<li><code>RawSetI(int index, int n)</code> - Mirrors <code>lua_rawseti()</code>.</li>
+	<li><code>SetMetaTable(int index)</code> - Mirrors <code>lua_setmetatable()</code>.</li>
+	<li><code>SetGlobals(int index)</code> - Mirrors <code>lua_setfenv()</code>.&nbsp;
+	Backward compatible.</li>
+	<li><code>SetFEnv(int index)</code> - Mirrors <code>lua_setfenv()</code>.</li>
+	<li><code>SetGlobal(const char *name)</code> - Mirrors <code>lua_setglobal()</code>.</li>
+	<li><code>Ref(int lock)</code> - Mirrors <code>luaL_ref()</code>.</li>
+	<li><code>Unref(int ref)</code> - Mirrors <code>luaL_unref()</code>.</li>
+	<li><code>SetDefaultMetaTable(int type)</code> - Sets the default meta table
+	for the given type with the table at the stack top.</li>
+</ul>
+<h3>Serializing to a Lua Text Data File</h3>
+<p>LuaPlus provides a comprehensive serialization facility for Lua data.&nbsp;
+It is described in detail in the <a href="#Serialization">Serialization section</a>
+below.</p>
+<h2>Class: LuaStateAuto/Owner (Unmanaged Only)</h2>
+<p><code>LuaStateAuto</code> is an auto pointer encapsulation for a <code>LuaState</code> pointer.&nbsp;
+  When the <code>LuaStateAuto</code> goes out of scope, <code>LuaState::Destroy()</code> is
+  automatically called on the contained state.&nbsp; In a Release build, <code>LuaStateAuto</code>'s
+  accessors are inlined, and code generation is as if the <code>LuaStateAuto</code>
+object did not even
+  exist.</p>
+<p>Using <code>LuaStateAuto</code> is illustrated below:</p>
+<pre>{
+    LuaStateAuto stateOwner;  // The state is automatically set to NULL.
+    stateOwner = LuaState::Create();
+    stateOwner-&gt;PushNil();
+    // LuaState::Destroy() is automatically called here.
+}</pre>
+<p><code>LuaStateOwner</code> is derived from <code>LuaStateAuto</code>.&nbsp;
+<code>LuaStateOwner</code> can automatically create the <code>LuaState</code>
+through the function call <code>LuaState::Create</code>.</p>
+<pre>{
+    LuaStateOwner stateOwner;  // Automatically calls LuaState::Create().
+    stateOwner-&gt;PushNil();
+    // LuaState::Destroy() is automatically called here.
+}</pre>
+<p>Since a <code>LuaStateAuto</code> object merely encapsulates the <code>LuaState</code> pointer, it is
+possible to retrieve that pointer by just assigning it.</p>
+<pre>LuaState* state = stateOwner;</pre>
+<h2>Class: LuaObject</h2>
+<p>LuaPlus provides an API extension over the core of Lua wrapped in the class
+<code>LuaObject</code>.&nbsp; A <code>LuaObject</code> gives the full functionality of core Lua's stack
+entities, but it does so without involving the stack at all.&nbsp; In general,
+<code>LuaObjects</code> tend to run a little faster than the core Lua stack equivalent.</p>
+<p>A <code>LuaObject</code> should be used for all communication with LuaPlus that is
+external to a callback function.&nbsp; <code>LuaStackObjects</code>, described
+below, are used in conjunction with callback functions, but the same functional
+interface is provided for consistency.</p>
+<p><code>LuaObjects</code> store a pointer to the parent <code>LuaState</code>.&nbsp; In part, this
+is what makes the <b>LuaWatchAddin</b> work.&nbsp; Most importantly, <code>LuaObjects</code> can
+just be passed around without any regard for the LuaState they came from.</p>
+<p>It is also important to note <code>LuaObject</code>s are scope-driven.&nbsp;
+So long as the <code>LuaObject</code> is in scope, the object is valid.&nbsp;
+When it goes out of scope, the contents of the <code>LuaObject</code> will be
+garbage collected.&nbsp; There is no need to run commands like <code>lua_ref()</code>
+to keep an object around.&nbsp; Merely holding onto the <code>LuaObject</code>
+instance, be it as a member variable, global variable, or even local variable
+within a block of code is enough to ensure the <code>LuaObject</code>'s
+existence.</p>
+<p>A <code>Reset()</code> function is also provided.&nbsp; It resets the
+<code>LuaObject</code> back to a default state where no Lua state is pointed to internally.</p>
+<p>The sample code <b>TestSuite</b> performs an in-depth test of <code>LuaObject</code> and is a
+useful supplement to this documentation.&nbsp; The sample <b>TestScript</b> is
+also used as a test bed for <code>LuaObject</code> concepts.</p>
+<h3>Object Type</h3>
+<p>A <code>LuaObject</code> contains an object of one of several different types.&nbsp; These
+  types are described in the <a href="LuaManual.html#TypesSec">Lua manual</a> with
+  the exception of the <a href="#WideCharacterStrings">wide string type</a>, a
+<i>LuaPlus</i> added type.</p>
+<p>There are several ways to retrieve the type of the <code>LuaObject</code>.&nbsp; To test
+for a specific type, one of the following functions may be called:</p>
+<ul>
+  <li><code>IsNil()</code> - Tests if the object is nil.&nbsp; Mirrors <code>lua_isnil()</code>.</li>
+  <li><code>IsTable()</code> - Tests if the object is a table.&nbsp; Mirrors
+  <code>lua_istable()</code>.</li>
+  <li><code>IsUserData()</code> - Tests if the object is userdata (including
+  light userdata).&nbsp; Mirrors <code>lua_isuserdata()</code>.</li>
+  <li><code>IsCFunction()</code> - Tests if the object is a C function.&nbsp;
+  Mirrors <code>lua_iscfunction()</code>.</li>
+  <li><code>IsInteger()</code> - Tests if the exact type of the object is a
+  number.&nbsp; See <code>IsConvertibleToNumber()</code> for the <code>LuaObject</code> equivalent of
+  <code>lua_isnumber()</code>.</li>
+  <li><code>IsNumber()</code> - Tests if the exact type of the object is a
+  number.&nbsp; See <code>IsConvertibleToNumber()</code> for the <code>LuaObject</code> equivalent of
+  <code>lua_isnumber()</code>.</li>
+  <li><code>IsString()</code> - Tests if the exact type of the object is a
+  string.&nbsp; See <code>IsConvertibleToString()</code> for the <code>LuaObject</code> equivalent of
+  <code>lua_isstring()</code>.</li>
+  <li><code>IsWString()</code> - Tests if the exact type of the object is a wide
+  string.&nbsp; See <code>IsConvertibleToWString()</code> for the wide string equivalent of
+  <code>lua_isstring()</code>.</li>
+  <li><code>IsConvertibleToInteger()</code> - Tests if the object is convertible
+  to a number.&nbsp; The object being tested can be a number, string, or wide
+  string.&nbsp; Mirrors <code>lua_isnumber()</code>.</li>
+  <li><code>IsConvertibleToNumber()</code> - Tests if the object is convertible
+  to a number.&nbsp; The object being tested can be a number, string, or wide
+  string.&nbsp; Mirrors <code>lua_isnumber()</code>.</li>
+  <li><code>IsConvertibleToString()</code> - Tests if the object is convertible to a string.&nbsp;
+  The object being tested can be a number or a string.&nbsp; Mirrors <code>lua_isstring()</code>.</li>
+  <li><code>IsConvertibleToWString()</code> - Tests if the object is convertible to a wide
+  string.&nbsp; The object being tested can be a number or a wide string.&nbsp;
+  Mirrors <code>lua_iswstring()</code>, the wide character equivalent of <code>lua_isstring()</code>.</li>
+  <li><code>IsFunction()</code> - Tests if the object is a function.&nbsp;
+  Mirrors <code>lua_isfunction()</code>.</li>
+  <li><code>IsNone()</code> - Tests if the object is out of range on the stack.&nbsp;
+  Mirrors <code>lua_isnone()</code>.</li>
+  <li><code>IsLightUserData()</code> - Tests if the object is specifically light
+  user data.</li>
+  <li><code>IsBoolean()</code> - Tests if the object is a boolean.&nbsp; Mirrors
+  <code>lua_isboolean()</code>.</li>
+</ul>
+<p>Generically, the type may be retrieved via the <code>Type()</code>
+function.&nbsp; It returns a value from the <code>LuaState</code> class's
+enumeration of Types:</p>
+<font SIZE="2">
+<pre></font><font SIZE="2" COLOR="#0000ff">enum</font><font SIZE="2"> Types
+{
+    TNONE = (-1),
+    TNIL = 0,
+    TBOOLEAN = 1,
+    TLIGHTUSERDATA = 2,
+    TNUMBER = 3,
+    TSTRING = 4,
+    TTABLE = 5,
+    TFUNCTION = 6,
+    TUSERDATA = 7,
+    TTHREAD = 8,
+    TWSTRING = 9,
+};</pre>
+</font>
+<p>The actual string name of the type can be retrieved through <code>LuaObject</code>'s
+<code>TypeName()</code> function.</p>
+<h3>Value Retrieval</h3>
+<p>After testing the <code>LuaObject</code> for the desired type, the stored
+value may be retrieved using one of <code>LuaObject</code>'s <code>Get*()</code>
+functions.&nbsp; All <code>Get*()</code> functions assert on the wrong type in
+Debug builds.</p>
+<ul>
+  <li><code>int ToInteger()</code> - Mirrors <code>lua_tonumber()</code>.&nbsp;
+	Attempts to retrieve a numeric value from the object, even if the object is
+	a string.</li>
+  <li><code>lua_Number ToNumber()</code> - Mirrors <code>lua_tonumber()</code>.&nbsp;
+	Attempts to retrieve a numeric value from the object, even if the object is
+	a string.</li>
+  <li><code>const char* ToString()</code> - Mirrors <code>lua_tostring()</code>.&nbsp;
+	Attempts to retrieve a string from the object.&nbsp; If the object is a
+	number, the object is converted to a string.</li>
+  <li><code>const lua_WChar* ToWString()</code> - Mirrors <code>lua_towstring()</code>.&nbsp;
+	Attempts to retrieve a wide string from the object.&nbsp; It the object is a
+	number, the object is converted to a wide character string.</li>
+  <li><code>int GetInteger()</code> - Retrieves the integer the object
+  represents.&nbsp; Asserts if the object is not of a numeric type.</li>
+  <li><code>float GetFloat()</code> - Retrieves the float the object
+  represents.&nbsp; Asserts if the object is not of a numeric type.</li>
+  <li><code>double GetDouble()</code> - Retrieves the double the object
+  represents.&nbsp; Asserts if the object is not of a numeric type.</li>
+	<li><code>lua_Number GetNumber()</code> - Retrieves the lua_Number the
+	object represents.&nbsp; Asserts if the object is not of a numeric type.</li>
+  <li><code>const char* GetString()</code> - Retrieves the string the object
+  represents.&nbsp; Asserts if the object is not a single byte string type.</li>
+  <li><code>const lua_WChar* GetWString()</code> - Retrieves the wide string the
+  object represents.&nbsp; Asserts if the object is not a double byte string
+  type.</li>
+  <li><code>lua_CFunction GetCFunction()</code> - Retrieves the C function
+  pointer the object represents.&nbsp; Asserts if the object is not a C
+  function.</li>
+  <li><code>void* GetUserData()</code> - Retrieves the userdata or light
+  userdata the object represents.&nbsp; Asserts if the object is not a userdata.</li>
+  <li><code>void* GetLightUserData()</code> - Retrieves the light userdata the
+  object represents.&nbsp; Asserts if the object is not a light userdata.</li>
+  <li><code>bool GetBoolean()</code> - Retrieves the boolean the object
+  represents.&nbsp; Asserts if the object is not a boolean convertible type.</li>
+</ul>
+<p>If the <code>LuaObject</code> is an ANSI or wide character string, the length
+of the string in characters may be retrieved via <code>StrLen()</code>.&nbsp;
+The function <code>ToStrLen()</code> may be used to automatically convert
+numbers up to strings and retrieve the length.&nbsp; <code>ToStrLen()</code>'s
+behavior is a mirror of <code>lua_strlen()</code>.</p>
+<p>For objects of type table, function, userdata, or light userdata, the
+internal Lua storage pointer can be retrieved via the function <code>
+GetLuaPointer()</code>.</p>
+<pre>LuaObject obj = state-&gt;GetGlobal(&quot;SomeVariable&quot;);
+if (obj.IsString())
+{
+    const char* str = obj.GetString();
+}</pre>
+<h3>Value Storage</h3>
+<p>For a stack Lua value, the programmer uses <code>Push*()</code> functions to
+get user values on the stack.&nbsp; Since <code>LuaObjects</code> aren't stack
+based, an alternate scheme was devised.</p>
+<p>To assign a value to any <code>LuaObject</code>, use one of the <code>
+Assign*()</code> functions.</p>
+<ul>
+  <li><code>AssignNil(LuaState* state)</code></li>
+  <li><code>AssignBoolean(LuaState* state, bool value)</code></li>
+	<li><code>AssignInteger(LuaState* state, int value)</code></li>
+  <li><code>AssignNumber(LuaState* state, double value)</code></li>
+  <li><code>AssignString(LuaState* state, const char* value)</code></li>
+  <li><code>AssignWString(LuaState* state, const lua_WChar* value)</code></li>
+  <li><code>AssignUserData(LuaState* state, void* value)</code></li>
+  <li><code>AssignLightUserData(LuaState* state, void* value)</code></li>
+  <li><code>AssignObject(LuaState* state, LuaObject&amp; value)</code></li>
+  <li><code>AssignNewTable(LuaState* state, int narray = 0, int nhash = 0)</code></li>
+</ul>
+<p>For example, to assign the string <code>&quot;Hello, world!&quot;</code> to a
+<code>LuaObject</code>:</p>
+<pre>LuaObject strObj;
+strObj.AssignString(state, &quot;Hello, world!&quot;);</pre>
+<h3>Table Creation</h3>
+<p>There are two approaches for table creation built into LuaObject.&nbsp; The
+first is provided through the CreateTable() suite of functions.&nbsp;
+CreateTable() works similarly to the Set*() functions described below in that it
+is assumed the current LuaObject is a table.&nbsp; The first argument to
+CreateTable() is a table key.&nbsp; The key is used to make a new entry in the
+current LuaObject table and assign its value as an empty table.</p>
+<p>The second approach to table creation is via the AssignNewTable() function.&nbsp;
+When called, an empty Lua table is created in the current LuaObject.</p>
+<pre>LuaObject globalsObj = state-&gt;GetGlobals();
+LuaObject myArrayOfStuffTableObj = globalsObj.CreateTable(&quot;MyArrayOfStuff&quot;);
+
+LuaObject aStandaloneTableObj;
+aStandaloneTableObj.AssignNewTable(state);</pre>
+<h3>Table Count</h3>
+<p>When the <code>LuaObject</code> is a table, the functions for manipulating
+tables become available.&nbsp; A few functions exist for retrieving various
+types of table counts.</p>
+<p>For the following table:</p>
+<pre>MyTable =
+{
+    WindSpeed = 50,
+    Value = 'Hello',
+    10,
+    20,
+    30
+}</pre>
+<p>Calling <code>GetN()</code> returns 3.&nbsp; <code>GetN()</code> uses Lua's
+<code>table.getn()</code> function internally to retrieve the count.&nbsp; <code>
+table.getn()</code> only considers contiguous numeric keys starting at 1 to be
+the count.</p>
+<p><code>GetCount()</code> also only considers contiguous numeric keys starting
+at 1.&nbsp; It would also return 3 for the table above.&nbsp; However, for one
+shot table counts, <code>GetCount()</code> generally runs much faster.</p>
+<p>Finally, <code>GetTableCount()</code> exists to return the actual number of
+(non-contiguous) keys in the table.&nbsp; For <code>MyTable</code> above, the table count would
+be 5.</p>
+<h3>Table Data Lookups</h3>
+<p>When the <code>LuaObject</code> is a table, the functions for manipulating
+tables become available.&nbsp; If the <code>LuaObject</code> is not a table and
+those functions are used, they will assert.</p>
+<p><code>operator[]</code> has been overloaded to accept a key type of <code>
+const char*</code>, <code>int</code>, <code>LuaStackObject</code>, or <code>LuaObject</code>.&nbsp; Using
+<code>operator[]</code> allows lookups to be very naturally represented, much
+like using Lua script code.</p>
+<pre>state-&gt;DoString(&quot;MyTable = { WindSpeed = 50, Value = 'Hello', 10, 20, 30 }&quot;);
+
+LuaObject myTableObj = state-&gt;GetGlobals()[&quot;MyTable&quot;];
+LuaObject windSpeedObj = myTableObj[&quot;WindSpeed&quot;];
+
+LuaObject is20Obj = myTableObj[2];
+
+LuaObject keyObj;
+keyObj.AssignString(state, &quot;Value&quot;);
+
+LuaObject valueObj = myTableObj[keyObj];</pre>
+<p>Although not usually needed, spelled out forms of the table retrieval
+functions are:</p>
+<ul>
+  <li><code>GetByName(const char* key)</code></li>
+  <li><code>GetByIndex(int index)</code></li>
+	<li><code>GetByObject(const LuaObject&amp; obj)</code></li>
+  <li><code>GetByObject(const LuaStackObject&amp; obj)</code></li>
+</ul>
+<h3>Table Data Storage</h3>
+<p>The <code>LuaObject</code> table setting functions all start with <code>
+Set*()</code>.</p>
+<p>There are 3 overloaded <code>Set*()</code> functions per value type.&nbsp;
+Each takes one of three key types for the key-value pair arguments.</p>
+<ul>
+  <li>A string specified via <code>const char*</code>.</li>
+  <li>An integer (<code>int</code>).</li>
+  <li>A <code>LuaObject</code>.</li>
+</ul>
+<p>The <code>Set*()</code> functions are listed below.&nbsp; <code>key</code> is
+one of the 3 types listed above.</p>
+<ul>
+  <li><code>SetNil(key)</code></li>
+  <li><code>SetBoolean(key, bool value)</code></li>
+	<li><code>SetInteger(key, int value)</code></li>
+  <li><code>SetNumber(key, double value)</code></li>
+  <li><code>SetString(key, const char* value)</code></li>
+  <li><code>SetWString(key, const lua_WChar* value)</code></li>
+  <li><code>SetUserData(key, void* value)</code></li>
+  <li><code>SetLightUserData(key, void* value)</code></li>
+  <li><code>SetObject(key, LuaObject&amp; value)</code></li>
+</ul>
+<p>Each <code>Set*()</code> function returns a reference to the current object,
+allowing chaining of multiple <code>Set*()</code> functions in a single
+statement.</p>
+<p>Example:</p>
+<pre>LuaObject tableObj;
+tableObj.AssignNewTable(state);
+tableObj.SetString(&quot;MyKey&quot;, &quot;Hello, world!&quot;);
+
+LuaObject globalsObj = state-&gt;GetGlobals();
+globalsObj.SetBoolean(&quot;InUse&quot;, true).SetNumber(5, 2000);</pre>
+<h3>Table Data Lookups</h3>
+<p>The Lookup() function provides a simple method of recursively looking up a
+table entry by string.&nbsp; It accepts period separated string key entries.</p>
+<pre>LuaObject globalsObj = state-&gt;GetGlobals();
+LuaObject valueObj = globalsObj.Lookup(&quot;Child1.Child2.Value1&quot;);</pre>
+<h3>Table Manipulation</h3>
+<p>Some of the calls provided through the table library of functions are more
+simply encapsulated in LuaObject.&nbsp; The current set of functions are
+Insert() (mirroring table.insert), Remove() (mirroring table.remove), and Sort()
+(mirroring table.sort).</p>
+<h3>Cloning Objects</h3>
+<p>Another <code>LuaObject</code> method, <code>Clone()</code>, allows simple
+cloning of a <code>LuaObject</code>.&nbsp; The clone operation is a deep clone
+for Lua tables, but for any other values, a simple clone is performed.&nbsp;
+This should be fine for most needs, especially where values like userdata can
+just be a simple pointer copy.</p>
+<p>The <code>Clone()</code> method does not handle cyclic tables.&nbsp; You will
+either run out of memory or stack overflow if you attempt a clone operation on a
+cyclic table.</p>
+<h3>Comparing Objects</h3>
+<p>Two <code>LuaObjects</code> may be compared by using the <code>==</code> or
+<code>&lt;</code> operators.&nbsp; The internal comparisons are done through <code>
+lua_equal()</code> and <code>lua_lessthan()</code>, which is equivalent to their
+<a href="LuaManual.html#rel-ops">Lua counterparts</a>.</p>
+<h3>Implicit Conversion Between LuaStackObject and LuaObject</h3>
+<p>On many occasions, it is still necessary to access an object on the Lua
+stack.&nbsp; Callback functions receive an array of <code>LuaStackObjects</code>
+as arguments.&nbsp; Generally, the APIs for a <code>LuaStackObject</code> and a
+<code>LuaObject</code> are similar enough to not be an issue when writing code.&nbsp;
+<code>LuaObjects</code> are, however, the preferred way of accessing objects
+maintained by Lua, since the stack doesn't need to be taken into consideration.</p>
+<p>Turning a <code>LuaStackObject</code> into a <code>LuaObject</code> is as
+simple as making an assignment:</p>
+<pre>LuaStackObject stack1Obj(state, 1);
+LuaStackObject stack2Obj(state, 2);
+
+LuaObject nonStack1Obj(stack1Obj);
+// or
+LuaObject nonStack2Obj = stack2Obj;</pre>
+<h3>Pushing a LuaObject onto the Lua Stack</h3>
+<p>The cases where you would need to push a <code>LuaObject</code> onto the Lua
+stack are rare.&nbsp; Nonetheless, the facility is provided through <code>
+LuaObject</code>'s <code>PushStack()</code> function.</p>
+<pre>LuaObject tableObj(state);
+tableObj.AssignNewTable();
+tableObj.SetString(&quot;Key&quot;, &quot;My String&quot;);
+
+// It's often good practice to use a LuaAutoBlock here.
+tableObj.PushStack();    // Be sure to clean it up when you're done!</pre>
+<h3>Registering Callbacks</h3>
+<table border="0" width="100%" id="table8">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>Proper LuaPlus callbacks are of the function signature:<pre>int Callback(LuaState* state);</pre>
+<p>As a convenience mechanism, the Lua stack is available through a class called
+<code>LuaStack</code>.&nbsp; It will usually be used as the first line of a callback
+function.</p>
+<p>LuaPlus's callbacks use a simple functor mechanism that masks away the differences between global functions, non-virtual member
+functions, and virtual member functions.</p>
+<p>Lua standard C-style callbacks can also be used, although they aren't as
+functionally robust as LuaPlus callbacks.</p>
+<p>An example follows:</p>
+<pre>static int LS_LOG(LuaState* state)
+{
+    printf(&quot;In static function\n&quot;);
+    return 0;
+}
+
+
+class Logger
+{
+public:
+    int LS_LOGMEMBER(LuaState* state)
+    {
+        LuaStack args(state);
+        printf(&quot;In member function.  Message: %s\n&quot;, args[1].GetString());
+        return 0;
+    }
+
+    virtual int LS_LOGVIRTUAL(LuaState* state)
+    {
+        printf(&quot;In virtual member function\n&quot;);
+        return 0;
+    }
+};
+
+
+LuaObject globalsObj = state-&gt;GetGlobals();
+globalsObj.Register(&quot;LOG&quot;, LS_LOG);
+state-&gt;DoString(&quot;LOG()&quot;);
+
+Logger logger;
+globalsObj.Register(&quot;LOGMEMBER&quot;, logger, &amp;Logger::LS_LOGMEMBER);
+state-&gt;DoString(&quot;LOGMEMBER('The message')&quot;);
+
+globalsObj.Register(&quot;LOGVIRTUAL&quot;, logger, &amp;Logger::LS_LOGVIRTUAL);
+state-&gt;DoString(&quot;LOGVIRTUAL()&quot;);</pre>
+<p>Callback functions are registered with the <code>Register()</code> function.&nbsp;
+<code>LuaObject</code> provides several overloaded <code>Register()</code> functions:</p>
+<pre>void Register( const char* funcName, lua_CFunction function, int nupvalues = 0 );
+void Register( const char* funcName, int (*func)(LuaState*), int nupvalues = 0 );
+void Register( const char* funcName, const Callee&amp; callee, int (Callee::*func)(LuaState*), int nupvalues = 0 );</pre>
+<p><code>LuaObject</code> provides a wide range of function registration facilities,
+including standard Lua callbacks and non-functor LuaPlus-style callbacks.&nbsp;
+Additionally, arrays of functions may be registered, too.</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" valign="top"><i>Managed</i></td>
+		<td>Proper LuaPlus callbacks are of defined through the Managed C++
+		delegate:<pre>public __delegate int LuaPlusCallback(LuaState* state);</pre>
+		<p>An example follows:</p>
+<pre>public int LS_LOG(LuaState state)
+{
+    Console.WriteLine(&quot;In member function.  Message: {0}\n&quot;, state.Stack(1).GetString());
+    return 0;
+}
+
+LuaObject globalsObj = state.GetGlobals();
+globalsObj.Register(&quot;LOG&quot;, new LuaPlusCallback(Logger.LS_LOG));
+state-&gt;DoString(&quot;LOG()&quot;);</pre>
+		</td>
+	</tr>
+</table>
+<h3>Registering Object Dispatch Functors</h3>
+<table border="0" width="100%" id="table9">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>Even though <code>Register()</code> can dispatch to C++ member functions, it
+uses a 'this' pointer as provided by the second argument passed to the function.&nbsp;
+The 'this' pointer is constant, and <code>Register()</code> is not suited for
+mirroring class hierarchies in Lua.<p>The solution to the 'this' pointer issue is through
+		<code>RegisterObjectFunctor()</code>.&nbsp; It is a specialized form of
+		<code>Register()</code> where a 'this' pointer isn't provided during the
+closure registration.&nbsp; Instead, it is retrieved from either the calling userdata or the calling table's
+		<code>__object</code> member, which must be a full or light userdata.</p>
+<p>As an example, we want to mirror a class called MultiObject:</p>
+<pre>class MultiObject
+{
+public:
+    MultiObject(int num) :
+        m_num(num)
+    {
+    }
+
+    int Print(LuaState* state)
+    {
+        printf(&quot;%d\n&quot;, m_num);
+        return 0;
+    }
+
+    void Print2(int num)
+    {
+        printf(&quot;%d %d\n&quot;, m_num, num);
+    }
+
+protected:
+    int m_num;
+};</pre>
+<p>The best way to implement C++ objects mirrored in Lua is through metatables.&nbsp;
+We'll start by creating a metatable and adding the MultiObject::Print() function
+to it.</p>
+<pre>LuaObject metaTableObj = state-&gt;GetGlobals().CreateTable(&quot;MultiObjectMetaTable&quot;);
+metaTableObj.SetObject(&quot;__index&quot;, metaTableObj);
+metaTableObj.RegisterObjectFunctor(&quot;Print&quot;, &amp;MultiObject::Print);</pre>
+<p>Now, we'll give two C++ objects implementations in Lua called <code>obj1</code> and
+<code>obj2</code>.&nbsp;
+We set each Lua table's metatable to be the metatable we created above:</p>
+<pre>MultiObject obj1(10);
+LuaObject obj1Obj = state-&gt;BoxPointer(&amp;obj1);
+obj1Obj.SetMetaTable(metaTableObj);
+state-&gt;GetGlobals().SetObject(&quot;obj1&quot;, obj1Obj);
+
+MultiObject obj2(20);
+LuaObject obj2Obj = state-&gt;BoxPointer(&amp;obj2);
+obj2Obj.SetMetaTable(metaTableObj);
+state-&gt;GetGlobals().SetObject(&quot;obj2&quot;, obj2Obj);</pre>
+<p>Everything is set up to handle proper dispatching now.&nbsp; To
+illustrate, a few <code>DoString()</code> calls will dispatch to the correct objects:</p>
+<pre>state-&gt;DoString(&quot;obj1:Print()&quot;);
+state-&gt;DoString(&quot;obj2:Print()&quot;);</pre>
+<p><code>obj1</code> and <code>obj2</code> were both created as userdata objects
+with metatables.&nbsp; The other approach involves assigning a full or light
+userdata representing the C++ object to a table's <code>__object</code> member.</p>
+<pre>LuaObject table1Obj = state-&gt;GetGlobals().CreateTable(&quot;table1&quot;);
+table1Obj.SetLightUserData(&quot;__object&quot;, &amp;obj1);
+table1Obj.SetMetaTable(metaTableObj);
+
+LuaObject table2Obj = state-&gt;GetGlobals().CreateTable(&quot;table2&quot;);
+table2Obj.SetLightUserData(&quot;__object&quot;, &amp;obj2);
+table2Obj.SetMetaTable(metaTableObj);
+
+state-&gt;DoString(&quot;table1:Print()&quot;);
+state-&gt;DoString(&quot;table2:Print()&quot;);</pre>
+<p>Above, two Lua tables called <code>table1</code> and <code>table2</code> are
+created and their <code>__object</code> members are assigned to the C++ <code>
+obj1</code> and <code>obj2</code> objects respectively.&nbsp; After the
+assignments are done, two <code>DoString()</code> calls are run to
+illustrate the correct callback dispatching.</p>
+		</td>
+	</tr>
+	</table>
+<h3>Registering Functions Directly</h3>
+<table border="0" width="100%" id="table4">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>LuaPlus supports registration of C++ functions directly through the
+<code>RegisterDirect()</code> function.<pre>float Add(float num1, float num2)
+{
+    return num1 + num2;
+}
+
+LuaStateOwner state;
+state-&gt;GetGlobals().RegisterDirect(&quot;Add&quot;, Add);
+state-&gt;DoString(&quot;print(Add(10, 5))&quot;);</pre>
+<p>Any functions registered in this fashion automatically receive built-in type
+checking for the incoming arguments.&nbsp; If an argument is not valid,
+luaL_argassert is called.&nbsp; For instance, in the above example, if Add was
+called with a non-numeric string, there would be a failure.</p>
+<pre>state-&gt;DoString(&quot;print(Add(10, 'Hello'))&quot;);</pre>
+<p>Just as global functions can be registered, member functions can be
+registered, also.</p>
+<pre>void LOG(const char* message)
+{
+    printf(&quot;In global function: %s\n&quot;, message);
+}
+
+
+class Logger
+{
+public:
+    void LOGMEMBER(const char* message)
+    {
+        printf(&quot;In member function: \n&quot;, message);
+    }
+
+    virtual void LOGVIRTUAL(const char* message)
+    {
+        printf(&quot;In virtual member function: %s\n&quot;, message);
+    }
+};
+
+
+LuaObject globalsObj = state-&gt;GetGlobals();
+globalsObj.RegisterDirect(&quot;LOG&quot;, LOG);
+Logger logger;
+globalsObj.RegisterDirect(&quot;LOGMEMBER&quot;, logger, &amp;Logger::LOGMEMBER);
+globalsObj.RegisterDirect(&quot;LOGVIRTUAL&quot;, logger, &amp;Logger::LOGVIRTUAL);
+
+state-&gt;DoString(&quot;LOG('Hello')&quot;);
+state-&gt;DoString(&quot;LOGMEMBER('Hello')&quot;);
+state-&gt;DoString(&quot;LOGVIRTUAL('Hello')&quot;);</pre>
+<p>The implementation built into LuaPlus in this version supports up to 7
+parameters in the registered function.</p>
+<p>Note: This direct registration of C++ functions and the recommended style for
+calling Lua functions are based around techniques presented in <i>LuaBind</i> (<a href="http://luabind.sourceforge.net/">http://luabind.sourceforge.net/</a>).&nbsp;
+<i>LuaBind</i> provides a much more powerful function dispatching mechanism,
+including inheritance for classes.&nbsp; I am not interested in making <i>
+LuaPlus</i> dependent on another library, and <i>LuaBind</i> is dependent on <i>
+Boost</i> (<a href="http://www.boost.org/">http://www.boost.org/</a>).&nbsp;
+Also, <i>LuaPlus</i> has no issue with making extensions to the core <i>Lua</i>
+code base to achieve the end result more efficiently.&nbsp; <i>LuaBind</i> is
+built directly on top of the unmodified <i>Lua</i> 5.0 core.</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" valign="top"><i>Managed</i></td>
+		<td>The support for direct registration of .NET functions is incomplete
+		and slow at this time.&nbsp; Hopefully, future improvements will bring
+		it up to the usability level of the C++ counterpart.</td>
+	</tr>
+</table>
+<h3>Object Dispatch to Directly Called C++ Member Functions</h3>
+<table border="0" width="100%" id="table10">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>Even though <code>RegisterDirect()</code> can dispatch directly to C++ member functions, it
+uses a 'this' pointer as provided by the second argument passed to the function.&nbsp;
+The 'this' pointer is constant, and <code>RegisterDirect()</code> is not suited for
+mirroring class hierarchies in Lua.<p>The solution to the 'this' pointer issue is through
+		<code>RegisterObjectDirect()</code>.&nbsp; It is a specialized form of
+		RegisterDirect() where a 'this' pointer isn't provided during the closure
+registration.&nbsp; Instead, it is retrieved from either the calling userdata or
+the calling table's <code>__object</code> member, which must be a full or light userdata.&nbsp;
+The techniques presented in this section mirror closely the
+<code>RegisterObjectFunctor()</code> description above.</p>
+<p>Using the above MultiObject sample, we'll add support for a directly called
+C++ member function to the metatable.</p>
+		<pre>metaTableObj.RegisterObjectDirect(&quot;Print2&quot;, (MultiObject*)0, &amp;MultiObject::Print2);</pre>
+<p><code>RegisterObjectDirect()</code> has a slightly strange syntax in
+the second argument.&nbsp; The reason this is the case is for the template
+expansion of the <code>Callee</code> object type to be correct.&nbsp; It is
+possible to retrieve the <code>Callee</code> type from the third argument, but
+the current version of the <i>LuaPlus Callback Dispatcher</i> does not do so.&nbsp;
+A future version may.</p>
+<p>All that needs be done at this point are some calls to <code>DoString()</code>:</p>
+		<pre>state-&gt;DoString(&quot;obj1:Print2(5)&quot;);
+state-&gt;DoString(&quot;obj2:Print2(15)&quot;);
+state-&gt;DoString(&quot;table1:Print2(5)&quot;);
+state-&gt;DoString(&quot;table2:Print2(15)&quot;);</pre>
+		</td>
+	</tr>
+	</table>
+<h3>Unregistering Callbacks</h3>
+<p>Unregistering a callback is as simple as setting its table entry to nil.</p>
+<pre>globalsObj.SetNil(&quot;LOG&quot;);</pre>
+<h3>Calling Functions</h3>
+<p>LuaObject attempts to simplify the function calling interface of the core Lua
+API.&nbsp; It does so by completely masking away the stack management.&nbsp;
+Often, Lua function calls with arguments can be performed in a single line of
+code.</p>
+<h4>Recommended Style</h4>
+<table border="0" width="100%" id="table6">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>By taking advantage of some C++ template tricks, we can directly call a Lua
+function as if it was C++ function.<pre>LuaStateOwner state;
+state-&gt;DoString(&quot;function Add(x, y) return x + y end&quot;);
+
+LuaFunction&lt;float&gt; Add = state-&gt;GetGlobal(&quot;Add&quot;);
+printf(&quot;Add: %d\n&quot;, Add(2, 7));</pre>
+<p>The template <code>LuaFunction&lt;RT&gt;</code> takes a single argument for the
+parameter <code>RT</code>, the Return Type.&nbsp; The types for the rest of the
+arguments can be deduced automatically, but the return type cannot.&nbsp; The
+default return type is <code>void</code>.</p>
+<pre>LuaStateOwner state;
+state-&gt;DoString(&quot;function Print(str) print(str) end&quot;);
+
+LuaFunction&lt;&gt; Print = state-&gt;GetGlobal(&quot;Print&quot;);
+Print(&quot;Hello, world!&quot;);</pre>
+<p>The built-in types LuaPlus understands for functions are:</p>
+<ul>
+  <li><code>bool</code></li>
+  <li><code>char</code></li>
+  <li><code>unsigned char</code></li>
+  <li><code>short</code></li>
+  <li><code>unsigned short</code></li>
+  <li><code>int</code></li>
+  <li><code>unsigned int</code></li>
+  <li><code>long</code></li>
+  <li><code>unsigned long</code></li>
+  <li><code>float</code></li>
+  <li><code>double</code></li>
+  <li><code>const char*</code></li>
+  <li><code>const lua_WChar*</code></li>
+  <li><code>lua_CFunction</code></li>
+  <li><code>LuaStateCFunction</code></li>
+  <li><code>LuaStackObject</code></li>
+  <li><code>LuaObject</code></li>
+  <li><code>const void*</code></li>
+  <li><code>LuaArgNil()</code></li>
+  <li><code>LuaLightUserData(pointer)</code></li>
+  <li><code>LuaUserData(pointer)</code></li>
+</ul>
+<p>A more detailed discussion of the function dispatching mechanism may be found
+in the <a href="#Lua_Callback_Dispatcher">Lua Callback Dispatcher</a> section below.</p>
+<p>The implementation built into LuaPlus in this version supports up to 7
+arguments.</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" valign="top"><i>Managed</i></td>
+		<td>An experimental form of .NET to Lua function calling has been
+		implemented for the .NET implementation.<pre>LuaStateOwner state;
+state-&gt;DoString(&quot;function Print(x, y) print(x, y) end&quot;);
+
+LuaObject printObj = state-&gt;GetGlobal(&quot;Print&quot;);
+printObj.Call(2, &quot;Hi&quot;);</pre>
+		<p>The types this technique understands is limited for now:</p>
+<ul>
+  <li><code>int</code></li>
+  <li><code>string</code></li>
+  <li><code>LuaStackObject</code></li>
+  <li><code>LuaObject</code></li>
+</ul>
+<p>An unlimited number of arguments may be passed to the Call() function.</p>
+		</td>
+	</tr>
+</table>
+<h4>Iostream-like Style</h4>
+<table border="0" width="100%" id="table7">
+	<tr>
+		<td width="15%" valign="top"><i>Unmanaged</i></td>
+		<td>LuaPlus also employs a convention similar to the Standard C++
+library's iostream functionality.&nbsp; A simple example follows:<pre>LuaStateOwner state;
+state-&gt;DoString(&quot;function Add(x, y) return x + y end&quot;);
+
+LuaObject funcObj = state-&gt;GetGlobal(&quot;Add&quot;);
+
+{
+    LuaAutoBlock autoBlock(state);
+    LuaCall call = funcObj();
+    LuaStackObject retObj = call &lt;&lt; 2 &lt;&lt; 7 &lt;&lt; LuaRun();
+    printf(&quot;Add: %d\n&quot;, retObj.GetInteger());
+}</pre>
+<p>The function call starts by &quot;calling&quot; the <code>LuaObject</code>.&nbsp; <code>
+LuaObject</code> provides an overloaded function operator().&nbsp; Then, each
+argument to the function is added to the argument list, left to right.&nbsp;
+Finally, when all arguments are added, <code>LuaRun()</code> executes the
+function call.</p>
+<p>It can't be avoided that a Lua function call puts return values on the stack.&nbsp;
+The <code>LuaStackObject</code> returned by the LuaPlus function call is the
+first return value.&nbsp; There may be more.</p>
+<p><code>operator&lt;&lt;</code> understands most Lua types.&nbsp; The <code>nil</code>
+type is special, though.&nbsp; In order to tell LuaPlus a <code>nil</code> should be inserted
+in the function's argument list, <code>LuaArgNil()</code> must be passed in.</p>
+<pre>LuaObject funcObj = state-&gt;GetGlobal(&quot;PrintIt&quot;);
+LuaCall call = funcObj;
+LuaStackObject retObj = call &lt;&lt; &quot;String&quot; &lt;&lt; LuaArgNil() &lt;&lt; LuaRun();</pre>
+<p><code>LuaRun()</code> takes an optional argument detailing the number of
+return values allowed.&nbsp; By default, multiple return values are allowed.</p>
+<pre>LuaObject funcObj = state-&gt;GetGlobal(&quot;ThreeReturnValues&quot;);
+LuaCall call = funcObj;
+LuaStackObject retObj = call &lt;&lt; LuaRun(1);  // Only accept one return value.</pre>
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" valign="top"><i>Managed</i></td>
+		<td>No implementation exists for this at this time.</td>
+	</tr>
+</table>
+<h3>Metatables</h3>
+<p>The metatable for a <code>LuaObject</code> is retrieved via <code>
+GetMetaTable()</code>.&nbsp; Every table and userdata has a unique metatable.&nbsp;
+The metatable for a basic type is shared.&nbsp; See the
+<a href="#Metatable_Enhancements">Metatable Enhancements</a> section.</p>
+<p>A metatable can be changed for a <code>LuaObject</code> via the <code>
+SetMetaTable()</code> function.&nbsp; If the <code>LuaObject</code> represents a
+table or userdata, the metatable change is as per standard Lua.&nbsp; If the
+<code>LuaObject</code> is a basic type, the metatable is changed for all basic
+types.</p>
+<h2>Class: LuaTableIterator</h2>
+<p><i>LuaPlus</i> provides a class called <code>LuaTableIterator</code> to ease the table iteration
+process.&nbsp; Its use is far simpler, safer, and more natural looking than the
+standard Lua table iteration function (<code>lua_next()</code>/<code>lua_pop()</code>).&nbsp; The iterator
+is not STL compliant in its current form.</p>
+<font SIZE="2">
+<pre>LuaStateOwner state;
+state.DoString( &quot;MyTable = { Hi = 5, Hello = 10, Yo = 6 }&quot; );
+
+LuaObject obj = state.GetGlobals()[ &quot;MyTable&quot; ];
+</font><font SIZE="2" COLOR="#0000ff">for</font><font SIZE="2"> ( LuaTableIterator it( obj ); it; it.Next() )
+{
+    </font><font SIZE="2" COLOR="#0000ff">const</font><font SIZE="2"> </font><font SIZE="2" COLOR="#0000ff">char</font><font SIZE="2">* key = it.GetKey().GetString();
+    </font><font SIZE="2" COLOR="#0000ff">int</font><font SIZE="2"> num = it.GetValue().GetInteger();
+}</pre>
+</font>
+<p>If the <i>LuaWatchAddin</i> is installed, the key and value portions of the
+<code>LuaTableIterator</code> object will be displayed as it is traversed.</p>
+<p><code>LuaTableIterator</code> is fully documented in <code>LuaPlus.h</code>.</p>
+<h2>Class: LuaStackObject</h2>
+<p>LuaPlus does not use integers to represent stack objects.&nbsp; Instead,
+those stack indices are wrapped in a <code>LuaStackObject</code>.&nbsp; <code>LuaStackObjects</code> can be passed
+directly to a Lua C function, if needed, but it is advised to go through the
+LuaPlus version of the function.</p>
+<p>Using a <code>LuaObject</code> is usually the better way to go, since a <code>LuaObject</code> relieves
+the user of any stack management at all.&nbsp; <code>LuaStackObjects</code> are available for
+use in callback functions or in special case stack management scenarios.</p>
+<p><code>LuaStackObjects</code> also store a pointer to the parent <code>LuaState</code>.&nbsp; In part, this
+is what makes the <i>LuaWatchAddin</i> work.&nbsp; Most importantly, <code>LuaStackObjects</code> can
+just be passed around without any regard for the <code>LuaState</code> they came from.</p>
+<p>Most <code>LuaStackObject</code> functions mirror <code>LuaObject</code> functions of the same name, so
+see the section above for more detail.</p>
+<ul>
+  <li>Push()/Pop().</li>
+</ul>
+<h2>Class: LuaRefObject (Unmanaged Only)</h2>
+<p><i>(Note: Using LuaObject, there is no need to use this class.)</i></p>
+<p>LuaPlus enhances the Lua ref table facility by allowing ref'ed objects to be
+used without using <code>GetRef()</code> to push them onto the stack.&nbsp;
+<code>LuaRefObject</code>
+encapsulates this new functionality.&nbsp; Assigning a <code>LuaObject</code> (or another
+<code>LuaRefObject</code>) to a <code>LuaRefObject</code> instance will cause a
+<code>lua_ref()</code> to occur.&nbsp;
+When the <code>LuaRefObject</code> goes out of scope, <code>lua_unref()</code> is called.&nbsp;
+<code>LuaRefObject</code> is derived from <code>LuaObject</code> and can operate on ref'ed objects without
+issue.</p>
+<p>The <i>LuaWatchAddin</i> displays the contents of <code>LuaRefObjects</code>.</p>
+<h2>Class: LuaStackTableIterator</h2>
+<p>A <code>LuaStackTableIterator</code> is almost identical to the <code>LuaTableIterator</code> above,
+except it provides support for iterating using the stack, similar to how core
+Lua does it.</p>
+<p><code>LuaStackTableIterator</code> is fully documented in <code>LuaPlus.h</code>.</p>
+<h2>Class: LuaAutoBlock</h2>
+<p>Nothing can be more frustrating than paying attention to stack management.&nbsp;
+Which function allocates which entry on the stack?&nbsp; How many entries?&nbsp;
+Did it get popped?&nbsp; Where is that stack leak at?&nbsp; <code>LuaAutoBlock</code> serves
+as a fairly useful approach to solving these problems.</p>
+<p><code>LuaAutoBlock</code> is a C++ class whose constructor stores the index of the stack
+top.&nbsp; At destruction time, it sets the stack top to the stored index.&nbsp;
+By providing this functionality as an object, the stack is guaranteed to be
+restored, regardless of exit points from a function or loop block.</p>
+<p><i>Note: When using the LuaObject class, there is no need to worry about
+stack management, and so LuaAutoBlock provides no benefits in that situation.</i></p>
+<pre>{
+    LuaAutoBlock autoBlock(state);
+    LuaStackObject testObj = state-&gt;GetGlobals_Stack()[&quot;Test&quot;]; // Does this allocate a stack item?
+    state-&gt;PushString[&quot;A string&quot;]; // Does this?
+    testObj.SetNumber(&quot;Value&quot;, 5); // Does this?
+    // Who cares? LuaAutoBlock automatically cleans it up.
+}</pre>
+<h2>Class: LuaStateOutFile (Unmanaged Only)</h2>
+<p><code>LuaStateOutFile</code> and derived classes are used in conjunction with
+<code>LuaState::DumpObject()</code>.&nbsp; When a <code>LuaStateOutFile</code> object is passed to
+<code>DumpObject()</code>, that object is used for writing the Lua dump file.&nbsp;
+The application can derive from <code>LuaStateOutFile</code> to change the
+default dumping behavior.</p>
+<h2>Namespace: LuaPlus::LuaHelper (Unmanaged Only)</h2>
+<p>The LuaHelper namespace contains some useful helper functions for retrieving
+values from LuaObjects.&nbsp; The helper functions perform a lookup into a table
+for a certain key.&nbsp; If the key is required to be found and is not present,
+an assertion is triggered.&nbsp; Otherwise, the found value or a default value
+is returned.</p>
+<p>The following helper functions are available:</p>
+<ul>
+  <li><code>GetBoolean()</code></li>
+  <li><code>GetFloat()</code></li>
+  <li><code>GetLightUserData()</code></li>
+  <li><code>GetString()</code></li>
+  <li><code>GetTable()</code></li>
+</ul>
+<hr>
+<h1>New Features</h1>
+
+<h2><a name="Serialization">Serialization</a></h2>
+
+<p>The LuaPlus distribution can write a Lua table into a  nicely formatted
+text file.&nbsp; All data types are handled, although some write themselves out
+as comments (functions, userdata, threads).</p>
+
+<p>A table can be written both from Lua and C++.&nbsp; The C++ LuaState function prototypes
+are:</p>
+
+<pre>bool DumpObject(const char* filename, const char* name, LuaObject&amp; value, unsigned int flags = DUMP_ALPHABETICAL,
+		int indentLevel = 0, unsigned int maxIndentLevel = 0xffffffff);
+bool DumpObject(const char* filename, LuaObject&amp; key, LuaObject&amp; value, unsigned int flags = DUMP_ALPHABETICAL,
+		int indentLevel = 0, unsigned int maxIndentLevel = 0xffffffff);
+
+bool DumpObject(LuaStateOutFile&amp; file, const char* name, LuaObject&amp; value, unsigned int flags = DUMP_ALPHABETICAL,
+		int indentLevel = 0, unsigned int maxIndentLevel = 0xffffffff);
+bool DumpObject(LuaStateOutFile&amp; file, LuaObject&amp; key, LuaObject&amp; value, unsigned int flags = DUMP_ALPHABETICAL,
+		int indentLevel = 0, unsigned int maxIndentLevel = 0xffffffff);
+
+bool DumpGlobals(const char* filename, unsigned int flags = DUMP_ALPHABETICAL, unsigned int maxIndentLevel = 0xFFFFFFFF);
+bool DumpGlobals(LuaStateOutFile&amp; file, unsigned int flags = DUMP_ALPHABETICAL, unsigned int maxIndentLevel = 0xFFFFFFFF);
+</pre>
+
+<ul>
+  <li><code>filename</code> - The name of the file to
+  write to disk or a <code>&quot;@&quot;</code> string for logging
+  to OutputDebugString (in Windows).</li>
+  <li><code>file</code> - A LuaStateOutFile instance. </li>
+  <li><code>name</code> - The name of the initial Lua table to write to
+  disk.</li>
+  <li><code>key</code> - The key name of the initial Lua table to write to disk.&nbsp;
+  This is usually a string, but it could be a number, too.</li>
+  <li><code>value</code> - The value to write.</li>
+  <li><code>flags</code> - One of three flags may be intermixed with each other:<ul>
+  <li><code>DUMP_ALPHABETICAL</code> - Alphabetize the keys when writing to the
+  file.</li>
+  <li><code>DUMP_WRITEALL</code> - Write all Lua objects out, including function
+  and user data information.</li>
+  <li><code>DUMP_WRITETABLEPOINTERS</code> - If <code>DUMP_WRITEALL</code> is
+  specified, the actual memory addresses of tables are written in comment form.</li>
+</ul>
+
+  </li>
+  <li><code>indentLevel</code> - The number of tabs to indent each line.</li>
+  <li><code>maxIndentLevel</code> - The maximum number of nested tables allowed
+  in the write.&nbsp; If this value is exceeded, then no carriage returns are
+  inserted.</li>
+</ul>
+
+<p>The Lua functionality is very similar in form.</p>
+
+<pre>function LuaDumpObject(file, key, value, alphabetical, indentLevel, maxIndentLevel, writeAll)
+function LuaDumpGlobals(file, alphabetical, maxIndentLevel, writeAll)</pre>
+<ul>
+  <li><code>file</code> - The name of the file to
+  write to disk, a <code>&quot;@&quot;</code> string for logging
+  to OutputDebugString (in Windows), or a FILE* user data (say, from <code>io.open()</code>), </li>
+  <li><code>key</code> - The key name of the initial Lua table to write to disk.&nbsp;
+  This is usually a string, but it could be a number, too.</li>
+  <li><code>value</code> - The value to write.</li>
+  <li><code>alphabetical</code> - If true, each table's keys are sorted.&nbsp;
+  (Optional: Defaults to true.)</li>
+  <li><code>indentLevel</code> - The number of tabs to indent each line.&nbsp;
+  (Optional: Defaults to 0.)</li>
+  <li><code>maxIndentLevel</code> - The maximum number of nested tables allowed
+  in the write.&nbsp; If this value is exceeded, then no carriage returns are
+  inserted.&nbsp; (Optional: Defaults to 0xFFFFFFFF.)</li>
+  <li><code>writeAll</code> - If true, writes all Lua objects out, including
+  function and user data information. (Optional: Defaults to false.)</li>
+</ul>
+
+<p>So, in a C++ application, an example usage of the serialization APIs might
+be:</p>
+<pre>LuaStateOwner state(false);
+state-&gt;DoString(&quot;GlobalTable = { 1, 2, 3, 4 }&quot;);
+state-&gt;DoString(&quot;GlobalValue = 5&quot;);
+state-&gt;DumpGlobals(&quot;c:\\dump.lua&quot;);</pre>
+<p>or like:</p>
+<pre>LuaStateOwner state;
+state-&gt;DoString(&quot;Table = { 0, 1, 2, 'Hello', nil, 'Hi', Yo = 'My Stuff', NobodysHome = 5, NestedTable = { 1, 2, 3, { 'String', }, { 'Table2' } }, { 'String1' } }&quot;);
+state-&gt;DumpObject(&quot;<a href="file:///c://dump.lua">c:\\dump.lua</a>&quot;, &quot;Table&quot;, state-&gt;GetGlobals()[&quot;Table&quot;]);
+</pre>
+<h2><a name="WideCharacterStrings">Wide Character Strings</a></h2>
+<p>Wide character support is built-in as a native LuaPlus type.&nbsp;
+While it is entirely possible to represent a wide character string using a regular Lua 8-bit
+clean string, there is no way of determining whether the given string is wide or not.&nbsp; The secondary problem involves
+the use of standard string functionality, such as the concatenation operator.&nbsp;
+If a wide character string is represented as a normal 8-bit Lua string, special functions
+would have to be written to perform operations on the string (i.e. concatenation
+of two Lua 8-bit
+clean strings which represent  wide characters).&nbsp; Rather than require the user
+to keep track,
+a wide character string type is available.</p>
+<p>Wide character strings can be entered into Lua script similar to the approach
+used by C code.</p>
+<pre style="margin-left: 24">L&quot;Wide characters&quot;</pre>
+<p>By inserting an <code>L</code> in front of the quote, the LuaPlus lexer creates a wide character
+representation of the above string.&nbsp; If the string was entered as a regular Lua string,
+the Unicode equivalent would be simulated as follows, and the string below
+assumes a certain architecture's endianness.</p>
+<pre style="margin-left: 24">&quot;W\000i\000d\000e\000 \000c\000h\000a\000r\000a\000c\000t\000e\000r\000s\000\000\000&quot;</pre>
+<p>In the event it is necessary to insert wide character codes in the wide
+character string, an additional property of the <code>L&quot;&quot;</code> approach may be
+used.&nbsp; 16-bit characters may be entered using hexadecimal notation, in the
+same way as C:</p>
+<pre style="margin-left: 24">L&quot;Wide characters: \x3042\x3043&quot;</pre>
+<p>A new Lua library, located in lwstrlib.c, has been added for the new
+functionality.&nbsp; In most respects, it mirrors the ANSI string library,
+lstrlib.c.</p>
+<ul>
+  <li><code>LUA_TWSTRING</code> type added.&nbsp; Mirrors
+  <code>LUA_TSTRING</code>.</li>
+  <li><code>print()</code> has been upgraded to take Unicode strings as input.</li>
+  <li><code>tonumber()</code> can take a Unicode string as a parameter.</li>
+  <li>If <code>tostring()</code> receives a Unicode string as input, it converts it to ANSI
+  and returns it.</li>
+  <li><code>towstring()</code> added.&nbsp; If
+  <code>towstring()</code> receives an ANSI string as input,
+  it converts it to Unicode and returns it.</li>
+  <li><code>fh:read()</code> can read Unicode files/strings if the input string is Unicode.&nbsp;
+  The file <i>must</i> be opened in binary mode.</li>
+  <li><code>fh:write()</code> can write Unicode strings.</li>
+</ul>
+
+<h2>New String Formatting Enhancements</h2>
+<p>Much like wide character string, ANSI strings can use the hexadecimal character notation to
+insert bytes into the string:</p>
+<pre style="margin-left: 24">str = &quot;Hel\x80o&quot;</pre>
+
+<h2>Memory Allocators</h2>
+<p>This distribution replaces the <code>#define</code> approach to memory allocation within Lua with a callback mechanism, where the memory allocators can be replaced on a
+per Lua state basis.&nbsp; This allows a powerful mechanism to be employed to
+adjust memory allocation strategies on a per state basis.</p>
+<p>For purposes of better memory tracking, the <code>realloc()</code> callback allows a void
+pointer of user data, an allocation name, and allocation flags to be passed
+along.&nbsp; All of these arguments are optional, but they are available if the
+memory allocation callback needs them.</p>
+<p>The only allocation flag available is <code>LUA_ALLOC_TEMP</code>.&nbsp; A
+memory manager could react to the <code>LUA_ALLOC_TEMP</code> flag, for instance, by allocating
+  the code for the main function of a Lua file at the top of the heap.&nbsp; If
+all other Lua allocations happen at the bottom of the heap, no holes will be
+left in memory when the <code>LUA_ALLOC_TEMP</code> flagged allocation is garbage collection.</p>
+<p>The callbacks look like:</p>
+<pre>static void* luaHelper_ReallocFunction(void* ptr, int oldsize, int size, void* data, const char* allocName, unsigned int allocFlags)
+{
+    return realloc(ptr, size);
+}
+
+static void luaHelper_FreeFunction(void* ptr, int oldsize, void* data)
+{
+    free(ptr);
+}</pre>
+<p>The allocation functions must be assigned before a Lua global state is
+created, in a fashion similar to below.&nbsp; It is good practice to restore the
+previous callbacks.</p>
+<pre>lua_ReallocFunction oldReallocFunc;
+lua_FreeFunction oldFreeFunc;
+void* oldData;
+lua_getdefaultmemoryfunctions(&amp;oldReallocFunc, &amp;oldFreeFunc, &amp;oldData);
+lua_setdefaultmemoryfunctions(MyReallocFunction, MyFreeFunction, myUserData);
+LuaStateOwner state;
+lua_setdefaultmemoryfunctions(oldReallocFunc, oldFreeFunc, oldData);
+</pre>
+
+<h2>User data enhancements</h2>
+<p>lua_boxpointer() and lua_unboxpointer() have the unfortunate disadvantage of
+decoupling their behavior from the lua_touserdata() call.&nbsp; If you box a
+pointer, you have to unbox the pointer.&nbsp; In the past, a boxed pointer was
+retrievable through lua_touserdata.</p>
+<p>To that end, an implementation of the old lua_newuserdatabox() is included in the
+LuaPlus distribution as LuaPlus::NewUserDataBox().&nbsp; Its value is retrieved via LuaObject::GetUserData() (or lua_touserdata()).</p>
+<h2>API Enhancements</h2>
+<ul>
+  <li>lua_getmetatable() does not return the global default meta table in the
+  case of non-tables or non-userdata.&nbsp; Instead, it looks up the appropriate
+  metatable for the given type and returns that.</li>
+</ul>
+
+<h2>Memory Optimizations</h2>
+<p><b>This section is out of date!</b></p>
+<p>A whole host of functionality has been added to facilitate the optimization
+of memory usage in a tight memory environment.</p>
+<ul>
+  <li><code>luaM_setname()</code> macro added and is used internally to name groups of
+  allocations.&nbsp; The name is passed into the <code>realloc()</code> callback
+  function and may be used to better categorize allocations.</li>
+</ul>
+
+<h2><a name="Metatable_Enhancements">Metatable Enhancements</a></h2>
+<p><b>This section is out of date!</b></p>
+<p>Basic type metatables are based heavily on Edgar Toernig's Sol implementation
+of unified methods.</p>
+<p>In addition to standard Lua supporting metatables for&nbsp;tables and
+userdata, a metatable per Lua's simple types (<code>nil</code>,
+<code>&nbsp;boolean, number</code>,
+<code>string</code>, <code>wstring</code>, and
+<code>function</code>) has been added.&nbsp; A <code>string</code> and
+<code>wstring</code>, for instance, have indistinguishable <code>len()</code> functions.</p>
+<pre>str = &quot;Hello&quot;
+wstr = L&quot;Hello&quot;
+print(str:len())
+print(wstr:len())</pre>
+<p>The default method tables have been put into global names for convenience.
+They are named like the type but with a capital first letter (<code>Nil</code>,
+<code>Number</code>,
+<code>String</code>, <code>WString</code>,
+<code>Function</code>, <code>Table</code>,
+<code>Userdata</code>).</p>
+
+<p>Method tables may be accessed from within Lua using the
+<code>getmethodtable()</code> function.</p>
+
+<pre style="margin-left: 24"><font SIZE="2">mytable</font><font SIZE="2" COLOR="#808080"> </font><font SIZE="2"><b>=</b></font><font SIZE="2" COLOR="#808080"> </font><font SIZE="2"><b>{}
+
+</b></font><font FACE="Comic Sans MS" SIZE="1" COLOR="#007f00">-- Save the old methods.
+</font><font SIZE="2">tableMethods</font><font SIZE="2" COLOR="#808080"> </font><font SIZE="2"><b>=</b></font><font SIZE="2" COLOR="#808080"> get</font><font SIZE="2">methodtable<b>(my</b>table<b>)
+
+</b>newMethods</font><font SIZE="2" COLOR="#808080"> </font><font SIZE="2"><b>=
+{
+</b><font color="#808080">    </font>doNothing</font><font SIZE="2" COLOR="#808080"> </font><font SIZE="2"><b>=</b></font><font SIZE="2" COLOR="#808080"> </font><b><font SIZE="2" COLOR="#00007f">function</font><font SIZE="2">(</font></b><font SIZE="2">self<b>)
+    </b></font><b><font SIZE="2" COLOR="#00007f">end
+</font><font SIZE="2">}
+
+</font></b><font FACE="Comic Sans MS" SIZE="1" COLOR="#007f00">-- Set the new methods.
+</font><font SIZE="2">setmethodtable<b>(my</b>table<b>,</b></font><font SIZE="2" COLOR="#808080"> </font><font SIZE="2">newMethods<b>)
+my</b>table<b>:</b>doNothing<b>()</b></font></pre>
+<p>In C, methods may be retrieved using the following functions:</p>
+<pre style="margin-left: 24"><font COLOR="#a000a0">LUA_API</font> <font COLOR="#0000ff">void</font> <font COLOR="#880000">lua_getmethods</font>(<font COLOR="#0000ff">lua_State</font> *<font COLOR="#808080">L</font>, <font COLOR="#0000ff">int</font> <font COLOR="#808080">index</font>);
+<font COLOR="#a000a0">LUA_API</font> <font COLOR="#0000ff">void</font> <font COLOR="#880000">lua_getdefaultmethods</font>(<font COLOR="#0000ff">lua_State</font> *<font COLOR="#808080">L</font>, <font COLOR="#0000ff">int</font> <font COLOR="#808080">type</font>);
+<font COLOR="#a000a0">LUA_API</font> <font COLOR="#0000ff">void</font> <font COLOR="#880000">lua_setmethods</font>(<font COLOR="#0000ff">lua_State</font> *<font COLOR="#808080">L</font>, <font COLOR="#0000ff">int</font> <font COLOR="#808080">index</font>);</pre>
+
+<h2><a name="Lua_Callback_Dispatcher">Lua Callback Dispatcher</a> (Unmanaged
+Only)</h2>
+
+<p>A detailed discussion of the LuaPlus Call Dispatcher is found in
+<a href="LuaPlusCallDispatcher.html">this document</a>.</p>
+
+<hr>
+
+<h2>Included Modules</h2>
+<h3>clipboard</h3>
+<p>Has functions for retrieving and setting text from/to the clipboard.</p>
+<h4><code>clipboard.gettext()</code></h4>
+<p>Retrieves the text from the clipboard and returns it as a string.</p>
+<h4><code>clipboard.puttext(text)</code></h4>
+<p>Adds the text string <code>text</code> to the clipboard.</p>
+<h3>com</h3>
+<p>Heavily based on the LuaCom 1.0 (beta) implementation by Vinicius Almendra
+and Renato Cerqueira.&nbsp; For the moment, the original LuaCom.pdf file is in
+the Docs/ directory.&nbsp; There are a whole bunch of samples in the Test/
+directory showing how some of the facilities of the COM module are used.</p>
+<h4><code>com.CreateObject(progID)</code></h4>
+<h4><code>com.GetActiveObject(progID)</code></h4>
+<h4><code>com.SafeArray()</code></h4>
+<h3>FileFind</h3>
+<p>Some basic file finding facilities.&nbsp; Usually, <code>glob</code> is
+sufficient for any file finds you might need.</p>
+<h4><code>FileFind.First(wildcard)</code></h4>
+<p>Returns a handle representing the first file matching wildcard. </p>
+<h4><code>FileFind.Next(self)</code></h4>
+<p>Retrieves the next file matching wildcard.</p>
+<h4><code>FileFind.Close(self)</code></h4>
+<p>Closes the file search.</p>
+<h4><code>FileFind.GetFileName(self)</code></h4>
+<p>Retrieves the file name of the currently matched file.</p>
+<h4><code>FileFind.GetLastWriteTime(self)</code></h4>
+<p>Retrieves the last write time as a time_t for the currently matched file.</p>
+<h4><code>FileFind.GetFileSize(self)</code></h4>
+<p>Retrieves the file size of the currently matched file.</p>
+<h4><code>FileFind.IsDirectory(self)</code></h4>
+<p>Determines if the currently matched entry is a directory.</p>
+<h3>iox</h3>
+<p>More advanced I/O operations than the basic io library.</p>
+<h4><code>io.readall(fileName)</code></h4>
+<p>Returns a buffer containing the contents of <code>fileName</code>.
+If there was an error reading the file, [nil, errorMessage] is returned.</p>
+<h4><code>io.writeall(fileName, buffer)</code></h4>
+<p>Writes <code>buffer</code> to <code>fileName</code>.
+If there was an error writing the file, [nil, errorMessage] is returned.</p>
+<h4><code>iox.access(fileName [, mode])</code></h4>
+<p>Returns <code>0</code> if the file has the given mode or <code>-1</code> if
+it does not.&nbsp; <code>mode</code> can be one of the following:</p>
+<ul>
+	<li><code>mode</code> not specified - Does the file exist?</li>
+	<li><code>r</code> - Is the file read-only?</li>
+	<li><code>w</code> - Is the file write-only?</li>
+	<li><code>rw</code> - Is the file readable and writable?</li>
+</ul>
+<h4><code>iox.CopyFile(existingFileName, newFileName)</code></h4>
+<p>Copies <code>existingFileName</code> to <code>newFileName</code>.&nbsp;
+Returns <code>true</code> if the copy succeeded, <code>false</code> otherwise.</p>
+<h4><code>iox.CreateDirectory(path)</code></h4>
+<p>Creates the specified path.&nbsp; All portions of the path up through the
+last backslash are created.</p>
+<h4><code>iox.DeleteFile(fileName)</code></h4>
+<p>Deletes the file specified by <code>fileName</code>.&nbsp; Returns <code>true</code>
+if the deletion was successful, <code>false</code> otherwise.</p>
+<h4><code>iox.FileTimeToTime_t(arg1 [, arg2])</code></h4>
+<p>If <code>arg1</code> and <code>arg2</code> are specified and both are
+integers, then they are assumed to be the low and high date/times of a <code>
+FILETIME</code> structure.</p>
+<p>If <code>arg1</code> is a string, it is assumed to be in a format scannable
+by %I64u and will be put into the 64-bit component of the <code>FILETIME</code>
+structure.</p>
+<p>Returns an integer describing the <code>time_t</code> representing the passed
+in <code>FILETIME</code> information.</p>
+<h4><code>iox.FindFirstFile(wildcard)</code></h4>
+<p>***</p>
+<h4><code>iox.FindNextFile()</code></h4>
+<p>***</p>
+<h4><code>iox.FindClose()</code></h4>
+<p>***</p>
+<h4><code>iox.FindGetFileName()</code></h4>
+<p>***</p>
+<h4><code>iox.FindIsDirectory()</code></h4>
+<p>***</p>
+<h4><code>iox.FindGetLastWriteTime()</code></h4>
+<p>***</p>
+<h4><code>iox.GetCurrentDirectory()</code></h4>
+<p>Retrieves the current working directory as a string.</p>
+<h4><code>iox.GetFileSize()</code></h4>
+<p>***</p>
+<h4><code>iox.GetWriteTime()</code></h4>
+<p>***</p>
+<h4><code>iox.MakeWritable()</code></h4>
+<p>***</p>
+<h4><code>iox.PathAddBackslash(path)</code></h4>
+<p>Adds a backslash to <code>path</code>, if necessary, and returns the new path
+string.</p>
+<h4><code>iox.PathAddExtension(path, extension)</code></h4>
+<p>Adds the <code>extension</code> to <code>path</code>, if path does not
+already have an extension.&nbsp; Returns the new path as a string.</p>
+<h4><code>iox.PathAppend(path, extraPath)</code></h4>
+<p>Appends <code>extraPath</code> to <code>path</code> and returns the resulting
+path as a string.&nbsp; A backslash is added between the two paths, if
+necessary.</p>
+<h4><code>iox.PathBuildRoot(driveNumber)</code></h4>
+<p>Returns a root path from the given <code>driveNumber</code> (where <code>0</code>
+is <code>A:\</code> and <code>25</code> is <code>Z:\</code>).</p>
+<h4><code>iox.PathCanonicalize(path)</code></h4>
+<p>Returns a string describing the canonicalized version of <code>path</code>.</p>
+<h4><code>iox.PathCombine(path1, path2)</code></h4>
+<p>Returns a string describing the combined paths, <code>path1</code> and <code>
+path2</code>.&nbsp; Relative paths are resolved in this function.</p>
+<h4><code>iox.PathCommonPrefix(path1, path2)</code></h4>
+<p>Returns a string describing the common prefix of paths <code>path1</code> and
+<code>path2</code>.</p>
+<h4><code>iox.PathCreate(path)</code></h4>
+<p>Creates the specified path.&nbsp; All portions of the path up through the
+last backslash are created.</p>
+<h4><code>iox.PathDestroy(path)</code></h4>
+<p>Destroys the specified path removing all files in each destroyed directory.</p>
+<h4><code>iox.PathFileExists(path)</code></h4>
+<p>Returns true if the file exists, false otherwise.</p>
+<h4><code>iox.PathFindExtension(path)</code></h4>
+<p>Returns the numeric index of the '.' in the path's extension.&nbsp; Returns
+<code>nil</code> if nothing found.</p>
+<h4><code>iox.PathFindFileName(path)</code></h4>
+<p>Returns the numeric index of the beginning of the file name in the path.&nbsp;
+Returns <code>nil</code> if nothing found.</p>
+<h4><code>iox.PathFindNextComponent(path)</code></h4>
+<p>Returns the numeric index of the next component of the path (directory name
+or file name).&nbsp; Returns <code>nil</code> if nothing found.</p>
+<h4><code>iox.PathFindOnPath(path)</code></h4>
+<p>Returns the numeric index of the next component of the path (directory name
+or file name).</p>
+<p><b><code>iox.PathIsDirectory(path)</code></b></p>
+<p>Returns <code>true</code> if the path is a valid directory, otherwise <code>
+false</code>.</p>
+<p><b><code>iox.PathIsDirectoryEmpty(path)</code></b></p>
+<p>Returns <code>true</code> if the path is a completely empty directory,
+otherwise <code>false</code>.</p>
+<p><b><code>iox.PathIsFileSpec(path)</code></b></p>
+<p>Returns <code>true</code> if the path has no path delimiting characters (a
+colon or backslash), otherwise <code>false</code>.</p>
+<p><b><code>iox.PathIsHTMLFile(path)</code></b></p>
+<p>Returns <code>true</code> if the path's extension is a known HTML file
+extension, otherwise <code>false</code>.</p>
+<p><b><code>iox.PathIsLFNFileSpec(path)</code></b></p>
+<p>Returns <code>true</code> if the path is not in 8.3 letter format, otherwise
+<code>false</code>.</p>
+<p><b><code>iox.PathIsNetworkPath(path)</code></b></p>
+<p>Returns <code>true</code> if the path is a network path, otherwise <code>
+false</code>.</p>
+<p><b><code>iox.PathIsPrefix(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsRelative(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsRoot(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsSameRoot(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsSystemFolder(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsUNC(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsUNCServer(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsUNCServerShare(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsUNC(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathIsURL(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathMakeAbsolute(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathMakeBackSlash(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathMakeForwardSlash(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathMakePretty(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathMakeSystemFolder(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathMatchSpec(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathQuoteSpaces(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathRelativePathTo(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathRemoveArgs(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathRemoveBackslash(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathRemoveBlanks(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathRemoveExtension(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathRemoveFileSpec(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathRenameExtension(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathSearchAndQualify(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathSkipRoot(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathStripPath(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathStripToRoot(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathUndecorate(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathUnExpandEnvStrings(path)</code></b></p>
+<p>***</p>
+<p><b><code>iox.PathUnmakeSystemFolder(path)</code></b></p>
+<p>***</p>
+<h4><code>iox.RemoveDirectory(path)</code></h4>
+<p>Destroys the specified path removing all files in each destroyed directory.</p>
+<h4><code>iox.SetCurrentDirectory(path)</code></h4>
+<p>Sets the current working directory.</p>
+<h4><code>iox.SetWriteTime()</code></h4>
+<p>***</p>
+<h4><code>iox.Sleep()</code></h4>
+<p>***</p>
+<h3>glob</h3>
+<p>Glob is a file globbing (matching) facility described in detail at
+<a href="http://www.codeproject.com/file/fileglob.asp">
+http://www.codeproject.com/file/fileglob.asp</a>.&nbsp; The files found are
+returned in a table at completion.</p>
+<pre>table = glob.match(&quot;**&quot;)</pre>
+<h3>pipe</h3>
+<p>Even though popen() is available under Windows, it is horribly broken, is
+only unidirectional, and only works for a command-line app.&nbsp; The pipe
+module provides a facility whereby applications may use pipe facilities without
+these limitations.</p>
+<h4><code>pipe.popen(commandLine)</code></h4>
+<p>Returns a table with entries for stdin, stdout, and stderr.&nbsp; These file
+handles work as if they were opened through the <samp>io</samp> library.</p>
+<h4><code>pipe.pclose(popenTable)</code></h4>
+<p>Immediately closes the stdin, stdout, and stderr pipes.&nbsp; Normally, these
+would just be garbage collected, but if the application needed them to be shut
+down early, <code>pipe.pclose()</code> is the way to do it.</p>
+<h4><code>pipe.lines(commandLine)</code></h4>
+<p>Similar to the <code>io.lines()</code> facility.&nbsp; Used in a for loop to simplify
+retrieving all the lines in a file (or in this case, pipe).</p>
+<pre>for line in pipe.lines(&quot;dir&quot;) do
+    print(line)
+end</pre>
+<h3>windows</h3>
+<p>The windows module contains functions for manipulating the Microsoft Windows
+windowing system.&nbsp; Documentation will be forthcoming.</p>
+
+<h2>Credits</h2>
+<p>This section has been missing forever, and although all copyright headers
+were left in the source code from the people who wrote them, it is nicer to list
+everybody here.</p>
+<p>Credit goes out to:</p>
+<ul>
+	<li>The Kepler Project</li>
+	<li>Gustavo Niemeyer - Author of Lunatic Python.</li>
+	<li>Vinicius Almendra and Renato Cerqueira - Authors of LuaCOM</li>
+	<li>Reuben Thomas - Author of the bitwise operations library.</li>
+	<li>Fabio Mascarenhas - Author of the dotnetinterface library.</li>
+	<li>Luiz Henrique de Figueiredo - Author of the md5 and pack libraries.</li>
+	<li>Diego Nehab - The LuaThread library.</li>
+	<li>More to fill in.&nbsp; Scouring the code base.</li>
+</ul>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

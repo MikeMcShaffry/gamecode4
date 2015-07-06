@@ -1,0 +1,5 @@
+# Generated file
+VALID_PLATFORMS = "win32" "win64" ;
+JAM_MODULES_USER_PATH += "C:/Users/Mr.Mike/Projects_SVN/GameCode4/Dev/Source/GCC4/3rdParty/luaplus51-all/" ;
+
+include c:/program files/jamplus/bin/Jambase.jam ;

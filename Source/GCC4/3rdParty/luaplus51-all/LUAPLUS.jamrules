@@ -1,0 +1,195 @@
+###############################################################################
+# Set these if the user didn't use jam --workspace.
+#ALL_LOCATE_TARGET ?= [ FSubDirPath LUAPLUS obj $(COMPILER.$(PLATFORM)) temp-$(PLATFORM)-$(CONFIG) ] ;
+ALL_LOCATE_TARGET ?= $(LUAPLUS)/obj/$(COMPILER.$(PLATFORM))/temp-$(PLATFORM)-$(CONFIG) ;
+
+DEPCACHE.standard ?= $(ALL_LOCATE_TARGET)/.depcache ;
+DEPCACHE ?= standard ;
+
+#LUAPLUS_OUTPUT_DIRECTORY ?= [ FSubDirPath LUAPLUS bin.$(COMPILER.$(PLATFORM)).$(PLATFORM) ] ;
+LUAPLUS_OUTPUT_DIRECTORY ?= $(LUAPLUS)/bin.$(COMPILER.$(PLATFORM)).$(PLATFORM) ;
+
+IncludeModule copyfile ;
+
+NotFile download ;
+
+C.CompileOptions outputastree ;
+
+rule LuaPlusDefines TARGET
+{
+	if $(OS) = LINUX
+	{
+		C.Defines $(TARGET) : LUA_USE_LINUX ;
+	}
+}
+
+rule LuaPlusFixUpTarget TARGET
+{
+	LuaPlusDefines $(TARGET) ;
+	C.OutputPostfix $(TARGET) : .debug : debug ;
+	C.OutputPostfix $(TARGET) : : release ;
+	C.OutputPostfix $(TARGET) : : releaseltcg ;
+	C.OutputPath $(TARGET) : $(LUAPLUS_OUTPUT_DIRECTORY) ;
+}
+###############################################################################
+
+if $(OS) = NT {
+	LUA_CDIR = $(LUAPLUS_OUTPUT_DIRECTORY)/modules ;
+	LUA_LDIR = $(LUAPLUS_OUTPUT_DIRECTORY)/lua ;
+} else {
+	LUA_CDIR = $(LUAPLUS_OUTPUT_DIRECTORY)/lib/lua/5.1 ;
+	LUA_LDIR = $(LUAPLUS_OUTPUT_DIRECTORY)/share/lua/5.1 ;
+}
+
+rule LuaPlus.CModule TARGET : OUTPUT_NAME : SOURCES : MODULES_SUBDIR {
+	SubInclude LUAPLUS Src LuaPlus SharedLib : LuaPlusSharedLib ;
+
+	TARGET = [ RetrieveActiveTarget $(TARGET) ] ;
+
+	C.Defines $(TARGET) : LUAPLUS_DLL ;
+	LuaPlusDefines $(TARGET) ;
+	C.IncludeDirectories $(TARGET) : "$(LUAPLUS)/Src" "$(LUAPLUS)/Src/LuaPlus/src" ;
+	C.LinkLibraries $(TARGET) : LuaPlusShared ;
+
+	OUTPUT_NAME ?= $(TARGET) ;
+
+	local MODULES_SUBDIR = $(OUTPUT_NAME[1]:D) ;
+	OUTPUT_NAME = $(OUTPUT_NAME[1]:D=) $(OUTPUT_NAME[2]) ;
+
+	if $(MSVCNT) {
+		local EXPORT_NAME = $(OUTPUT_NAME[2]:E=$(OUTPUT_NAME[1])) ;
+		local exportName = [ Subst $(EXPORT_NAME) : %. : _ ] ;
+		local exportPath = [ Subst $(MODULES_SUBDIR:E="") : / : _ ] ;
+		if $(exportPath) != "" {
+			exportPath = $(exportPath)_ ;
+		}
+		C.LinkFlags $(TARGET) : /EXPORT:luaopen_$(exportPath)$(exportName) ;
+	}
+
+	C.OutputName $(TARGET) : $(OUTPUT_NAME[1]) ;
+	C.OutputPostfix $(TARGET) : .debug : debug ;
+	C.OutputPostfix $(TARGET) : : release ;
+	C.OutputPostfix $(TARGET) : : releaseltcg ;
+	C.OutputPath $(TARGET) : $(LUA_CDIR)/$(MODULES_SUBDIR:E=) ;
+	C.Library $(TARGET) : $(SOURCES) : module ;
+
+	ProjectGroup LuaPlus : Modules : $(TARGET) ;
+	Workspace LuaPlus : $(TARGET) ;
+}
+
+
+rule Lua.CModule TARGET : OUTPUT_NAME : SOURCES : MODULES_SUBDIR {
+	SubInclude LUAPLUS Src Lua51Proxy : Lua51Proxy ;
+
+	TARGET = [ RetrieveActiveTarget $(TARGET) ] ;
+
+	LuaPlusDefines $(TARGET) ;
+	C.IncludeDirectories $(TARGET) : "$(LUAPLUS)/Src/LuaPlus/src" ;
+
+	if $(OS) != MACOSX  &&  $(OS) != LINUX {
+		if $(COMPILER.$(PLATFORM)) != vc6 {
+			C.LinkLibraries $(TARGET) : lua5.1 ;
+		} else {
+			C.LinkLibraries $(TARGET) : LuaPlusShared ;
+		}
+	}
+
+	OUTPUT_NAME ?= $(TARGET) ;
+
+	local MODULES_SUBDIR = $(OUTPUT_NAME[1]:D) ;
+	OUTPUT_NAME = $(OUTPUT_NAME[1]:D=) $(OUTPUT_NAME[2]) ;
+
+	if $(MSVCNT) {
+		local EXPORT_NAME = $(OUTPUT_NAME[2]:E=$(OUTPUT_NAME[1])) ;
+		local exportName = [ Subst $(EXPORT_NAME) : %. : _ ] ;
+		local exportPath = [ Subst $(MODULES_SUBDIR:E="") : / : _ ] ;
+		if $(exportPath) != "" {
+			exportPath = $(exportPath)_ ;
+		}
+		C.LinkFlags $(TARGET) : /EXPORT:luaopen_$(exportPath)$(exportName) ;
+	}
+
+	C.OutputName $(TARGET) : $(OUTPUT_NAME[1]) ;
+	C.OutputPostfix $(TARGET) : .debug : debug ;
+	C.OutputPostfix $(TARGET) : : release releaseltcg ;
+	C.OutputPath $(TARGET) : $(LUA_CDIR)/$(MODULES_SUBDIR:E=) ;
+	C.Library $(TARGET) : $(SOURCES) : module ;
+
+	ProjectGroup LuaPlus : Modules : $(TARGET) ;
+	Workspace LuaPlus : $(TARGET) ;
+}
+
+
+rule Lua.Module TARGET : OUTPUT_NAME : SOURCES {
+	TARGET = [ RetrieveActiveTarget $(TARGET) ] ;
+
+	OUTPUT_NAME ?= $(TARGET) ;
+
+	local MODULES_SUBDIR = $(OUTPUT_NAME[1]:D) ;
+	OUTPUT_NAME = $(OUTPUT_NAME[1]:D=) ;
+
+	Depends all : $(TARGET) ;
+	NotFile $(TARGET) ;
+	Depends clean : clean:$(TARGET) ;
+	NotFile clean:$(TARGET) ;
+	Always clean:$(TARGET) ;
+
+	Project $(TARGET) : $(SOURCES) ;
+	ProjectGroup LuaPlus : Modules : $(TARGET) ;
+	Workspace LuaPlus : $(TARGET) ;
+}
+
+
+if ! $(TARGETINFO_LOCATE)
+{
+
+rule Lua.ToBinary PARENTS : TARGETS : SOURCES
+{
+	Depends $(TARGETS) : $(SOURCES) ;
+	Depends $(TARGETS) : $(LUAC_EXE) ;
+
+	Clean clean:$(PARENTS) : $(TARGETS) ;
+
+	_LuaToBinary $(TARGETS) : $(SOURCES) ;
+}
+
+actions _LuaToBinary
+{
+	$(LUAC_EXE:TC) -o $(1:C) $(2:C)
+}
+
+
+rule Lua.Bin2C PARENTS : TARGETS : SOURCES
+{
+	Depends $(TARGETS) : $(SOURCES) ;
+	Depends $(TARGETS) : $(LUA_EXE) ;
+
+	Clean clean:$(PARENTS) : $(TARGETS) ;
+
+	BIN2C on $(TARGETS) = $(LUAPLUS)/Tools/bin2c.lua ;
+	_LuaBin2C $(TARGETS) : $(SOURCES) ;
+}
+
+actions _LuaBin2C
+{
+	$(LUA_EXE:TC) $(BIN2C:C) $(2:C) > $(1:C)
+}
+
+}
+else
+{
+
+rule LuaToBinary
+{
+}
+
+
+rule Bin2C
+{
+}
+
+}
+
+
+
+Project !BuildWorkspace : $(LUAPLUS)/LUAPLUS.jamrules ;
