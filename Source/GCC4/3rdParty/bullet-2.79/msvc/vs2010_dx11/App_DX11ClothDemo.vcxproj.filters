@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Demos">
+			<UniqueIdentifier>{BC50F417-9273-7744-A262-DB6B23371ACF}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Demos\DX11ClothDemo">
+			<UniqueIdentifier>{E3915108-49ED-F54E-9E22-352F06F67B87}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Demos\DX11ClothDemo\DXUT">
+			<UniqueIdentifier>{938BA244-01BD-0246-AB6F-A126B3505DA1}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Demos\DX11ClothDemo\DXUT\Core">
+			<UniqueIdentifier>{BCE72936-DA16-BB48-AFD2-4188EFFA3DE4}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Demos\DX11ClothDemo\DXUT\Optional">
+			<UniqueIdentifier>{B8498EB4-2513-304C-86F0-0A369BD0E1E9}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Core\DXUT.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTcamera.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice11.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTDevice9.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTgui.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Core\DXUTmisc.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTres.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Optional\DXUTsettingsdlg.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmesh.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\DXUT\Optional\SDKmisc.cpp">
+			<Filter>Demos\DX11ClothDemo\DXUT\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\DX11ClothDemo\cloth_renderer.cpp">
+			<Filter>Demos\DX11ClothDemo</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>

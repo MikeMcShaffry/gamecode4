@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Demos">
+			<UniqueIdentifier>{DE8C00FB-79F0-014F-8AAA-52D6C5AC6A6A}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Demos\OpenGL">
+			<UniqueIdentifier>{7CFBC826-2107-0548-999E-110442803963}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\Demos\OpenGL\DebugCastResult.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\DemoApplication.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GLDebugDrawer.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GLDebugFont.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GlutDemoApplication.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GlutStuff.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GL_DialogDynamicsWorld.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GL_DialogWindow.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GL_ShapeDrawer.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\GL_Simplex1to4.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\RenderTexture.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\stb_image.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Demos\OpenGL\Win32DemoApplication.h">
+			<Filter>Demos\OpenGL</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\Demos\OpenGL\DemoApplication.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GLDebugDrawer.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GLDebugFont.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GlutDemoApplication.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GlutStuff.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GL_DialogDynamicsWorld.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GL_DialogWindow.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GL_ShapeDrawer.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\GL_Simplex1to4.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\RenderTexture.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\stb_image.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\Win32AppMain.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Demos\OpenGL\Win32DemoApplication.cpp">
+			<Filter>Demos\OpenGL</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>

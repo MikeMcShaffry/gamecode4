@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Demos">
+			<UniqueIdentifier>{2A5F31F9-83DA-9245-B944-C2FC9E37D8F7}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Demos\EPAPenDepthDemo">
+			<UniqueIdentifier>{30D80CC7-0E73-AF45-981E-D31AC13B46D0}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\Demos\EPAPenDepthDemo\PenetrationTestBullet.cpp">
+			<Filter>Demos\EPAPenDepthDemo</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\bullet.rc" />
+	</ItemGroup>
+</Project>

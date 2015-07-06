@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{889B360C-7622-E946-8A58-2E64DF3BA090}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\BulletMultiThreaded">
+			<UniqueIdentifier>{347B88A1-7ECE-1540-A0F2-05E2309A60AA}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\BulletMultiThreaded\GpuSoftBodySolvers">
+			<UniqueIdentifier>{6B0C3001-98B0-154C-8D86-0DACFAA2128C}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\BulletMultiThreaded\GpuSoftBodySolvers\OpenCL">
+			<UniqueIdentifier>{164AA19A-137D-7D49-8894-2C12EB667751}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\OpenCL\btSoftBodySolver_OpenCL.cpp">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\OpenCL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\OpenCL\btSoftBodySolver_OpenCLSIMDAware.cpp">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\OpenCL</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\OpenCL\btSoftBodySolverOutputCLtoGL.cpp">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\OpenCL</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>

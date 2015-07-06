@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Demos">
+			<UniqueIdentifier>{E9C2F534-8F62-8A45-B45F-D4DE8A97241A}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Demos\MovingConcaveDemo">
+			<UniqueIdentifier>{3457E074-3AE8-934A-827E-16BA94CF9B97}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\Demos\MovingConcaveDemo\ConcaveDemo.h">
+			<Filter>Demos\MovingConcaveDemo</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\Demos\MovingConcaveDemo\ConcavePhysicsDemo.cpp">
+			<Filter>Demos\MovingConcaveDemo</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\bullet.rc" />
+	</ItemGroup>
+</Project>

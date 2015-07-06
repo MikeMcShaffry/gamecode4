@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{25D9521B-2FEE-BE4F-9F9B-3341E138FA0E}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\BulletMultiThreaded">
+			<UniqueIdentifier>{D24635E7-7F09-7E46-AC39-A8C99B8EE0EE}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\BulletMultiThreaded\GpuSoftBodySolvers">
+			<UniqueIdentifier>{6A7DC57E-6111-1D4A-8E25-D9C143C35E04}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\BulletMultiThreaded\GpuSoftBodySolvers\DX11">
+			<UniqueIdentifier>{69B29FC5-A0B4-5545-B639-8F23D26067F1}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolverBuffer_DX11.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolverLinkData_DX11.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolverLinkData_DX11SIMDAware.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolverTriangleData_DX11.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolverVertexBuffer_DX11.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolverVertexData_DX11.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolver_DX11.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolver_DX11SIMDAware.h">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolver_DX11.cpp">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\BulletMultiThreaded\GpuSoftBodySolvers\DX11\btSoftBodySolver_DX11SIMDAware.cpp">
+			<Filter>src\BulletMultiThreaded\GpuSoftBodySolvers\DX11</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>

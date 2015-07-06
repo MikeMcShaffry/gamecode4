@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Extras">
+			<UniqueIdentifier>{B94106C6-65AB-3B4A-ADB4-87D97E206C5A}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Extras\ConvexDecomposition">
+			<UniqueIdentifier>{0C6B3C7F-0DEB-DA4D-995F-EEFADF832DFD}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\bestfit.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\bestfitobb.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\cd_hull.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\cd_vector.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\cd_wavefront.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\concavity.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\ConvexBuilder.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\ConvexDecomposition.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\fitsphere.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\float_math.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\meshvolume.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\planetri.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\raytri.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\splitplane.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\Extras\ConvexDecomposition\vlookup.h">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\bestfit.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\bestfitobb.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\cd_hull.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\cd_wavefront.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\concavity.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\ConvexBuilder.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\ConvexDecomposition.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\fitsphere.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\float_math.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\meshvolume.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\planetri.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\raytri.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\splitplane.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\Extras\ConvexDecomposition\vlookup.cpp">
+			<Filter>Extras\ConvexDecomposition</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>
