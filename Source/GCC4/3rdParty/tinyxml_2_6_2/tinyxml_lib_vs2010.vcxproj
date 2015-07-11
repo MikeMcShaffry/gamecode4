@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>tinyxml</ProjectName>
+    <ProjectName>tinyxml_vs2010</ProjectName>
     <ProjectGuid>{C406DAEC-0886-4771-8DEA-9D7329B46CC1}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
