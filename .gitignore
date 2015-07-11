@@ -6,4 +6,11 @@
 *.suo
 *.sdf
 *.idb
+*.ilk
+*.sbr
+*.bsc
+*.manifest
+*.res
+*.opensdf
+
     
