@@ -13,8 +13,8 @@ devenv tinyxml_2_6_2\tinyxml.sln /build Debug /project tinyxml /projectconfig "D
 
 devenv zlib-1.2.5\contrib\vstudio\vc10\zlibvc.sln /build Debug /project zlibvc  /projectconfig "Debug|Win32"
 
-copyalllibs_vs2013
+devenv luaplus51-all\Src\LuaPlus_2013\LuaPlus.sln /build Debug /project LuaPlus /projectconfig "Debug|Win32"
+devenv luaplus51-all\Src\LuaPlus_2013\LuaPlus.sln /build Release /project LuaPlus /projectconfig "Release|Win32"
 
-
-
+call copyalllibs_vs2013
 

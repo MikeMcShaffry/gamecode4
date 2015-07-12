@@ -7,3 +7,12 @@ D:\ProjectsGit\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\EditorApp.Propert
 D:\ProjectsGit\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\TeapotWarsEditorApp_2013.csproj.GenerateResource.Cache
 D:\ProjectsGit\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\EditorApp.exe
 D:\ProjectsGit\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\EditorApp.pdb
+C:\bob\proj\gamecode4\Source\Lib\Win32Debug\EditorApp.exe.config
+C:\bob\proj\gamecode4\Source\Lib\Win32Debug\EditorApp.exe
+C:\bob\proj\gamecode4\Source\Lib\Win32Debug\EditorApp.pdb
+C:\bob\proj\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\TeapotWarsEditorApp_2013.csprojResolveAssemblyReference.cache
+C:\bob\proj\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\EditorApp.EditorForm.resources
+C:\bob\proj\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\EditorApp.Properties.Resources.resources
+C:\bob\proj\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\TeapotWarsEditorApp_2013.csproj.GenerateResource.Cache
+C:\bob\proj\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\EditorApp.exe
+C:\bob\proj\gamecode4\Source\GCC4Editor\EditorApp\obj\Debug\EditorApp.pdb

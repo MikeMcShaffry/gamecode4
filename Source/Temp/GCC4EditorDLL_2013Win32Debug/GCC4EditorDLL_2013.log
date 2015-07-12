@@ -1,80 +1,14 @@
-﻿Build started 7/5/2015 1:47:07 PM.
-     1>Project "D:\ProjectsGit\gamecode4\Source\GCC4Editor\Msvc\GCC4EditorDLL_2013.vcxproj" on node 2 (Rebuild target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D TEAPOTWARSDLL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"GCC4EditorStd.h" /Fp"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\GCC4EditorDLL_2013.pch" /Fo"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\\" /Fd"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.pdb" /Gd /TP /analyze- /errorReport:prompt GCC4EditorStd.cpp
-         GCC4EditorStd.cpp
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50092) : see previous definition of 'DXGI_STATUS_OCCLUDED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50101) : see previous definition of 'DXGI_STATUS_CLIPPED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50110) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50119) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50128) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50137) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50146) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50161) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50170) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50179) : see previous definition of 'DXGI_ERROR_MORE_DATA'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50188) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50197) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50206) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50216) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50225) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50235) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50244) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50254) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50263) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50272) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50282) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50291) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50469) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50478) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50488) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50497) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50445) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50454) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D TEAPOTWARSDLL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"GCC4EditorStd.h" /Fp"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\GCC4EditorDLL_2013.pch" /Fo"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\\" /Fd"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.pdb" /Gd /TP /analyze- /errorReport:prompt ..\GCC4EditorDLL\Editor.cpp ..\GCC4EditorDLL\EditorGlobalFunctions.cpp ..\GCC4EditorDLL\EditorHumanView.cpp
-         EditorHumanView.cpp
-         EditorGlobalFunctions.cpp
-         Editor.cpp
-         Generating Code...
-       ResourceCompile:
-         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\Editor.res" ..\GCC4EditorDLL\Editor.rc 
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.dll" /INCREMENTAL /NOLOGO /LIBPATH:D:\ProjectsGit\gamecode4\Source\GCC4Editor\Msvc\..\..\Lib\Win32Debug\ kernel32.lib user32.lib gdi32.lib gamecode4_2013.lib /NODEFAULTLIB:libcmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.lib" /MACHINE:X86 /DLL D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\Editor.res
-         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\Editor.obj
-         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\EditorGlobalFunctions.obj
-         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\EditorHumanView.obj
-         D:\ProjectsGit\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\GCC4EditorStd.obj
-     1>LINK : fatal error LNK1104: cannot open file 'dxut.lib'
-     1>Done Building Project "D:\ProjectsGit\gamecode4\Source\GCC4Editor\Msvc\GCC4EditorDLL_2013.vcxproj" (Rebuild target(s)) -- FAILED.
+﻿Build started 7/12/2015 12:15:49 AM.
+     1>Project "C:\bob\proj\gamecode4\Source\GCC4Editor\Msvc\GCC4EditorDLL_2013.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.dll" /INCREMENTAL /NOLOGO /LIBPATH:C:\bob\proj\gamecode4\Source\GCC4Editor\Msvc\..\..\Lib\Win32Debug\ kernel32.lib user32.lib gdi32.lib gamecode4_2013.lib /NODEFAULTLIB:libcmtd.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Lib\Win32Debug\GCC4EditorDLL_2013.lib" /MACHINE:X86 /DLL C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\Editor.res
+         C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\Editor.obj
+         C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\EditorGlobalFunctions.obj
+         C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\EditorHumanView.obj
+         C:\bob\proj\gamecode4\Source\TeapotWars\Msvc\..\..\Temp\GCC4EditorDLL_2013Win32Debug\GCC4EditorStd.obj
+     1>LINK : fatal error LNK1104: cannot open file 'bulletcollision_debug.lib'
+     1>Done Building Project "C:\bob\proj\gamecode4\Source\GCC4Editor\Msvc\GCC4EditorDLL_2013.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:05.66
+Time Elapsed 00:00:00.19

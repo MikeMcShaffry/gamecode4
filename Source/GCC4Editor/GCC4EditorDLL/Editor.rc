@@ -7,7 +7,12 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+//#include "afxres.h"
+
+// [rez] afxres.h is an MFC thing and MFC doesn't come with Visual Studio Express.  This is a 
+// workaround for that issue.
+#include <windows.h>
+#define IDC_STATIC -1
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS

@@ -72,7 +72,7 @@
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
     <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VCInstallDir)PlatformSDK\lib;$(LibraryPath);$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)</LibraryPath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VCInstallDir)PlatformSDK\lib;$(LibraryPath);$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -88,7 +88,7 @@
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
     <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VCInstallDir)PlatformSDK\lib;$(LibraryPath);$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)</LibraryPath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VCInstallDir)PlatformSDK\lib;$(LibraryPath);$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

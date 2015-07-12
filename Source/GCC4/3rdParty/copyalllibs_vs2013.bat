@@ -157,18 +157,8 @@ echo f | xcopy /y zlib-1.2.8\contrib\vstudio\vc12\x64\ZlibStatRelease\zlibstat.p
 echo f | xcopy /y zlib-1.2.8\contrib\vstudio\vc12\x64\ZlibStatRelease\zlibstat.lib ..\..\Lib\vs2013\x64Profile
 echo f | xcopy /y zlib-1.2.8\contrib\vstudio\vc12\x64\ZlibStatRelease\zlibstat.pdb ..\..\Lib\vs2013\x64Profile
 
+echo f | xcopy /y luaplus51-all\Src\LuaPlus_2013\Debug\LuaPlus.lib ..\..\Lib\vs2013\Win32Debug\luaplus51-1201.lib
+echo f | xcopy /y luaplus51-all\Src\LuaPlus_2013\Release\LuaPlus.lib ..\..\Lib\vs2013\Win32Release\luaplus51-1201.lib
 
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.lib ..\..\Lib\vs2013\Win32Debug\luaplus51-1201.lib
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.lib ..\..\Lib\vs2013\Win32Release\luaplus51-1201.lib
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.lib ..\..\Lib\vs2013\Win32Profile\luaplus51-1201.lib
-
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.lib ..\..\Lib\vs2013\Win32Debug\luaplus51-1201.pdb
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.lib ..\..\Lib\vs2013\Win32Release\luaplus51-1201.pdb
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.lib ..\..\Lib\vs2013\Win32Profile\luaplus51-1201.pdb
-
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.dll ..\..\Lib\vs2013\Win32Debug\luaplus51-1201.dll
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.dll ..\..\Lib\vs2013\Win32Release\luaplus51-1201.dll
-echo f | xcopy /y luaplus51-all\bin.vs2013.win32\luaplus51-1201.dll ..\..\Lib\vs2013\Win32Profile\luaplus51-1201.dll
-
-
-
+echo f | xcopy /y luaplus51-all\Src\LuaPlus_2013\Debug\LuaPlus.pdb ..\..\Lib\vs2013\Win32Debug\luaplus.pdb
+echo f | xcopy /y luaplus51-all\Src\LuaPlus_2013\Release\LuaPlus.pdb ..\..\Lib\vs2013\Win32Release\luaplus.pdb

@@ -35,8 +35,6 @@
 #include "LuaStateManager.h"
 #include "../Utilities/String.h"
 
-#pragma comment(lib, "luaplus51-1201.lib")
-
 LuaStateManager* LuaStateManager::s_pSingleton = NULL;
 
 bool LuaStateManager::Create(void)
