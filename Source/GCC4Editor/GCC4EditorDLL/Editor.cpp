@@ -64,30 +64,35 @@
 #pragma comment(lib, "dxutopt.lib")
 
 
-#if defined(_M_IX86)
-	#if defined(_DEBUG)
-		#pragma comment(lib, "bulletcollision_debug.lib")
-		#pragma comment(lib, "bulletdynamics_debug.lib")
-		#pragma comment(lib, "linearmath_debug.lib")
+#if _MSC_VER < 1700
+	#if defined(_M_IX86)
+		#if defined(_DEBUG)
+			#pragma comment(lib, "bulletcollision_debug.lib")
+			#pragma comment(lib, "bulletdynamics_debug.lib")
+			#pragma comment(lib, "linearmath_debug.lib")
+		#else
+			#pragma comment(lib, "bulletcollision.lib")
+			#pragma comment(lib, "bulletdynamics.lib")
+			#pragma comment(lib, "linearmath.lib")
+		#endif
+	#elif defined(_M_X64)
+		#if defined(_DEBUG)
+			#pragma comment(lib, "bulletcollision_x64__debug.lib")
+			#pragma comment(lib, "bulletdynamics_x64__debug.lib")
+			#pragma comment(lib, "linearmath_x64_debug.lib")
+		#else
+			#pragma comment(lib, "bulletcollision_x64.lib")
+			#pragma comment(lib, "bulletdynamics_x64.lib")
+			#pragma comment(lib, "linearmath_x64.lib")
+		#endif
 	#else
-		#pragma comment(lib, "bulletcollision.lib")
-		#pragma comment(lib, "bulletdynamics.lib")
-		#pragma comment(lib, "linearmath.lib")
-	#endif
-#elif defined(_M_X64)
-	#if defined(_DEBUG)
-		#pragma comment(lib, "bulletcollision_x64__debug.lib")
-		#pragma comment(lib, "bulletdynamics_x64__debug.lib")
-		#pragma comment(lib, "linearmath_x64_debug.lib")
-	#else
-		#pragma comment(lib, "bulletcollision_x64.lib")
-		#pragma comment(lib, "bulletdynamics_x64.lib")
-		#pragma comment(lib, "linearmath_x64.lib")
+		#error Preprocessor defines can't figure out which Bullet library to use.
 	#endif
 #else
-	#error Preprocessor defines can't figure out which Bullet library to use.
+	#pragma comment(lib, "bulletcollision.lib")
+	#pragma comment(lib, "bulletdynamics.lib")
+	#pragma comment(lib, "linearmath.lib")
 #endif
-
 
 
 #pragma comment(lib, "zlibstat.lib")

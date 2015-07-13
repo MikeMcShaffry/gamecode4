@@ -41,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
@@ -49,7 +49,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
@@ -68,7 +68,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;gamecode4_2013.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -90,7 +90,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;gamecode4_2013.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
