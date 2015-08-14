@@ -38,7 +38,7 @@ Getting Started
 ===============================================================================
 
 Requirements:
-  1. Visual Studio 2010 (and some knowledge on how to build, run, and debug C++/C# projects)
+  1. Visual Studio 2013 (and some knowledge on how to build, run, and debug C++/C# projects)
   2. Microsoft DirectX SDK (June 2010 or later) 
   3. The source code from Google Code - (TortoiseSVN is a good client to use!)
         svn checkout http://gamecode4.googlecode.com/svn/trunk/ gamecode4-read-only
@@ -55,8 +55,8 @@ Building Teapot Wars:
                       |-- Extra (contains UtilityDemo, an AI playground)
                       |-- Game (contains the files needed to run TeapotWars)
                       |-- Source (the entire source tree, including GCC4\3rdParty directory from the ZIP file)
-  3. Open Source\TeapotWars\Msvc\TeapotWars_2010.sln and rebuild everything.
-  4. In the Solution Explorer in VS2010, right click on TeapotWars_2010 and....
+  3. Open Source\TeapotWars\Msvc\TeapotWars_2013.sln and rebuild everything.
+  4. In the Solution Explorer in VS2013, right click on TeapotWars_2013 and....
       a. ...set it as your startup project. Then, right click on it again and...
 	  b. open the Properties dialog, and...
 	  c. set the Configuration to All Configurations and Platform to All Platforms, and...
@@ -69,7 +69,7 @@ Building Teapot Wars:
   IMPORTANT! If your machine does not support D3D11, you must edit Game\PlayerOptions.xml, and change
   renderer="Direct3D 11"  to renderer="Direct3D 9" 
 
-Running TeapotWarsEditorApp_2010 project
+Running TeapotWarsEditorApp_2013 project
   1. Make sure you ran Teapot Wars first!
   2. Right click on the project and set is as your startup project.
   3. Right click on the project and select Properties.

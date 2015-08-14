@@ -58,7 +58,7 @@ namespace EditorApp
     // the dll, and free it when we're done.
     static class NativeMethods
     {
-        const string editorDllName = "GCC4EditorDLL_2010.dll";
+        const string editorDllName = "GCC4EditorDLL_2013.dll";
 
         [DllImport(editorDllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern int EditorMain(IntPtr instancePtrAddress, IntPtr hPrevInstancePtrAddress, IntPtr hWndPtrAddress, int nCmdShow, int screenWidth, int screenHeight);

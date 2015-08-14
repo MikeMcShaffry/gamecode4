@@ -1,33 +1,33 @@
 ========================================================================
-    WIN32 APPLICATION : TeapotWars_2010 Project Overview
+    WIN32 APPLICATION : TeapotWars_2013 Project Overview
 ========================================================================
 
-AppWizard has created this TeapotWars_2010 application for you.
+AppWizard has created this TeapotWars_2013 application for you.
 
 This file contains a summary of what you will find in each of the files that
-make up your TeapotWars_2010 application.
+make up your TeapotWars_2013 application.
 
 
-TeapotWars_2010.vcxproj
+TeapotWars_2013.vcxproj
     This is the main project file for VC++ projects generated using an Application Wizard.
     It contains information about the version of Visual C++ that generated the file, and
     information about the platforms, configurations, and project features selected with the
     Application Wizard.
 
-TeapotWars_2010.vcxproj.filters
+TeapotWars_2013.vcxproj.filters
     This is the filters file for VC++ projects generated using an Application Wizard. 
     It contains information about the association between the files in your project 
     and the filters. This association is used in the IDE to show grouping of files with
     similar extensions under a specific node (for e.g. ".cpp" files are associated with the
     "Source Files" filter).
 
-TeapotWars_2010.cpp
+TeapotWars_2013.cpp
     This is the main application source file.
 
 /////////////////////////////////////////////////////////////////////////////
 AppWizard has created the following resources:
 
-TeapotWars_2010.rc
+TeapotWars_2013.rc
     This is a listing of all of the Microsoft Windows resources that the
     program uses.  It includes the icons, bitmaps, and cursors that are stored
     in the RES subdirectory.  This file can be directly edited in Microsoft
@@ -37,21 +37,21 @@ Resource.h
     This is the standard header file, which defines new resource IDs.
     Microsoft Visual C++ reads and updates this file.
 
-TeapotWars_2010.ico
+TeapotWars_2013.ico
     This is an icon file, which is used as the application's icon (32x32).
-    This icon is included by the main resource file TeapotWars_2010.rc.
+    This icon is included by the main resource file TeapotWars_2013.rc.
 
 small.ico
     This is an icon file, which contains a smaller version (16x16)
     of the application's icon. This icon is included by the main resource
-    file TeapotWars_2010.rc.
+    file TeapotWars_2013.rc.
 
 /////////////////////////////////////////////////////////////////////////////
 Other standard files:
 
 StdAfx.h, StdAfx.cpp
     These files are used to build a precompiled header (PCH) file
-    named TeapotWars_2010.pch and a precompiled types file named StdAfx.obj.
+    named TeapotWars_2013.pch and a precompiled types file named StdAfx.obj.
 
 /////////////////////////////////////////////////////////////////////////////
 Other notes:

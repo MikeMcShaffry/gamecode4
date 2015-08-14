@@ -1,5 +1,5 @@
 // stdafx.cpp : source file that includes just the standard includes
-// TeapotWars_2010.pch will be the pre-compiled header
+// TeapotWars_2013.pch will be the pre-compiled header
 // stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"
