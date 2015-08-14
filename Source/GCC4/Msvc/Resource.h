@@ -1,18 +1,18 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by GameCode4_2010.rc
+// Used by GameCode4_2013.rc
 //
 
 #define IDS_APP_TITLE			103
 
 #define IDR_MAINFRAME			128
-#define IDD_GAMECODE4_2010_DIALOG	102
+#define IDD_GAMECODE4_2013_DIALOG	102
 #define IDD_ABOUTBOX			103
 #define IDM_ABOUT				104
 #define IDM_EXIT				105
-#define IDI_GAMECODE4_2010			107
+#define IDI_GAMECODE4_2013			107
 #define IDI_SMALL				108
-#define IDC_GAMECODE4_2010			109
+#define IDC_GAMECODE4_2013			109
 #define IDC_MYICON				2
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
