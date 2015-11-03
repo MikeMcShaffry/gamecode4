@@ -22,17 +22,18 @@
 
 function CopyFiles($baseName, $targetName, $cfg, $win32src, $x64src)
 {
+	"Copy $baseName"
 	$exts = ".lib", ".pdb" 
 	foreach ($ext in $exts)
 	{
-		Copy-Item -Path $win32src\$baseName$ext -Destination ..\..\Lib\vs2013\Win32$cfg\$targetName$ext
-		Copy-Item -Path $x64src\$baseName$ext ..\..\Lib\vs2013\x64$cfg\$targetName$ext
+		Copy-Item -Path $win32src\$baseName$ext -Destination Lib\Win32$cfg\$targetName$ext
+		Copy-Item -Path $x64src\$baseName$ext Lib\x64$cfg\$targetName$ext
 		
 		# always copy the Release version of libraries to the Profile configuration in GCC
 		if ($cfg -eq "Release")
 		{
-			Copy-Item -Path $win32src\$baseName$ext -Destination ..\..\Lib\vs2013\Win32Profile\$targetName$ext
-			Copy-Item -Path $x64src\$baseName$ext ..\..\Lib\vs2013\x64Profile\$targetName$ext		
+			Copy-Item -Path $win32src\$baseName$ext -Destination Lib\Win32Profile\$targetName$ext
+			Copy-Item -Path $x64src\$baseName$ext Lib\x64Profile\$targetName$ext		
 		}
 	}
 }
@@ -61,10 +62,10 @@ foreach ($cfg in $configurations)
 {
 	foreach ($platform in $platforms)
 	{
-		New-Item -ErrorAction SilentlyContinue  -ItemType directory ..\..\Lib\vs2013\$platform$cfg	
+		New-Item -ErrorAction SilentlyContinue  -ItemType directory Lib\$platform$cfg	
 		if ($cfg -eq "Release")
 		{
-			New-Item -ErrorAction SilentlyContinue  -ItemType directory ..\..\Lib\vs2013\$($platform)Profile		
+			New-Item -ErrorAction SilentlyContinue  -ItemType directory Lib\$($platform)Profile		
 		}
 	}
 }
@@ -99,26 +100,26 @@ foreach ($cfg in $configurations)
 # rename all the library targets depending on which platform and configuration you are using.
 # This requires us to copy and rename the files. The CopyFile utility method assumes the lib and pdb are named the same.
 
-CopyFile  bullet-2.82\lib\BulletCollision_vs2013 ..\..\Lib\vs2013\Win32Release\BulletCollision
-CopyFile  bullet-2.82\lib\BulletCollision_vs2013 ..\..\Lib\vs2013\Win32Profile\BulletCollision
-CopyFile  bullet-2.82\lib\BulletCollision_vs2013_debug ..\..\Lib\vs2013\Win32Debug\BulletCollision
-CopyFile bullet-2.82\lib\BulletCollision_vs2013_x64_release ..\..\Lib\vs2013\x64Release\BulletCollision
-CopyFile  bullet-2.82\lib\BulletCollision_vs2013_x64_release ..\..\Lib\vs2013\x64Profile\BulletCollision
-CopyFile bullet-2.82\lib\BulletCollision_vs2013_x64_debug ..\..\Lib\vs2013\x64Debug\BulletCollision
+CopyFile  bullet-2.82\lib\BulletCollision_vs2013 Lib\Win32Release\BulletCollision
+CopyFile  bullet-2.82\lib\BulletCollision_vs2013 Lib\Win32Profile\BulletCollision
+CopyFile  bullet-2.82\lib\BulletCollision_vs2013_debug Lib\Win32Debug\BulletCollision
+CopyFile bullet-2.82\lib\BulletCollision_vs2013_x64_release Lib\x64Release\BulletCollision
+CopyFile  bullet-2.82\lib\BulletCollision_vs2013_x64_release Lib\x64Profile\BulletCollision
+CopyFile bullet-2.82\lib\BulletCollision_vs2013_x64_debug Lib\x64Debug\BulletCollision
 
-CopyFile  bullet-2.82\lib\BulletDynamics_vs2013 ..\..\Lib\vs2013\Win32Release\BulletDynamics
-CopyFile  bullet-2.82\lib\BulletDynamics_vs2013 ..\..\Lib\vs2013\Win32Profile\BulletDynamics
-CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_debug ..\..\Lib\vs2013\Win32Debug\BulletDynamics
-CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_x64_release ..\..\Lib\vs2013\x64Release\BulletDynamics
-CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_x64_release ..\..\Lib\vs2013\x64Profile\BulletDynamics
-CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_x64_debug ..\..\Lib\vs2013\x64Debug\BulletDynamics
+CopyFile  bullet-2.82\lib\BulletDynamics_vs2013 Lib\Win32Release\BulletDynamics
+CopyFile  bullet-2.82\lib\BulletDynamics_vs2013 Lib\Win32Profile\BulletDynamics
+CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_debug Lib\Win32Debug\BulletDynamics
+CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_x64_release Lib\x64Release\BulletDynamics
+CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_x64_release Lib\x64Profile\BulletDynamics
+CopyFile  bullet-2.82\lib\BulletDynamics_vs2013_x64_debug Lib\x64Debug\BulletDynamics
 
-CopyFile  bullet-2.82\lib\LinearMath_vs2013 ..\..\Lib\vs2013\Win32Release\LinearMath
-CopyFile  bullet-2.82\lib\LinearMath_vs2013 ..\..\Lib\vs2013\Win32Profile\LinearMath
-CopyFile  bullet-2.82\lib\LinearMath_vs2013_debug ..\..\Lib\vs2013\Win32Debug\LinearMath
-CopyFile  bullet-2.82\lib\LinearMath_vs2013_x64_release ..\..\Lib\vs2013\x64Release\LinearMath
-CopyFile  bullet-2.82\lib\LinearMath_vs2013_x64_release ..\..\Lib\vs2013\x64Profile\LinearMath
-CopyFile  bullet-2.82\lib\LinearMath_vs2013_x64_debug ..\..\Lib\vs2013\x64Debug\LinearMath
+CopyFile  bullet-2.82\lib\LinearMath_vs2013 Lib\Win32Release\LinearMath
+CopyFile  bullet-2.82\lib\LinearMath_vs2013 Lib\Win32Profile\LinearMath
+CopyFile  bullet-2.82\lib\LinearMath_vs2013_debug Lib\Win32Debug\LinearMath
+CopyFile  bullet-2.82\lib\LinearMath_vs2013_x64_release Lib\x64Release\LinearMath
+CopyFile  bullet-2.82\lib\LinearMath_vs2013_x64_release Lib\x64Profile\LinearMath
+CopyFile  bullet-2.82\lib\LinearMath_vs2013_x64_debug Lib\x64Debug\LinearMath
 
 
 

@@ -51,6 +51,9 @@
 static const char* METATABLE_NAME = "BaseScriptComponentMetaTable";
 const char* BaseScriptComponent::g_Name = "BaseScriptComponent";
 
+
+
+
 BaseScriptComponent::BaseScriptComponent(void)
 {
 	m_scriptObject.AssignNil(LuaStateManager::Get()->GetLuaState());
@@ -201,23 +204,30 @@ void BaseScriptComponent::CreateScriptObject(void)
 	m_scriptObject.SetMetaTable(metaTableObj);
 }
 
+
+
+
 void BaseScriptComponent::RegisterScriptFunctions(void)
 {
 	// create the metatable
 	LuaPlus::LuaObject metaTableObj = LuaStateManager::Get()->GetGlobalVars().CreateTable(METATABLE_NAME);
 	metaTableObj.SetObject("__index", metaTableObj);
 
+	
 	// transform component functions
 	metaTableObj.RegisterObjectDirect("GetActorId",		        (BaseScriptComponent*)0, &BaseScriptComponent::GetActorId);
 	metaTableObj.RegisterObjectDirect("GetPos",				    (BaseScriptComponent*)0, &BaseScriptComponent::GetPos);
     metaTableObj.RegisterObjectDirect("SetPos",				    (BaseScriptComponent*)0, &BaseScriptComponent::SetPos);
-	metaTableObj.RegisterObjectDirect("GetLookAt",	            (BaseScriptComponent*)0, &BaseScriptComponent::GetLookAt);
-	metaTableObj.RegisterObjectDirect("GetYOrientationRadians", (BaseScriptComponent*)0, &BaseScriptComponent::GetYOrientationRadians);
+	// REZ!!!!! WTF is goin on with these guys????
+	//metaTableObj.RegisterObjectDirect("GetLookAt",	            (BaseScriptComponent*)0, &BaseScriptComponent::GetLookAt);
+	//metaTableObj.RegisterObjectDirect("GetYOrientationRadians", (BaseScriptComponent*)0, &BaseScriptComponent::GetYOrientationRadians);
 	metaTableObj.RegisterObjectDirect("RotateY",	            (BaseScriptComponent*)0, &BaseScriptComponent::RotateY);
     metaTableObj.RegisterObjectDirect("Stop",	                (BaseScriptComponent*)0, &BaseScriptComponent::Stop);
 
 	metaTableObj.RegisterObjectDirect("SetPosition",	        (BaseScriptComponent*)0, &BaseScriptComponent::SetPosition);
+	
 }
+
 
 void BaseScriptComponent::UnregisterScriptFunctions(void)
 {
@@ -225,6 +235,7 @@ void BaseScriptComponent::UnregisterScriptFunctions(void)
 	if (!metaTableObj.IsNil())
 		metaTableObj.AssignNil(LuaStateManager::Get()->GetLuaState());
 }
+
 
 LuaPlus::LuaObject BaseScriptComponent::GetActorId(void)
 {
@@ -320,4 +331,5 @@ void BaseScriptComponent::Stop(void)
     if (pPhysicalComponent)
         pPhysicalComponent->Stop();
 }
+
 

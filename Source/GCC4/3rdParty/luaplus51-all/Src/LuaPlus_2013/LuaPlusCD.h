@@ -960,6 +960,7 @@ namespace LPCD
 		}
 	};
 
+	
 	template <typename Callee, typename Func, int startIndex>
 	class DirectCallObjectMemberDispatcherHelper
 	{
@@ -971,6 +972,7 @@ namespace LPCD
 			return Call(callee, *(Func*)buffer, L, startIndex);
 		}
 	};
+	
 
 	inline int PropertyMetaTable_newindex(lua_State* L)
 	{

@@ -61,7 +61,7 @@ public:
     // public helpers
     LuaPlus::LuaObject CreatePath(const char* pathString, bool toIgnoreLastElement = false);
     void ConvertVec3ToTable(const Vec3& vec, LuaPlus::LuaObject& outLuaTable) const;
-    void ConvertTableToVec3(const LuaPlus::LuaObject& luaTable, Vec3& outVec3) const;
+    void ConvertTableToVec3(LuaPlus::LuaObject& luaTable, Vec3& outVec3) const;
 
 private:
     void SetError(int errorNum);

@@ -42,11 +42,15 @@
 #include "../Audio/Audio.h"
 #include "../Debugging/Minidump.h"
 
-#pragma comment(lib, "shell32.lib")
+#pragma comment(lib, "shell32.lib") 
 #pragma comment(lib, "advapi32.lib")			// useful for Windows Registry queries
+
 
 #pragma comment(lib, "dxut.lib")
 #pragma comment(lib, "dxutopt.lib")
+#pragma comment(lib, "effects11.lib")
+
+#pragma comment(lib, "luaplus.lib")
 
 #if _MSC_VER < 1700
 	#if defined(_M_IX86)

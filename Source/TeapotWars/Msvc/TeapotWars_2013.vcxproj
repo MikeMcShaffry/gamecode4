@@ -71,7 +71,7 @@
     <OutDir>$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
-    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VCInstallDir)PlatformSDK\lib;$(LibraryPath);$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -79,15 +79,15 @@
     <OutDir>$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
-    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Microsoft DirectX SDK (November 2008)\Lib\x64;$(VCInstallDir)PlatformSDK\lib\amd64;$(VSInstallDir)SDK\v2.0\lib\amd64;$(LibraryPath);$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)</LibraryPath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x64;$(VCInstallDir)PlatformSDK\lib\amd64;$(VSInstallDir)SDK\v2.0\lib\amd64;$(LibraryPath);$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
-    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VCInstallDir)PlatformSDK\lib;$(LibraryPath);$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -95,8 +95,8 @@
     <OutDir>$(SolutionDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)$(PlatformName)$(Configuration)</TargetName>
-    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Microsoft DirectX SDK (November 2008)\Lib\x64;$(VCInstallDir)PlatformSDK\lib\amd64;$(VSInstallDir)SDK\v2.0\lib\amd64;$(LibraryPath);$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)</LibraryPath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)..\..\GCC4\3rdParty\bullet-2.79\src;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Optional;$(SolutionDir)..\..\GCC4\3rdParty\DXUT11\Core;$(SolutionDir)..\..\GCC4\3rdParty\libogg-1.3.0\include;$(SolutionDir)..\..\GCC4\3rdParty\libvorbis-1.3.2\include;$(SolutionDir)..\..\GCC4\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(SolutionDir)..\..\GCC4\3rdParty\tinyxml_2_6_2;$(SolutionDir)..\..\GCC4\3rdParty\zlib-1.2.5;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x64;$(VCInstallDir)PlatformSDK\lib\amd64;$(VSInstallDir)SDK\v2.0\lib\amd64;$(LibraryPath);$(SolutionDir)..\..\Lib\$(PlatformName)$(Configuration)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;gamecode4_2013.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\;$(ProjectDir)..\..\GCC4\3rdParty\Lib\$(PlatformName)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -130,7 +130,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;gamecode4_2013.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\;$(ProjectDir)..\..\GCC4\3rdParty\Lib\$(PlatformName)$(Configuration)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;gamecode4_2013.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\;$(ProjectDir)..\..\GCC4\3rdParty\Lib\$(PlatformName)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -173,7 +174,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;gamecode4_2013.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\vs2013\$(PlatformName)$(Configuration)\;$(ProjectDir)..\..\GCC4\3rdParty\Lib\$(PlatformName)$(Configuration)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

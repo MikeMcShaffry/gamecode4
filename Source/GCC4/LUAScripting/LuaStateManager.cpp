@@ -200,26 +200,26 @@ void LuaStateManager::ConvertVec3ToTable(const Vec3& vec, LuaPlus::LuaObject& ou
 }
 
 
-void LuaStateManager::ConvertTableToVec3(const LuaPlus::LuaObject& luaTable, Vec3& outVec3) const
+void LuaStateManager::ConvertTableToVec3(LuaPlus::LuaObject& luaTable, Vec3& outVec3) const
 {
     LuaPlus::LuaObject temp;
 
     // x
-    temp = luaTable.Get("x");
+    temp = luaTable.GetByName("x");
     if (temp.IsNumber())
         outVec3.x = temp.GetFloat();
     else
         GCC_ERROR("luaTable.x is not a number");
 
     // y
-    temp = luaTable.Get("y");
+    temp = luaTable.GetByName("y");
     if (temp.IsNumber())
         outVec3.y = temp.GetFloat();
     else
         GCC_ERROR("luaTable.y is not a number");
 
     // z
-    temp = luaTable.Get("z");
+    temp = luaTable.GetByName("z");
     if (temp.IsNumber())
         outVec3.z = temp.GetFloat();
     else

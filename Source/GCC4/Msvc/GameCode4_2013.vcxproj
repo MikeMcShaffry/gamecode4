@@ -72,7 +72,7 @@
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -80,7 +80,7 @@
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -88,7 +88,7 @@
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -96,7 +96,7 @@
     <IntDir>$(SolutionDir)..\..\Temp\$(ProjectName)$(PlatformName)$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\3rdParty\DXUT11\Optional;$(ProjectDir)..\3rdParty\DXUT11\Effects11\Inc;$(ProjectDir)..\3rdParty\DXUT11\Core;$(ProjectDir)..\3rdParty\libogg-1.3.0\include;$(ProjectDir)..\3rdParty\libvorbis-1.3.2\include;$(ProjectDir)..\3rdParty\bullet-2.79\src;$(ProjectDir)..\3rdParty\zlib-1.2.5;$(ProjectDir)..\3rdParty\tinyxml_2_6_2;$(ProjectDir)..\3rdParty\luaplus51-all\Src\LuaPlus_2013;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,7 +118,7 @@
       </AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\3rdParty\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
   </ItemDefinitionGroup>
@@ -170,7 +170,7 @@
       </AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Lib\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\3rdParty\Lib\vs2013\$(PlatformName)$(Configuration)\</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
   </ItemDefinitionGroup>
